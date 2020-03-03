@@ -10,18 +10,24 @@ First install dependencies:
 npm install
 ```
 
-To run in hot module reloading mode:
+Then build and serve at [http://localhost:5432/](http://localhost:5432/):
 
 ```sh
 npm start
 ```
 
-To create a production build:
-
-```sh
-npm run build-prod
-```
-
 ## Running
 
-Open the file `dist/index.html` in your browser
+To build and serve at custom port (eg. 8888):
+
+```sh
+npm run build && npx static-server --port 8888 --open dist
+```
+
+To run in hot module reloading mode:
+
+```sh
+npm run dev
+```
+
+Then open [http://localhost:1234](http://localhost:1234) in your browser
