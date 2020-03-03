@@ -1,0 +1,272 @@
+//
+//
+// Colors
+//
+//
+
+$vgs-blue-up-2: #CED5E0;
+$vgs-blue-light: #5D6A7A;
+$vgs-blue: #3B495C;
+$vgs-blue-dark: #27313D;
+
+$blue-glow: #C5E1EB;
+$blue-light: #26A6D4;
+$blue: #1F8AB0;
+$blue-dark: #1A7799;
+
+$green-glow: #C5EBE2;
+$green-light: #36E0B8;
+$green: #2FC29F;
+$green-dark: #27A386;
+$green-darken: #1C997C;
+
+// Support colors
+//
+
+$error-color: #EF798A;
+$warning-color: #FFC854;
+$link-color: $blue-light;
+$code-color: $blue-glow;
+
+$link-hover-color: $blue;
+
+// Text colors
+//
+
+$gray-blue-light: #83888F;
+$gray-blue: #4B4E52;
+$gray-blue-dark: #383A3D;
+
+// Background colors
+//
+
+$background-light: #F7F9FC;
+$background: #F0F4FA;
+$background-dark: #EBEFF5;
+
+$body-bg: $background-light;
+
+$theme-colors: (
+  "primary-up-2": $vgs-blue-up-2,
+  "primary-light": $vgs-blue-light,
+  "primary": $vgs-blue,
+  "primary-dark": $vgs-blue-dark,
+
+  "secondary-light": $blue-light,
+  "secondary": $blue,
+  "secondary-dark": $blue-dark,
+  "secondary-glow": $blue-glow,
+
+  "accent-light": $green-light,
+  "accent": $green,
+  "accent-dark": $green-dark,
+  "accent-darken": $green-darken,
+  "accent-glow": $green-glow,
+
+  "text-light": $gray-blue-light,
+  "text": $gray-blue,
+  "text-dark": $gray-blue-dark,
+
+  "danger": $error-color,
+  "warning": $warning-color,
+  "success": $green,
+  "info": $background-dark,
+);
+
+//
+//
+// Settings
+//
+//
+
+$border-radius: .5rem;
+$box-shadow: 0px 8px 32px rgba(map-get($theme-colors, "primary"), 0.08), 0px 2px 8px rgba(map-get($theme-colors, "primary"), 0.08);
+
+//
+//
+// Typography
+//
+//
+
+$base:                        16px;
+
+$font-size-base:              1rem;
+
+$font-family-sans-serif:      Averta, sans-serif;
+$font-family-monospace:       Courier, monospace;
+$font-family-base:            $font-family-sans-serif;
+$body-color:                  theme-color("text");
+
+$font-weight-base:            $font-weight-normal;
+$line-height-base:            1.6;
+
+$small-font-size:             .95rem;
+$text-muted:                  theme-color("text-light");
+
+// Headings
+//
+
+$h1-font-size:                $font-size-base * 1.5;
+$h2-font-size:                $font-size-base * 1.125;
+$h3-font-size:                $font-size-base * 1.125;
+
+$headings-margin-bottom:      1em;
+$headings-font-family:        inherit;
+$headings-font-weight:        $font-weight-bold;
+$headings-line-height:        1.5;
+$headings-color:              theme-color("text-dark");
+
+// Paragraph
+//
+
+$paragraph-margin-bottom:     1em;
+
+//
+//
+// Grid columns
+//
+//
+
+$grid-gutter-width:           2rem;
+
+//
+//
+// Buttons
+//
+//
+
+// Regular buttons
+//
+
+$btn-padding-y:               0;
+$btn-padding-x:               1em;
+$btn-line-height:             1.875em;
+
+$btn-focus-width:             0;
+$btn-focus-box-shadow:        none;
+$btn-active-box-shadow:       none;
+
+$accent-button: (
+  "color": map-get($theme-colors, "accent"),
+  "hover": map-get($theme-colors, "accent-light"),
+  "active": map-get($theme-colors, "accent-dark"),
+  "shadow": (0px 2px 32px rgba(map-get($theme-colors, "accent-darken"), .16), 0px 1px 8px rgba(map-get($theme-colors, "accent-darken"), .16))
+);
+
+$primary-button: (
+  "color": map-get($theme-colors, "secondary"),
+  "hover": map-get($theme-colors, "secondary-light"),
+  "active": map-get($theme-colors, "secondary-dark"),
+  "shadow": (0px 2px 32px rgba(map-get($theme-colors, "secondary-dark"), .16), 0px 1px 8px rgba(map-get($theme-colors, "secondary-dark"), .16))
+);
+
+$ghost-button: (
+  "color": map-get($theme-colors, "primary-light"),
+  "text": map-get($theme-colors, "primary-dark"),
+  "hover": map-get($theme-colors, "primary-light"),
+  "active": map-get($theme-colors, "primary-dark"),
+  "shadow": none
+);
+
+$button-sizes: (
+  "sm": .85rem,
+  "lg": 1.2rem
+);
+
+$buttons: (
+  "accent": $accent-button,
+  "primary": $primary-button,
+);
+
+$buttons-outline: (
+  "outline": $ghost-button
+);
+
+// Dropdowns
+//
+
+$dropdown-border-color:             none;
+$dropdown-border-width:             0;
+$dropdown-divider-bg:               $background;
+$dropdown-box-shadow:               $box-shadow;
+
+$dropdown-link-color:               map-get($theme-colors, "text");
+$dropdown-link-hover-color:         map-get($theme-colors, "text-dark");;
+$dropdown-link-hover-bg:            $background;
+
+$dropdown-link-active-color:        map-get($theme-colors, "text-dark");
+$dropdown-link-active-bg:           $background;
+
+$dropdown-item-padding-y:           .5em;
+$dropdown-item-padding-x:           1rem;
+
+//
+//
+// Cards
+//
+//
+
+$card-spacer-y:                     1em;
+$card-spacer-x:                     1rem;
+$card-border-width:                 0;
+$card-border-color:                 transparent;
+$card-border-radius:                $border-radius;
+$card-inner-border-radius:          $border-radius;
+$card-cap-bg:                       $background-light;
+
+//
+//
+// Forms
+//
+//
+
+// Inputs + btn
+//
+
+$input-btn-padding-y:         0;
+$input-btn-padding-x:         1rem;
+$input-btn-line-height:       $btn-line-height;
+
+// Input
+//
+
+$input-padding-y:                       $input-btn-padding-y;
+$input-padding-x:                       $input-btn-padding-x;
+$input-line-height:                     $input-btn-line-height - (2px / $base);
+
+$input-disabled-bg:                     $white;
+
+$input-color:                           map-get($theme-colors, "text");
+$input-border-color:                    map-get($theme-colors, "primary-up-2");
+$input-box-shadow:                      $box-shadow;
+
+$input-focus-border-color:              map-get($theme-colors, "accent-light");
+$input-focus-box-shadow:                0px 2px 32px rgba(map-get($theme-colors, "accent"), 0.16), 0px 1px 8px rgba(map-get($theme-colors, "accent"), 0.16);
+
+$input-placeholder-color:               map-get($theme-colors, "text-light");
+$input-height-border:                   $input-border-width * 2 !default;
+
+$input-height:                          auto;
+
+$input-transition:                      border-color .15s ease-in-out, box-shadow .15s ease-in-out !default;
+
+// Input group
+//
+
+$input-group-addon-bg:                  $white;
+
+//
+//
+// Tables
+//
+//
+
+$table-cell-padding:          .45rem .5rem;
+
+$table-accent-bg:             $background-light;
+$table-hover-bg:              $background-light;
+
+$table-border-color:          $background;
+
+$table-head-bg:               transparent;
+$table-head-color:            map-get($theme-colors, "text-light");

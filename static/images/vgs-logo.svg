@@ -1,0 +1,21 @@
+<svg width="64" height="64" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Slice 2</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(103 -53)">
+<g id="Group">
+<g id="Vector">
+<use xlink:href="#path0_fill" transform="translate(-97.4 55)" fill="#344A5F"/>
+</g>
+<g id="Vector">
+<use xlink:href="#path1_fill" transform="translate(-86.964 75.93)" fill="#344A5F"/>
+</g>
+<g id="Vector">
+<use xlink:href="#path1_fill" transform="translate(-86.964 75.93)" fill="#B1B1B1"/>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_fill" d="M 26.354 60L 39.574 52.554L 52.8 45.056L 52.8 15.06L 46.852 18.432L 43.382 20.584L 35.797 24.932L 35.797 31.792L 46.852 25.485L 46.852 36.405L 46.762 41.568L 26.4 53.113L 6.038 41.568L 5.948 36.406L 5.947 18.432L 26.4 6.887L 40.757 15.027L 46.852 11.572L 26.445 0L -9.53674e-08 14.944L -9.53674e-08 45.056L 13.226 52.554L 26.354 60Z"/>
+<path id="path1_fill" d="M 2.5177e-07 3.05176e-07L 6.565 3.732L 6.565 13.524L 15.962 18.852L 25.361 13.524L 25.361 11.782L 31.926 8.059L 31.926 17.375L 15.962 26.426L 2.5177e-07 17.375L 2.5177e-07 3.05176e-07Z"/>
+</defs>
+</svg>

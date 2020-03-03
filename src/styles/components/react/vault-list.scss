@@ -1,0 +1,89 @@
+.organizations-dropdown,
+.vault-list {
+  font-family: $font-family-sans-serif;
+
+  .dropdown-menu {
+    width: calc(3rem + 24ex);
+    right: 0px;
+    left: 13px !important;
+    top: -14px !important;
+  }
+
+  .creact-vault-link,
+  .new-organization-link {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0 0 10px;
+    &:focus,
+    &:hover {
+      background-color: transparent;
+      cursor: pointer;
+    }
+
+    span {
+      font-variant: small-caps;
+      font-size: 12px;
+    }
+
+    i.fa-plus-circle {
+      color: $blue-light;
+      font-size: 1rem;
+    }
+  }
+
+  &__scroll {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  &__button {
+    max-width: 100%;
+    text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  &__item {
+    padding-left: 1.5rem;
+    display: flex;
+    justify-content: left;
+
+    &.-active {
+      padding-left: 0;
+
+      .vault-list__item__name {
+        font-weight: 500;
+        color: $vgs-blue-dark;
+      }
+    }
+
+    &__icon {
+      margin-right: 1rem;
+      line-height: 1.3;
+    }
+    &__icon__active {
+      margin-right: .5rem;
+      line-height: 1.3;
+    }
+    &__name {
+      flex-grow: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      padding-right: 8px;
+      font-weight: 400;
+      color: $vgs-blue-light;
+    }
+
+    &__tenantid {
+      flex-basis: 115px;
+      flex-shrink: 0;
+      text-align: right;
+      color: $text-muted;
+      .-active & {
+        font-weight: normal;
+      }
+    }
+  }
+}

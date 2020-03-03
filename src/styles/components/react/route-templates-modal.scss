@@ -1,0 +1,49 @@
+.route-templates-modal, .route-templates-page {
+  hr.adjusted-border {
+    margin: 16px -15px 0;
+  }
+  .label-light {
+    @include label-text;
+    color: $vgs-blue-up-2;
+  }
+  .inner-container {
+    height: 400px;
+    overflow: scroll;
+  }
+  .template-item {
+    color: $gray-blue;
+    border: none;
+    width: 100%;
+    text-decoration: none;
+    border-radius: 0;
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: $background-light !important;
+      color: $gray-blue !important;
+      box-shadow: none !important;
+    }
+    .template-name {
+      max-width: 80%;
+      white-space: pre-wrap;
+      text-align: left;
+    }
+  }
+  .template-item.selected {
+    background-color: $background-light !important;
+    color: $gray-blue !important;
+    box-shadow: none !important;
+  }
+  .template-md code {
+    color: $error-color;
+  }
+  pre.line-numbers.language-yaml {
+    padding-left: 1em;
+    font-size: 0.85rem;
+  }
+}
+
+.route-templates-modal.modal-lg {
+  width: 70vw;
+  max-width: 1200px;
+}

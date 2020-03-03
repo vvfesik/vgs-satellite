@@ -1,0 +1,118 @@
+$font-color: #444;
+
+.stepper-steps {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  .step {
+    position: relative;
+    width: 33%;
+    text-align: center;
+
+    .step-head {
+      background-color: $body-bg;
+      width: 32px;
+      height: 32px;
+      text-align: center;
+      border: 2px solid rgba(theme-color("secondary"), .5);
+      border-radius: 50%;
+      color: rgba(theme-color("secondary"), .5);
+      font-size: 18px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .step-label {
+      text-transform: uppercase;
+      color: rgba($font-color, .5);
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      height: 5px;
+      top: 13px;
+      width: 78%;
+      right: 61%;
+      z-index: 1;
+      background: rgba(theme-color("secondary"), .5);
+    }
+
+    &:first-child {
+      &::before {
+        display: none;
+      }
+    }
+
+    &.is-completed, &.is-active {
+      cursor: pointer;
+
+      & .step-label {
+        color: $font-color;
+      }
+      & .step-head {
+        border-color: theme-color("secondary");
+        color: theme-color("secondary");
+      }
+      &::before {
+        background-color: theme-color("secondary");
+      }
+    }
+
+    &.is-completed {
+      & .step-head {
+        background-color: theme-color("secondary");
+        color: #fff;
+        font-size: 14px;
+        padding-top: 4px;
+      }
+    }
+  }
+}
+
+.stepper-container {
+  .stepper-content {
+    div div div a, div div div div:nth-child(2) {
+      line-height: 18px;
+    }
+
+    div div div a, div div div div:first-child > span {
+      line-height: 18px !important;
+    }
+
+    div div div:nth-child(3), div div div:nth-child(4) {
+      border-top-width: 5px !important;
+    }
+  }
+
+  .stepper-header {
+    font-weight: bold;
+    color: $font-color;
+    border-bottom: 1px solid #ccc;
+    text-transform: uppercase;
+    padding-bottom: 7px;
+    margin-bottom: 20px;
+  }
+
+  .btn, .ant-btn-primary {
+    width: 100%;
+  }
+}
+
+.form-control-static iframe {
+  border: 0 none transparent;
+  height: 100%;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.form-control-static span.fake-input {
+  display: inline-block;
+  height: 36px;
+  position: relative;
+  width: 100%;
+}

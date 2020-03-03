@@ -1,0 +1,18 @@
+div {
+    &.small > pre {
+        max-height: 20rem;
+    }
+    &.medium > pre {
+        max-height: 40rem;
+    }
+}
+pre {
+    position: relative;
+    overflow: scroll;
+}
+
+.white-space-normal {
+    pre, code {
+        white-space: normal !important;
+    }
+}

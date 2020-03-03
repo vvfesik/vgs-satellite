@@ -1,0 +1,44 @@
+<svg width="168" height="80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <use xlink:href="#path0_fill" transform="translate(0 9)" />
+  <use xlink:href="#path1_fill" transform="translate(8 25)" />
+  <use xlink:href="#path2_fill" transform="translate(22 30)" />
+  <use xlink:href="#path3_fill" transform="translate(38 28)" />
+  <use xlink:href="#path4_fill" transform="translate(16 23)" />
+  <g>
+    <use xlink:href="#path0_fill" transform="translate(96 9)" />
+    <use xlink:href="#path1_fill" transform="translate(104 25)" />
+    <use xlink:href="#path2_fill" transform="translate(118 30)" />
+    <use xlink:href="#path3_fill" transform="translate(134 28)" />
+    <use xlink:href="#path4_fill" transform="translate(112 23)" />
+  </g>
+  <g transform="translate(-107 -6988)">
+    <use xlink:href="#path5_fill" transform="translate(143 6988)" fill="#EFF3F6"/>
+  </g>
+  <g>
+    <use xlink:href="#path6_fill" transform="translate(40 4)" />
+    <use xlink:href="#path7_fill" transform="translate(50 24)" />
+    <use xlink:href="#path8_fill" transform="translate(69 28)" />
+    <use xlink:href="#path3_fill" transform="translate(93 28)" />
+    <use xlink:href="#path9_fill" transform="translate(61 20)" />
+    <g>
+      <use xlink:href="#path10_fill" transform="translate(103 42)" />
+      <use xlink:href="#path11_fill" transform="translate(105 44)" fill="#EFF3F6"/>
+      <use xlink:href="#path12_fill" transform="translate(111 49)" />
+    </g>
+  </g>
+  <defs>
+    <path id="path0_fill" fill-rule="evenodd" d="M8 0C3.58179 0 0 3.58154 0 8v38c0 4.4185 3.58179 8 8 8h56c4.4182 0 8-3.5815 8-8V8c0-4.41846-3.5818-8-8-8H8zm0 3C5.23853 3 3 5.23877 3 8v38c0 2.7612 2.23853 5 5 5h56c2.7615 0 5-2.2388 5-5V8c0-2.76123-2.2385-5-5-5H8z"/>
+    <path id="path1_fill" d="M0 2C0 .89543.89543 0 2 0s2 .89543 2 2v18c0 1.1046-.89543 2-2 2s-2-.8954-2-2V2z"/>
+    <path id="path2_fill" fill-rule="evenodd" d="M6 12c3.31372 0 6-2.68652 6-6S9.31372 0 6 0 0 2.68652 0 6s2.68628 6 6 6zm0-2c2.20923 0 4-1.79102 4-4S8.20923 2 6 2 2 3.79102 2 6s1.79077 4 4 4z"/>
+    <path id="path3_fill" fill-rule="evenodd" d="M0 1c0-.552246.447754-1 1-1h2c.55225 0 1 .447754 1 1v2c0 .55225-.44775 1-1 1H1c-.552246 0-1-.44775-1-1V1zm6 0c0-.552246.44775-1 1-1h2c.55225 0 1 .447754 1 1v2c0 .55225-.44775 1-1 1H7c-.55225 0-1-.44775-1-1V1zm7-1c-.5522 0-1 .447754-1 1v2c0 .55225.4478 1 1 1h2c.5522 0 1-.44775 1-1V1c0-.552246-.4478-1-1-1h-2zM0 7c0-.55225.447754-1 1-1h2c.55225 0 1 .44775 1 1v2c0 .55225-.44775 1-1 1H1c-.552246 0-1-.44775-1-1V7zm7-1c-.55225 0-1 .44775-1 1v2c0 .55225.44775 1 1 1h2c.55225 0 1-.44775 1-1V7c0-.55225-.44775-1-1-1H7zm5 1c0-.55225.4478-1 1-1h2c.5522 0 1 .44775 1 1v2c0 .55225-.4478 1-1 1h-2c-.5522 0-1-.44775-1-1V7zM1 12c-.552246 0-1 .4478-1 1v2c0 .5522.447754 1 1 1h2c.55225 0 1-.4478 1-1v-2c0-.5522-.44775-1-1-1H1zm5 1c0-.5522.44775-1 1-1h2c.55225 0 1 .4478 1 1v2c0 .5522-.44775 1-1 1H7c-.55225 0-1-.4478-1-1v-2zm7-1c-.5522 0-1 .4478-1 1v2c0 .5522.4478 1 1 1h2c.5522 0 1-.4478 1-1v-2c0-.5522-.4478-1-1-1h-2z"/>
+    <path id="path4_fill" fill-rule="evenodd" d="M4 0C1.79077 0 0 1.79102 0 4v18c0 2.209 1.79077 4 4 4h36c2.2092 0 4-1.791 4-4V4c0-2.20898-1.7908-4-4-4H4zm0 2c-1.10449 0-2 .89551-2 2v18c0 1.1045.89551 2 2 2h36c1.1045 0 2-.8955 2-2V4c0-1.10449-.8955-2-2-2H4z"/>
+    <path id="path5_fill" fill-rule="evenodd" d="M12 0C5.37256 0 0 5.37256 0 12v48c0 6.6274 5.37256 12 12 12h55.5063c3.8458 4.8726 9.8045 8 16.4937 8 11.5979 0 21-9.4019 21-21 0-7.1362-3.56-13.4409-9-17.2358V12c0-6.62744-5.3726-12-12-12H12z"/>
+    <path id="path6_fill" fill-rule="evenodd" d="M8 0C3.58179 0 0 3.58154 0 8v48c0 4.4185 3.58179 8 8 8h72c4.4182 0 8-3.5815 8-8V8c0-4.41846-3.5818-8-8-8H8zm1 4C6.23853 4 4 6.23877 4 9v46c0 2.7612 2.23853 5 5 5h70c2.7615 0 5-2.2388 5-5V9c0-2.76123-2.2385-5-5-5H9z"/>
+    <path id="path7_fill" d="M0 2C0 .89543.89543 0 2 0s2 .89543 2 2v20c0 1.1046-.89543 2-2 2s-2-.8954-2-2V2z"/>
+    <path id="path8_fill" fill-rule="evenodd" d="M8 16c4.4182 0 8-3.5815 8-8 0-4.41846-3.5818-8-8-8-4.41821 0-8 3.58154-8 8 0 4.4185 3.58179 8 8 8zm0-2c3.3137 0 6-2.6865 6-6 0-3.31348-2.6863-6-6-6-3.31372 0-6 2.68652-6 6 0 3.3135 2.68628 6 6 6z"/>
+    <path id="path9_fill" fill-rule="evenodd" d="M6 0C2.68628 0 0 2.68652 0 6v20c0 3.3135 2.68628 6 6 6h44c3.3137 0 6-2.6865 6-6V6c0-3.31348-2.6863-6-6-6H6zm0 2C3.79077 2 2 3.79102 2 6v20c0 2.209 1.79077 4 4 4h44c2.2092 0 4-1.791 4-4V6c0-2.20898-1.7908-4-4-4H6z"/>
+    <path id="path10_fill" d="M34 17c0 9.3888-7.6112 17-17 17-9.38884 0-17-7.6112-17-17C0 7.61116 7.61116 0 17 0c9.3888 0 17 7.61116 17 17z"/>
+    <path id="path11_fill" d="M30 15c0 8.2843-6.7157 15-15 15-8.28427 0-15-6.7157-15-15C0 6.71573 6.71573 0 15 0c8.2843 0 15 6.71573 15 15z"/>
+    <path id="path12_fill" d="M.65625 3.09399C3.09963 2.17879 6.01962 1.1076 8.84365 0c2.64215.676 5.46385 2.22569 8.50015 3.09399.3813.1396.6555.53128.6562.93738 0 5.1335-1.0136 8.82813-2.625 11.40633-1.6114 2.5781-3.8307 4.0026-6 4.5624-.16311.042-.33689.042-.5 0-2.28002-.5527-4.53749-1.959-6.1875-4.5311C1.03749 12.8966 0 9.21227 0 4.03137c.0007019-.4061.274929-.79778.65625-.93738z"/>
+  </defs>
+</svg>

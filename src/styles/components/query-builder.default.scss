@@ -1,0 +1,177 @@
+$theme-name: default !default;
+
+// common
+$item-vertical-spacing: 4px !default;
+$item-border-radius: 8px !default;
+
+// groups
+$group-background-color: rgba(131, 136, 143, 0.15) !default;
+$group-border-color: $gray-blue-light !default;
+$group-border: 1px solid $group-border-color !default;
+$group-padding: 1.5rem !default;
+
+// rules
+$rule-border-color: transparent !default;
+$rule-border: 1px solid $rule-border-color !default;
+// scss-lint:disable ColorVariable
+$rule-value-separator: 1px solid #DDD !default;
+
+// errors
+$error-icon-color: #F00 !default;
+$error-border-color: #F99 !default;
+$error-background-color: #FDD !default;
+
+// ticks
+$ticks-width: 2px !default;
+$ticks-color: $gray-blue-light !default;
+$ticks-position: 18px !default;
+
+
+// ABSTRACTS
+%base-container {
+  position: relative;
+  margin-top: #{2 * $item-vertical-spacing};
+  border: $rule-border;
+  border-radius: $item-border-radius;
+  width: 100%;
+}
+
+%rule-component {
+  display: inline-block;
+  margin: 0 5px 0 0;
+  vertical-align: middle;
+}
+
+.query-builder {
+
+  // GROUPS
+  .rules-group-container {
+    @extend %base-container;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    border: $group-border;
+    background: $group-background-color;
+
+    &:not(:first-child) {
+      border-top: 0.5rem solid $gray-blue-light;
+      padding-top: 1rem;
+      margin-top: 1rem;
+    }
+  }
+
+
+  .rules-group-header {
+    margin-bottom: $group-padding;
+
+    .group-conditions {
+      .btn.readonly:not(.active),
+      input[name$='_cond'] {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+        white-space: nowrap;
+      }
+
+      .btn.readonly {
+        border-radius: 3px;
+      }
+    }
+  }
+
+  .rules-list {
+    list-style: none;
+    padding: 1.5rem 1.5rem 1.5rem 2rem;
+  }
+
+  // RULES
+  .rule-container {
+    @extend %base-container;
+
+    .rule-filter-container,
+    .rule-operator-container,
+    .rule-value-container {
+      @extend %rule-component;
+    }
+  }
+
+  .rule-value-container {
+    border-left: $rule-value-separator;
+    padding-left: 5px;
+
+    label {
+      margin-bottom: 0;
+      font-weight: normal;
+
+      &.block {
+        display: block;
+      }
+    }
+
+    select,
+    input[type='text'],
+    input[type='number'] {
+      padding: 1px;
+    }
+  }
+
+  // ERRORS
+  .error-container {
+    @extend %rule-component;
+    display: none;
+    cursor: help;
+    color: $error-icon-color;
+  }
+
+  .has-error {
+    background-color: $error-background-color;
+    border-color: $error-border-color;
+
+    .error-container {
+      display: inline-block !important;
+    }
+  }
+
+  // TICKS
+  .rules-list>* {
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      left: #{-1 * $ticks-position};
+      width: $ticks-position;
+      height: calc(50% + #{$item-vertical-spacing * 3 + 2});
+      border-color: $ticks-color;
+      border-style: solid;
+    }
+
+    &::before {
+      top: #{-6 * $ticks-width};
+      border-width: 0 0 $ticks-width $ticks-width;
+    }
+
+    &::after {
+      top: 50%;
+      border-width: 0 0 0 $ticks-width;
+    }
+
+    &:first-child::after {
+      border-width: $ticks-width 0 0 $ticks-width;
+      border-radius: #{4 * $ticks-width} 0 0 0;
+    }
+
+    &:last-child::after,
+    &:first-child::before {
+      display: none;
+    }
+  }
+}
+
+// import
+// endimport

@@ -1,0 +1,65 @@
+@mixin theme($class, $color) {
+  #{$class} {
+    background-color: $color;
+    border-color: $color;
+    color: white;
+
+    &:hover {
+      background-color: lighten($color, 15%);
+      border-color: $color;
+      color: white;
+    }
+  }
+}
+
+@mixin theme-ghost($class, $color) {
+  #{$class} {
+    color: $color;
+
+    &:hover {
+      background-color: $color !important;
+    }
+  }
+}
+
+.ant-btn {
+  font-family: $font-family-sans-serif;
+  font-size: 1rem;
+  padding: 0 1em;
+  line-height: 1.75em;
+  border-radius: 0.25rem;
+  align-items: center;
+  justify-content: center;
+
+  &.ant-btn-sm {
+    height: auto;
+    font-size: 0.85rem;
+    padding: 0 1em 0.075em;
+    line-height: 1.875em;
+    border-radius: 0.2rem;
+  }
+
+  .anticon {
+    vertical-align: text-top;
+  }
+
+  @include theme('&.ant-btn-secondary', $green);
+  @include theme('&.ant-btn-dark', $vgs-blue-light);
+
+  &.ant-btn-background-ghost {
+
+    &.ant-btn-secondary:hover, &.ant-btn-dark:hover {
+      color: white;
+    }
+
+    @include theme-ghost('&.ant-btn-secondary', $green);
+    @include theme-ghost('&.ant-btn-dark', $vgs-blue-light);
+  }
+}
+
+.ant-btn-link {
+  color: $blue;
+  &.hover-underline:hover > span {
+    text-decoration: underline;
+  }
+}

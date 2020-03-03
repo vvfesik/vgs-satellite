@@ -1,0 +1,870 @@
+html {
+  overflow-x: hidden;
+  margin-right: calc(-1 * (100vw - 100%));
+  height: 100%;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  height: 100%;
+  position: relative;
+}
+
+.dashboard-maintenance {
+  margin-left: 208px;
+  margin-top: 6px;
+}
+// TODO have to be removed after adding the Code component into all code snippets
+pre {
+  //background-color: theme-color("primary-light");
+  border-radius: 8px;
+  padding: 0.5em;
+  code {
+    color: $code-color;
+  }
+}
+
+.page-section {
+  margin-top: 30px;
+  margin-bottom: 40px;
+}
+
+.my-3 {
+  padding-top: 1rem;
+}
+
+.main-menu-content {
+    height: 100%;
+    position: relative;
+}
+
+.app-content {
+  margin-left: 208px;
+  transition: margin-left 0.25s ease;
+  margin-bottom: 80px;
+  @media (max-width: 768px) {
+    margin-left: 0;
+    margin-bottom: 0;
+  }
+}
+
+.vault-overview {
+  margin-left: 208px;
+  transition: margin-left 0.25s ease;
+  padding: 13px 0;
+  @media (max-width: 768px) {
+    margin-left: 0;
+  }
+
+  > .container {
+    max-width: 100%;
+  }
+}
+
+.vault-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% - 4px);
+  height: 4px;
+  background: $warning-color;
+  .vault-label-wrapper {
+    position: absolute;
+    display: block;
+    top: -1rem;
+    left: 50%;
+    padding: 2px 8px;
+    background: $warning-color;
+    border-radius: 5px 5px 0 0;
+    transform: translateX(-50%);
+    color: theme-color("text");
+    text-transform: uppercase;
+    font-variant: all-small-caps;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    letter-spacing: 1px;
+  }
+  &-live {
+    background: theme-color("accent");
+    .vault-label-wrapper {
+      background: theme-color("accent");
+      color: white;
+    }
+  }
+}
+
+.nav-info-list {
+  overflow-y: scroll;
+  a {
+    border-bottom: 1px solid $background-light;
+  }
+}
+
+.main-content {
+  padding-top: 64px;
+  @media (max-width: 768px) {
+    &.mobile-nav {
+      .navside {
+        opacity: 1;
+        transform: translate3d(208px, 0, 0);
+        transition: width .25s, opacity .25s, transform .25s;
+      }
+    }
+  }
+}
+
+.home-vault-info {
+  margin-top: -1.2rem;
+  margin-bottom: 0.3rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid $background-dark;
+}
+
+.app-content {
+  .navbar-container {
+    position: fixed;
+    top: 64px;
+    width: calc(100% - 208px);
+    z-index: 91;
+    background-color: $background !important;
+    padding: 0.95rem 1rem;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+    .container {
+      margin: 0;
+      max-width: 100%;
+      padding: 0;
+    }
+  }
+}
+
+.vault-content {
+  max-width: 1440px;
+}
+
+.vault-switch {
+  margin-top: 1.9rem;
+}
+
+.org-switch {
+  margin-top: 0.75rem;
+}
+
+.nav-stacked {
+  flex-direction: column;
+}
+
+.navside {
+  .nav-header {
+    color: #9FA9BA;
+    font-weight: 300;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    padding: 1em 1.2em;
+  }
+
+  .nav-link {
+    color: #354052;
+    line-height: 24px;
+    font-size: 16px;
+    &.active, &:hover {
+      background-color: transparent;
+      color: $link-color;
+    }
+  }
+}
+
+.modal-open .modal {
+  background-color: rgba(0, 0, 0, 0.3);
+  display: block;
+}
+
+.btn-group {
+  > .dropdown:last-child > .btn {
+    border-radius: 0 0.25rem 0.25rem 0;
+    margin-left: -1px;
+  }
+  label {
+    margin: 0;
+  }
+}
+
+.card-outline-secondary {
+  background-color: transparent;
+  border-color: #ccc;
+}
+
+.btn-outline-secondary:hover {
+  color: #fff;
+  background-color: #ccc;
+  border-color: #ccc;
+}
+
+.btn-outline-secondary {
+  color: #ccc;
+  background-image: none;
+  background-color: transparent;
+  border-color: #ccc;
+}
+
+.block-link {
+  text-decoration: none;
+  &:hover {
+    text-decoration: inherit;
+  }
+}
+
+.btn-xs {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.vault-nav {
+  .nav-item,
+  .btn-vault-url {
+    font-size: 14px;
+    max-height: 1rem;
+    line-height: 1rem;
+  }
+  .btn-vault-url {
+    border: none;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+.code {
+  padding: 0.2rem 0.4rem;
+  font-size: 90%;
+  color: #bd4147;
+  background-color: #f7f7f9;
+  border-radius: 0.25rem;
+  font-family: "Source Code Pro", Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.message-loading {
+  color: #CCC;
+  font-size: 24px;
+  line-height: 24px;
+  text-align: center;
+}
+
+.input-collection {
+  > .list-group-item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    border-radius: 0;
+    padding: 0;
+    &:first-child {
+      border-width: 1px 0 0;
+    }
+    &:last-child {
+      border-width: 1px 0;
+    }
+    > input {
+      padding: 0.75rem 1.25rem;
+      border: 0;
+    }
+    > .input-collection-action {
+      display: inline-block;
+      &:last-child {
+        padding: 0.75rem 1.25rem 0.75rem 0;
+      }
+    }
+  }
+}
+
+.copy-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: none;
+  border-radius: 0;
+  background: rgba(0,0,0,0.1);
+  &:hover, &:focus {
+    background: rgba(0,0,0,0.2);
+    outline: none;
+  }
+}
+
+.inline-term, .inline-term:hover {
+  text-decoration: underline dashed !important;
+  padding: 0;
+  width: auto !important;
+}
+.qi-header {
+  .fa {
+    font-size: 16px;
+  }
+}
+.error-message {
+  margin-top: 5px;
+}
+
+.inline-help-message {
+  margin-top: 5px;
+}
+
+.remove-vault-btn,
+a.edit-rule-btn {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  z-index: 5;
+  color: #000;
+  opacity: .5;
+  padding: 15px 15px 0 0;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.onboarding-steps-message {
+  margin: 0;
+  ul {
+    margin: 0;
+  }
+}
+
+.collapse-block {
+  position: relative;
+  border-left: 2px solid transparent;
+  border-top: 1px solid #E6EAEE;
+  padding: 15px 15px 15px 22px;
+  &.open {
+    border-left: 2px solid theme-color("secondary");;
+  }
+  .collapse-control {
+    cursor: pointer;
+  }
+  .collapse-icon {
+    color: theme-color("secondary");;
+    position: absolute;
+    top: 16px;
+    left: 7px;
+  }
+}
+
+.rule-operator-container {
+  width: 140px;
+
+  select.form-control {
+    width: 140px;
+  }
+}
+
+.rules-empty-wrap {
+  .btn-toolbar {
+    justify-content: center;
+  }
+}
+
+.reverse-buttons {
+  .modal-footer {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+  }
+}
+
+.users-groups-toggle{
+  text-align: center;
+  width: 116px;
+}
+
+.users-list{
+  table-layout: fixed;
+
+  thead {
+    th:first-child{
+      width: 540px;
+    }
+    th:last-child{
+      width: 80px;
+    }
+  }
+}
+
+.users-list-row {
+  .icon-remove-user {
+    opacity: .5;
+    visibility: hidden;
+    font-size: 1.3rem;
+    line-height: .9rem;
+    display: inline-block;
+    margin-top: 2px;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &:hover {
+    .icon-remove-user {
+      visibility: visible !important;
+    }
+  }
+
+  .user-role{
+    width: 110px;
+  }
+
+  button.user-role::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.font-14 {
+  font-size: 14px;
+}
+.font-16 {
+  font-size: 16px;
+}
+.font-18 {
+  font-size: 18px;
+}
+.new-organization-container {
+  margin-top: 120px;
+  width: 368px;
+}
+.setup-user-container {
+  .vgs-progress-bar {
+    max-width: 700px;
+    margin: auto;
+  }
+  line-height: 24px;
+  font-size: 18px;
+  text-align: center;
+  color: theme-color("primary-text");
+  margin: 120px auto 0;
+}
+
+.icon-secondary {
+  fill: theme-color("secondary");
+}
+
+.header {
+  text-transform: uppercase;
+  color: #444;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 7px;
+  margin-bottom: 20px;
+}
+
+.json-renderer {
+  background-color: #fff;
+}
+
+.environment-selector {
+  display: flex;
+  justify-content: space-between;
+
+  .environment-selector-option {
+    height: 100px;
+    border: 1px solid theme-color("secondary");
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    transition: ease-in 0.2s;
+    line-height: 100px;
+    width: calc(50% - 12px);
+  }
+
+  .environment-selector-option.active {
+    background: rgba(theme-color("secondary"), 0.2);
+  }
+
+  .environment-selector-option-title {
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    transition: ease-in 0.2s;
+    width: calc(50% - 12px);
+    &.active {
+      color: theme-color("secondary");
+    }
+  }
+}
+
+.wait-request-spinner {
+  font-size: 40px;
+}
+.formadata-selector {
+  li {
+    cursor: pointer;
+  }
+  input[type="radio"] {
+    cursor: pointer;
+    margin-right: 5px;
+  }
+}
+
+.query-builder .rules-group-container {
+  background-color: #f8f8f8; //Changing the yellow box of pain.
+  border-color: theme-color("primary");
+}
+
+.rule-picker {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  .disabled {
+    pointer-events: none;
+
+    h4, .text-muted {
+      color: #ccc !important;
+    }
+
+    .button-text-box {
+      padding: 20px;
+      border: 1px solid #ccc;
+    }
+  }
+}
+
+.button-text-box {
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid theme-color("primary");
+}
+.button-text-box:hover {
+  border: 1px solid theme-color("secondary");
+}
+.button-text-box h5 {
+  color: theme-color("secondary");
+}
+
+.quick-start-box {
+  background-color: #f8f8f8;
+  border-color: theme-color("primary");
+}
+
+.vault-urls {
+  width: 300px;
+  margin: 15px 5px;
+}
+
+// TODO: refactor component and get rif of stepper headers
+.inbound-wizard, .outbound-wizard {
+  .stepper-steps {
+    display: none;
+  }
+}
+
+.disable-inputs {
+  pointer-events: none;
+
+  input, select {
+    background-color: #e9ecef;
+  }
+}
+.tabs{
+  text-align: left;
+  font-size: 12px;
+}
+
+li.tab-current{
+  background-color: theme-color("primary");
+}
+.tab-secondary{
+  background-color: theme-color("secondary");
+}
+.tab-hover{
+  background-color: theme-color("primary");
+  font-weight: bolder;
+}
+
+.disable-inputs {
+  pointer-events: none;
+
+  input, select {
+    background-color: #e9ecef;
+  }
+}
+
+.modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+// React components gets wrapped in div by ember-cli :(
+// sometimes we need inline element, this class helps here
+.hack-ember-inline-react {
+  & > .ember-view {
+    display: inline;
+  }
+}
+
+.fa-info-circle {
+  color: theme-color("text");
+}
+
+.fa-exclamation-triangle, .fa-exclamation-circle {
+  color: theme-color("warning");
+}
+
+.payload-wrapper {
+  display: inline-block;
+  width: 33%;
+
+  select {
+    width: 100px;
+  }
+}
+
+.wizard-content {
+  margin-top: 35px;
+  padding: 0 50px;
+
+  &__notification {
+    margin: 20px 0;
+
+    svg {
+      margin-right: 5px;
+    }
+    path {
+      fill: theme-color("warning");
+    }
+  }
+}
+
+.modal-simple {
+  .modal-body {
+    padding: 2em;
+  }
+}
+
+a:not([href]) {
+  &.ember-link {
+    color: $link-color;
+    cursor: pointer;
+    &:hover {
+      color: #006a6c;
+    }
+  }
+}
+
+.modal-manual {
+  display: block;
+}
+
+.org-list__button {
+  max-width: 200px;
+  text-align: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.fixed-table {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 0;
+  .string-wrapper {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+
+.json-to-yaml {
+  &__download {
+    margin: 0 auto;
+  }
+  .diffsnippet {
+    max-height: 450px;
+    overflow-y: auto;
+  }
+}
+
+// TODO move to the modals common styles
+.modal-backdrop.show {
+  opacity: 0;
+}
+.modal-open .modal {
+  background-color: transparent;
+}
+.modal .alert-light {
+  color: map-get($theme-colors, "text");
+}
+
+#cy {
+  width: 100%;
+  height: 500px;
+}
+
+.is-loading-block {
+  width: 100%;
+  text-align: center;
+  margin-top: 50px;
+  font-size: 20px;
+}
+
+// TODO have to be removed after merging the following fix to production
+// https://app.clubhouse.io/vgs/story/5388/fix-intercom-button
+#intercom-container {
+  .intercom-launcher-frame {
+    bottom: 20px !important;
+  }
+
+  .intercom-messenger-frame {
+    height: calc(100% - 20px - 80px - 20px) !important;
+    bottom: calc(20px + 80px) !important;
+  }
+
+  .intercom-launcher-discovery-frame {
+    bottom: calc(20px - 5px) !important;
+  }
+}
+
+.update-route {
+  &__footer {
+    background:#FFF8EB;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    line-height: 1em;
+    opacity: 0.8;
+    font-size: 12px;
+    white-space: nowrap;
+    > span {
+      width: 50%;
+    }
+    &__small {
+      padding-right: 10px;
+      font-size: 12px;
+    }
+  }
+  pre {
+    max-height: 50vh;
+  }
+}
+
+.ssl-certificates-list {
+  pre[class*="language-"] {
+    background-color: $background;
+    button {
+      display: none;
+    }
+  }
+  .border-bottom.border-info {
+    border-color: #F0F4FA !important;
+  }
+}
+
+.ssl-upload-modal, .ssl-add-modal {
+  .card-header {
+    font-variant: small-caps;
+    letter-spacing: 0.03em;
+    font-weight: $font-weight-bold;
+    font-size: .75rem;
+  }
+  textarea {
+    min-height: 9rem;
+  }
+}
+
+#beamerTrigger {
+  color: #fff;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.activation-button {
+  margin: 10px 0 0 20px;
+}
+
+.tooltip.dark {
+  .tooltip-inner {
+    background-color: $vgs-blue-light;
+    opacity: 0.8;
+  }
+  .arrow {
+    &:before {
+      border-top-color: $vgs-blue-light;
+      opacity: 0.8;
+    }
+  }
+}
+
+.preference-credentials {
+  .dropdown {
+    span[data-toggle="dropdown"] {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 20rem;
+      span.selected {
+        border: 1px solid $vgs-blue-up-2;
+        border-right: none;
+        border-radius: 4px 0 0 4px;
+        padding: 0.3rem 1rem;
+        width: 100%;
+      }
+      span.dropdown-button {
+        background: $blue;
+        border-radius: 0 4px 4px 0;
+        padding: 0.3rem 0.7rem;
+        border: 1px solid $blue;
+        &:hover {
+          background: $blue-light;
+          border: 1px solid $blue-light;
+        }
+      }
+    }
+    .dropdown-menu {
+      width: 100%;
+      max-width: 20rem;
+      .filter-footer {
+        border-top: 1px solid $background;
+      }
+      .first-checkbox {
+        border-bottom: 1px solid $background;
+      }
+    }
+  }
+}
+
+.org-sidebar a.menu-item.active {
+  color: inherit !important;
+  pointer-events: none;
+}
+
+.bold-font span {
+  font-weight: bold;
+}
+
+.content {
+  &:not(.app-content) .payment-alert {
+    margin-left: 208px;
+  }
+}
+
+.stepper-row {
+  display: flex;
+  line-height: 2rem;
+  margin-bottom: .5rem;
+  p {
+    margin: 0;
+  }
+  span.circle {
+    border: 1px solid;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0.5rem;
+  }
+}

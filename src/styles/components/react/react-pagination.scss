@@ -1,0 +1,14 @@
+.pagination {
+  .page-link {
+    color: map-get($theme-colors, "primary");
+    &:focus {
+      box-shadow: none;
+    }
+  }
+  .page-item.active {
+    .page-link {
+      background-color: map-get($theme-colors, "secondary");
+      border-color: map-get($theme-colors, "secondary");
+    }
+  }
+}

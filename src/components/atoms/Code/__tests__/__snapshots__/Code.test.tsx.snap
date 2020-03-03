@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Code renders should render correctly with numbers 1`] = `
+<pre
+  className="line-numbers"
+>
+  <code
+    className="language-yaml"
+  >
+    data:
+- attributes:
+
+  </code>
+  <CopyToClipboard
+    onCopy={[Function]}
+    text="data:
+- attributes:
+"
+  >
+    <Button
+      className="position-absolute top right mt-2 text-muted"
+      color="link"
+      size="sm"
+      tag="button"
+    >
+      <Icon
+        id=""
+        name="copy"
+        position="left"
+        type="text"
+      />
+      Copy
+    </Button>
+  </CopyToClipboard>
+</pre>
+`;

@@ -1,0 +1,84 @@
+.o-access-logger-filter-form {
+  .input-group {
+    input.form-control {
+      padding-top: 1px;
+      padding-bottom: 1px;
+      border-right: none;
+    }
+    .input-group-append button {
+      border-left: none;
+    }
+  }
+  .filter {
+    font-size: 12px;
+    font-weight: 500;
+    min-width: 350px;
+    .filter-title {
+      background-color: #F0F4FA;
+    }
+    .filter-footer {
+      border-top: 1px solid #F0F4FA;
+      & > .col {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+    .row:nth-of-type(2),
+    .row.pin-section {
+      border-bottom: 1px solid #F0F4FA;
+    }
+    .row > .col > label {
+      display: inline-block;
+      color: #83888F;
+    }
+    .form-check {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .form-group {
+      flex-wrap: nowrap;
+      justify-content: space-between;
+    }
+    .a-datepicker .react-datepicker__input-container > input {
+      font-size: 12px;
+      text-align: center;
+      height: initial;
+      // width: 110px;
+      padding: 0.17rem 0.35rem;
+      background-color: #F0F4FA;
+    }
+    .custom-checkbox .custom-control-label::before {
+      top: 0.1rem;
+    }
+    .custom-checkbox .custom-control-label::after {
+      top: inherit;
+    }
+  }
+}
+.o-access-logger-filter-form-fields {
+  .form-control {
+    height: 30px;
+  }
+  .react-datepicker-popper {
+    margin-bottom: 0;
+  }
+  .react-datepicker__navigation {
+    top: 16px;
+  }
+  .react-datepicker__input-container input {
+    width: 100%;
+  }
+  margin-bottom: 10px;
+}
+.o-access-logger-filter-form-buttons {
+  button {
+    margin-left: 10px;
+  }
+}
+.o-access-logger-filter-form-dates {
+  .a-datepicker input{
+    height: 30px;
+  }
+  line-height: 30px;
+  margin-left: 10px;
+}

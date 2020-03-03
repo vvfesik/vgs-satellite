@@ -1,0 +1,37 @@
+// //
+// // Typography
+// //
+
+// Headings
+//
+
+h1, .h1 { font-size: $h1-font-size; text-transform: uppercase; letter-spacing: .03em; }
+h3, .h3 { font-size: $h3-font-size; font-weight: normal; }
+
+h1, h2, h3,
+.h1, .h2, .h3 {
+  > small {
+    text-transform: lowercase;
+    letter-spacing: normal;
+    font-size: 1rem;
+    display: block;
+    &:first-letter {
+      text-transform: uppercase;
+    }
+    & span {
+      text-transform: uppercase;
+    }
+  }
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+p.size-13 {
+  font-size: 0.8125rem;
+}
+
+.tabular-nums {
+  font-variant: tabular-nums;
+}

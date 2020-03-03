@@ -1,0 +1,33 @@
+.p-analytics-chart-filters {
+  select {
+    margin-right: 10px;
+    width: 150px;
+  }
+  display: flex;
+  margin-bottom: 30px;
+}
+.p-analytics-charts {
+  .p-analytics-chart {
+    h5 {
+      margin: 5px;
+    }
+    position: relative;
+    height: 200px;
+    width: 100%;
+  }
+}
+
+.p-analytics-chart--overlay {
+  .fa-pulse {
+    font-size: 40px;
+  }
+  position: absolute;
+  text-align: center;
+  line-height: 160px;
+  height: 155px;
+  width: 100%;
+  background: theme-color("text-light");
+  opacity: 0.3;
+  z-index: 90;
+  bottom: 0;
+}

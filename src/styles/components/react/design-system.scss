@@ -1,0 +1,20 @@
+// 
+// Color box
+// 
+
+.color-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: .5em;
+  & > .cell {
+    flex: 16rem 1 1;
+    color: theme-color("text");
+    padding: .5em 1em;
+  }
+}
+.color-box {
+  display: inline-block;
+  min-width: 3rem;
+  min-height: 3rem;
+  border-radius: .5rem;
+}

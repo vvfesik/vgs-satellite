@@ -1,0 +1,45 @@
+.vgs-collect {
+  .vgs-collect-container {
+    padding: 1rem;
+  }
+
+  .version-select {
+     width: 170px;
+   }
+
+  .helpful-resources {
+    .card .media .media-body {
+      font-size: 1rem;
+    }
+    svg {
+      font-size: 1.5rem;
+      vertical-align: middle;
+      color: rgb(206, 213, 224);
+    }
+    a {
+      text-decoration: none;
+    }
+  }
+
+  .vgs-collect-section {
+    margin-bottom: 2.5rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .vgs-collect-article {
+      margin-bottom: 2rem;
+    }
+
+    code {
+      font-size: 0.9rem;
+    }
+  }
+
+  .generate-lib-section {
+    border: 1px solid $background-dark;
+    border-radius: 9px;
+    padding: 1.2rem;
+    background-color: $background-light;
+  }
+}

@@ -1,0 +1,73 @@
+@mixin themeRow($class, $bgcolor, $color) {
+  #{$class} {
+    .ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
+      background-color: lighten($bgcolor, 40%);
+      color: $color;
+      & span p {
+        color: $color;
+      }
+    }
+  }
+}
+
+
+@include themeRow('.ant-table-row-primary', $blue, inherit);
+@include themeRow('.ant-table-row-secondary', $green, inherit);
+@include themeRow('.ant-table-row-dark', $vgs-blue-light, inherit);
+@include themeRow('.ant-table-row-text', transparent, $blue);
+@include themeRow('.ant-table-row-none', transparent, inherit);
+
+.ant-table-wrapper {
+
+  &--transparent-header {
+
+    .ant-table-thead tr > th {
+      color: inherit;
+      background-color: transparent;
+    }
+  }
+}
+
+.ant-table-thead {
+  @extend .small-capsy;
+  @extend .text-text-light;
+
+  font-size: .625rem;
+}
+
+.row-border-none {
+  .ant-table-tbody > tr > td {
+    border: none;
+  }
+}
+
+.row-border-rounded {
+  .ant-table-tbody > tr > td {
+    border: 1px solid transparent;
+
+    &:first-child {
+      border-top-left-radius: 7px;
+      border-bottom-left-radius: 7px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 7px;
+      border-bottom-right-radius: 7px;
+    }
+  }
+}
+
+.header-border-none {
+  .ant-table-thead > tr > th {
+    border: none;
+  }
+}
+
+.ant-table-pagination {
+  .ant-pagination-prev, .ant-pagination-jump-prev,
+  .ant-pagination-next, .ant-pagination-jump-next {
+    .ant-pagination-item-link i {
+      display: inline-flex;
+    }
+  }
+}

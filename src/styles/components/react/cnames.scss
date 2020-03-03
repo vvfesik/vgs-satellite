@@ -1,0 +1,49 @@
+.cnames-list-item {
+  .cnames-item-delete,
+  .cnames-item-delete-status {
+    visibility: hidden;
+  }
+  &:hover {
+    color: $blue-light;
+    .cnames-item-status {
+      visibility: hidden;
+    }
+    .cnames-item-delete {
+      visibility: visible;
+    }
+    & > .row {
+      background: $background-light;
+    }
+  }
+  &.cnames-list-item-deleting {
+    .cnames-item-delete-status {
+      visibility: visible;
+    }
+    .cnames-item-status {
+      visibility: hidden;
+    }
+  }
+}
+
+.host-dropdown-view {
+  span.badge {
+    color: $vgs-blue-light;
+    font-size: initial;
+    font-weight: initial;
+    &.default {
+      background: $white;
+      color: $vgs-blue-up-2;
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border: 1px solid $background-dark;
+        border-radius: 0.25rem;
+      }
+    }
+  }
+}

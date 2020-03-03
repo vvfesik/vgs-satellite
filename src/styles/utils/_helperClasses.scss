@@ -1,0 +1,43 @@
+.flex-center {
+  @include flexPosition(center, center);
+}
+
+.flex-left-center {
+  @include flexPosition($align: center);
+}
+
+.flex-right-center {
+  @include flexPosition(flex-end, center);
+}
+
+.flex-spc-btw-center {
+  @include flexPosition(space-between, center);
+}
+
+.flex-spc-arnd-center {
+  @include flexPosition(space-around, center);
+}
+
+.flex-spc-evn-center {
+  @include flexPosition(space-evenly, center);
+}
+
+.flex-spc-btw-top {
+  @include flexPosition(space-between, flex-start);
+}
+
+.flex-column-center {
+  @include flexPosition(center, center, column);
+}
+
+.flex-column-left-center {
+  @include flexPosition(center, flex-start, column);
+}
+
+.flex-column-right-center {
+  @include flexPosition(center, flex-end, column);
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}

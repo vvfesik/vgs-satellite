@@ -1,0 +1,27 @@
+.string-wrapper-tooltip {
+  &.show {
+    opacity: 1;
+  }
+  .arrow {
+    &:before {
+      border-top-color: rgba(0, 0, 0, 0.2);
+    }
+    &:after {
+      position: absolute;
+      content: "";
+      top: -1px;
+      border: solid transparent;
+      border-width: 0.4rem 0.4rem 0;
+      border-top-color: $body-bg;
+    }
+  }
+  .tooltip-inner {
+    max-width: 700px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: $body-bg;
+    color: theme-color("text");
+    max-height: 100px;
+    overflow: auto;
+    text-align: left;
+  }
+}

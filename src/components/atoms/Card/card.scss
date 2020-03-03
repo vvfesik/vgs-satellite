@@ -1,0 +1,34 @@
+.ant-card {
+
+  &.headerFill > .ant-card-head {
+    background-color: #F7F9FC;
+  }
+
+  &.card {
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .ant-card-head {
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 1rem;
+  }
+
+  .ant-card-body {
+    padding: 16px 8px;
+  }
+
+  .ant-card-head-title,
+  &.extra-p-0 .ant-card-extra {
+    padding: 0;
+  }
+  .ant-card-head-title,
+  &.extra-mw-50 .ant-card-extra {
+    min-width: 50%;
+  }
+
+  &.body-p-3 .ant-card-body {
+    padding: 1rem;
+  }
+}

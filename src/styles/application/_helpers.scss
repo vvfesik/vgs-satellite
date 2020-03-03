@@ -1,0 +1,158 @@
+$f-weights: 100, 200, 300, 400, 500, 600, 700, 800;
+@each $weight in $f-weights {
+  ._#{$weight} {
+    font-weight: $weight;
+  }
+}
+
+// Labels text style
+//
+@mixin label-text($color: map-get($theme-colors, "text-light")) {
+  color: $color;
+  font-weight: 600;
+  font-size: .625rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+//
+//
+
+.text-em { font-style: italic; }
+.text { font-size: 1rem; }
+.text-xs { font-size: 0.75rem; }
+.text-sm { font-size: 0.8rem; }
+.text-md { font-size: 1.125rem; }
+.text-lg { font-size: 1.5rem; }
+.text-2x { font-size: 2em; }
+.text-3x { font-size: 3em; }
+.text-4x { font-size: 4em; }
+
+// https://css-tricks.com/flexbox-truncated-text/
+.has-flexi-truncate {
+  min-width: 0;
+}
+
+.bt-0 {
+  border-top-width: 0 !important;
+}
+
+.ta-center {
+  text-align: center;
+}
+.ta-left {
+  text-align: left;
+}
+.ta-right {
+  text-align: right;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.word-break-break-all {
+  word-break: break-all;
+}
+
+.word-wrap-break-word {
+  word-wrap: break-word;
+}
+
+.w-75px {
+  width: 75px !important;
+}
+
+.no-state-decoration {
+  &:focus,
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.btn-icon {
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  color: theme-color('primary');
+  cursor: pointer;
+  &:focus{
+    border: 0;
+    outline: 0;
+  }
+}
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}
+
+.text-word-break {
+  word-break: break-word;
+}
+
+.w-95 {
+  width: 95%;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-default {
+  cursor: default;
+}
+
+.top {
+  top: 0;
+}
+.right {
+  right: 0;
+}
+
+.icon-rotate {
+  > svg {
+    transition: transform .3s ease;
+    transform: rotate(0);
+  }
+  &.icon-rotate-180 > svg {
+    transform: rotate(180deg);
+  }
+}
+
+.opacity-0 {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.opacity-05 {
+  opacity: 0.5;
+}
+
+.is-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.small-capsy {
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: $font-weight-bold;
+  font-size: .75rem;
+  line-height: 2.1;
+}
+
+.border-none {
+  border: none;
+}
+
+.transition-none {
+  transition: none;
+}
+
+.mw-200px {
+  max-width: 200px;
+}

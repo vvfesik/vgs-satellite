@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DocsPopover 1`] = `
+<PopoverBs
+  iconName="info-circle"
+  placement="top"
+>
+  The host that is an ultimate destination of the request. It can be your backend API, payment processor or other service.
+</PopoverBs>
+`;

@@ -1,0 +1,261 @@
+.proxy-creds {
+  &__header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+
+.proxy-list {
+  margin-bottom: 0;
+  &__wr {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  tr,
+  th,
+  td {
+    border: none;
+  }
+
+  thead th {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  }
+
+  th {
+    padding: 20px 1rem;
+    text-align: center;
+    &:first-child {
+      text-align: left;
+    }
+  }
+  td {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    text-align: center;
+    vertical-align: middle;
+
+    &:first-child {
+      text-align: left;
+    }
+  }
+
+  &__loading {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    font-size: 24px;
+  }
+
+  &__item {
+    &.-loading {
+      td {
+        position: relative;
+
+        &:before {
+          content: '';
+          position: absolute;
+          display: block;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background: rgba(255, 255, 255, 0.5);
+        }
+      }
+    }
+
+    &.-inactive {
+      td {
+        opacity: 0.4;
+        &:last-child {
+          opacity: 1;
+        }
+      }
+    }
+
+    &__status {
+      min-width: 100px;
+    }
+
+    &__action {
+      min-width: 150px;
+      text-align: right;
+      width: 100px;
+
+      &__btn {
+        color: $error-color;
+        background: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .-inactive & {
+        &__btn {
+          color: map-get($theme-colors, "accent");
+        }
+      }
+    }
+
+    &__delete {
+      width: 60px;
+      text-align: center;
+
+      svg {
+        cursor: pointer;
+        color: map-get($theme-colors, "text");
+        font-size: 18px;
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+
+    }
+  }
+}
+
+
+.proxy-modal {
+  display: block;
+
+  .modal{
+    &-footer{
+      justify-content: center;
+
+      .btn {
+        min-width: 200px;
+      }
+    }
+  }
+  .modal-header {
+    span {
+      line-height: 1.5;
+      padding-top: 3px;
+      svg.fa-times {
+        cursor: pointer;
+      }
+      &:hover svg.fa-times {
+        opacity: 0.7;
+      }
+    }
+  }
+
+  &__title-text {
+    color: map-get($theme-colors, "accent");
+    margin: 20px 0 30px;
+    font-weight: 400;
+    .fas {
+      margin-right: 10px;
+    }
+  }
+  &__important-text {
+    display: flex;
+
+    svg {
+      color: map-get($theme-colors, "warning");
+      margin-right: 15px;
+    }
+  }
+
+  &__info {
+    margin-bottom: 15px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &__type {
+      display: block;
+      opacity: 0.6;
+      margin-bottom: 5px;
+    }
+  }
+
+  &__code-input {
+    margin: 0 auto;
+    max-width: 500px;
+  }
+
+  .jumbotron {
+    position: relative;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    padding: 1.25rem;
+  }
+
+  &__confirm-delete {
+    svg {
+      margin-right: 10px;
+    }
+    &.btn-danger,
+    &.btn-danger:hover,
+    &.btn-danger.disabled,
+    &.btn-danger:disabled {
+      color: #fff;
+    }
+  }
+
+  &__download {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+}
+
+.pc-init {
+  margin-bottom: 40px;
+  overflow: hidden;
+  background: #fff;
+
+  &__main {
+    padding: 16px;
+  }
+
+  &__main {
+    .proxy-modal__important-text {
+      margin: 0;
+      padding: 0;
+    }
+  }
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    background:#FFF8EB;
+
+    &__text {
+      padding: .5em 1rem 0;
+      line-height: 1em;
+      opacity: 0.8;
+      display: flex;
+
+      span {
+        margin-right: 25px;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+
+    &__small {
+      font-size: 14px;
+      opacity: 0.7;
+      padding-right: 10px;
+    }
+
+    &__btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0;
+      #download {
+        padding-right: 10px;
+      }
+    }
+  }
+}

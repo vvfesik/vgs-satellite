@@ -1,0 +1,24 @@
+.tabline-tabs {
+  border-bottom: 2px solid theme-color("info");
+  margin: 1rem 0;
+  padding-top: 0;
+  padding-bottom: 4px;
+  a, span {
+    font-size: 16px;
+    margin-right: 10px;
+    color: theme-color("primary-light");
+    background-color: theme-color("info");
+    padding: 0.3rem 0.6rem 0.4rem;
+    border-bottom: 2px solid theme-color("info");
+    border-radius: 5px 5px 0 0;
+    &:hover {
+      text-decoration: none;
+    }
+    &.active {
+      font-weight: 500;
+      color: theme-color("secondary-dark");
+      border-bottom: 2px solid theme-color("secondary-dark");
+      background-color: theme-color("secondary-glow");
+    }
+  }
+}

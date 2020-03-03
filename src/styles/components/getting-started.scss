@@ -1,0 +1,118 @@
+.nav-tabs-custom {
+  color: theme-color("text");
+
+  .nav-item {
+    margin-bottom: 5px;
+    &.disabled {
+      .nav-link {
+        color: theme-color("text-light");
+      }
+    }
+  }
+
+  .nav-link {
+    background-color: transparent;
+    box-sizing: border-box;
+    border-radius: 6px;
+    color: theme-color("text");
+    padding: 20px 30px;
+    border: 1px solid transparent;
+
+    &.active, &.focus, &:hover {
+      background-color: transparent;
+      color: theme-color("text-dark");
+      border: 1px solid $background-dark;
+      box-shadow: 0 4px 16px rgba(31, 138, 176, 0.12);
+      cursor: pointer;
+    }
+  }
+}
+
+.getting-started {
+  h2 {
+    font-size: 18px;
+    line-height: 140%;
+  }
+  svg {
+    max-width: 100%;
+  }
+  strong, b {
+    font-weight: 500;
+  }
+}
+
+.helpful-resources {
+  .card {
+    background-color: #F7F9FC;
+    &:hover, &:focus, &:active {
+      background-color: #fff;
+    }
+    .media {
+      .media-left {
+        width: 45px;
+      }
+      .media-body {
+        line-height: 29px;
+        font-size: 18px;
+        color: #4B4E52;
+      }
+    }
+  }
+}
+
+.lines-animated {
+  text-align: center;
+  .static-diagram-headers {
+    margin: 0 auto 5px auto;
+    font-size: 16px;
+    line-height: 150%;
+    position: relative;
+    height: 24px;
+    max-width: 680px;
+
+    div {
+      position: absolute;
+      &:nth-child(1) {
+        left: 1%
+      }
+      &:nth-child(2) {
+        left: 46%;
+      }
+      &:nth-child(3) {
+        right:1%;
+      }
+    }
+  }
+  .static-diagram-description {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 23px;
+    .static-diagram-description-center {
+      margin: 0 12%;
+    }
+  }
+  #redline-one, #redline-two {
+    animation: scrollred 5s linear infinite;
+  }
+  #greenline-one, #greenline-two {
+    animation: scrollgreen 2.8s linear infinite;
+  }
+}
+@keyframes scrollred {
+  from {
+    transform: translateX(-12%);
+  }
+
+  to {
+    transform: translateX(12%);
+  }
+}
+@keyframes scrollgreen {
+  from {
+    transform: translateX(-4%);
+  }
+
+  to {
+    transform: translateX(9.5%);
+  }
+}

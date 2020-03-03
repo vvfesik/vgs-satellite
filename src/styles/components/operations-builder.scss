@@ -1,0 +1,175 @@
+.operations-builder {
+  .fa-arrow-right {
+    display: inline-block;
+    margin: 0 8px;
+  }
+}
+.operations-builder-config {
+  .strings-array {
+    width: 408px;
+  }
+  margin: 24px 0;
+  display: flex;
+}
+.operations-builder-config-fields {
+  border-top: 1px solid theme-color("secondary");
+  padding-top: 23px;
+  flex: 1 1 auto;
+}
+.operations-builder-config-options {
+  .fa {
+    color: theme-color("secondary");
+    font-size: 16px;
+    cursor: pointer;
+  }
+  position: relative;
+  margin-top: -8px;
+  padding-left: 20px;
+  width: 40px;
+}
+.operations-builder-config-options-actions {
+  padding-bottom: 8px;
+  background: white;
+  position: absolute;
+  right: 0px;
+  top: -15px;
+  width: 256px;
+  z-index: 9999;
+  border-radius: 4px;
+  box-shadow: 0px 4px 16px rgba(theme-color("primary"), 0.24), 0px 2px 4px rgba(theme-color("primary"), 0.24);
+}
+.operations-builder-config-options-action,
+.operations-builder-config-options-remove,
+.operations-builder-config-options-close {
+  height: 40px;
+  line-height: 40px;
+  padding-left: 32px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.operations-builder-config-options-close {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 14px;
+}
+.operations-builder-config-options-remove {
+  &:hover {
+    background-color: theme-color("danger-light");
+  }
+  color: theme-color("danger");
+}
+.operations-builder-config-options-action:hover {
+  background-color: theme-color("primary-light");
+  color: $link-color;
+}
+
+.operations-builder-pipe {
+  margin: 10px 0;
+}
+.operations-builder-operation {
+  .fa-times {
+    position: absolute;
+    right: 3px;
+    top: 3px;
+  }
+  &.is-active {
+    background-color: theme-color("primary-light");
+    border: 1px solid theme-color("secondary");
+    color: $link-color;
+  }
+  &.target.is-active {
+    background-color: theme-color("primary-light");
+    border: 1px solid theme-color("secondary");
+    color: $link-color;
+  }
+  span {
+    display: inline-block;
+    font-size: 16px;
+    height: 40px;
+    line-height: 40px;
+  }
+  display: inline-block;
+  border-radius: 4px;
+  color: theme-color('primary-text');
+  font-weight: bold;
+  padding-right: 16px;
+  padding-left: 16px;
+  border: 1px solid theme-color('primary');
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  margin: 10px 0;
+}
+.operations-builder-operation.target {
+  background: theme-color('secondary');
+  color: white;
+
+  border-color: transparent;
+}
+.operations-builder-operation.operation {
+  border-radius: 100px;
+  padding-right: 16px;
+}
+.operations-builder-add-operation {
+  display: inline-block;
+  position: relative;
+  height: 40px;
+  width: 40px;
+}
+.operations-builder-add-operation-control {
+  .ember-power-select-trigger {
+    height: 38px;
+  }
+  text-align: center;
+  border: 1px dashed theme-color('primary');
+  border-radius: 4px;
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  cursor: pointer;
+}
+.operations-builder-add-operation-list {
+  padding: 8px 0px;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0px 4px 16px rgba(theme-color("primary"), 0.24), 0px 2px 4px rgba(theme-color("primary"), 0.24);
+  display: inline-block;
+  position: absolute;
+  top: 15px;
+  width: 256px;
+  z-index: 9999;
+}
+.operations-builder-add-operation-list-input {
+  border: 0px;
+  outline: 0px;
+  padding: 8px 30px;
+  width: 100%;
+}
+.operations-builder-add-operation-list-option {
+  &:hover {
+    background-color: theme-color("primary-light");
+  }
+  text-transform: uppercase;
+  height: 40px;
+  padding: 0 30px;
+  line-height: 40px;
+  cursor: pointer;
+}
+
+.t-replace-csv-config {
+  .m-removable-input {
+    padding: 0;
+    text-align: center;
+    width: 82px;
+  }
+}
+
+.operation-label {
+  max-width: 4%;
+}
+
+.operation-input {
+  max-width: 96%;
+  flex: 0 0 96%;
+}

@@ -1,0 +1,56 @@
+.rule-entry {
+  .nav.nav-tabs {
+    justify-content: flex-end;
+  }
+  .tab-pane {
+    padding-top: 35px;
+  }
+}
+
+.query-builder {
+  .selectize-control {
+    border: 0;
+    padding: 0;
+    height: calc(2.1rem + 2px);
+
+    .selectize-dropdown {
+      height: auto;
+    }
+  }
+  .selectize-input {
+    background: white  !important;
+    background-image: none !important;
+    height: calc(2.1rem + 2px);
+    white-space: nowrap;
+    width: 260px;
+  }
+  .selectize-input:after {
+    right: 4px !important;
+    margin-top: -1px !important;
+  }
+}
+
+.drop_zone {
+  padding: 1rem;
+}
+
+.pdf-navigator{
+  margin-bottom: 16px;
+  width: 208px;
+}
+
+/* For Firefox */
+input[type='number'] {
+  -moz-appearance:textfield;
+}
+/* Webkit browsers like Safari and Chrome */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.filter-ordering {
+  width: 40px;
+  padding: 0 0.5rem;
+}

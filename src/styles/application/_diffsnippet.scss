@@ -1,0 +1,17 @@
+.diffsnippet {
+  pre,
+  code {
+    background-color: initial;
+    border-radius: none;
+    padding: initial;
+    overflow: hidden;
+  }
+  p.heading {
+    color: theme-color("text");
+  }
+}
+.uri-diff .diffsnippet {
+  tr[class$="-line"] td:nth-child(2) {
+    width: 100%;
+  }
+}

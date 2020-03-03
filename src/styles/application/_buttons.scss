@@ -1,0 +1,144 @@
+//
+//
+// Buttons styles
+//
+//
+
+button,
+.btn {
+  padding-bottom: .125em;
+  box-shadow: none;
+
+  &.focus,
+  &:focus {
+    outline: 0;
+  }
+
+  &.disabled,
+  &:disabled {
+    opacity: .5;
+    box-shadow: none;
+  }
+
+  &.disabled:hover,
+  &:disabled:hover {
+    cursor: not-allowed;
+  }
+  .svg-inline--fa {
+    vertical-align: -.2em;
+  }
+}
+
+@mixin render-buttons($list: $buttons, $outline: false) {
+
+  @each $type, $style in $list {
+    @if $outline {
+      .btn-#{$type} {
+        background-color: transparent;
+        border: 1px solid map-get($style, "color");
+        color: map-get($style, "text");
+        box-shadow: map-get($style, "shadow");
+        line-height: $btn-line-height - (2px / $base);
+
+        &:not(:disabled):not(.disabled):hover {
+          color: color-yiq(map-get($style, "color"));
+          background-color: map-get($style, "hover");
+        }
+
+        &:not(:disabled):not(.disabled):hover .svg-inline--fa {
+          fill: color-yiq(map-get($style, "color"));
+        }
+
+        &:not(:disabled):not(.disabled):active,
+        &:not(:disabled):not(.disabled).active {
+          color: color-yiq(map-get($style, "active"));
+          background-color: map-get($style, "color");
+        }
+      }
+    } @else {
+      .btn-#{$type} {
+        color: #fff;
+        background-color: map-get($style, "color");
+        box-shadow: map-get($style, "shadow");
+        border-color: map-get($style, "color");
+
+        &:not(:disabled):not(.disabled):hover {
+          background-color: map-get($style, "hover");
+          border-color: map-get($style, "hover");
+        }
+
+        &.focus,
+        &:focus {
+          box-shadow: map-get($style, "shadow");
+        }
+
+        &:not(:disabled):not(.disabled):active,
+        &:not(:disabled):not(.disabled).active {
+          background-color: map-get($style, "active");
+          box-shadow: none;
+          border-color: map-get($style, "active");
+        }
+
+        &:disabled,
+        &.disabled {
+          background-color: map-get($style, "color");
+          border-color: map-get($style, "color");
+        }
+      }
+    }
+  }
+}
+
+// Regular buttons
+//
+@include render-buttons($buttons);
+
+// Outline buttons
+//
+@include render-buttons($buttons-outline, true);
+
+// Button sizes
+//
+@each $type, $size in $button-sizes {
+  .btn-#{$type} {
+    font-size: $size;
+// Workaround for Bootstrap
+  @if $size < 1 {
+    padding: 0 $btn-padding-x .075em;
+  } @else {
+    padding: 0 $btn-padding-x .125em;
+  }
+    line-height: $btn-line-height;
+  }
+}
+
+// Dropdown style
+//
+
+// Dropdown workaround for Bootstrap
+.dropdown-toggle {
+  &::after {
+    margin-left: .75em;
+    vertical-align: middle;
+  }
+}
+
+.dropdown-menu {
+  box-shadow: $dropdown-box-shadow;
+}
+// end
+
+.dropdown-item {
+  cursor: pointer;
+}
+
+// Button close
+//
+.close {
+  &:not(:disabled):not(.disabled) {
+    @include hover-focus {
+      background-color: transparent;
+      border-color: transparent;
+    }
+  }
+}

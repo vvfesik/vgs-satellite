@@ -1,0 +1,30 @@
+.upstream-modal {
+  .modal-body{
+    max-height: 80vh;
+    overflow-y: auto;
+    .required-field {
+      &.access-label {
+        position: absolute;
+        top: -14px;
+        background: #fff;
+        padding: 0 0.5rem;
+      }
+
+      &:after {
+        content: '*';
+        margin-left: 4px;
+        color: theme-color("danger");
+      }
+    }
+  }
+  .modal-footer{
+    display: block;
+
+    .remove-upstream-btn {
+      &.btn-outline-danger:hover,
+      &.btn-outline-danger:active {
+        color: white;
+      }
+    }
+  }
+}

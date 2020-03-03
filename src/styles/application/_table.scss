@@ -1,0 +1,57 @@
+//
+//
+// Tables style
+//
+//
+
+.table {
+    border: none;
+
+    th,
+    td,
+    thead th {
+        border: none;
+    }
+    thead th,
+    th {
+        @include label-text;
+        vertical-align: middle;
+    }
+    td:first-child {
+        border-top-left-radius: .5rem;
+        border-bottom-left-radius: .5rem;
+    }
+    td:last-child {
+        border-top-right-radius: .5rem;
+        border-bottom-right-radius: .5rem;
+    }
+    &:not(.table-striped) {
+        th,
+        td {
+            border-bottom: $table-border-width solid $table-border-color;
+        }
+    }
+    td.smallbold {
+        @include label-text;
+        color: inherit;
+        vertical-align: middle;
+        line-height: initial;
+    }
+
+// Table hover
+//
+    &.table-hover {
+        tbody tr:hover {
+            cursor: pointer;
+        }
+    }
+
+// Table bordered
+//
+    &.table-bordered {
+        th:not(:first-child),
+        td:not(:first-child) {
+            border-left: $table-border-width solid $table-border-color;
+        }
+    }
+}

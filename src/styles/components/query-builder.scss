@@ -1,0 +1,55 @@
+.query-builder .rules-list > .query-builder-remove-btn::after,
+.query-builder .rules-list > .query-builder-remove-btn::before,
+.query-builder .rules-list > .ruleGroup-addRule::after,
+.query-builder .rules-list > .ruleGroup-addRule::before,
+.query-builder .rules-list > .ruleGroup-addGroup::after,
+.query-builder .rules-list > .ruleGroup-addGroup::before {
+  display: none !important;
+}
+
+.query-builder {
+  .rule-container .form-control {
+    height: 2rem;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+    padding: 0 0.5rem;
+  }
+  .query-builder-select-container {
+    > div[class$="control"] {
+      border-color: $vgs-blue-up-2;
+    }
+  }
+  .ant-btn {
+    &.role-add-rule,
+    &.role-add-group {
+      &:focus {
+        border-color: $green-dark;
+        color: $green-dark;
+        &:active,
+        &:hover {
+          color: white;
+        }
+      }
+    }
+    &.query-builder-remove-btn {
+      padding: 0 0.5em 0 0.5em;
+    }
+  }
+  .btn-group {
+    border: 1px solid transparent;
+    .ant-btn {
+      font-size: 12px;
+      border-color: $vgs-blue-up-2;
+      &.active,
+      &:hover,
+      &:focus {
+        background-color: $green-dark;
+        border-color: $green-dark;
+        color: white;
+      }
+      span {
+        letter-spacing: 0.03em;
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+.strings-array {
+  label {
+    max-width: 4%;
+    flex: 0 0 4%;
+  }
+  .input-group {
+    max-width: 96%;
+    flex: 0 0 96%;
+  }
+  .strings-array-add-button {
+    &:hover {
+      background: theme-color('primary-light');
+    }
+    border: 1px dashed theme-color('primary');
+    border-radius: 4px;
+    display: inline-block;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    color: theme-color("primary");
+    cursor: pointer;
+    max-width: 96%;
+    flex: 0 0 96%;
+  }
+}

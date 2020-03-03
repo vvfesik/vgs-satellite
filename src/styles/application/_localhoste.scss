@@ -1,0 +1,15 @@
+#localhoste-app {
+  .navbar-logotitle {
+    img {
+      height: 2rem;
+      filter: brightness(10);
+    }
+    span {
+      letter-spacing: 0.1em;
+      font-size: 1.2rem;
+    }
+  }
+  .flow-logs table {
+    width: calc(100% + .5rem);
+  }
+}

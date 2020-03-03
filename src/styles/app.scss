@@ -1,0 +1,103 @@
+// Bootstrap required
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+@import "../../node_modules/izitoast/dist/css/iziToast.min.css";
+
+// Custom variables
+@import "application/bootstrap-variables";
+
+// Import bootstrap from ember-bootstrap
+// @import "ember-bootstrap/bootstrap";
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// // Import application modules
+@import "application/fonts";
+// // TODO check and clean helpers
+@import "application/helpers";
+@import "application/typography";
+@import "application/buttons";
+@import "application/inputs";
+@import "application/select";
+@import "application/card";
+@import "application/pace";
+@import "application/table";
+@import "application/code";
+@import "application/diffsnippet";
+
+// Customize things
+@import "application/customizations";
+
+// Helper mixins
+@import "utils/mixins";
+
+// Custom helper classes
+@import "utils/helperClasses";
+@import "utils/cardIcons";
+
+// TODO clean the custom styles
+@import "components/linear-stepper";
+@import "components/rule-entry";
+@import "components/operations-builder";
+@import "components/strings-array";
+@import "components/removable-input";
+@import "components/inputs-list";
+@import "components/getting-started";
+@import "components/react/react-pagination";
+@import "components/react/mitmweb";
+@import "components/react/vault-list";
+@import "components/react/dropdowns";
+@import "components/upstream-modal";
+@import "components/progress-bar";
+
+@import "components/react/date-picker";
+@import "components/react/access-logger-filter-form";
+@import "components/react/access-logs-page";
+@import "components/react/analytics-page";
+@import "components/react/routes-list";
+@import "components/react/getting-started";
+@import "components/react/onboarding-modal";
+@import "components/react/route-templates-modal";
+@import "components/react/invoicing-table";
+@import "components/react/vgs-collect";
+@import "components/react/cnames";
+@import "components/query-builder";
+@import "components/react/audit-logs";
+@import "components/react/tabline";
+@import "components/react/integrationTemplates";
+
+// TODO migrate to pure bootstrap || reactstrap
+@import "components/nav";
+@import "components/react/proxy-creds";
+@import "components/react/string-wrapper";
+@import "components/react/design-system";
+
+// // SIDE plugins
+@import "../../node_modules/prismjs/themes/prism.css";
+@import "../../node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css";
+
+// TODO required styles from here should be moved to ../components/query-builder.scss
+@import "components/query-builder.default";
+
+// //codemirror
+// @import "../../node_modules/codemirror/lib/codemirror.css";
+// @import "../../node_modules/codemirror/theme/xq-light.css";
+// @import "../../node_modules/json-path-picker/lib/json-path-picker.css";
+// @import "../../node_modules/react-datepicker/dist/react-datepicker.css";
+
+// antd overrides
+@import "../components/atoms/Button/button";
+@import "../components/atoms/Table/table";
+@import "../components/atoms/Card/card";
+// @import "../components/atoms/Modal/modal";
+// @import "../components/atoms/Form/form";
+// @import "../components/atoms/Alert/alert";
+// @import "../components/atoms/Message/message";
+// @import "../components/atoms/Upload/upload";
+// @import "../components/atoms/Avatar/avatar";
+
+// transitions
+@import "transitions";
+
+// app overrides
+@import "application/localhoste";

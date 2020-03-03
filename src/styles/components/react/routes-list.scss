@@ -1,0 +1,93 @@
+.route-item {
+  &__title {
+    width: 100%;
+
+    &-row {
+      height: 15px;
+      line-height: 100%;
+      margin-top: 7px;
+    }
+
+
+    .fa {
+      margin-right: 7px;
+    }
+    .fa-check {
+      color: $green;
+    }
+    .fa-exclamation-circle {
+      color: theme-color("warning");
+    }
+  }
+
+  &__key {
+    font-size: 0.75rem;
+    margin-bottom: 4px;
+    font-weight: bold;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    font-variant: all-small-caps;
+    color: theme-color("text-light");
+  }
+
+  &__value {
+    margin-top: 8px;
+  }
+  &.--upstream {
+    font-size: 18px;
+    margin-top: 2px;
+  }
+
+  .card {
+    &-header {
+      padding-top: 0.625rem;
+      padding-bottom: 0.625rem;
+    }
+    &-footer {
+      background-color: white;
+      padding-top: 0.625rem;
+      padding-bottom: 0.625rem;
+      .filter-toggler {
+        cursor: pointer;
+        line-height: 1.75rem;
+      }
+      .filter-title {
+        font-size: 0.7rem;
+        font-weight: bold;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: theme-color("text-light");
+      }
+      .text-thin {
+        color: theme-color("text-light");
+        strong {
+          font-weight: normal;
+        }
+      }
+    }
+  }
+}
+
+.tabs-btn-group.btn-group {
+  .btn {
+    font-size: 0.75rem;
+    line-height: 1.8rem;
+    text-transform: uppercase;
+    font-variant: all-small-caps;
+    letter-spacing: 0.03em;
+    color: theme-color("text-light");
+    border-color: theme-color("primary-up-2");
+
+    &.active,
+    &:hover {
+      background-color: theme-color("secondary-glow");
+      color: theme-color("secondary-dark");
+      border-color: theme-color("secondary-glow");
+    }
+  }
+}
+
+.no-routes-message {
+  font-size: 1.125rem;
+  color: theme-color("text-light");
+}
