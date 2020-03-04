@@ -5,7 +5,7 @@ ARG satellite_port
 ADD . /src
 WORKDIR /src
 
-RUN npm run clean && npm run build
+RUN npm i && npm run build
 
 CMD ["npx", "static-server", "--port", "$satellite_port", "--open", "dist"]
 
