@@ -12,8 +12,7 @@ services:
 
   satellite:
     build:
-      context: ./
-      args:
-        - satellite_port=${SATELLITE_PORT}
+      context: .
+    command: ["npx", "static-server", "--port", "${SATELLITE_PORT}", "--open", "dist"]
     ports:
       - "${SATELLITE_PORT}:${SATELLITE_PORT}"

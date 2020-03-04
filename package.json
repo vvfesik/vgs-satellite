@@ -28,7 +28,7 @@
     "prismjs": "^1.19.0",
     "react": "^16.13.0",
     "react-copy-to-clipboard": "^5.0.2",
-    "react-diff-viewer": "git+ssh://git@github.com/verygoodsecurity/react-diff-viewer.git#build",
+    "react-diff-viewer": "^3.0.1",
     "react-dom": "^16.13.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",

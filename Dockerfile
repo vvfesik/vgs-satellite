@@ -1,11 +1,16 @@
-FROM node:13.8.0-buster-slim
+FROM node:10-slim
 
-ARG satellite_port
+RUN npm i npm@latest -g
 
-ADD . /src
+RUN mkdir /src && chown node:node /src
 WORKDIR /src
 
-RUN npm i && npm run build
+USER node
+COPY package.json package-lock.json* ./
+RUN npm ci && npm cache clean --force
+COPY . .
 
-CMD ["npx", "static-server", "--port", "$satellite_port", "--open", "dist"]
+RUN npm run build
 
+#override with custom `--port` in docker-compose
+CMD ["npx", "static-server", "--open", "dist"]
