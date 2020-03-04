@@ -97,7 +97,8 @@ export function getQueryParameters(url: string) {
 
 export const generateRouteName = (hostname?: string) => {
   const routeName = randomId();
-  return hostname ? `${hostname}-${routeName}` : routeName;
+  // return hostname ? `${hostname}-${routeName}` : routeName;
+  return routeName;
 };
 
 export function constructUriFromLog(log: ILog) {

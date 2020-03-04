@@ -5,6 +5,7 @@ import { getProxyType } from 'src/redux/utils/routes';
 import _ from 'lodash';
 import parser from 'fast-xml-parser';
 import { generateRouteName } from 'src/redux/utils/utils';
+import { v4 as uuidv4 } from 'uuid';
 
 function isVolatile(name) {
   // disabled temporarily
@@ -88,7 +89,7 @@ export const getDummyEntry = isReverse => ({
   targets: ['body'],
   phase: 'REQUEST',
   operation: isReverse ? 'REDACT' : 'ENRICH',
-  filter_id: null,
+  id: `${uuidv4()}`,
   id_selector: null,
   operations: null,
   config: {

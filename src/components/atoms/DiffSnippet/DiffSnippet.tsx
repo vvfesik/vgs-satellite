@@ -17,10 +17,10 @@ const DiffSnippet: React.SFC<IDiffSnippetProps> = (props) => {
 
   const styles = {
     variables: {
-      removedBackground: 'rgba(239, 121, 138, 0.2) !important',
-      wordRemovedBackground: 'rgba(239, 121, 138, 0.2) !important',
-      addedBackground: 'rgba(47, 194, 159, 0.2) !important',
-      wordAddedBackground: 'rgba(47, 194, 159, 0.2) !important',
+      // removedBackground: 'rgba(239, 121, 138, 0.2) !important',
+      // wordRemovedBackground: 'rgba(239, 121, 138, 0.2) !important',
+      // addedBackground: 'rgba(47, 194, 159, 0.2) !important',
+      // wordAddedBackground: 'rgba(47, 194, 159, 0.2) !important',
     },
     diffContainer: {
       backgroundColor: '#f7f9fc',
@@ -78,7 +78,8 @@ const DiffSnippet: React.SFC<IDiffSnippetProps> = (props) => {
       padding: '3px 0 1px',
     },
     diffRemoved: {
-      backgroundColor: 'rgba(239, 121, 138, 0.2)',
+      // backgroundColor: 'rgba(239, 121, 138, 0.2)',
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
     },
     diffAdded: {
       backgroundColor: 'rgba(47, 194, 159, 0.2)',

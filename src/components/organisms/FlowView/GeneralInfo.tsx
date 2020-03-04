@@ -97,10 +97,10 @@ const GeneralInfo: React.SFC<IGeneralInfoProps> = (
             <td>{upstream_time_ms} ms</td>
           </tr>
         )}
-        <tr>
-          <td className="smallbold">Request ID</td>
-          <td>{log.id}</td>
-        </tr>
+        {/*<tr>*/}
+        {/*  <td className="smallbold">Request ID</td>*/}
+        {/*  <td>{log.id}</td>*/}
+        {/*</tr>*/}
       </tbody>
     </Table>
   );

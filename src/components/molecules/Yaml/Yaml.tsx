@@ -10,6 +10,7 @@ import { Button, Icon, Modal, Popover } from 'src/components/antd';
 import { TabPane, TabContent, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
 import config from 'src/config/config';
+import { v4 as uuidv4 } from 'uuid';
 
 interface IYamlProps {
   route: IRoute[] | ISftp[] | IRoute | ISftp;
@@ -38,8 +39,8 @@ const Yaml: React.FC<IYamlProps> = (props) => {
     const orderedArray = routesList.map((route: IRoute) => sortObject(route));
     const routeJsonWrapper = {
       data: orderedArray.map((route: IRoute) => ({
-        attributes: deepReplace(undefined, null, route),
-        id: `${route.id}`,
+        ...deepReplace(undefined, null, route),
+        id: `${uuidv4()}`,
         type: 'rule_chain',
       })),
       version: 1,

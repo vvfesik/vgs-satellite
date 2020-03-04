@@ -34,12 +34,12 @@ const Request: React.SFC<IRequestProps> = (props) => {
               <tbody>
                 <tr className="heading">
                   <td className="header-name" />
-                  <td className="header-original">
-                    <p className="heading mb-0">Original</p>
-                  </td>
-                  <td className="header-rewritten">
-                    <p className="heading mb-0">Rewritten</p>
-                  </td>
+                  {/*<td className="header-original">*/}
+                  {/*  <p className="heading mb-0">Original</p>*/}
+                  {/*</td>*/}
+                  {/*<td className="header-rewritten">*/}
+                  {/*  <p className="heading mb-0">Rewritten</p>*/}
+                  {/*</td>*/}
                 </tr>
                 <tr className="d-none">
                   <td className="header-name" />
@@ -55,9 +55,9 @@ const Request: React.SFC<IRequestProps> = (props) => {
                   >
                     <td className="header-name">{header[0]}</td>
                     <td className="header-original">{header[1]}</td>
-                    <td className="header-rewritten">
-                      {rewrittenHeaders && findRewrittenHeader(header)}
-                    </td>
+                    {/*<td className="header-rewritten">*/}
+                    {/*  {rewrittenHeaders && findRewrittenHeader(header)}*/}
+                    {/*</td>*/}
                   </tr>
                 ))}
               </tbody>
@@ -67,22 +67,39 @@ const Request: React.SFC<IRequestProps> = (props) => {
           )}
         </section>
       )}
-      {body && (
+      {body
+      && (
         <div className="mb-3" data-role="log-payload-body-diff">
           {body[activePhase] && isString(body[activePhase]) ? (
             <DiffSnippet
               oldCode={body[activePhase]}
               newCode={isString(bodyRewritten) ? bodyRewritten : ''}
-              oldTitle="Original"
-              newTitle="Rewritten"
-              splitView={true}
-              showDiffOnly={false}
+              oldTitle=""
+              newTitle=""
+              splitView={false}
+              showDiffOnly={true}
             />
           ) : (
             <p className="text-center mt-4">No payload found</p>
           )}
         </div>
       )}
+      {/*{body && (*/}
+      {/*    <div className="mb-3" data-role="log-payload-body-diff">*/}
+      {/*      {body[activePhase] && isString(body[activePhase]) ? (*/}
+      {/*          <DiffSnippet*/}
+      {/*              oldCode={body[activePhase]}*/}
+      {/*              newCode={isString(bodyRewritten) ? bodyRewritten : ''}*/}
+      {/*              oldTitle="Original"*/}
+      {/*              newTitle="Rewritten"*/}
+      {/*              splitView={true}*/}
+      {/*              showDiffOnly={false}*/}
+      {/*          />*/}
+      {/*      ) : (*/}
+      {/*          <p className="text-center mt-4">No payload found</p>*/}
+      {/*      )}*/}
+      {/*    </div>*/}
+      {/*)}*/}
     </div>
   );
 };

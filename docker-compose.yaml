@@ -1,0 +1,19 @@
+version: '3'
+services:
+  mitmproxy:
+    image: "mitmproxy/mitmproxy:5.0.1"
+    ports:
+      - "${PROXY_PORT}:${PROXY_PORT}"
+      - "${WEB_PORT}:${WEB_PORT}"
+    command: "mitmweb --listen-port ${PROXY_PORT} --web-port ${WEB_PORT} --web-iface 0.0.0.0 -s /tmp/mitm-requests-json.py"
+    volumes:
+      - "./script/mitm-requests-json.py:/tmp/mitm-requests-json.py"
+      - "./mitm-requests:${MITM_DIR}"
+
+  satellite:
+    build:
+      context: ./
+      args:
+        - satellite_port=${SATELLITE_PORT}
+    ports:
+      - "${SATELLITE_PORT}:${SATELLITE_PORT}"

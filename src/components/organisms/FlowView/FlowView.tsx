@@ -140,13 +140,13 @@ export default class FlowView extends React.Component<IFlowViewProps, IFlowViewS
                 showStatusCode={true}
               />
               <hr className="my-3" />
-              <MatchingDetails
-                log={log}
-                matchingRoutes={this.matchingRoutes()}
-                logFilters={logFilters}
-                showSpinner={showSpinner}
-                activePhase={this.state.selectedPhase}
-              />
+              {/*<MatchingDetails*/}
+              {/*  log={log}*/}
+              {/*  matchingRoutes={this.matchingRoutes()}*/}
+              {/*  logFilters={logFilters}*/}
+              {/*  showSpinner={showSpinner}*/}
+              {/*  activePhase={this.state.selectedPhase}*/}
+              {/*/>*/}
             </div>
           )}
           {this.state.selectedTab !== 'general' && (

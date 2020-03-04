@@ -10,7 +10,7 @@
     "clean": "rm -rf dist/ && rm -rf .cache/",
     "dev": "parcel src/index.html",
     "build": "parcel build src/index.html",
-    "serve": "static-server --port 5432 --open dist",
+    "serve": "npx static-server --port 1234 --open dist",
     "start": "npm run clean && npm run build && npm run serve"
   },
   "alias": {
