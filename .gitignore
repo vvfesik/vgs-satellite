@@ -1,8 +1,9 @@
 
-.cache/
-coverage/
-dist/
-node_modules/
+**/.cache/
+**/coverage/
+**/dist/
+**/node_modules/
+**/mitm-requests/
 *.log
 
 # OS generated files

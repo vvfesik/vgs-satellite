@@ -2,15 +2,14 @@ FROM node:10-slim
 
 RUN npm i npm@latest -g
 
-RUN mkdir /src && chown node:node /src
+RUN mkdir -p /src/{client,server}
 WORKDIR /src
 
-USER node
 COPY package.json package-lock.json* ./
-RUN npm ci && npm cache clean --force
+COPY client/package.json client/package-lock.json* ./client/
+COPY server/package.json server/package-lock.json* ./server/
+RUN npm run init
+
 COPY . .
 
-RUN npm run build
-
-#override with custom `--port` in docker-compose
-CMD ["npx", "static-server", "--open", "dist"]
+CMD ["npm", "start"]
