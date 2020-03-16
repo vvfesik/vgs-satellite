@@ -11,19 +11,11 @@ VGS Offline integration project.
 
 1. Then run project:
 
-    - in hot module reloading mode:
-  
-        ```bash
-        npm run dev
-        ```
+    ```bash
+    npm run start
+    ```
 
-    - or build and serve production version:
-
-        ```bash
-        npm run start
-        ```
-
-3. Then open [http://localhost:1234](http://localhost:1234) in your browser
+1. Then open [http://localhost:1234](http://localhost:1234) in your browser
 
 
 ## Building and running via docker-compose
@@ -34,7 +26,8 @@ VGS Offline integration project.
     - `PROXY_PORT` - port to run mitmproxy on
     - `WEB_PORT` - port to run mitmproxy web UI on
     - `SATELLITE_PORT` - port to run vgs-satellite web UI on
-    - `MITM_DIR` - directory that would be mapped inside container to store mitmproxy intercepted requests (default)
+    - `MITM_DIR` - directory that would be mapped inside containers to store mitmproxy intercepted requests
+    - `MITM_ARGS` - additional mitmproxy args (e.g. - "--mode reverse:http://localhost:8080/", empty by default)
     
 1. Run project
 
@@ -62,29 +55,29 @@ _Note: this manual of how to use vgs-satellite assuming you are running from doc
     curl -H "Content-Type: application/json" -x http://localhost:1230 http://httpbin.org/post -d '{"foo": "bar"}'
     ```
 1. Open [http://localhost:1234](http://localhost:1234)
-1. Click `Upload HAR file(s)` and choose HAR file.
+1. Wait for your requests to appear or add your HAR file by clicking `Upload HAR file(s)`
 
    _Note: you can find HAR file of your requests in /path/to/vgs-satallite/mitm-requests_
    
-   ![requests-list](static/images/manual/1-requests-list.png)
+   ![requests-list](manual/1-requests-list.png)
    
 1. Choose your request from the list
 
-   ![requests-detail](static/images/manual/2-requests-detail.png)
+   ![requests-detail](manual/2-requests-detail.png)
     
 1. Click secure you payload
 
-   ![secure-payload](static/images/manual/3-secure-payload.png)
+   ![secure-payload](manual/3-secure-payload.png)
    
 1. Check field you would like to secure.
 
-   ![secure-check](static/images/manual/4-secure-check.png)
+   ![secure-check](manual/4-secure-check.png)
 
     For additional setting please reference the [nomenclature](https://www.verygoodsecurity.com/docs/terminology/nomenclature)
 
 1. Click `Secure this payload`, then `View route configuration`
 
-   ![route-config](static/images/manual/5-route-config.png)
+   ![route-config](manual/5-route-config.png)
    
 1. Download inbound/outbound route and reference instructions provided to import your first route on VGS Dashboard!
    
