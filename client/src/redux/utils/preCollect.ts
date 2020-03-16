@@ -1,6 +1,7 @@
 import { get } from 'lodash';
+import { getParsedLogValue } from 'src/redux/utils/quick-integration';
 
-export function harToFlow(harEntry) {
+export function harToFlow(harEntry, selectedPhase?: 'REQUEST' | 'RESPONSE') {
   const requestPost = get(harEntry, 'request.postData.text');
   const responsePost = get(harEntry, 'response.content.text');
   const contentType = get(harEntry, 'request.postData.mimeType');
@@ -17,7 +18,7 @@ export function harToFlow(harEntry) {
       },
     },
     data: {
-      value: { contentType, body: requestPost },
+      value: {...getParsedLogValue(harEntry, selectedPhase), contentType},
     },
   });
 }

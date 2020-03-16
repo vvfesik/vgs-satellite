@@ -10,7 +10,6 @@ import { Button, Icon, Modal, Popover } from 'src/components/antd';
 import { TabPane, TabContent, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
 import config from 'src/config/config';
-import { v4 as uuidv4 } from 'uuid';
 
 interface IYamlProps {
   route: IRoute[] | IRoute;
@@ -40,7 +39,6 @@ const Yaml: React.FC<IYamlProps> = (props) => {
     const routeJsonWrapper = {
       data: orderedArray.map((route: IRoute) => ({
         ...deepReplace(undefined, null, route),
-        id: `${uuidv4()}`,
         type: 'rule_chain',
       })),
       version: 1,

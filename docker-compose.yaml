@@ -7,10 +7,11 @@ services:
     ports:
       - "${PROXY_PORT}:${PROXY_PORT}"
       - "${WEB_PORT}:${WEB_PORT}"
-    command: "mitmweb --listen-port ${PROXY_PORT} --web-port ${WEB_PORT} --web-iface 0.0.0.0 -s /tmp/mitm-requests-json.py"
+    command: "mitmweb --listen-port ${PROXY_PORT} --web-port ${WEB_PORT} --web-iface 0.0.0.0 ${MITM_ARGS} -s /tmp/mitm-requests-json.py"
     volumes:
       - "./script/mitm-requests-json.py:/tmp/mitm-requests-json.py"
       - "./mitm-requests:${MITM_DIR}"
+      - "./.cache:/src/.cache"
 
   satellite:
     build:

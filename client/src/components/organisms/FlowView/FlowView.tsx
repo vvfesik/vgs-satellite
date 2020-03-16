@@ -14,7 +14,7 @@ export interface IFlowViewProps {
   routes: IRoute[];
   logFilters: ILogFilters;
   showSpinner: boolean;
-  onRuleCreate: (log: any) => void;
+  onRuleCreate: (selectedPhase: string) => void;
   onClose: () => void;
   setPreRouteType: (type: 'inbound' | 'outbound') => void;
 }
@@ -64,11 +64,7 @@ export default class FlowView extends React.Component<IFlowViewProps, IFlowViewS
   }
 
   handleRuleCreate() {
-    const { log } = this.props;
-
-    const isLogIdExists = log && log.flow && log.flow[this.state.selectedPhase];
-    const logId = isLogIdExists && log.flow[this.state.selectedPhase].logId;
-    this.props.onRuleCreate(logId);
+    this.props.onRuleCreate(this.state.selectedPhase.toUpperCase());
   }
 
   public render() {

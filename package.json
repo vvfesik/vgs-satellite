@@ -1,14 +1,19 @@
 {
   "name": "vgs-satellite",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "VGS Offline integration project",
   "main": "index.js",
-  "keywords": [],
-  "author": "VGS",
+  "keywords": ["offline integration", "Very Good Security", "VGS", "integration", "proxy"],
+  "authors": [
+    "Vasyl Fesik @vvfesik", "Andrew Slepakurov @aslepakurov"
+  ],
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/verygoodsecurity/vgs-satellite.git"
+    "url": "git+https://github.com/verygoodsecurity/vgs-satellite.git"
+  },
+  "bin": {
+    "vgs-satellite": "./server/bin/www"
   },
   "scripts": {
     "init": "npm run preinstall",
@@ -17,5 +22,9 @@
     "preinstall": "npm run init:client && npm run init:server",
     "prestart": "cd ./client/ && npm run build",
     "start": "cd ./server/ && node ./bin/www"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/verygoodsecurity/vgs-satellite/issues"
+  },
+  "homepage": "https://github.com/verygoodsecurity/vgs-satellite#readme"
 }

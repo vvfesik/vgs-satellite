@@ -5,7 +5,6 @@ import { getProxyType } from 'src/redux/utils/routes';
 import _ from 'lodash';
 import parser from 'fast-xml-parser';
 import { generateRouteName } from 'src/redux/utils/utils';
-import { v4 as uuidv4 } from 'uuid';
 
 function isVolatile(name) {
   // disabled temporarily
@@ -85,11 +84,85 @@ export const buildTree = (log, isReverse) => {
   return tree;
 };
 
+function parsePayload(payload) {
+  try {
+    return JSON.stringify(JSON.parse(payload), null, 2);
+  } catch (e) {
+    return payload;
+  }
+}
+
+export const getParsedLogValue = (harEntry, selectedPhase?: 'REQUEST' | 'RESPONSE') => {
+  // request
+  const requestHeaders = harEntry.request.headers;
+  const requestDataString = parsePayload(
+    (harEntry.request.postData || harEntry.request.putData).text,
+  );
+
+  // response
+  const responseHeaders = harEntry.response.headers;
+  const status = harEntry.response.status === -1 ? '' : harEntry.response.status;
+  const isSuccess = (status >= 200 && status <= 299);
+  const responseDataString = parsePayload(harEntry.response.content.text);
+
+  const phase = selectedPhase || 'REQUEST';
+  let contentType = harEntry[phase.toLowerCase()].headers
+    .find(header => header.name.toLowerCase() === 'content-type');
+  if (contentType) {
+    contentType = contentType.value;
+  } else {
+    contentType = '';
+  }
+
+  const isReverse = harEntry.request.headers
+    .find(h => h.name.startsWith('X-Forwarded'));
+
+  const headers = {};
+  harEntry[phase.toLowerCase()].headers
+    .forEach((header) => {
+      headers[header.name] = header.value;
+    });
+
+  const body =
+    phase.toLowerCase() === 'response' && !!status
+      ? harEntry.response.content.text
+      : (harEntry.request.postData || harEntry.request.putData).text;
+
+  return {
+    phase,
+    contentType,
+    isReverse,
+    headers,
+    body,
+    isResponse: !!status,
+
+    request: {
+      method: harEntry.request.method,
+      date: harEntry.startedDateTime,
+      body: requestDataString,
+      headers: requestHeaders,
+      size: harEntry.request.bodySize,
+      httpVersion: harEntry.request.httpVersion,
+      url: harEntry.request.url,
+    },
+
+    response: {
+      status,
+      isSuccess,
+      body: responseDataString,
+      headers: responseHeaders,
+      size: harEntry.response.content && harEntry.response.content.size,
+      httpVersion: harEntry.response.httpVersion,
+      statusText: harEntry.response.statusText,
+      isEmptyStatus: status === '',
+    },
+  };
+};
+
 export const getDummyEntry = isReverse => ({
   targets: ['body'],
   phase: 'REQUEST',
   operation: isReverse ? 'REDACT' : 'ENRICH',
-  id: `${uuidv4()}`,
   id_selector: null,
   operations: null,
   config: {

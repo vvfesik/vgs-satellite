@@ -20,16 +20,14 @@ interface IQuickIntegrationProps {
 }
 
 export const mapRuleEntries = (nodes: any, log: any, url: string, isReverse: boolean) => {
-  const dummy = getDummyEntry(isReverse);
-  const phase = dummy.phase;
-  console.log("phase="+phase);
+  const phase = log.data.value.phase || getDummyEntry(isReverse);
   const ruleEntries: IPartialEntry[] = [];
   let matches = false;
   const contentType = log.data.value.contentType;
 
   nodes.forEach((node: any) => {
     const ruleEntry = {
-      ...dummy,
+      ...getDummyEntry(isReverse),
       phase,
       transformer: getTransformerType(contentType),
       transformer_config: [node.path],

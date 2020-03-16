@@ -72,6 +72,11 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
     };
   }, [isYamlModalOpen, selectedLog, isSecurePayload, isUploaded]);
 
+  const handleOnRuleCreate = (selectedPhase: 'REQUEST' | 'RESPONSE') => {
+    selectLog(null);
+    securePayload(harToFlow(selectedLog, selectedPhase));
+  };
+
   return (
     <div className="container">
       <UploadButton onUpload={data => onUpload(data)} />
@@ -91,10 +96,7 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
           showSpinner={false}
           routes={null}
           onClose={() => selectLog(null)}
-          onRuleCreate={log => {
-            selectLog(null);
-            securePayload(harToFlow(selectedLog));
-          }}
+          onRuleCreate={(selectedPhase: string) => handleOnRuleCreate(selectedPhase)}
           setPreRouteType={type => setPreRouteType(type)}
         />
       ) : null}
