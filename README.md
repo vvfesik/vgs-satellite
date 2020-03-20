@@ -1,8 +1,20 @@
-# VGS-Satellite
+@vgs/vgs-satellite
+==================
 
 VGS Offline integration project.
 
-## Building and running on localhost
+
+<!-- toc -->
+* [Running from github](#running-from-github)
+* [Node Package Manager](#node-package-manager)
+* [How to run](#how-to-use)
+* [Mitmproxy script](#mitmproxy-additional-script)
+<!-- tocstop -->
+
+
+## Running from github
+_See code [here](https://github.com/verygoodsecurity/vgs-satellite)_
+
 
 1. Install dependencies:
     ```bash
@@ -43,6 +55,14 @@ If you rum mitmproxy separately, use the following command:_
 mitmweb -s script/mitm-requests-json.py
 ``` 
 
+## Node package manager
+_See package on [npm](https://www.npmjs.com/package/@vgs/vgs-satellite)_
+
+```sh-session
+$ npm install -g @vgs/vgs-satellite
+running command...
+$ vgs-satellite 
+```
 
 ## How to use 
 
@@ -80,4 +100,7 @@ _Note: this manual of how to use vgs-satellite assuming you are running from doc
    ![route-config](manual/5-route-config.png)
    
 1. Download inbound/outbound route and reference instructions provided to import your first route on VGS Dashboard!
-   
+
+## Mitmproxy additional script
+
+Mitmproxy script is available [here](https://github.com/verygoodsecurity/vgs-satellite/blob/master/script/mitm-requests-json.py)

@@ -1,11 +1,18 @@
 {
-  "name": "vgs-satellite",
+  "name": "@vgs/vgs-satellite",
   "version": "0.0.1",
   "description": "VGS Offline integration project",
   "main": "index.js",
-  "keywords": ["offline integration", "Very Good Security", "VGS", "integration", "proxy"],
+  "keywords": [
+    "Very Good Security",
+    "VGS",
+    "offline integration",
+    "integration",
+    "proxy"
+  ],
   "authors": [
-    "Vasyl Fesik @vvfesik", "Andrew Slepakurov @aslepakurov"
+    "Vasyl Fesik @vvfesik",
+    "Andrew Slepakurov @aslepakurov"
   ],
   "license": "ISC",
   "repository": {
@@ -26,5 +33,6 @@
   "bugs": {
     "url": "https://github.com/verygoodsecurity/vgs-satellite/issues"
   },
-  "homepage": "https://github.com/verygoodsecurity/vgs-satellite#readme"
+  "homepage": "https://github.com/verygoodsecurity/vgs-satellite#readme",
+  "author": ""
 }
