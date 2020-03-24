@@ -1,6 +1,6 @@
 {
   "name": "@vgs/vgs-satellite",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "VGS Offline integration project",
   "main": "index.js",
   "keywords": [

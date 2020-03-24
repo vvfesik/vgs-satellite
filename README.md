@@ -75,8 +75,8 @@ _See package on [quay](https://quay.io/repository/verygoodsecurity/vgs-satellite
 $ docker pull quay.io/verygoodsecurity/vgs-satellite
 running command...
 $ export SATELLITE_PORT=1234
-$ export MITM_DIR=/path/to/har/files
-$ docker run -e SATELLITE_PORT -e MITM_DIR -v "/local/path:${MITM_DIR}" quay.io/verygoodsecurity/vgs-satellite
+$ export MITM_DIR=/tmp/container_path
+$ docker run -e SATELLITE_PORT -e MITM_DIR -v "/tmp/local_path:${MITM_DIR}" -p $SATELLITE_PORT:$SATELLITE_PORT quay.io/verygoodsecurity/vgs-satellite
 ```
 
 You can override `SATELLITE_PORT` and `MITM_DIR`, for details see [here](#environment-variables)
