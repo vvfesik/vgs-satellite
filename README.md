@@ -59,7 +59,8 @@ You can choose between different ways to run VGS Satellite:
 _See package on [npm](https://www.npmjs.com/package/@vgs/vgs-satellite)_
 
 ```sh-session
-$ npm install -g @vgs/vgs-satellite
+$ npm install -g yarn
+$ yarn global add @vgs/vgs-satellite
 running command...
 $ SATELLITE_PORT=1234 MITM_DIR=/path/to/har/files vgs-satellite 
 ```
@@ -73,9 +74,9 @@ _See package on [quay](https://quay.io/repository/verygoodsecurity/vgs-satellite
 
 ```sh-session
 $ docker pull quay.io/verygoodsecurity/vgs-satellite
-running command...
 $ export SATELLITE_PORT=1234
 $ export MITM_DIR=/tmp/container_path
+running command...
 $ docker run -e SATELLITE_PORT -e MITM_DIR -v "/tmp/local_path:${MITM_DIR}" -p $SATELLITE_PORT:$SATELLITE_PORT quay.io/verygoodsecurity/vgs-satellite
 ```
 
