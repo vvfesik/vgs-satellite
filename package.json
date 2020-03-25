@@ -1,6 +1,6 @@
 {
   "name": "@vgs/vgs-satellite",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "VGS Offline integration project",
   "main": "index.js",
   "keywords": [
@@ -23,11 +23,10 @@
     "vgs-satellite": "./server/bin/www"
   },
   "scripts": {
-    "init": "npm run preinstall",
+    "init": "npm run init:client && npm run init:server",
     "init:client": "cd ./client/ && npm ci",
     "init:server": "cd ./server/ && npm ci",
-    "preinstall": "npm run init:client && npm run init:server",
-    "prestart": "cd ./client/ && npm run build",
+    "postinstall": "npm run init && cd ./client/ && npm run build",
     "start": "cd ./server/ && node ./bin/www"
   },
   "bugs": {
