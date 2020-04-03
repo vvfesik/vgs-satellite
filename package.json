@@ -27,7 +27,8 @@
     "init:client": "cd ./client/ && npm ci",
     "init:server": "cd ./server/ && npm ci",
     "postinstall": "npm run init && cd ./client/ && npm run build",
-    "start": "cd ./server/ && node ./bin/www"
+    "start": "cd ./server/ && node ./bin/www",
+    "test": "cd ./client/ && npm test"
   },
   "bugs": {
     "url": "https://github.com/verygoodsecurity/vgs-satellite/issues"

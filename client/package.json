@@ -7,10 +7,13 @@
   "license": "ISC",
   "scripts": {
     "clean": "rm -rf dist/ && rm -rf .cache/",
-    "dev": "NODE_ENV=dev parcel src/index.html",
+    "dev": "NODE_ENV=dev parcel src/index.html --open",
     "build": "parcel build src/index.html",
-    "serve": "npx static-server --port 1234 --open dist",
-    "start": "npm run clean && npm run build && npm run serve"
+    "serve": "static-server --port 1234 dist",
+    "start": "npm run build && npm run serve",
+    "cy:dev": "cypress open",
+    "cy:run": "cypress run -b chrome -s './cypress/e2e/*.*' --headless",
+    "test": "start-test 1234 cy:run"
   },
   "alias": {
     "src": "./src"
@@ -57,11 +60,13 @@
     "@types/url-parse": "^1.4.3",
     "antd": "^3.23.5",
     "bootstrap": "^4.4.1",
+    "cypress": "^4.3.0",
     "less": "^3.11.1",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-static-files-copy": "^2.3.1",
     "reactstrap": "^8.4.1",
     "sass": "^1.26.2",
+    "start-server-and-test": "^1.10.11",
     "static-server": "^2.2.1",
     "typescript": "^3.8.3"
   },
