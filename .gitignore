@@ -4,6 +4,7 @@
 **/dist/
 **/node_modules/
 **/mitm-requests/
+**/.nyc_output/
 *.log
 
 # OS generated files
