@@ -1,15 +1,13 @@
-describe('Localhoste mitmproxy flow', function() {
-  it('Visits Localhoste and gets 2 yamls from mitm request', function() {
+describe('Localhoste upload single flow', function() {
+  it('Visits Localhoste and gets 2 yamls from uploaded har file', function() {
     cy.visit('/');
     cy.contains('Upload HAR file(s)');
 
-    cy.server();
-    cy.route('GET', 'mitms', 'fixture:mitm').as('getMitm');
-    cy.wait('@getMitm');
+    cy.get('[data-role="import-from-yaml"]').attachFile('upload.har');
 
-    cy.contains('payment');
+    cy.contains('/post');
     cy.get('[data-role=logs-row]').click();
-    cy.contains('http://app:8080/payment');
+    cy.contains('http://httpbin.org/post');
     cy.get('[data-role="select-response-phase"]').click();
     cy.get('[data-role="select-request-phase"]').click();
 
@@ -20,17 +18,14 @@ describe('Localhoste mitmproxy flow', function() {
     cy.get('[data-role="tab-body"]').click();
     cy.get('[data-role="select-response-phase"]').click();
     cy.get('[data-role="select-request-phase"]').click();
-    cy.contains(
-      'name=Bob+Jones&billing_address=1+Dr+Carlton+B+Goodlett+Pl%2C+San+Francisco%2C+CA+94102&card-number=5105105105105100&card-expiration-date=12%2F20&card-security-code=123&url=verygoodsecurity.com',
-    );
+    cy.contains('{"foo": "bar"}');
 
     cy.get('.ant-btn-primary').click();
-    cy.contains('name: Bob+Jones').click();
-    cy.contains('card-number').click();
+    cy.contains('foo: bar').click();
 
     cy.get('[data-role="select-secure-payload"]').click();
 
-    cy.fixture('mitm-inbound.yaml').then(yaml => {
+    cy.fixture('upload-inbound.yaml').then(yaml => {
       cy.get('[data-role="inbound-code-container"] pre code').should($div => {
         const lines = yaml.split('\n');
         lines
@@ -46,7 +41,7 @@ describe('Localhoste mitmproxy flow', function() {
       .contains('Outbound')
       .click();
 
-    cy.fixture('mitm-outbound.yaml').then(yaml => {
+    cy.fixture('upload-outbound.yaml').then(yaml => {
       cy.get('[data-role="outbound-code-container"] pre code').should($div => {
         const lines = yaml.split('\n');
         lines

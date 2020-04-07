@@ -73,7 +73,10 @@ const Yaml: React.FC<IYamlProps> = (props) => {
   const tabContent = (tabs) => {
     return tabs.map(tab => (
       <TabPane tabId={tab.name} key={tab.name}>
-        <div style={{ maxHeight: '21rem', overflow: 'auto', marginTop: '0.5rem', borderRadius: '0.5rem' }}>
+        <div
+          style={{ maxHeight: '21rem', overflow: 'auto', marginTop: '0.5rem', borderRadius: '0.5rem' }}
+          data-role={`${tab.name}-code-container`}
+        >
           <Code language={tab.syntax} numbers={false} className="my-0">
             {routeYamlStr}
           </Code>

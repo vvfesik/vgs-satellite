@@ -64,6 +64,7 @@
     "babel-plugin-istanbul": "^6.0.0",
     "bootstrap": "^4.4.1",
     "cypress": "^4.3.0",
+    "cypress-file-upload": "^4.0.4",
     "less": "^3.11.1",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-static-files-copy": "^2.3.1",
@@ -80,7 +81,12 @@
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
     "all": true,
-    "include": ["src/components/**/*"],
-    "reporter": ["html", "text-summary"]
+    "include": [
+      "src/components/**/*"
+    ],
+    "reporter": [
+      "html",
+      "text-summary"
+    ]
   }
 }

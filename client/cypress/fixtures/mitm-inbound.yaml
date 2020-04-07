@@ -1,0 +1,74 @@
+data:
+  - attributes:
+      destination_override_endpoint: 'http://app:8080'
+      entries:
+        - config:
+            condition: AND
+            expression: null
+            rules:
+              - condition: null
+                expression:
+                  field: PathInfo
+                  operator: equals
+                  type: string
+                  values:
+                    - /payment
+                rules: null
+              - condition: null
+                expression:
+                  field: ContentType
+                  operator: equals
+                  type: string
+                  values:
+                    - application/x-www-form-urlencoded
+                rules: null
+          id_selector: null
+          operation: REDACT
+          operations: null
+          phase: REQUEST
+          public_token_generator: UUID
+          targets:
+            - body
+          token_manager: PERSISTENT
+          transformer: FORM_FIELD
+          transformer_config:
+            - name
+        - config:
+            condition: AND
+            expression: null
+            rules:
+              - condition: null
+                expression:
+                  field: PathInfo
+                  operator: equals
+                  type: string
+                  values:
+                    - /payment
+                rules: null
+              - condition: null
+                expression:
+                  field: ContentType
+                  operator: equals
+                  type: string
+                  values:
+                    - application/x-www-form-urlencoded
+                rules: null
+          id_selector: null
+          operation: REDACT
+          operations: null
+          phase: REQUEST
+          public_token_generator: UUID
+          targets:
+            - body
+          token_manager: PERSISTENT
+          transformer: FORM_FIELD
+          transformer_config:
+            - card-number
+      host_endpoint: (.*)\.verygoodproxy\.com
+      protocol: http
+      source_endpoint: ''
+      tags:
+        name: pink-angora
+      transport: HTTP
+    type: rule_chain
+version: 1
