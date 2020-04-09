@@ -1,56 +1,33 @@
-describe('Localhoste upload single flow', function() {
-  it('Visits Localhoste and gets 2 yamls from uploaded har file', function() {
-    cy.visit('/');
-    cy.contains('Upload HAR file(s)');
+describe('Localhoste upload har and clickthru', function() {
+  beforeEach(() => cy.fixCypressSpec(__filename));
 
+  it('Visits Localhoste, uploads har and clicks every request', function() {
+    cy.visit('/');
     cy.get('[data-role="import-from-yaml"]').attachFile('upload.har');
 
     cy.contains('/post');
-    cy.get('[data-role=logs-row]').click();
-    cy.contains('http://httpbin.org/post');
-    cy.get('[data-role="select-response-phase"]').click();
-    cy.get('[data-role="select-request-phase"]').click();
+    cy.get('[data-role="flows-table"]').toMatchSnapshot();
 
-    cy.get('[data-role="tab-headers"]').click();
-    cy.get('[data-role="select-response-phase"]').click();
-    cy.get('[data-role="select-request-phase"]').click();
+    cy.get('[data-role="logs-row"]')
+      .should('have.length', 5)
+      .each(($el) => {
+        cy.wrap($el).click();
+        cy.get('[data-role="log-details-modal"]').toMatchSnapshot();
 
-    cy.get('[data-role="tab-body"]').click();
-    cy.get('[data-role="select-response-phase"]').click();
-    cy.get('[data-role="select-request-phase"]').click();
-    cy.contains('{"foo": "bar"}');
+        cy.get('[data-role="tab-headers"]').click();
+        cy.get('[data-role="log-details-modal"]').toMatchSnapshot();
 
-    cy.get('.ant-btn-primary').click();
-    cy.contains('foo: bar').click();
+        cy.get('[data-role="select-response-phase"]').click();
+        cy.get('[data-role="log-details-modal"]').toMatchSnapshot();
 
-    cy.get('[data-role="select-secure-payload"]').click();
+        cy.get('[data-role="tab-body"]').click();
+        cy.get('[data-role="log-details-modal"]').toMatchSnapshot();
 
-    cy.fixture('upload-inbound.yaml').then(yaml => {
-      cy.get('[data-role="inbound-code-container"] pre code').should($div => {
-        const lines = yaml.split('\n');
-        lines
-          .filter(line => !line.includes('name: '))
-          .forEach(line => {
-            expect($div.get(0).innerText).to.contain(line);
-          });
+        cy.get('[data-role="select-response-phase"]').click();
+        cy.get('[data-role="log-details-modal"]').toMatchSnapshot();
+
+        cy.get('[data-role="log-details-modal"] .modal-header i.fa-times').click();
       });
-    });
-    cy.contains('Export Inbound YAML').click();
-
-    cy.get('.nav-link')
-      .contains('Outbound')
-      .click();
-
-    cy.fixture('upload-outbound.yaml').then(yaml => {
-      cy.get('[data-role="outbound-code-container"] pre code').should($div => {
-        const lines = yaml.split('\n');
-        lines
-          .filter(line => !line.includes('name: '))
-          .forEach(line => {
-            expect($div.get(0).innerText).to.contain(line);
-          });
-      });
-    });
-    cy.contains('Export Outbound YAML').click();
   });
 });
+    

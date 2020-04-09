@@ -133,7 +133,7 @@ const Yaml: React.FC<IYamlProps> = (props) => {
         title={<h5 className="mb-0">What's next</h5>}
         closable={false}
       >
-        <div className="stepper-rows text-primary-light mb-4">
+        <div className="stepper-rows text-primary-light mb-4" data-role="whats-next-stepper">
           <div className="stepper-row current-step text-accent">
             <span className="circle"><Icon type="check" /></span>
             <p>Your <strong>route</strong> has been created</p>

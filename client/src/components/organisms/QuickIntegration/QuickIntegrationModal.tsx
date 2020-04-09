@@ -102,6 +102,7 @@ export class QuickIntegrationModal extends React.Component<IQuickIntegrationModa
         isOpen={true}
         size="lg"
         toggle={closeModal}
+        data-role="quick-integration-modal"
       >
         <div className="modal-header">
           <h5 className="modal-title">
