@@ -1,0 +1,44 @@
+data:
+  - attributes:
+      destination_override_endpoint: '*'
+      entries:
+        - config:
+            condition: AND
+            expression: null
+            rules:
+              - condition: null
+                expression:
+                  field: PathInfo
+                  operator: equals
+                  type: string
+                  values:
+                    - /post
+                rules: null
+              - condition: null
+                expression:
+                  field: ContentType
+                  operator: equals
+                  type: string
+                  values:
+                    - application/json
+                rules: null
+          id_selector: null
+          operation: REDACT
+          operations: null
+          phase: REQUEST
+          public_token_generator: UUID
+          targets:
+            - body
+          token_manager: PERSISTENT
+          transformer: JSON_PATH
+          transformer_config:
+            - $.foo
+      host_endpoint: httpbin\.org
+      port: 443
+      protocol: http
+      source_endpoint: '*'
+      tags:
+        name: dim-grey-brick
+      transport: HTTP
+    type: rule_chain
+version: 1

@@ -1,0 +1,9 @@
+{
+  "baseUrl": "http://localhost:1234",
+  "integrationFolder": "cypress/e2e",
+  "video": false,
+  "ignoreTestFiles": [
+    "**/__snapshots__/*",
+    "**/__image_snapshots__/*"
+  ]
+}

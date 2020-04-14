@@ -73,7 +73,10 @@ const Yaml: React.FC<IYamlProps> = (props) => {
   const tabContent = (tabs) => {
     return tabs.map(tab => (
       <TabPane tabId={tab.name} key={tab.name}>
-        <div style={{ maxHeight: '21rem', overflow: 'auto', marginTop: '0.5rem', borderRadius: '0.5rem' }}>
+        <div
+          style={{ maxHeight: '21rem', overflow: 'auto', marginTop: '0.5rem', borderRadius: '0.5rem' }}
+          data-role={`${tab.name}-code-container`}
+        >
           <Code language={tab.syntax} numbers={false} className="my-0">
             {routeYamlStr}
           </Code>
@@ -130,7 +133,7 @@ const Yaml: React.FC<IYamlProps> = (props) => {
         title={<h5 className="mb-0">What's next</h5>}
         closable={false}
       >
-        <div className="stepper-rows text-primary-light mb-4">
+        <div className="stepper-rows text-primary-light mb-4" data-role="whats-next-stepper">
           <div className="stepper-row current-step text-accent">
             <span className="circle"><Icon type="check" /></span>
             <p>Your <strong>route</strong> has been created</p>

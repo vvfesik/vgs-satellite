@@ -96,7 +96,7 @@ export const getParsedLogValue = (harEntry, selectedPhase?: 'REQUEST' | 'RESPONS
   // request
   const requestHeaders = harEntry.request.headers;
   const requestDataString = parsePayload(
-    (harEntry.request.postData || harEntry.request.putData).text,
+    harEntry.request.postData?.text || harEntry.request.putData?.text,
   );
 
   // response
@@ -126,7 +126,7 @@ export const getParsedLogValue = (harEntry, selectedPhase?: 'REQUEST' | 'RESPONS
   const body =
     phase.toLowerCase() === 'response' && !!status
       ? harEntry.response.content.text
-      : (harEntry.request.postData || harEntry.request.putData).text;
+      : harEntry.request.postData?.text || harEntry.request.putData?.text;
 
   return {
     phase,
