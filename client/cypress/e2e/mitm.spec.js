@@ -8,10 +8,10 @@ describe('Localhoste mitmproxy flow', function() {
 
     cy.server();
     cy.route('GET', 'mitms', 'fixture:mitm').as('getMitm');
+    cy.wait(5000);
     cy.wait('@getMitm');
 
     cy.contains('/payment');
-    cy.get('[data-role="flows-table"]').toMatchSnapshot();
 
     cy.get('[data-role=logs-row]').click();
     cy.contains('http://app:8080/payment');

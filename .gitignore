@@ -19,3 +19,4 @@ Thumbs.db
 # Testing
 **/cypress/**/examples/
 **/cypress/videos/
+**/cypress/screenshots/

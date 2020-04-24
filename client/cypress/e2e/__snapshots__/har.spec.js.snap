@@ -1,43 +1,4 @@
 exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #0`] = `
-<table data-role="flows-table" class="flows-table table table-striped">
-  <thead>
-    <tr>
-      <th class="flows-table_status">Status</th>
-      <th class="flows-table_method">Method</th>
-      <th>Domain</th>
-      <th>Path</th>
-      <th>Date</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="" data-role="logs-row">
-      <td class="flows-table_status-column">
-        <span class="badge badge-success">200</span>
-      </td>
-      <td class="smallbold">POST</td>
-      <td>
-        <div class="text-nowrap">
-          <div class="string-wrapper">
-            <span class="path-wrapper-domain-undefined">httpbin.org</span>
-          </div>
-        </div>
-      </td>
-      <td>
-        <div class="text-nowrap fixed-table">
-          <div class="string-wrapper">
-            <span class="path-wrapper-path-undefined">/post</span>
-          </div>
-        </div>
-      </td>
-      <td class="text-nowrap">
-        <span title="a month ago">2020-02-26 17:22:46</span>
-      </td>
-    </tr>
-  </tbody>
-</table>
-`;
-
-exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #1`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -105,7 +66,7 @@ exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls 
 </div>
 `;
 
-exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #2`] = `
+exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #1`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -192,7 +153,7 @@ exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls 
 </div>
 `;
 
-exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #3`] = `
+exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #2`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -283,7 +244,7 @@ exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls 
 </div>
 `;
 
-exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #4`] = `
+exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #3`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -355,7 +316,7 @@ exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls 
 </div>
 `;
 
-exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #5`] = `
+exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #4`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -751,7 +712,7 @@ exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls 
 </div>
 `;
 
-exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #6`] = `
+exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #5`] = `
 <div
   data-role="quick-integration-modal"
   class="modal-dialog modal-lg"
@@ -813,7 +774,7 @@ exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls 
 </div>
 `;
 
-exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #7`] = `
+exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #6`] = `
 <div
   data-role="quick-integration-modal"
   class="modal-dialog modal-lg"
@@ -958,7 +919,7 @@ exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls 
 </div>
 `;
 
-exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #8`] = `
+exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #7`] = `
 <div
   class="stepper-rows text-primary-light mb-4"
   data-role="whats-next-stepper"

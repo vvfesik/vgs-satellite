@@ -1,135 +1,4 @@
 exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #0`] = `
-<table data-role="flows-table" class="flows-table table table-striped">
-  <thead>
-    <tr>
-      <th class="flows-table_status">Status</th>
-      <th class="flows-table_method">Method</th>
-      <th>Domain</th>
-      <th>Path</th>
-      <th>Date</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="" data-role="logs-row">
-      <td class="flows-table_status-column">
-        <span class="badge badge-success">200</span>
-      </td>
-      <td class="smallbold">GET</td>
-      <td>
-        <div class="text-nowrap">
-          <div class="string-wrapper">
-            <span class="path-wrapper-domain-undefined">httpbin.org</span>
-          </div>
-        </div>
-      </td>
-      <td>
-        <div class="text-nowrap fixed-table">
-          <div class="string-wrapper">
-            <span class="path-wrapper-path-undefined">/get</span>
-          </div>
-        </div>
-      </td>
-      <td class="text-nowrap">
-        <span title="a month ago">2020-02-26 18:04:14</span>
-      </td>
-    </tr>
-    <tr class="" data-role="logs-row">
-      <td class="flows-table_status-column">
-        <span class="badge badge-success">200</span>
-      </td>
-      <td class="smallbold">PATCH</td>
-      <td>
-        <div class="text-nowrap">
-          <div class="string-wrapper">
-            <span class="path-wrapper-domain-undefined">httpbin.org</span>
-          </div>
-        </div>
-      </td>
-      <td>
-        <div class="text-nowrap fixed-table">
-          <div class="string-wrapper">
-            <span class="path-wrapper-path-undefined">/patch</span>
-          </div>
-        </div>
-      </td>
-      <td class="text-nowrap">
-        <span title="a month ago">2020-02-26 18:04:49</span>
-      </td>
-    </tr>
-    <tr class="" data-role="logs-row">
-      <td class="flows-table_status-column">
-        <span class="badge badge-success">200</span>
-      </td>
-      <td class="smallbold">PUT</td>
-      <td>
-        <div class="text-nowrap">
-          <div class="string-wrapper">
-            <span class="path-wrapper-domain-undefined">httpbin.org</span>
-          </div>
-        </div>
-      </td>
-      <td>
-        <div class="text-nowrap fixed-table">
-          <div class="string-wrapper">
-            <span class="path-wrapper-path-undefined">/put</span>
-          </div>
-        </div>
-      </td>
-      <td class="text-nowrap">
-        <span title="a month ago">2020-02-26 18:05:01</span>
-      </td>
-    </tr>
-    <tr class="" data-role="logs-row">
-      <td class="flows-table_status-column">
-        <span class="badge badge-success">200</span>
-      </td>
-      <td class="smallbold">DELETE</td>
-      <td>
-        <div class="text-nowrap">
-          <div class="string-wrapper">
-            <span class="path-wrapper-domain-undefined">httpbin.org</span>
-          </div>
-        </div>
-      </td>
-      <td>
-        <div class="text-nowrap fixed-table">
-          <div class="string-wrapper">
-            <span class="path-wrapper-path-undefined">/delete</span>
-          </div>
-        </div>
-      </td>
-      <td class="text-nowrap">
-        <span title="a month ago">2020-02-26 18:05:09</span>
-      </td>
-    </tr>
-    <tr class="" data-role="logs-row">
-      <td class="flows-table_status-column">
-        <span class="badge badge-success">200</span>
-      </td>
-      <td class="smallbold">POST</td>
-      <td>
-        <div class="text-nowrap">
-          <div class="string-wrapper">
-            <span class="path-wrapper-domain-undefined">httpbin.org</span>
-          </div>
-        </div>
-      </td>
-      <td>
-        <div class="text-nowrap fixed-table">
-          <div class="string-wrapper">
-            <span class="path-wrapper-path-undefined">/post</span>
-          </div>
-        </div>
-      </td>
-      <td class="text-nowrap">
-        <span title="a month ago">2020-02-26 17:22:46</span>
-      </td>
-    </tr>
-  </tbody>
-</table>
-`;
-
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #1`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -191,7 +60,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #2`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #1`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -310,7 +179,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #3`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #2`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -395,7 +264,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #4`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #3`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -440,7 +309,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #5`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #4`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -822,7 +691,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #6`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #5`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -890,7 +759,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #7`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #6`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -1019,7 +888,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #8`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #7`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -1110,7 +979,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #9`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #8`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -1161,7 +1030,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #10`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #9`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -1631,7 +1500,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #11`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #10`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -1699,7 +1568,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #12`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #11`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -1832,7 +1701,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #13`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #12`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -1923,7 +1792,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #14`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #13`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -1974,7 +1843,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #15`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #14`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -2462,7 +2331,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #16`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #15`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -2530,7 +2399,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #17`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #16`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -2659,7 +2528,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #18`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #17`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -2750,7 +2619,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #19`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #18`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -2801,7 +2670,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #20`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #19`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -3271,7 +3140,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #21`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #20`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -3339,7 +3208,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #22`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #21`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -3426,7 +3295,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #23`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #22`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -3517,7 +3386,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #24`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #23`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -3589,7 +3458,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
 </div>
 `;
 
-exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #25`] = `
+exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har and clicks every request #24`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"

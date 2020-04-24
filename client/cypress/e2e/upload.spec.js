@@ -6,7 +6,6 @@ describe('Localhoste upload har and clickthru', function() {
     cy.get('[data-role="import-from-yaml"]').attachFile('upload.har');
 
     cy.contains('/post');
-    cy.get('[data-role="flows-table"]').toMatchSnapshot();
 
     cy.get('[data-role="logs-row"]')
       .should('have.length', 5)
@@ -30,4 +29,3 @@ describe('Localhoste upload har and clickthru', function() {
       });
   });
 });
-    

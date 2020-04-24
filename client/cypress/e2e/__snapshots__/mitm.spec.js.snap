@@ -1,43 +1,4 @@
 exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mitm request #0`] = `
-<table data-role="flows-table" class="flows-table table table-striped">
-  <thead>
-    <tr>
-      <th class="flows-table_status">Status</th>
-      <th class="flows-table_method">Method</th>
-      <th>Domain</th>
-      <th>Path</th>
-      <th>Date</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="" data-role="logs-row">
-      <td class="flows-table_status-column">
-        <span class="badge badge-success">200</span>
-      </td>
-      <td class="smallbold">POST</td>
-      <td>
-        <div class="text-nowrap">
-          <div class="string-wrapper">
-            <span class="path-wrapper-domain-undefined">app</span>
-          </div>
-        </div>
-      </td>
-      <td>
-        <div class="text-nowrap fixed-table">
-          <div class="string-wrapper">
-            <span class="path-wrapper-path-undefined">/payment</span>
-          </div>
-        </div>
-      </td>
-      <td class="text-nowrap">
-        <span title="a month ago">2020-03-13 17:01:16</span>
-      </td>
-    </tr>
-  </tbody>
-</table>
-`;
-
-exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mitm request #1`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -105,7 +66,7 @@ exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mit
 </div>
 `;
 
-exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mitm request #2`] = `
+exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mitm request #1`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -248,7 +209,7 @@ exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mit
 </div>
 `;
 
-exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mitm request #3`] = `
+exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mitm request #2`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -327,7 +288,7 @@ exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mit
 </div>
 `;
 
-exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mitm request #4`] = `
+exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mitm request #3`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -401,7 +362,7 @@ name=Bob+Jones&amp;billing_address=1+Dr+Carlton+B+Goodlett+Pl%2C+San+Francisco%2
 </div>
 `;
 
-exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mitm request #5`] = `
+exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mitm request #4`] = `
 <div
   data-role="log-details-modal"
   class="modal-dialog modal-lg flow-detail"
@@ -1517,7 +1478,7 @@ exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mit
 </div>
 `;
 
-exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mitm request #6`] = `
+exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mitm request #5`] = `
 <div
   data-role="quick-integration-modal"
   class="modal-dialog modal-lg"
@@ -1650,7 +1611,7 @@ exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mit
 </div>
 `;
 
-exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mitm request #7`] = `
+exports[`Localhoste mitmproxy flow > Visits Localhoste and gets 2 yamls from mitm request #6`] = `
 <div
   data-role="quick-integration-modal"
   class="modal-dialog modal-lg"

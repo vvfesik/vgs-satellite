@@ -8,7 +8,6 @@ describe('Localhoste upload single har flow', function() {
     cy.get('[data-role="import-from-yaml"]').attachFile('upload-post.har');
 
     cy.contains('/post');
-    cy.get('[data-role="flows-table"]').toMatchSnapshot();
 
     cy.get('[data-role="logs-row"]').click();
     cy.contains('http://httpbin.org/post');
