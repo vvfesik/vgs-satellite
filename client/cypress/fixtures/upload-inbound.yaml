@@ -38,6 +38,7 @@ data:
       source_endpoint: ''
       tags:
         name: snow-bay
+        source: vgs-satellite
       transport: HTTP
     type: rule_chain
 version: 1

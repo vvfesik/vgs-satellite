@@ -60,6 +60,7 @@ export interface IRoute {
 export interface IRouteTags {
   name: string;
   integration?: string;
+  source?: string;
 }
 
 export interface IUpstream {
