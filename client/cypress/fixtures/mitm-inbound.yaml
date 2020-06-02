@@ -69,6 +69,7 @@ data:
       source_endpoint: ''
       tags:
         name: pink-angora
+        source: vgs-satellite
       transport: HTTP
     type: rule_chain
 version: 1

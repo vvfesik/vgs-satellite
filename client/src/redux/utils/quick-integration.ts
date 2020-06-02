@@ -190,9 +190,11 @@ export const getQuickIntegrationReverseRouteTemplate = (destination_override_end
   transport: 'HTTP',
   source_endpoint: '',
   entries: [],
-  tags: { name : destination_override_endpoint
+  tags: {
+    name: destination_override_endpoint
       ? generateRouteName(destination_override_endpoint)
       : generateRouteName(),
+    source: 'vgs-satellite',
   },
 });
 
@@ -204,7 +206,10 @@ export const getQuickIntegrationForwardRouteTemplate = (host_endpoint = config.d
   source_endpoint: '*',
   transport: 'HTTP',
   entries: [],
-  tags: { name : generateRouteName() },
+  tags: {
+    name: generateRouteName(),
+    source: 'vgs-satellite',
+  },
 });
 
 export function getReverseRoute(routes, parsedUrl) {
