@@ -13,6 +13,8 @@
     "start": "npm run build && npm run serve",
     "cy:dev": "cypress open",
     "cy:run": "cypress run -b chrome -s './cypress/e2e/*.*' --headless",
+    "cy:smoke": "cypress run -b chrome -c ignoreTestFiles=**/__*__/* -s './cypress/e2e/smoke/*.*' --headless",
+    "smoketest": "CYPRESS_DOMAIN=$TEST_DOMAIN CYPRESS_EMAIL=$TEST_EMAIL CYPRESS_PASS=$TEST_PASS start-test 1234 cy:smoke",
     "test": "start-test 1234 cy:run"
   },
   "alias": {

@@ -3,6 +3,7 @@
   "integrationFolder": "cypress/e2e",
   "video": false,
   "ignoreTestFiles": [
+    "**/smoke/*",
     "**/__snapshots__/*",
     "**/__image_snapshots__/*"
   ]
