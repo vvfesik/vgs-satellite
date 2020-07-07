@@ -39,6 +39,7 @@ workflows:
     jobs:
       - build
   periodical_smoke_test:
+    ## create dashboard route by uploading satellite-generated YAML
     triggers:
       - schedule:
           cron: "0 8 * * *"

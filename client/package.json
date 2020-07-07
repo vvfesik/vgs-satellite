@@ -14,7 +14,7 @@
     "cy:dev": "cypress open",
     "cy:run": "cypress run -b chrome -s './cypress/e2e/*.*' --headless",
     "cy:smoke": "cypress run -b chrome -c ignoreTestFiles=**/__*__/* -s './cypress/e2e/smoke/*.*' --headless",
-    "smoketest": "CYPRESS_DOMAIN=$TEST_DOMAIN CYPRESS_EMAIL=$TEST_EMAIL CYPRESS_PASS=$TEST_PASS start-test 1234 cy:smoke",
+    "smoketest": "CYPRESS_VGS_DASHBOARD_DOMAIN=$VGS_DASHBOARD_DOMAIN CYPRESS_VGS_DASHBOARD_EMAIL=$VGS_DASHBOARD_EMAIL CYPRESS_VGS_DASHBOARD_PASS=$VGS_DASHBOARD_PASS start-test 1234 cy:smoke",
     "test": "start-test 1234 cy:run"
   },
   "alias": {

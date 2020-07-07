@@ -2,11 +2,11 @@ describe('Localhoste upload yaml to dashboard', function() {
   beforeEach(() => cy.fixCypressSpec(__filename));
 
   it('Visits dashboard and uploads Localhoste YAML', function() {
-    cy.visit(`https://dashboard.${Cypress.env('DOMAIN')}`);
-    cy.url().should('contain', `auth.${Cypress.env('DOMAIN')}`);
+    cy.visit(`https://dashboard.${Cypress.env('VGS_DASHBOARD_DOMAIN')}`);
+    cy.url().should('contain', `auth.${Cypress.env('VGS_DASHBOARD_DOMAIN')}`);
 
-    cy.get('#username').type(Cypress.env('EMAIL'));
-    cy.get('#password').type(Cypress.env('PASS'), { parseSpecialCharSequences: false });
+    cy.get('#username').type(Cypress.env('VGS_DASHBOARD_EMAIL'));
+    cy.get('#password').type(Cypress.env('VGS_DASHBOARD_PASS'), { parseSpecialCharSequences: false });
     cy.get('button[type="submit"]').contains('Log In').click();
     cy.url({ timeout: 60000 }).should('contain', '/dashboard/v/');
 
