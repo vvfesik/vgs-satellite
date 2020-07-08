@@ -15,10 +15,37 @@ jobs:
       - run: npm test
       - store_artifacts:
           path: /root/app/client/cypress/screenshots/
+  smoketest:
+    docker:
+      - image: cypress/browsers:node12.16.1-chrome80-ff73
+        environment:
+          TERM: xterm
+    working_directory: ~/app
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: npm install --unsafe-perm
+      - run:
+          name: Test YAML Consistency
+          command: npm run smoketest
+      - store_artifacts:
+          path: /root/app/client/cypress/screenshots/
 
 
 workflows:
   version: 2
-  workflow:
+  build_and_test:
     jobs:
       - build
+  periodical_smoke_test:
+    ## create dashboard route by uploading satellite-generated YAML
+    triggers:
+      - schedule:
+          cron: "0 8 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - smoketest
