@@ -28,6 +28,7 @@
     "init:server": "cd ./server/ && npm ci",
     "postinstall": "npm run init && cd ./client/ && npm run build",
     "start": "cd ./server/ && node ./bin/www",
+    "smoketest": "cd ./client/ && npm run smoketest",
     "test": "cd ./client/ && npm test"
   },
   "bugs": {
