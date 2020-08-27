@@ -57,7 +57,7 @@ _Note: this manual of how to use vgs-satellite assuming you are running from doc
    We assume that content of `.env` wasn't changed
 1. Run example requests:
     ```bash
-    curl -H "Content-Type: application/json" -x http://localhost:8089 http://httpbin.org/post -d '{"foo": "bar"}'
+    curl http://httpbin.org/post -k -x localhost:9099 -H "Content-type: application/json" -d '{"foo": "bar"}'
     ```
 1. Open [http://localhost:1234](http://localhost:1234)
 1. Wait for your requests to appear or add your HAR file by clicking `Upload HAR file(s)`
