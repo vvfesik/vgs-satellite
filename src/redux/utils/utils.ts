@@ -54,7 +54,7 @@ export const generateRouteName = (hostname?: string) => {
 export function constructUriFromLog(log: ILog) {
   const isPathSufficient = !!log.path?.match(/^(https?:)\/\//);
   const isPathAppendable = !log.upstream?.match(/\/$/) && !!log.path?.match(/^\//);
-  const isPathPrependable = !!log.scheme && !log.upstream.startsWith(log.scheme) && !log.upstream?.match(/^\//);
+  const isPathPrependable = !!log.scheme && !log.upstream.startsWith(`${log.scheme}:`) && !log.upstream?.match(/^\//);
   return isPathSufficient
     ? log.path
     : `${isPathPrependable ? log.scheme + '://' : ''}${log.upstream ?? ''}${isPathAppendable ? log.path : ''}`;
