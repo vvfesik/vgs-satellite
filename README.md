@@ -33,7 +33,7 @@ without any need to sign up.
 
 1. Create `~/.mitmproxy/config.yaml` configuration file. For config nomenclature refrence [this](https://docs.mitmproxy.org/stable/concepts-options/)
     ```bash
-        echo "listen_port: 9099\nweb_port: 8089\nweb_host: localhost\nweb_open_browser: false" > cat ~/.mitmproxy/config.yaml
+        echo "listen_port: 9099\nweb_port: 8089\nweb_host: localhost\nweb_open_browser: false" > ~/.mitmproxy/config.yaml
     ```
    **Note:** Not all mitmproxy configurations may be supported. If you encountered any issue, please contact satellite@verygoodsecurity.com
     
