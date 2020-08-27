@@ -29,7 +29,7 @@ export default class StringWrapper extends React.Component <IStringWrapperProps,
   }
 
   render() {
-    const text = this.props.children;
+    const text = this.props.children || '';
     const className = `path-wrapper-${this.props.id}`;
     const isCut = text.length > this.props.size;
     const cutText = this.props.cutMiddle
