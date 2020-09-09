@@ -1,4 +1,5 @@
-<p align="center"><a href="https://www.verygoodsecurity.com/"><img src="https://avatars0.githubusercontent.com/u/17788525" width="128" alt="VGS Logo"></a></p>
+<p align="center"><a href="https://www.verygoodsecurity.com/"><img src="https://vgs-public-image-storage.s3-us-west-2.amazonaws.com/vgs_zero_hero.png" width="512" alt="VGS Logo"></a></p>
+<p align="center"><a href="https://www.verygoodsecurity.com/"><img src="https://vgs-public-image-storage.s3-us-west-2.amazonaws.com/vgs_satellite_sputnik.png" width="512" alt="VGS Logo"></a></p>
 <p align="center"><b>@vgs/vgs-satellite</b><br/>VGS Offline integration application.</p>
 <p align="center">
 <a href="https://circleci.com/gh/verygoodsecurity/vgs-satellite/tree/master"><img src="https://circleci.com/gh/verygoodsecurity/vgs-satellite/tree/master.svg?style=svg" alt="circleci-test"></a>
