@@ -11,7 +11,7 @@ from mitmproxy import connections
 from mitmproxy.utils import strutils
 from mitmproxy.net.http import cookies
 
-from satellite.handlers.flow_handlers import BaseHandler
+from satellite.controller import BaseHandler
 
 
 SERVERS_SEEN: Set[connections.ServerConnection] = set()

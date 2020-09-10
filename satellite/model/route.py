@@ -1,21 +1,13 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String, DateTime, JSON, ForeignKey, ARRAY
-from sqlalchemy.orm import sessionmaker, relationship
-# from satellite.model import Base, engine, EntityAlreadyExists
-from satellite.model import EntityAlreadyExists
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from sqlalchemy import Column, Integer, String, DateTime, JSON, ForeignKey
+from sqlalchemy.orm import relationship
+from satellite.model.base import Base, Session, EntityAlreadyExists
 
 
 class RouteManager:
     def __init__(self):
-        engine = create_engine('sqlite:///route.sqlite')
-        Session = sessionmaker(bind=engine)
-        Base.metadata.create_all(engine)
         self.session = Session()
 
     def get_all(self):

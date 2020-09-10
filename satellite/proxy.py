@@ -1,8 +1,3 @@
-import tornado.httpserver
-import tornado.ioloop
-from tornado.platform.asyncio import AsyncIOMainLoop
-
-from mitmproxy import master
 from mitmproxy import addons
 from mitmproxy import optmanager
 from mitmproxy.log import LogEntry
@@ -14,13 +9,13 @@ from mitmproxy.addons import termstatus
 from mitmproxy.addons import eventstore
 from mitmproxy.tools.web import static_viewer, webaddons
 
-from satellite.web_application import WebApplication
-from satellite.handlers.ws_event_handler import ClientConnection
-from satellite.handlers.flow_handlers import flow_to_json, logentry_to_json
+from satellite.master import Master
+from satellite.controller.websocket_connection import ClientConnection
+from satellite.controller.flow_controller import flow_to_json, logentry_to_json
 # from satellite.handlers.vault_handler import VaultFlows
 
 
-class ProxyMaster(master.Master):
+class ProxyMaster(Master):
     def __init__(self, options, with_termlog=True):
         super().__init__(options)
         self.view = view.View()
@@ -48,7 +43,6 @@ class ProxyMaster(master.Master):
         )
         if with_termlog:
             self.addons.add(termlog.TermLog(), termstatus.TermStatus())
-        self.app = WebApplication(self)
 
     def _sig_view_add(self, view, flow):
         ClientConnection.broadcast(
@@ -104,14 +98,3 @@ class ProxyMaster(master.Master):
             cmd="update",
             data={k: getattr(options, k) for k in updated}
         )
-
-    def run(self):  # pragma: no cover
-        AsyncIOMainLoop().install()
-        iol = tornado.ioloop.IOLoop.instance()
-        http_server = tornado.httpserver.HTTPServer(self.app)
-        http_server.listen(self.options.web_port, self.options.web_host)
-        web_url = "http://{}:{}/".format(self.options.web_host, self.options.web_port)
-        self.log.info(
-            "Web server listening at {}".format(web_url),
-        )
-        self.run_loop(iol.start)

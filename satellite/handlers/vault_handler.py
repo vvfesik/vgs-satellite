@@ -16,4 +16,4 @@ class VaultFlows:
         self.process_flow(flow)
 
     def process_flow(self, flow):
-        ctx.log("VAULT REQUSTS = " + str(flow))
+        ctx.log("VAULT REQUESTS = " + str(flow))
