@@ -24,8 +24,8 @@
     "clean": "rm -rf dist/ && rm -rf build/ && rm -rf .cache/",
     "dev": "NODE_ENV=dev MITM_PORT=8089 parcel src/index.html --open",
     "build": "MITM_PORT=8089 parcel build src/index.html",
-    "serve": "MITM_PORT=8089 static-server --port 1234 dist --open",
-    "serve:quiet": "MITM_PORT=8089 static-server --port 1234 dist",
+    "serve": "concurrently npm:serve:quiet 'wait-on http-get://localhost:1234 && open http://localhost:1234'",
+    "serve:quiet": "MITM_PORT=8089 serve dist -s -n -l 1234",
     "start": "start-test ./runapp.sh 8089 serve",
     "start:app": "start-test start:quiet 1234 'electron .'",
     "start:quiet": "start-test ./runapp.sh 8089 serve:quiet",
@@ -53,6 +53,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
+    "concurrently": "^5.3.0",
     "deep-replace-in-object": "^1.1.7",
     "deep-sort-object": "^1.0.2",
     "electron-is-dev": "^1.2.0",
@@ -73,7 +74,9 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "url-parse": "^1.4.7"
+    "serve": "^11.3.2",
+    "url-parse": "^1.4.7",
+    "wait-on": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
@@ -109,7 +112,6 @@
     "sass": "^1.26.10",
     "source-map-support": "^0.5.19",
     "start-server-and-test": "^1.11.3",
-    "static-server": "^2.2.1",
     "typescript": "^3.9.7"
   },
   "browserslist": [
