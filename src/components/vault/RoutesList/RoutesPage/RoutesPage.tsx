@@ -54,8 +54,8 @@ const RoutesPage: React.SFC<IRoutesPageProps> = (props) => {
         ? <div>Loading...</div>
         : (props.routes && props.routes.length)
           ? <div>
-              <div className="row justify-content-end">
-                <div className="col-4 d-flex justify-content-center align-self-center">
+              <div className="row justify-content-center">
+                <div className="col d-flex justify-content-center align-self-center">
                   <Radio.Group value={activeTab} onChange={e => setActiveTab(e.target.value)}>
                     <Radio.Button value="all-routes">All</Radio.Button>
                     <Radio.Button value="inbound">Inbound</Radio.Button>

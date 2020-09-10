@@ -56,9 +56,9 @@ export const RouteTitle = (props: IRouteTitleProps) => {
       </div>
 
       <div className="d-flex">
-        <Button type="link" className="px-0 mr-3" onClick={deleteRoute}>
+        <Button type="ghost" size="small" className="mr-3" onClick={deleteRoute}>
           <Icon type="delete" />
-          <span className="ml-1">Delete route</span>
+          <span className="ml-2">Delete route</span>
         </Button>
         <Yaml route={route} />
       </div>
