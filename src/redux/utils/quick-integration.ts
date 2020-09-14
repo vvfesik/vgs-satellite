@@ -194,7 +194,7 @@ export const getQuickIntegrationReverseRouteTemplate = (destination_override_end
   protocol: 'http',
   host_endpoint: config.defaultRuleTokenizeHostEndpoint,
   transport: 'HTTP',
-  source_endpoint: '',
+  source_endpoint: '*',
   entries: [],
   tags: {
     name: destination_override_endpoint

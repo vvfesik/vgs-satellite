@@ -10,12 +10,19 @@ interface IDiffSnippetProps {
   hideLineNumbers?: boolean;
   splitView?: boolean;
   showDiffOnly?: boolean;
+  extraLinesSurroundingDiff?: number;
 }
 
 const DiffSnippet: React.SFC<IDiffSnippetProps> = (props) => {
   const { oldCode, newCode, oldTitle, newTitle } = props;
 
   const styles = {
+    variables: {
+      removedBackground: 'rgba(239, 121, 138, 0.2) !important',
+      wordRemovedBackground: 'rgba(239, 121, 138, 0.2) !important',
+      addedBackground: 'rgba(47, 194, 159, 0.2) !important',
+      wordAddedBackground: 'rgba(47, 194, 159, 0.2) !important',
+    },
     diffContainer: {
       backgroundColor: '#f7f9fc',
       color: '#3B495C',
@@ -65,13 +72,14 @@ const DiffSnippet: React.SFC<IDiffSnippetProps> = (props) => {
       width: '3em',
     },
     marker: {
-      display: 'none',
+      width: '1em',
+      padding: '0',
     },
     wordDiff: {
       padding: '3px 0 1px',
     },
     diffRemoved: {
-      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+      backgroundColor: 'rgba(239, 121, 138, 0.2)',
     },
     diffAdded: {
       backgroundColor: 'rgba(47, 194, 159, 0.2)',
@@ -133,6 +141,7 @@ const DiffSnippet: React.SFC<IDiffSnippetProps> = (props) => {
         styles={styles}
         hideLineNumbers={props.hideLineNumbers}
         onLineNumberClick={() => { return; }}
+        extraLinesSurroundingDiff={props.extraLinesSurroundingDiff}
       />
     </div>
   );

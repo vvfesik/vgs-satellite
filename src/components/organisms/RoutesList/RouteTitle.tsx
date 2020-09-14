@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { IRoute } from 'src/redux/interfaces/routes';
 import { Button, Icon, Popover } from 'src/components/antd';
 import { getRouteProtocol, isInbound } from 'src/redux/utils/routes';
+import history from 'src/redux/utils/history';
 import Yaml from 'src/components/molecules/Yaml/Yaml';
 
 export interface IRouteTitleProps {
@@ -16,6 +17,8 @@ export const RouteTitle = (props: IRouteTitleProps) => {
   const routeProtocol = getRouteProtocol(route);
   const isRouteInbound = isInbound(route);
   const isSourceEndpoint = route.source_endpoint === '*' && !isRouteInbound && routeProtocol === 'routes';
+
+  const editRoute = () => history.push(`/routes/${route.id}/edit`);
 
   const content = (
     <>
@@ -61,6 +64,16 @@ export const RouteTitle = (props: IRouteTitleProps) => {
           <span className="ml-2">Delete route</span>
         </Button>
         <Yaml route={route} />
+        <Button
+          type="primary"
+          size="small"
+          onClick={editRoute}
+          className="ml-3"
+          data-role="route-item-manage-route-button"
+        >
+          <Icon type="edit" />
+          <span className="ml-2">Manage</span>
+        </Button>
       </div>
     </div>
   );

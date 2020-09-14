@@ -119,7 +119,7 @@ const Yaml: React.FC<IYamlProps> = (props) => {
     <div className="json-to-yaml">
       {!props.isExternal && (
         <Button
-          type={isRouteEditor ? "primary" : "link"}
+          type={isRouteEditor ? "secondary" : "link"}
           size={isRouteEditor ? "small" : "default"}
           onClick={(event: any) => openModal(event)}
           className={isRouteEditor ? 'pull-right' : 'dropdown-item p-0 text-text'}
