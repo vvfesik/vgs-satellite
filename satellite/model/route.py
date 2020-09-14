@@ -15,8 +15,7 @@ class RouteManager:
         return [] if len(route_all) == 0 else [route.serialize() for route in route_all]
 
     def get(self, route_id):
-        route = self.session.query(Route).filter(Route.id == route_id).first()
-        return route if not route else route.serialize()
+        return self.session.query(Route).filter(Route.id == route_id).first()
 
     def create(self, route):
         route_id = route['id'] if 'id' in route else str(uuid.uuid4())
@@ -34,8 +33,8 @@ class RouteManager:
         return self.create(route)
 
     def delete(self, route_id):
-        self.session.query(Route) \
-            .filter(Route.id == route_id).delete()
+        route = self.get(route_id)
+        self.session.delete(route)
         self.session.commit()
 
     def __parse_route(self, route, route_id):

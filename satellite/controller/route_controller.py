@@ -23,7 +23,7 @@ class RouteFlows(BaseHandler):
     def get(self, route_id):
         self.set_json_headers()
         route = route_manager.get(route_id)
-        self.write(route)
+        self.write(route.serialize())
 
     def put(self, route_id):
         data = tornado.escape.json_decode(self.request.body)
