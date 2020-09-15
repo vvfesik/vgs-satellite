@@ -29,8 +29,8 @@ export const RouteTitle = (props: IRouteTitleProps) => {
   );
 
   return (
-    <div className="row no-gutters justify-content-between">
-      <div className="d-flex">
+    <div className="row no-gutters justify-content-between flex-nowrap">
+      <div className="d-flex overflow-hidden">
         {(isSourceEndpoint) &&
           <Icon
             type="warning"
@@ -40,7 +40,7 @@ export const RouteTitle = (props: IRouteTitleProps) => {
           />
         }
         {tags.name
-          ? <span className="align-self-center" data-role="route-item-name-value">{tags.name}</span>
+          ? <span className="align-self-center overflow-ellipsis" data-role="route-item-name-value">{tags.name}</span>
           : isSourceEndpoint && <span className="align-self-center">Finish the route configuration</span>
         }
         {isSourceEndpoint &&

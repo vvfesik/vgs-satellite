@@ -5,7 +5,7 @@ describe('Localhoste upload single har flow', function() {
 
   it('Visits Localhoste and gets 2 yamls from uploaded har file', function() {
     cy.visit('/');
-    cy.get('[data-role="import-from-yaml"]').attachFile('upload-post.har');
+    cy.get('[data-role="import-from-har"]').attachFile('upload-post.har');
 
     cy.contains('/post');
 

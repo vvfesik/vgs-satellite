@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 import { FormGroup, Label, Button, ButtonGroup } from 'reactstrap';
 import DocsPopover from 'src/components/organisms/DocsPopover/DocsPopover';
 
@@ -38,9 +39,9 @@ const transformersList = [{
 }, {
   label: 'HTML',
   name: 'HTML',
-// }, {
-//   label: 'PDF',
-//   name: 'PDF_METADATA_TOKEN',
+}, {
+  label: 'PDF',
+  name: 'PDF_METADATA_TOKEN',
 }, {
   label: 'CSV',
   name: 'CSV',
@@ -56,7 +57,11 @@ export const TransformersConfig: React.FC<ITransformersConfigProps> = (props) =>
     return sftpTransformersList.map(transformer => (
       <Button
         key={transformer.name}
-        className={`btn-light ${props.form.transformer === transformer.name ? 'active' : null}`}
+        className={cn([
+          'btn-light',
+          { active: props.form.transformer === transformer.name },
+          { 'is-disabled': transformer.name !== 'JSON_PATH' },
+        ])}
         onClick={(e: any) => { e.preventDefault(); props.onChange(transformer.name, 'transformer', transformer.name === 'REGEX'); }}
       >
         {transformer.label}

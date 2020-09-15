@@ -162,42 +162,6 @@ export class RouteEntry extends React.Component<IRuleEntryProps, IRuleEntryState
 
           </div>
         </div>
-        <div className="form-group row mb-5">
-          <div className="text-muted col-sm-3 col-form-label d-flex align-items-center">
-            <span>Compute Operations</span>
-            <Popover
-              content={
-                <p className="mb-0">
-                  Operations can't be edited.<br/>Custom configuration applied.<br/>
-                  Read more in our&nbsp;
-                  <a
-                    href="https://www.verygoodsecurity.com/docs/terminology/stored-records-and-operations#types-of-operations"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    documentation
-                  </a>.
-                </p>
-              }
-              trigger="hover"
-            >
-              <Icon
-                type="info-circle"
-                className="ml-2 text-text"
-                data-role="compute-operations-info"
-                theme="filled"
-                style={{ fontSize: '14px' }}
-              />
-            </Popover>
-          </div>
-          <div className="col-sm-8">
-            {this.props.entry.operations ?
-              <OperationsSummary entry={this.props.entry} />
-              :
-              <span>SetupPipelineOperation, VgsHttpLegacyOperation</span>
-            }
-          </div>
-        </div>
 
           <div>
             <div className="row">

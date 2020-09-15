@@ -49,7 +49,7 @@ const RoutesPage: React.FC<IRoutesPageProps> = (props) => {
     <div data-role="routes-container">
       {props.routes?.length ? (
         <div>
-          <div className='row justify-content-center'>
+          <div className='row justify-content-center mx-3'>
             <div className='col d-flex justify-content-center align-self-center'>
               <Radio.Group
                 value={activeTab}

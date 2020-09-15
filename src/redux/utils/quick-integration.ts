@@ -171,6 +171,7 @@ export const getDummyEntry = isReverse => ({
   operation: isReverse ? 'REDACT' : 'ENRICH',
   id_selector: null,
   operations: null,
+  classifiers: {},
   config: {
     expression: null,
     condition: 'AND',

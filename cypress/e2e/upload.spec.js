@@ -3,7 +3,7 @@ describe('Localhoste upload har and clickthru', function() {
 
   it('Visits Localhoste, uploads har and clicks every request', function() {
     cy.visit('/');
-    cy.get('[data-role="import-from-yaml"]').attachFile('upload.har');
+    cy.get('[data-role="import-from-har"]').attachFile('upload.har');
 
     cy.contains('/post');
 

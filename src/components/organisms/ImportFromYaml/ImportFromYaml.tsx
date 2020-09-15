@@ -9,7 +9,7 @@ interface IImportFromYamlProps {
 const ImportFromYaml: React.FC<IImportFromYamlProps> = (props) => {
   return (
     <Form>
-      <Label className="ant-btn ant-btn-ghost mb-0 mr-3" for="importFromYaml">
+      <Label className="ant-btn ant-btn-ghost mb-0" for="importFromYaml">
         <Icon type="import" className="mr-2" />
         Import YAML file
       </Label>

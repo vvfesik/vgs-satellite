@@ -1,9 +1,6 @@
 import React from 'react';
-import {
-  Form,
-  Label,
-  Input,
-} from 'reactstrap';
+import { Form, Label, Input } from 'reactstrap';
+import { Icon } from 'src/components/antd';
 
 const UploadButton = ({ onUpload }) => {
 
@@ -28,12 +25,15 @@ const UploadButton = ({ onUpload }) => {
 
   return (
     <Form>
-      <div className="ta-center">
-        <Label className="btn btn-primary cursor-pointer" for="importFromYaml">Upload HAR file(s)</Label>
+      <div className="d-flex justify-content-end mb-4">
+        <Label className="ant-btn ant-btn-ghost mb-0" for="importFromHAR">
+          <Icon type="import" className="mr-2" />
+          Upload HAR file(s)
+        </Label>
         <Input
           onChange={event => onReadFiles(event)}
-          data-role="import-from-yaml"
-          id="importFromYaml"
+          data-role="import-from-har"
+          id="importFromHAR"
           name="file"
           type="file"
           hidden

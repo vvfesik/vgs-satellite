@@ -174,7 +174,7 @@ const RoutePage: React.FC<IRoutePageProps> = (props) => {
         </>
         }
         <>
-          <b>SFTP Route configuration</b>
+          <b>Route configuration</b>
           <DiffSnippet
             oldCode={YAML.safeDump(originalRouteState, { skipInvalid: true, sortKeys: true })}
             newCode={YAML.safeDump(updatedRouteState, { skipInvalid: true, sortKeys: true })}

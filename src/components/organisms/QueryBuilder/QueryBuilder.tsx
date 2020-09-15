@@ -41,9 +41,9 @@ const QueryBuilder: React.SFC<IQueryBuilderProps> = (props) => {
   };
   const controlClassnames = {
     addRule: 'ant-btn btn-outline-accent-dark role-add-rule ml-auto',
-    addGroup: 'ant-btn btn-outline-accent-dark role-add-group mx-2',
+    addGroup: 'ant-btn btn-outline-accent-dark role-add-group mx-2 is-disabled',
     fields: 'form-control',
-    operators: 'form-control',
+    operators: 'form-control is-disabled',
     ruleGroup: 'rules-list rules-group-container',
     rule: 'rule-container form-inline',
   };
