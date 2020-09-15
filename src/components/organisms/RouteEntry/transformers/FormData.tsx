@@ -1,6 +1,6 @@
 import React from 'react';
 import { Label, Popover, PopoverBody } from 'reactstrap';
-import PopoverBs from 'src/components/molecules/PopoverBs/PopoverBs';
+import DocsPopover from 'src/components/organisms/DocsPopover/DocsPopover';
 import StringsArray from 'src/components/atoms/StringsArray/StringsArray';
 import { ITransformerProps, ITransformerState } from '.';
 
@@ -54,12 +54,14 @@ export class FormData extends React.Component<ITransformerProps, ITransformerSta
       <React.Fragment>
         <Label className="text-muted mr-sm-2 popover-target">
           Fields in FormData
-          <PopoverBs iconName="info-circle ml-1">
-            <p>application/x-www-form-urlencoded data</p>
-            <p>
-              Example: <mark>cvv_code</mark>
-            </p>
-          </PopoverBs>
+          <DocsPopover hint={
+            <div>
+              <p>application/x-www-form-urlencoded data</p>
+              <p>
+                Example: <mark>cvv_code</mark>
+              </p>
+            </div>
+          } />
         </Label>
         <StringsArray
           values={this.props.operations}

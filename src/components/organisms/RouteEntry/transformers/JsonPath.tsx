@@ -35,7 +35,8 @@ export class JsonPath extends React.Component<ITransformerProps, ITransformerSta
   render () {
     return (
       <React.Fragment>
-        <Label className="text-muted mr-sm-2 popover-target">
+        <div className="popover-target"></div>
+        <Label className="text-muted mr-sm-2">
           Fields in JSON path <DocsPopover term="json path" />
         </Label>
         <StringsArray

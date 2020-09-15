@@ -2,7 +2,8 @@ data:
   - attributes:
       destination_override_endpoint: '*'
       entries:
-        - config:
+        - classifiers: {}
+          config:
             condition: AND
             expression: null
             rules:

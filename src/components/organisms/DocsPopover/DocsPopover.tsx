@@ -1,5 +1,5 @@
 import React from 'react';
-import PopoverBs from 'src/components/molecules/PopoverBs/PopoverBs';
+import { Icon, Popover } from 'src/components/antd';
 import definitions from 'src/data/terms';
 
 interface IDocsPopoverProps {
@@ -14,12 +14,19 @@ class DocsPopover extends React.Component<IDocsPopoverProps> {
     const definition = hint || definitions[term.toLowerCase()];
 
     return (
-      <PopoverBs
-        iconName="info-circle"
-        iconClassName={iconClassName}
+      <Popover
+        content={definition}
+        trigger="click"
+        overlayStyle={{ maxWidth: '300px', zIndex: 1060 }}
+        overlayClassName="text-sm"
       >
-        {definition}
-      </PopoverBs>
+        <Icon
+          type="question-circle"
+          className={`d-inline-flex mr-2 text-text ${iconClassName}`}
+          theme="filled"
+          style={{ fontSize: '14px' }}
+        />
+      </Popover>
     );
   }
 }

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Label, Popover, PopoverBody } from 'reactstrap';
 import DocsPopover from 'src/components/organisms/DocsPopover/DocsPopover';
-import PopoverBs from 'src/components/molecules/PopoverBs/PopoverBs';
 import StringsArray from 'src/components/atoms/StringsArray/StringsArray';
 import { ITransformerProps } from '.';
 import { isRegExp } from 'src/redux/utils/utils';
@@ -99,11 +98,16 @@ export const RegExpTransformer: React.FC<ITransformerProps> = (props) => {
       />
       <Label className="text-muted mr-sm-2 popover-target" data-role="regexp-replacement-info">
         Replacement&nbsp;
-        <PopoverBs iconName="info-circle">
-          <a href="https://www.verygoodsecurity.com/docs/terminology/operations#replace-the-value-with-any-text-and-aliased-value" target="_blank">
-            Replacement documentation
-          </a>
-        </PopoverBs>
+        <DocsPopover
+          hint={
+            <a
+              href='https://www.verygoodsecurity.com/docs/terminology/operations#replace-the-value-with-any-text-and-aliased-value'
+              target='_blank'
+            >
+              Replacement documentation
+            </a>
+          }
+        />
       </Label>
       <Input
         value={configRegExp.replacement}

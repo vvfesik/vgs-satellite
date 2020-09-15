@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { Treebeard, theme } from 'react-treebeard';
-import PopoverBs from 'src/components/molecules/PopoverBs/PopoverBs';
+import DocsPopover from 'src/components/organisms/DocsPopover/DocsPopover';
 import definitions from 'src/data/terms';
 import decorators from './decorators';
 import { ruleTokenGenerators } from 'src/data/rules-config';
@@ -138,24 +138,22 @@ export default class DataSelection extends React.Component {
           <div className="col-lg-6">
             <div className="payload-wrapper">
               Operation &nbsp;
-              <PopoverBs iconName="info-circle">
-                {definitions.operation} <br />
-                <a href="https://www.verygoodsecurity.com/docs/terminology/operations" target="_blank">
-                  Operations documentation
-                </a>
-              </PopoverBs>
+              <DocsPopover hint={
+                <span>
+                  <div>{definitions.operation}</div>
+                  <a href="https://www.verygoodsecurity.com/docs/terminology/operations" target="_blank">
+                    Operations documentation
+                  </a>
+                </span>
+              } />
             </div>
             <div className="payload-wrapper">
               Storage &nbsp;
-              <PopoverBs iconName="info-circle">
-                {definitions.storage}
-              </PopoverBs>
+              <DocsPopover hint={definitions.storage} />
             </div>
             <div className="payload-wrapper">
               Format &nbsp;
-              <PopoverBs iconName="info-circle">
-                {definitions.format}
-              </PopoverBs>
+              <DocsPopover hint={definitions.format} />
             </div>
           </div>
         </div>

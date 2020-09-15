@@ -154,7 +154,7 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
           logs={logs.map(entry => entryToLog(entry, routeType))}
         />
       ) : (
-        <Code language="bash">{demoCurl}</Code>
+        <Code language="bash" className="ant-card card px-5 bg-light">{demoCurl}</Code>
       )}
       <Yaml
         routes={preRoutes}

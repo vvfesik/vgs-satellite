@@ -1,6 +1,6 @@
 import React from 'react';
 import { Label, Popover, PopoverBody } from 'reactstrap';
-import PopoverBs from 'src/components/molecules/PopoverBs/PopoverBs';
+import DocsPopover from 'src/components/organisms/DocsPopover/DocsPopover';
 import StringsArray from 'src/components/atoms/StringsArray/StringsArray';
 import { ITransformerProps, ITransformerState } from '.';
 
@@ -40,14 +40,16 @@ export class HtmlTransformer extends React.Component<ITransformerProps, ITransfo
       <React.Fragment>
         <Label className="text-muted mr-sm-2 popover-target" data-role="html-selector-info">
           Selector in HTML
-          <PopoverBs iconName="info-circle">
-            <p>
-              Example: <mark>.className</mark>
-            </p>
-            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors" target="_blank">
-              Selectors documentation
-            </a>
-          </PopoverBs>
+          <DocsPopover hint={
+            <div>
+              <p>
+                Example: <mark>.className</mark>
+              </p>
+              <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors" target="_blank">
+                Selectors documentation
+              </a>
+            </div>
+          } />
         </Label>
         <StringsArray
           values={this.props.operations}
