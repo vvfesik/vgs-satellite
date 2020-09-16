@@ -1,77 +1,16 @@
 import uuid
+from enum import Enum
 from datetime import datetime
 
 from sqlalchemy import Column, Integer, String, DateTime, JSON, ForeignKey
 from sqlalchemy.orm import relationship
-from satellite.model.base import Base, Session, EntityAlreadyExists
-
-
-class RouteManager:
-    def __init__(self):
-        self.session = Session()
-
-    def get_all(self):
-        route_all = self.session.query(Route).all()
-        return [] if len(route_all) == 0 else [route.serialize() for route in route_all]
-
-    def get(self, route_id):
-        return self.session.query(Route).filter(Route.id == route_id).first()
-
-    def create(self, route):
-        route_id = route['id'] if 'id' in route else str(uuid.uuid4())
-        if self.get(route_id):
-            raise EntityAlreadyExists()
-        route_entity = self.__parse_route(route, route_id)
-        self.session.add(route_entity)
-        self.session.commit()
-        return route_entity.serialize()
-
-    def update(self, route_id, route):
-        if self.get(route_id):
-            self.delete(route_id)
-        route['id'] = route_id
-        return self.create(route)
-
-    def delete(self, route_id):
-        route = self.get(route_id)
-        self.session.delete(route)
-        self.session.commit()
-
-    def __parse_route(self, route, route_id):
-        return Route(id=route_id,
-                     protocol=route.get('protocol'),
-                     source_endpoint=route.get('source_endpoint'),
-                     destination_override_endpoint=route.get('destination_override_endpoint'),
-                     host_endpoint=route.get('host_endpoint'),
-                     port=route.get('port'),
-                     tags=route.get('tags'),
-                     rule_entries_list=self.__parse_route_entries(route.get('entries'))
-                     )
-
-    def __parse_route_entries(self, route_entries):
-        entries = []
-        for entry in route_entries:
-            entry_id = entry.get('id') if 'id' in entry else str(uuid.uuid4())
-            rule_entry = RuleEntry(
-                id=entry_id,
-                phase=entry.get('phase'),
-                operation=entry.get('operation'),
-                token_manager=entry.get('token_manager'),
-                public_token_generator=entry.get('public_token_generator'),
-                transformer=entry.get('transformer'),
-                transformer_config=entry.get('transformer_config'),
-                targets=entry.get('targets'),
-                classifiers=entry.get('classifiers'),
-                expression_snapshot=entry.get('config')
-            )
-            entries.append(rule_entry)
-        return entries
+from satellite.model.base import Base
 
 
 class Route(Base):
     __tablename__ = 'rule_chains'
 
-    id = Column(String, primary_key=True)
+    id = Column(String, primary_key=True, default=str(uuid.uuid4()))
     created_at = Column(DateTime, default=datetime.utcnow)
     protocol = Column(String)
     source_endpoint = Column(String)
@@ -80,6 +19,13 @@ class Route(Base):
     port = Column(Integer)
     tags = Column(JSON)
     rule_entries_list = relationship("RuleEntry", back_populates="rule_chain", cascade="all, delete, delete-orphan")
+
+    @property
+    def route_type(self):
+        return RouteType.OUTBOUND if self.is_outbound() else RouteType.INBOUND
+
+    def is_outbound(self):
+        return self.destination_override_endpoint == '*'
 
     def serialize(self):
         """Return object data in easily serializable format"""
@@ -99,7 +45,7 @@ class Route(Base):
 class RuleEntry(Base):
     __tablename__ = 'rule_entries'
 
-    id = Column(String, primary_key=True)
+    id = Column(String, primary_key=True, default=str(uuid.uuid4()))
     created_at = Column(DateTime, default=datetime.utcnow)
     route_id = Column(String, ForeignKey('rule_chains.id'))
     rule_chain = relationship("Route", back_populates='rule_entries_list')
@@ -127,3 +73,18 @@ class RuleEntry(Base):
             'classifiers': self.classifiers,
             'config': self.expression_snapshot
         }
+
+
+class RouteType(Enum):
+    INBOUND = 'INBOUND'
+    OUTBOUND = 'OUTBOUND'
+
+
+class Phase(Enum):
+    REQUEST = 'REQUEST'
+    RESPONSE = 'RESPONSE'
+
+
+class Operation(Enum):
+    REDACT = 'REDACT'
+    ENRICH = 'ENRICH'

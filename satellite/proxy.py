@@ -10,9 +10,9 @@ from mitmproxy.addons import eventstore
 from mitmproxy.tools.web import static_viewer, webaddons
 
 from satellite.master import Master
+from satellite.vault.vault_handler import VaultFlows
 from satellite.controller.websocket_connection import ClientConnection
-from satellite.controller.flow_controller import flow_to_json, logentry_to_json
-# from satellite.handlers.vault_handler import VaultFlows
+from satellite.controller.flow_handlers import flow_to_json, logentry_to_json
 
 
 class ProxyMaster(Master):
@@ -37,7 +37,7 @@ class ProxyMaster(Master):
             static_viewer.StaticViewer(),
             intercept.Intercept(),
             dumper.Dumper(),
-            # VaultFlows(),
+            VaultFlows(),
             self.view,
             self.events
         )

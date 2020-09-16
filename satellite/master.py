@@ -5,6 +5,8 @@ import logging
 import traceback
 import threading
 
+from enum import Enum
+
 from mitmproxy import addonmanager
 from mitmproxy import options
 from mitmproxy import controller
@@ -37,6 +39,12 @@ class ServerThread(basethread.BaseThread):
 
     def run(self):
         self.server.serve_forever()
+
+
+class ProxyMode(Enum):
+    REVERSE = 'reverse'
+    FORWARD = 'regular'
+    INCOMPATIBLE = 'upstream, transparent'
 
 
 class Master:
@@ -80,6 +88,13 @@ class Master:
     def server(self, server):
         server.set_channel(self.channel)
         self._server = server
+
+    @property
+    def proxy_mode(self):
+        mode = self.options.mode
+        if mode.startswith(ProxyMode.FORWARD.value):
+            return ProxyMode.FORWARD
+        return ProxyMode.REVERSE if mode.startswith(ProxyMode.REVERSE.value) else ProxyMode.INCOMPATIBLE
 
     def restart(self):
         self.log.debug('Restarting proxy server...')

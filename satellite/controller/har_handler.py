@@ -17,7 +17,7 @@ from satellite.controller import BaseHandler
 SERVERS_SEEN: Set[connections.ServerConnection] = set()
 
 
-class HarFlows(BaseHandler):
+class HarHandler(BaseHandler):
 
     def get(self, flow_id):
         flow = self.flow
