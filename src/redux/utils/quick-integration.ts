@@ -58,7 +58,10 @@ export function traverse(parent, parentPath, delimiter, operation, shiftKey = 0)
 
 export const buildTree = (log, isReverse) => {
   const { body } = log.data.value;
-  const contentType = log.data.value.contentType || log.data.value.headers['content-type'];
+  const contentType =
+    log.data.value.contentType ||
+    log.data.value.headers['content-type'] ||
+    log.data.value.headers['Content-Type'];
   let tree;
   const operation = isReverse ? 'REDACT' : 'ENRICH';
 
