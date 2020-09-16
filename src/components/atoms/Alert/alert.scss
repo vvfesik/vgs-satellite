@@ -1,0 +1,20 @@
+.ant-alert-warning {
+  .ant-alert-message {
+    color: #816837;
+  }
+}
+
+.alert-with-popover {
+  &.ant-alert-with-description {
+    &.ant-alert-no-icon {
+      padding: 8px 15px;
+    }
+    .ant-alert-message {
+      font-size: 1rem;
+      margin-bottom: 0;
+    }
+    .ant-alert-description {
+      display: flex;
+    }
+  }
+}

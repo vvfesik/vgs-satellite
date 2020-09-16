@@ -156,3 +156,9 @@ $f-weights: 100, 200, 300, 400, 500, 600, 700, 800;
 .mw-200px {
   max-width: 200px;
 }
+
+.overflow-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

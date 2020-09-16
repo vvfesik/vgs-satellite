@@ -2,6 +2,7 @@ import React from 'react';
 import Card from 'src/components/atoms/Card/react-card';
 import { IRoute } from 'src/redux/interfaces/routes';
 import { getUpstream, isInbound } from 'src/redux/utils/routes';
+import { formatDate } from 'src/redux/utils/utils';
 import RouteTitle from './RouteTitle';
 import RouteFooter from './RouteFooter';
 
@@ -43,7 +44,7 @@ export const Route: React.FC<IRouteProps> = (props) => {
             </div>
             <div>
               <p className="filter-title route-item__key">Updated</p>
-              <div className="route-item__value">{route.updated_at || route.created_at}</div>
+              <div className="route-item__value">{formatDate(route.updated_at || route.created_at)}</div>
             </div>
           </div>
         </div>

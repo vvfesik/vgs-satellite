@@ -23,7 +23,10 @@ export const mapRuleEntries = (nodes: any, log: any, url: string, isReverse: boo
   const phase = log.data.value.phase || getDummyEntry(isReverse);
   const ruleEntries: IPartialEntry[] = [];
   let matches = false;
-  const contentType = log.data.value.contentType || log.data.value.headers['content-type'];
+  const contentType =
+    log.data.value.contentType ||
+    log.data.value.headers['content-type'] ||
+    log.data.value.headers['Content-Type'];
 
   nodes.forEach((node: any) => {
     const ruleEntry = {

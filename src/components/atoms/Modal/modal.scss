@@ -1,0 +1,24 @@
+.ant-modal-title {
+  font-size: 1rem;
+  color: $gray-blue;
+}
+
+.ant-modal-close-x {
+  display: flex;
+  font-size: inherit;
+  justify-content: center;
+  align-items: center;
+}
+
+.ant-modal-confirm.yaml-modal {
+  .ant-modal-confirm-title {
+    font-size: 1rem;
+  }
+  .ant-modal-confirm-body > .anticon + .ant-modal-confirm-title + .ant-modal-confirm-content {
+    margin-left: 0;
+  }
+}
+
+.ant-modal-footer {
+  padding: 1rem 1.5rem;
+}

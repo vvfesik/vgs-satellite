@@ -6,6 +6,7 @@ import FlowsTable from 'src/components/organisms/FlowsTable/FlowsTable';
 import FlowView from 'src/components/organisms/FlowView/FlowView';
 import QuickIntegrationModal from 'src/components/organisms/QuickIntegration/QuickIntegrationModal';
 import Yaml from 'src/components/molecules/Yaml/Yaml';
+import Code from 'src/components/atoms/Code/Code';
 import { entryToLog, entryToFlow } from 'src/redux/utils/preCollect';
 import {
   addPrecollectLogs,
@@ -115,8 +116,13 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
     saveRoute(route);
   }
 
+  const demoCurl = `curl https://httpbin.org/post -k \\
+  -x localhost:9099 \\
+  -H "Content-type: application/json" \\
+  -d '{"foo": "bar"}'`
+
   return (
-    <div className="container">
+    <div className="container-fluid">
       <UploadButton onUpload={data => onUpload(data)} />
       {isSecurePayload && (
         <QuickIntegrationModal
@@ -142,11 +148,13 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
         />
       ) : null}
 
-      {!!logs.length && (
+      {!!logs.length ? (
         <FlowsTable
           onSelect={selectLog}
           logs={logs.map(entry => entryToLog(entry, routeType))}
         />
+      ) : (
+        <Code language="bash" className="ant-card card px-5 bg-light">{demoCurl}</Code>
       )}
       <Yaml
         routes={preRoutes}

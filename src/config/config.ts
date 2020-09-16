@@ -18,6 +18,7 @@ function getConfig(environment = 'dev') {
     docsYamlImportLink: 'https://www.verygoodsecurity.com/docs/features/yaml#import-a-single-route',
     docsVGSCLILink: 'https://www.verygoodsecurity.com/docs/cli/index',
     docsTermRouteLink: 'https://www.verygoodsecurity.com/docs/terminology/nomenclature#route',
+    docsMultipleInbounds: 'https://www.verygoodsecurity.com/docs/guides/managing-your-routes#how-to-configure-multiple-inbound-routes-using-cname',
   };
   if (environment === 'dev') {
     ENV.mitmLogsEndpoint = `http://localhost:${port}`;

@@ -1,0 +1,12 @@
+.ant-avatar {
+  background: #efefef;
+  color: #4B4E52;
+
+  &-image {
+    background: transparent;
+
+    & img {
+      object-fit: contain;
+    }
+  }
+}

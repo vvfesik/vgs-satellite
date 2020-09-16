@@ -54,3 +54,16 @@ input[type=number]::-webkit-outer-spin-button {
   width: 40px;
   padding: 0 0.5rem;
 }
+
+/* Satellite: disable modification of Targets in Route Builder's Filters */
+.rule-entry [data-role="rule-entry-targets-inputs"] {
+  .strings-array, .operation-label, [data-role="remove-operation-field-btn"] {
+    display: none;
+  }
+  .operation-input {
+    max-width: 100%;
+    flex-basis: 100%;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}

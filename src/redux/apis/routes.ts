@@ -16,8 +16,13 @@ export const createRoute = (route: IRoute) =>
     },
   });
 
-export const updateRoute = (route: IRoute) =>
-  axios.put(`${config.mitmLogsEndpoint}/route`, route);
+export const updateRouteById = (route: IRoute, routeId: string) =>
+  axios.put(`${config.mitmLogsEndpoint}/route/${routeId}`, {
+    data: {
+      attributes: route.attributes || route,
+      type: 'rule-chains',
+    },
+  });
 
 export const deleteRouteById = (routeId: string) =>
   axios.delete(`${config.mitmLogsEndpoint}/route/${routeId}`);

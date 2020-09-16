@@ -1,9 +1,10 @@
 import moment from 'moment';
 import classnames from 'classnames';
 import parseUrl from 'url-parse';
-import { volatileRulesRegex } from 'src/data/regex';
-import { ILog } from 'src/redux/interfaces/logs';
 import randomId from './random-id';
+import { volatileRulesRegex } from 'src/data/regex';
+import { includes } from 'lodash';
+import { ILog } from 'src/redux/interfaces/logs';
 
 export function formatDate(date) {
   if (moment().isSame(date, 'day')) {
@@ -61,3 +62,53 @@ export function constructUriFromLog(log: ILog) {
 }
 
 export const getFiltersWithoutOperations = (route: IRoute) => route.entries.filter(entry => !entry.operations);
+
+export function isValidHostname(hostname: string) {
+  const hostnameRegex = /^\s*((?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?(?:\.{1,}[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?){1,}?)\s*$/; // tslint:disable-line
+  return hostnameRegex.test(hostname);
+}
+
+export const hostFromUri = (destOverride: string) => {
+  const url = new URL(destOverride);
+  return url.hostname;
+};
+
+export const hostnameFromUri = (destOverride: string) => destOverride.replace(/^(.*\/\/)/, '');
+
+export function removeQueryParameters(url: string) {
+  const queryParameter = parseUrl(url).query;
+  return url.replace(queryParameter, '');
+};
+
+export const isOperatorExist = (rules: any, operator: string) => includes(rules.map(rule => rule.operator), operator);
+
+export function isJSON(data) {
+  try {
+    JSON.parse(data);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function getOperationsName(operations: string) {
+  const operationsJson = isJSON(operations) && JSON.parse(operations);
+  if (Array.isArray(operationsJson)) {
+    const operationsArray = operationsJson.map(op => op['@type']);
+    return operationsArray.join(', ').replace(/(type\.googleapis\.com\/)|(Config)/g, '');
+  } else {
+    return '';
+  }
+}
+
+export function isRegExp(value: string) {
+  if (!value) {
+    return true;
+  }
+  try {
+    const regExp = new RegExp(value);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}

@@ -1,9 +1,13 @@
 import React from 'react';
+import ImportFromYamlContainer from 'src/components/organisms/ImportFromYaml/ImportFromYamlContainer';
 
 const RouteListEmpty: React.FC = (props) => {
   return (
-    <div className="alert alert-info text-center">
-      There are currently no routes.
+    <div className='row justify-content-center mx-3'>
+      <div className='col d-flex justify-content-center align-self-center text-muted'>
+        There are currently no routes.
+      </div>
+      <ImportFromYamlContainer />
     </div>
   );
 };

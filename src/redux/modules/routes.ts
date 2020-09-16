@@ -2,14 +2,17 @@ import {
   getRoutes,
   createRoute,
   deleteRouteById,
+  updateRouteById,
 } from 'src/redux/apis/routes';
 import { notify } from 'src/redux/utils/notifications';
+import { IRoutesState, IRoute } from 'src/redux/interfaces/routes';
 
 const SET_LOADING = 'SET_LOADING';
 const GET_ROUTES_LIST = 'GET_ROUTES_LIST';
 const DELETE_ROUTE = 'DELETE_ROUTE';
 const TOGGLE_ROUTE_CONFIRM_DELETE_MODAL = 'TOGGLE_ROUTE_CONFIRM_DELETE_MODAL';
 const SET_SAVE_PROGRESS = 'SET_SAVE_PROGRESS';
+const UPDATE_CURRENT_ROUTE = 'UPDATE_CURRENT_ROUTE';
 
 export function fetchRoutes() {
   return async (dispatch: any) => {
@@ -29,20 +32,74 @@ export function fetchRoutes() {
   };
 }
 
-export function saveRoute(route: IRoute) {
+export function saveRoute(
+  route: IRoute,
+  params: {
+    hideNotify?: boolean,
+    cb?: (args?: any) => void,
+    source?: string,
+  } = { hideNotify: false },
+) {
   return async (dispatch: any) => {
     try {
       dispatch({
         type: SET_SAVE_PROGRESS,
         data: true,
       });
+      if (params.source) {
+        route.attributes
+        ? (route.attributes.tags.source = params.source)
+        : (route.tags.source = params.source);
+      }
       await createRoute(route);
-      notify.success('Route created successfully');
+      if (!params.hideNotify) {
+        notify.success('Route created successfully');
+      }
       const response = await getRoutes();
       dispatch({
         type: GET_ROUTES_LIST,
         data: response.data,
       });
+      if (params && params.cb) {
+        params.cb();
+      }
+    } catch (error) {
+      notify.error(error);
+    } finally {
+      dispatch({
+        type: SET_SAVE_PROGRESS,
+        data: false,
+      });
+    }
+  };
+}
+
+export function updateRoute(
+  route: IRoute,
+  params: {
+    hideNotify?: boolean,
+    cb?: (args?: any) => void,
+    source?: string,
+  } = { hideNotify: false },
+) {
+  return async (dispatch: any) => {
+    try {
+      dispatch({
+        type: SET_SAVE_PROGRESS,
+        data: true,
+      });
+      await updateRouteById(route, route.id!);
+      if (!params.hideNotify) {
+        notify.success('Your route was updated and your changes have been applied.');
+      }
+      const response = await getRoutes();
+      dispatch({
+        type: GET_ROUTES_LIST,
+        data: response.data,
+      });
+      if (params && params.cb) {
+        params.cb();
+      }
     } catch (error) {
       notify.error(error);
     } finally {
@@ -77,6 +134,15 @@ export function toggleRouteConfirmDeleteModal(isOpen: boolean) {
       data: {
         isOpen,
       },
+    });
+  };
+}
+
+export function updateCurrentRoute(route: IRoute | null) {
+  return (dispatch: any) => {
+    dispatch({
+      type: UPDATE_CURRENT_ROUTE,
+      data: route,
     });
   };
 }
@@ -126,6 +192,11 @@ export default function reducer(state = initialState, action: any) {
       return {
         ...state,
         isSaveInProgress: action.data,
+      };
+    case UPDATE_CURRENT_ROUTE:
+      return {
+        ...state,
+        currentRoute: action.data,
       };
     default:
       return state;
