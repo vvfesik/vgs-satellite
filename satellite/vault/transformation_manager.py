@@ -3,9 +3,9 @@ from mitmproxy import ctx
 from satellite.vault.transformer import transformer_map
 
 
-def transform_body(route, content):
+def transform_body(routes_filters, content):
     content_rewrite = ''
-    for rule_entry in route.rule_entries_list:
+    for rule_entry in routes_filters:
         transformer = rule_entry.transformer
         transformer_type = transformer_map.get(transformer)
         if not transformer_type:

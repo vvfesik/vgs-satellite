@@ -4,6 +4,7 @@ from satellite.model.route import RouteType, Phase
 
 
 def match_route(proxy_mode: ProxyMode, phase: Phase, flow):
+    routes_filters = []
     request = flow.request
     if proxy_mode == ProxyMode.INCOMPATIBLE:
         return
@@ -13,8 +14,11 @@ def match_route(proxy_mode: ProxyMode, phase: Phase, flow):
     if proxy_mode == ProxyMode.FORWARD:
         routes = [route for route in routes if route.host_endpoint == request_host]
     for route in routes:
-        route.rule_entries_list = match_filters(route.rule_entries_list, phase, request)
-    return [route for route in routes if len(route.rule_entries_list) > 0]
+        # route.rule_entries_list = match_filters(route.rule_entries_list, phase, request)
+        rule_entries_list = match_filters(route.rule_entries_list, phase, request)
+        if len(rule_entries_list) > 0:
+            routes_filters += [rule_entries_list]
+    return routes_filters
 
 
 def match_filters(rule_entries, phase: Phase, request):

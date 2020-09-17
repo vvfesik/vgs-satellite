@@ -13,10 +13,10 @@ class VaultFlows:
         try:
             content = flow.request.content
             proxy_mode = satellite_ctx.webapp.master.proxy_mode
-            routes = match_route(proxy_mode, Phase.REQUEST, flow)
-            if len(routes) < 1:
+            routes_filters = match_route(proxy_mode, Phase.REQUEST, flow)
+            if len(routes_filters) < 1:
                 return
-            flow.request.text = transform_body(routes[0], content)
+            flow.request.text = transform_body(routes_filters[0], content)
         except (RedactFailed, RevealFailed) as error_message:
             ctx.log.error(str(error_message))
 
@@ -24,9 +24,9 @@ class VaultFlows:
         try:
             content = flow.response.content
             proxy_mode = satellite_ctx.webapp.master.proxy_mode
-            routes = match_route(proxy_mode, Phase.RESPONSE, flow)
-            if len(routes) < 1:
+            routes_filters = match_route(proxy_mode, Phase.RESPONSE, flow)
+            if len(routes_filters) < 1:
                 return
-            flow.response.text = transform_body(routes[0], content)
+            flow.response.text = transform_body(routes_filters[0], content)
         except (RedactFailed, RevealFailed) as error_message:
             ctx.log.error(str(error_message))
