@@ -10,7 +10,7 @@ from satellite.model.base import Base
 class Route(Base):
     __tablename__ = 'rule_chains'
 
-    id = Column(String, primary_key=True, default=str(uuid.uuid4()))
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     created_at = Column(DateTime, default=datetime.utcnow)
     protocol = Column(String)
     source_endpoint = Column(String)
@@ -45,7 +45,7 @@ class Route(Base):
 class RuleEntry(Base):
     __tablename__ = 'rule_entries'
 
-    id = Column(String, primary_key=True, default=str(uuid.uuid4()))
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     created_at = Column(DateTime, default=datetime.utcnow)
     route_id = Column(String, ForeignKey('rule_chains.id'))
     rule_chain = relationship("Route", back_populates='rule_entries_list')
