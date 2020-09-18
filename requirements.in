@@ -1,0 +1,9 @@
+# TODO: Separate prod/test/dev dependencies when we decide on packaging.
+mitmproxy
+tornado
+SQLAlchemy
+base58
+jsonpath-ng
+pip-tools
+pytest
+flake8
