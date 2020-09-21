@@ -1,5 +1,6 @@
 import * as React from 'react';
 import RouteTypeLabel from 'src/components/organisms/FlowsTable/RouteTypeLabel';
+import FlowMethod from 'src/components/organisms/FlowsTable/FlowMethod';
 import { ILog } from 'src/redux/interfaces/logs';
 import { Badge, Table } from 'reactstrap';
 import { badgeColor, getQueryParameters } from 'src/redux/utils/utils';
@@ -125,31 +126,15 @@ const GeneralInfo: React.FC<IGeneralInfoProps> = (props) => {
           <tr>
             <td className="smallbold">Request Method</td>
             <td>
-              <span className="d-flex text-left align-items-center">
-                {isEditMode ? (
-                  <Input
-                    value={generalInfo.request?.method ?? http.method}
-                    onChange={e => onEditChange({ request: { method: e.target.value } })}
-                    onPressEnter={onEditSave}
-                  />
-                ) : (
-                  <>
-                    {http.method}
-                    {log?.request?.is_replay && (
-                      <Popover
-                        trigger="hover"
-                        content={
-                          <span className="text-sm d-inline-block">
-                            Replayed request
-                          </span>
-                        }
-                      >
-                        <Icon type="reload" className="ml-2 text-success text-sm" />
-                      </Popover>
-                    )}
-                  </>
-                )}
-              </span>
+              {isEditMode ? (
+                <Input
+                  value={generalInfo.request?.method ?? http.method}
+                  onChange={e => onEditChange({ request: { method: e.target.value } })}
+                  onPressEnter={onEditSave}
+                />
+              ) : (
+                <FlowMethod log={log} />
+              )}
             </td>
           </tr>
         }

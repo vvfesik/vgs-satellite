@@ -17,8 +17,7 @@ class DocsPopover extends React.Component<IDocsPopoverProps> {
       <Popover
         content={definition}
         trigger="click"
-        overlayStyle={{ maxWidth: '300px', zIndex: 1060 }}
-        overlayClassName="text-sm"
+        overlayClassName="text-sm mw-300px"
       >
         <Icon
           type="question-circle"
