@@ -16,6 +16,21 @@ jobs:
       - run: npm test
       - store_artifacts:
           path: /root/app/client/cypress/screenshots/
+  build_python:
+    docker:
+      - image: circleci/python:3.6
+    working_directory: ~/app
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: pip install -r requirements.txt
+      - run:
+          name: Run linter for Python sources
+          command: flake8 satellite
+      - run:
+          name: Run Python unit tests
+          command: pytest satellite/tests
   smoketest:
     docker:
       - image: cypress/browsers:node12.16.1-chrome80-ff73
@@ -39,6 +54,7 @@ workflows:
   build_and_test:
     jobs:
       - build
+      - build_python
   periodical_smoke_test:
     ## create dashboard route by uploading satellite-generated YAML
     triggers:
