@@ -12,7 +12,6 @@ from mitmproxy import proxy
 from mitmproxy.utils import debug, arg_check
 
 
-
 def assert_utf8_env():
     spec = ""
     for i in ["LANG", "LC_CTYPE", "LC_ALL"]:

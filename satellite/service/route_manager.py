@@ -1,4 +1,3 @@
-import uuid
 from satellite.model.base import Session, EntityAlreadyExists
 from satellite.model.route import Route, RuleEntry, RouteType
 

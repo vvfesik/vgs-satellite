@@ -16,6 +16,7 @@ class VaultFlows:
             routes_filters = match_route(proxy_mode, Phase.REQUEST, flow)
             if len(routes_filters) < 1:
                 return
+            flow.request_raw = flow.request.copy()
             flow.request.text = transform_body(routes_filters[0], content)
         except (RedactFailed, RevealFailed) as error_message:
             ctx.log.error(str(error_message))
@@ -27,6 +28,7 @@ class VaultFlows:
             routes_filters = match_route(proxy_mode, Phase.RESPONSE, flow)
             if len(routes_filters) < 1:
                 return
+            flow.response_raw = flow.response.copy()
             flow.response.text = transform_body(routes_filters[0], content)
         except (RedactFailed, RevealFailed) as error_message:
             ctx.log.error(str(error_message))
