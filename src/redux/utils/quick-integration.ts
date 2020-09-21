@@ -104,11 +104,11 @@ export const getParsedLogValue = (entry, selectedPhase?: 'REQUEST' | 'RESPONSE')
   );
 
   // response
-  const responseHeaders = entry.response.headers;
-  const statusCode = entry.response.status || entry.response.status_code;
+  const responseHeaders = entry.response?.headers;
+  const statusCode = entry.response?.status || entry.response?.status_code;
   const status = statusCode === -1 ? '' : statusCode;
   const isSuccess = (status >= 200 && status <= 299);
-  const responseDataString = parsePayload(entry.response.content?.text || entry.response.content);
+  const responseDataString = parsePayload(entry.response?.content?.text || entry.response?.content);
 
   const phase = selectedPhase || 'REQUEST';
   let contentType = entry[phase.toLowerCase()].headers
@@ -160,9 +160,9 @@ export const getParsedLogValue = (entry, selectedPhase?: 'REQUEST' | 'RESPONSE')
       isSuccess,
       body: responseDataString,
       headers: responseHeaders,
-      size: entry.response.content && entry.response.content.size,
-      httpVersion: entry.response.httpVersion,
-      statusText: entry.response.statusText,
+      size: entry.response?.content && entry.response?.content.size,
+      httpVersion: entry.response?.httpVersion,
+      statusText: entry.response?.statusText,
       isEmptyStatus: status === '',
     },
   };

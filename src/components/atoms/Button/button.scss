@@ -63,3 +63,16 @@
     text-decoration: underline;
   }
 }
+
+.ant-btn-group {
+  > .ant-btn:last-child:not(:first-child),
+  > span:last-child:not(:first-child) > .ant-btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  > .ant-btn:first-child:not(:last-child),
+  > span:first-child:not(:last-child) > .ant-btn {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}

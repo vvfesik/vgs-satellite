@@ -34,8 +34,8 @@ export const mitmlogToFlow = (entry, selectedPhase) => {
         body: entry.request.content,
       },
       response: {
-        headers: entry.response.headers,
-        body: entry.response.content,
+        headers: entry.response?.headers,
+        body: entry.response?.content,
       },
     },
     data: {

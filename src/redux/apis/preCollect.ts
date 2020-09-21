@@ -12,3 +12,6 @@ export const duplicateMitmLog = (logId: string) =>
 
 export const deleteMitmLog = (logId: string) =>
   axios.delete(`${config.mitmLogsEndpoint}/flows/${logId}`);
+
+export const updateMitmLog = (logId: string, payload: any) =>
+  axios.put(`${config.mitmLogsEndpoint}/flows/${logId}`, payload);

@@ -13,35 +13,62 @@ interface IFlowButtonsProps {
   onReplay: () => void;
   onDuplicate: () => void;
   onDelete: () => void;
+  onEdit: () => void;
+  onEditCancel: () => void;
   setPreRouteType: (type: 'inbound' | 'outbound') => void;
   selectedTab: 'general' | 'headers' | 'body';
   isMitmLog: boolean;
+  isEditMode: boolean;
 }
 
-const FlowButtons: React.SFC<IFlowButtonsProps> = (props) => {
+const FlowButtons: React.FC<IFlowButtonsProps> = (props) => {
   const { activePhase, hasPayload, hideSecureButton, onRuleCreate, onSelectPhase, selectedTab } = props;
+  const { onEdit, onEditCancel, isEditMode } = props;
 
   return (
-    <div className="text-center mt-3 mb-2 position-relative">
+    <div className='text-center mt-3 mb-2 position-relative'>
+      {isEditMode ? (
+        <div className='ant-btn-group d-flex position-absolute left-0'>
+          <Button size='small' type='ghost' onClick={onEditCancel}>
+            <Icon type='close-square' />
+            Cancel
+          </Button>
+          <Button size='small' type='primary' onClick={onEdit}>
+            <Icon type='save' />
+            Save
+          </Button>
+        </div>
+      ) : (
+        <Button
+          size='small'
+          type='ghost'
+          className='d-flex position-absolute left-0'
+          onClick={onEdit}
+        >
+          <Icon type='edit' />
+          Edit
+        </Button>
+      )}
       {hasPayload && onRuleCreate && !hideSecureButton && (
         <Button
-          type="primary"
-          size="small"
-          className="d-flex position-absolute right-0"
+          type='primary'
+          size='small'
+          className='d-flex position-absolute right-0'
           onClick={() => {
             props.setPreRouteType('inbound');
             onRuleCreate();
           }}
+          disabled={isEditMode}
         >
           <span>Secure this payload</span>
         </Button>
       )}
       {!props.isMitmLog || selectedTab !== 'general' ? (
         <ButtonGroup>
-          {['request', 'response'].map(phase => (
+          {['request', 'response'].map((phase) => (
             <RSButton
               key={phase}
-              size="sm"
+              size='sm'
               color={phase === activePhase ? 'primary-light' : 'outline'}
               className={classnames(
                 { active: phase === activePhase },
@@ -56,21 +83,39 @@ const FlowButtons: React.SFC<IFlowButtonsProps> = (props) => {
         </ButtonGroup>
       ) : (
         <span>
-          <Button size="small" type="ghost" className="mx-1" onClick={debounce(props.onReplay, 1000)}>
+          <Button
+            size='small'
+            type='ghost'
+            className='mx-1'
+            disabled={isEditMode}
+            onClick={debounce(props.onReplay, 1000)}
+          >
             <Icon type='reload' />
             Replay
           </Button>
-          <Button size="small" type="ghost" className="mx-1" onClick={debounce(props.onDuplicate, 1000)}>
+          <Button
+            size='small'
+            type='ghost'
+            className='mx-1'
+            disabled={isEditMode}
+            onClick={debounce(props.onDuplicate, 1000)}
+          >
             <Icon type='copy' />
             Duplicate
           </Button>
-          <Button size="small" type="ghost" className="mx-1" onClick={debounce(props.onDelete, 1000)}>
+          <Button
+            size='small'
+            type='ghost'
+            className='mx-1'
+            disabled={isEditMode}
+            onClick={debounce(props.onDelete, 1000)}
+          >
             <Icon type='delete' />
             Delete
           </Button>
         </span>
       )}
-      <hr className="my-3 p-0" />
+      <hr className='my-3 p-0' />
     </div>
   );
 };

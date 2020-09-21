@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import FlowNav from './FlowNav';
 import FlowButtons from './FlowButtons';
 import RequestInfo from './RequestInfo';
@@ -20,142 +20,192 @@ export interface IFlowViewProps {
   onReplay: () => void;
   onDuplicate: () => void;
   onDelete: () => void;
+  onEdit: (logId: string, payload: any) => void;
 }
 
-export interface IFlowViewState {
-  selectedTab: string;
-  selectedPhase: string;
-}
+type TFlowViewTabs = 'general' | 'headers' | 'body';
+type TFlowViewPhase = 'request' | 'response';
 
-export default class FlowView extends React.Component<IFlowViewProps, IFlowViewState> {
-  state = {
-    selectedTab: 'general',
-    selectedPhase: 'request',
-  };
 
-  selectTab(tab: string) {
-    this.setState({
-      selectedTab: tab,
-      selectedPhase: 'request',
-    });
-  }
+const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
+  const { log, log: { flow } } = props;
+  const { onRuleCreate, onClose, setPreRouteType, onReplay, onDuplicate, onDelete, onEdit } = props;
 
-  selectPhase(phase: string) {
-    if (phase === 'request' || phase === 'response') {
-      this.setState({
-        selectedPhase: phase,
+  const [selectedTab, setSelectedTab] = useState<TFlowViewTabs>('general');
+  const [selectedPhase, setSelectedPhase] = useState<TFlowViewPhase>('request');
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  const [tabs, setTabs] = useState<TFlowViewTabs[]>(['general']);
+  const [headers, setHeaders] = useState({});
+  const [body, setBody] = useState({});
+  const [generalInfo, setGeneralInfo] = useState({});
+
+  useEffect(() => {
+    if (flow) {
+      setTabs(['general', 'headers', 'body']);
+      setHeaders({
+        request: flow?.request?.headers,
+        response: flow?.response?.headers,
+        requestRewritten: flow?.request_rewritten?.headers,
+        responseRewritten: flow?.response_rewritten?.headers,
+      });
+      setBody({
+        request: flow?.request?.body,
+        response: flow?.response?.body,
+        requestRewritten: flow?.request_rewritten?.body,
+        responseRewritten: flow?.response_rewritten?.body,
+      });
+
+      Object.keys(body).forEach((key: string) => {
+        if (body[key] && body[key].length > 3000) {
+          setBody({
+            ...body,
+            [key]: 'Payload is too big to render',
+          });
+        }
       });
     }
+  }, [flow])
+
+  const selectTab = (tab: TFlowViewTabs) => {
+    setSelectedTab(tab);
+    setSelectedPhase('request');
   }
 
-  matchingRoutes() {
-    const matching = [];
-    this.props.log.routes.data.forEach((logRoute) => {
-      const route = this.props.routes.find(
-        r => r.id === logRoute.attributes.route_id,
-      );
-      if (!!route) matching.push(route);
-    });
-    return matching;
-  }
-
-  hideSecureButton() {
-    const log = this.props.log;
+  const hideSecureButton = () => {
     const isMethodGet = log.http?.method === 'GET';
     const isInvalidPath = !log.path?.match(/^(https?:)\/\//) && !log.upstream;
     return isMethodGet || isInvalidPath;
   }
 
-  handleRuleCreate() {
-    this.props.onRuleCreate(this.state.selectedPhase.toUpperCase());
-  }
+  const handleRuleCreate = () => onRuleCreate(selectedPhase.toUpperCase());
 
-  isMitmLog() {
-    return this.props.log.hasOwnProperty('intercepted');
-  }
+  const isMitmLog = () => log.hasOwnProperty('intercepted');
 
-  public render() {
-    const { log, logFilters, onClose, showSpinner } = this.props;
-    const { flow } = this.props.log;
-    let tabs = ['general'];
-    let headers = {};
-    let body = {};
-
-    if (flow) {
-      tabs = [
-        'general',
-        'headers',
-        'body',
-      ];
-      headers = {
-        request: flow.request && flow.request.headers,
-        response: flow.response && flow.response.headers,
-        requestRewritten: flow.REQUEST_REWRITTEN && flow.REQUEST_REWRITTEN.headers,
-        responseRewritten: flow.RESPONSE_REWRITTEN && flow.RESPONSE_REWRITTEN.headers,
-      };
-      body = {
-        request: flow.request && flow.request.body,
-        response: flow.response && flow.response.body,
-        requestRewritten: flow.REQUEST_REWRITTEN && flow.REQUEST_REWRITTEN.body,
-        responseRewritten: flow.RESPONSE_REWRITTEN && flow.RESPONSE_REWRITTEN.body,
-      };
-
-      Object.keys(body).forEach((key: string) => {
-        if (body[key] && body[key].length > 3000) body[key] = 'Payload is too big to render';
+  const handleOnEdit = () => {
+    if (isEditMode) {
+      setIsEditMode(false);
+      onEdit(log.id, {
+        request: {
+          headers: headers.request,
+          content: body.request,
+          ...generalInfo.request,
+        },
+        response: {
+          headers: headers.response,
+          content: body.response,
+          ...generalInfo.response,
+        },
       });
+    } else {
+      setIsEditMode(true);
     }
-
-    return (
-      <Modal
-        isOpen={true}
-        toggle={onClose}
-        fade={false}
-        className="modal-lg flow-detail"
-        data-role="log-details-modal"
-      >
-        <div className="modal-header">
-          <h5 className="modal-title">Secure Data</h5>
-          <Icon name="times" className="cursor-pointer" onClick={() => onClose()} />
-        </div>
-        <ModalBody>
-          <FlowNav
-            tabs={tabs}
-            active={this.state.selectedTab}
-            onSelectTab={tab => this.selectTab(tab)}
-          />
-          <FlowButtons
-            activePhase={this.state.selectedPhase}
-            selectedTab={this.state.selectedTab}
-            hasPayload={!!this.props.log.flow}
-            hideSecureButton={this.hideSecureButton()}
-            onRuleCreate={() => this.handleRuleCreate()}
-            onSelectPhase={phase => this.selectPhase(phase)}
-            setPreRouteType={this.props.setPreRouteType}
-            onReplay={this.props.onReplay}
-            onDuplicate={this.props.onDuplicate}
-            onDelete={this.props.onDelete}
-            isMitmLog={this.isMitmLog()}
-          />
-          {this.state.selectedTab === 'general' && (
-            <div className="mb-3 pt-0">
-              <GeneralInfo
-                log={log}
-                validUri={constructUriFromLog(log)}
-                showRouteType={true}
-                showRequestMethod={true}
-                showStatusCode={true}
-              />
-            </div>
-          )}
-          {this.state.selectedTab !== 'general' && (
-            <RequestInfo
-              headers={this.state.selectedTab === 'headers' && headers}
-              body={this.state.selectedTab === 'body' && body}
-              activePhase={this.state.selectedPhase}
-            />
-          )}
-        </ModalBody>
-      </Modal>
-    );
   }
-}
+
+  const onEditChange = (payload: any) => {
+    switch (selectedTab) {
+      case 'body':
+        setBody({
+          ...body,
+          [selectedPhase]: payload,
+        });
+        break;
+      case 'headers':
+        setHeaders({
+          ...headers,
+          [selectedPhase]: payload,
+        });
+        break;
+      case 'general':
+        setGeneralInfo({
+          ...generalInfo,
+          request: { ...generalInfo.request, ...payload.request },
+          response: { ...generalInfo.response, ...payload.response },
+        });
+        break;
+      default:
+        break;
+    }
+  }
+
+  const onEditCancel = () => {
+    setIsEditMode(false);
+    setHeaders({
+      request: flow?.request?.headers,
+      response: flow?.response?.headers,
+      requestRewritten: flow?.request_rewritten?.headers,
+      responseRewritten: flow?.response_rewritten?.headers,
+    });
+    setBody({
+      request: flow?.request?.body,
+      response: flow?.response?.body,
+      requestRewritten: flow?.request_rewritten?.body,
+      responseRewritten: flow?.response_rewritten?.body,
+    });
+    setGeneralInfo({});
+  }
+
+  return (
+    <Modal
+      isOpen={true}
+      toggle={onClose}
+      fade={false}
+      className="modal-lg flow-detail"
+      data-role="log-details-modal"
+    >
+      <div className="modal-header">
+        <h5 className="modal-title">Secure Data</h5>
+        <Icon name="times" className="cursor-pointer" onClick={() => onClose()} />
+      </div>
+      <ModalBody>
+        <FlowNav
+          tabs={tabs}
+          active={selectedTab}
+          onSelectTab={(tab: TFlowViewTabs) => selectTab(tab)}
+        />
+        <FlowButtons
+          activePhase={selectedPhase}
+          selectedTab={selectedTab}
+          hasPayload={!!log.flow}
+          hideSecureButton={hideSecureButton()}
+          onRuleCreate={() => handleRuleCreate()}
+          onSelectPhase={(phase: TFlowViewPhase) => setSelectedPhase(phase)}
+          setPreRouteType={setPreRouteType}
+          onReplay={onReplay}
+          onDuplicate={onDuplicate}
+          onDelete={onDelete}
+          onEdit={handleOnEdit}
+          onEditCancel={onEditCancel}
+          isEditMode={isEditMode}
+          isMitmLog={isMitmLog()}
+        />
+        {selectedTab === 'general' ? (
+          <div className="mb-3 pt-0">
+            <GeneralInfo
+              log={log}
+              validUri={constructUriFromLog(log)}
+              showRouteType={true}
+              showRequestMethod={true}
+              showStatusCode={true}
+              isEditMode={isEditMode}
+              onEditChange={onEditChange}
+              onEditSave={handleOnEdit}
+              generalInfo={generalInfo}
+            />
+          </div>
+        ) : (
+          <RequestInfo
+            headers={selectedTab === 'headers' && headers}
+            body={selectedTab === 'body' && body}
+            activePhase={selectedPhase}
+            isEditMode={isEditMode}
+            onEditChange={onEditChange}
+            onEditSave={handleOnEdit}
+          />
+        )}
+      </ModalBody>
+    </Modal>
+  );
+};
+
+export default FlowView;
