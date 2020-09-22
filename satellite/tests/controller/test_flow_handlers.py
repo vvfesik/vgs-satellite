@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 
 from mitmproxy.log import LogEntry
 
-from ..utils import load_flow
+from ..factories import load_flow
 from .base import BaseHandlerTestCase
 
 

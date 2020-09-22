@@ -50,6 +50,10 @@ class FlowSchema(Schema):
 
 class HTTPFlowSchema(FlowSchema):
     class RequestResponse(Schema):
+        class MatchDetails(Schema):
+            route_id = fields.UUID(required=True)
+            filter_ids = fields.List(fields.UUID, required=True)
+
         http_version = fields.Str(required=True)
         headers = fields.Method(serialize='get_headers')
         content = fields.Method(serialize='get_content')
@@ -57,9 +61,10 @@ class HTTPFlowSchema(FlowSchema):
         timestamp_start = fields.Float()
         timestamp_end = fields.Float()
         is_replay = fields.Bool()
+        match_details = fields.Nested(MatchDetails)
 
         @pre_dump
-        def get_state(self, message: Message, many: bool) -> Message:
+        def prepare_content(self, message: Message, many: bool) -> Message:
             self.context['content'] = None
             self.context['content_length'] = None
             if message.raw_content:

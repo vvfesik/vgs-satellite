@@ -1,24 +1,33 @@
+from typing import List, Optional, Tuple
+
+from mitmproxy.flow import Flow
+
 from satellite.master import ProxyMode
 from satellite.service import route_manager
-from satellite.model.route import RouteType, Phase
+from satellite.model.route import Phase, Route, RouteType, RuleEntry
 
 
-def match_route(proxy_mode: ProxyMode, phase: Phase, flow):
-    routes_filters = []
-    request = flow.request
+def match_route(
+    proxy_mode: ProxyMode,
+    phase: Phase,
+    flow: Flow,
+) -> Tuple[Optional[Route], Optional[List[RuleEntry]]]:
     if proxy_mode == ProxyMode.INCOMPATIBLE:
-        return
+        return None, None
+
+    request = flow.request
     route_type = RouteType.INBOUND if proxy_mode == ProxyMode.REVERSE else RouteType.OUTBOUND
     routes = route_manager.get_all_by_type(route_type)
     request_host = request.host.replace('/', '').replace('.', '\\.')
     if proxy_mode == ProxyMode.FORWARD:
         routes = [route for route in routes if route.host_endpoint == request_host]
+
     for route in routes:
-        # route.rule_entries_list = match_filters(route.rule_entries_list, phase, request)
         rule_entries_list = match_filters(route.rule_entries_list, phase, request)
-        if len(rule_entries_list) > 0:
-            routes_filters += [rule_entries_list]
-    return routes_filters
+        if rule_entries_list:
+            return route, rule_entries_list
+
+    return None, None
 
 
 def match_filters(rule_entries, phase: Phase, request):

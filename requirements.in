@@ -9,3 +9,4 @@ flake8
 pip-tools
 pytest
 snapshottest
+factory_boy
