@@ -13,7 +13,11 @@ const FlowStatus: React.FunctionComponent<IFlowStatusProps> = (props) => {
   const status =
     log.upstream_status || log.proxy_status || log.response?.status_code;
 
-  if (!status) return <></>;
+  if (!status) return (
+    <>
+      {log.error?.msg ? <Badge color="danger">ERR</Badge> : null}
+    </>
+  );
 
   return <Badge color={badgeColor(status)}>{status}</Badge>;
 };

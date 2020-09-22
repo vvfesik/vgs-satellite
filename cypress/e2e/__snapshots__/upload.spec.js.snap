@@ -16,6 +16,26 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
         ><a href="#" class="capitalize" data-role="tab-body">body</a>
       </nav>
       <div class="text-center mt-3 mb-2 position-relative">
+        <button
+          type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span>
+        </button>
         <div role="group" class="btn-group">
           <button
             type="button"
@@ -36,6 +56,10 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="mb-3 pt-0">
         <table class="general-table pb-3 table">
           <tbody>
+            <tr>
+              <td class="smallbold">Protocol</td>
+              <td><span>http/2.0</span></td>
+            </tr>
             <tr>
               <td class="smallbold">URL</td>
               <td>https://httpbin.org/get</td>
@@ -77,6 +101,26 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
         ><a href="#" class="capitalize" data-role="tab-body">body</a>
       </nav>
       <div class="text-center mt-3 mb-2 position-relative">
+        <button
+          type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span>
+        </button>
         <div role="group" class="btn-group">
           <button
             type="button"
@@ -98,14 +142,6 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
         <section class="request mt-2">
           <table class="header-table table table-striped">
             <tbody>
-              <tr class="heading">
-                <td class="header-name"></td>
-              </tr>
-              <tr class="d-none">
-                <td class="header-name"></td>
-                <td></td>
-                <td></td>
-              </tr>
               <tr class="">
                 <td class="header-name">:method</td>
                 <td class="header-original">GET</td>
@@ -196,6 +232,26 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
         ><a href="#" class="capitalize" data-role="tab-body">body</a>
       </nav>
       <div class="text-center mt-3 mb-2 position-relative">
+        <button
+          type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span>
+        </button>
         <div role="group" class="btn-group">
           <button
             type="button"
@@ -217,14 +273,6 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
         <section class="request mt-2">
           <table class="header-table table table-striped">
             <tbody>
-              <tr class="heading">
-                <td class="header-name"></td>
-              </tr>
-              <tr class="d-none">
-                <td class="header-name"></td>
-                <td></td>
-                <td></td>
-              </tr>
               <tr class="">
                 <td class="header-name">status</td>
                 <td class="header-original">200</td>
@@ -280,6 +328,26 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
         ><a href="#" class="active capitalize" data-role="tab-body">body</a>
       </nav>
       <div class="text-center mt-3 mb-2 position-relative">
+        <button
+          type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span>
+        </button>
         <div role="group" class="btn-group">
           <button
             type="button"
@@ -325,6 +393,26 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
         ><a href="#" class="active capitalize" data-role="tab-body">body</a>
       </nav>
       <div class="text-center mt-3 mb-2 position-relative">
+        <button
+          type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span>
+        </button>
         <div role="group" class="btn-group">
           <button
             type="button"
@@ -681,6 +769,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="text-center mt-3 mb-2 position-relative">
         <button
           type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
+          type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
           <span>Secure this payload</span>
@@ -705,6 +812,10 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="mb-3 pt-0">
         <table class="general-table pb-3 table">
           <tbody>
+            <tr>
+              <td class="smallbold">Protocol</td>
+              <td><span>http/2.0</span></td>
+            </tr>
             <tr>
               <td class="smallbold">URL</td>
               <td>https://httpbin.org/patch</td>
@@ -748,6 +859,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="text-center mt-3 mb-2 position-relative">
         <button
           type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
+          type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
           <span>Secure this payload</span>
@@ -773,14 +903,6 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
         <section class="request mt-2">
           <table class="header-table table table-striped">
             <tbody>
-              <tr class="heading">
-                <td class="header-name"></td>
-              </tr>
-              <tr class="d-none">
-                <td class="header-name"></td>
-                <td></td>
-                <td></td>
-              </tr>
               <tr class="">
                 <td class="header-name">:method</td>
                 <td class="header-original">PATCH</td>
@@ -877,6 +999,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="text-center mt-3 mb-2 position-relative">
         <button
           type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
+          type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
           <span>Secure this payload</span>
@@ -902,14 +1043,6 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
         <section class="request mt-2">
           <table class="header-table table table-striped">
             <tbody>
-              <tr class="heading">
-                <td class="header-name"></td>
-              </tr>
-              <tr class="d-none">
-                <td class="header-name"></td>
-                <td></td>
-                <td></td>
-              </tr>
               <tr class="">
                 <td class="header-name">status</td>
                 <td class="header-original">200</td>
@@ -967,6 +1100,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="text-center mt-3 mb-2 position-relative">
         <button
           type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
+          type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
           <span>Secure this payload</span>
@@ -1017,6 +1169,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       </nav>
       <div class="text-center mt-3 mb-2 position-relative">
         <button
+          type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
           type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
@@ -1458,6 +1629,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="text-center mt-3 mb-2 position-relative">
         <button
           type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
+          type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
           <span>Secure this payload</span>
@@ -1482,6 +1672,10 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="mb-3 pt-0">
         <table class="general-table pb-3 table">
           <tbody>
+            <tr>
+              <td class="smallbold">Protocol</td>
+              <td><span>http/2.0</span></td>
+            </tr>
             <tr>
               <td class="smallbold">URL</td>
               <td>https://httpbin.org/put</td>
@@ -1525,6 +1719,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="text-center mt-3 mb-2 position-relative">
         <button
           type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
+          type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
           <span>Secure this payload</span>
@@ -1550,14 +1763,6 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
         <section class="request mt-2">
           <table class="header-table table table-striped">
             <tbody>
-              <tr class="heading">
-                <td class="header-name"></td>
-              </tr>
-              <tr class="d-none">
-                <td class="header-name"></td>
-                <td></td>
-                <td></td>
-              </tr>
               <tr class="">
                 <td class="header-name">:method</td>
                 <td class="header-original">PUT</td>
@@ -1658,6 +1863,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="text-center mt-3 mb-2 position-relative">
         <button
           type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
+          type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
           <span>Secure this payload</span>
@@ -1683,14 +1907,6 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
         <section class="request mt-2">
           <table class="header-table table table-striped">
             <tbody>
-              <tr class="heading">
-                <td class="header-name"></td>
-              </tr>
-              <tr class="d-none">
-                <td class="header-name"></td>
-                <td></td>
-                <td></td>
-              </tr>
               <tr class="">
                 <td class="header-name">status</td>
                 <td class="header-original">200</td>
@@ -1748,6 +1964,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="text-center mt-3 mb-2 position-relative">
         <button
           type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
+          type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
           <span>Secure this payload</span>
@@ -1798,6 +2033,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       </nav>
       <div class="text-center mt-3 mb-2 position-relative">
         <button
+          type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
           type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
@@ -2255,6 +2509,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="text-center mt-3 mb-2 position-relative">
         <button
           type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
+          type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
           <span>Secure this payload</span>
@@ -2279,6 +2552,10 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="mb-3 pt-0">
         <table class="general-table pb-3 table">
           <tbody>
+            <tr>
+              <td class="smallbold">Protocol</td>
+              <td><span>http/2.0</span></td>
+            </tr>
             <tr>
               <td class="smallbold">URL</td>
               <td>https://httpbin.org/delete</td>
@@ -2322,6 +2599,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="text-center mt-3 mb-2 position-relative">
         <button
           type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
+          type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
           <span>Secure this payload</span>
@@ -2347,14 +2643,6 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
         <section class="request mt-2">
           <table class="header-table table table-striped">
             <tbody>
-              <tr class="heading">
-                <td class="header-name"></td>
-              </tr>
-              <tr class="d-none">
-                <td class="header-name"></td>
-                <td></td>
-                <td></td>
-              </tr>
               <tr class="">
                 <td class="header-name">:method</td>
                 <td class="header-original">DELETE</td>
@@ -2451,6 +2739,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="text-center mt-3 mb-2 position-relative">
         <button
           type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
+          type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
           <span>Secure this payload</span>
@@ -2476,14 +2783,6 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
         <section class="request mt-2">
           <table class="header-table table table-striped">
             <tbody>
-              <tr class="heading">
-                <td class="header-name"></td>
-              </tr>
-              <tr class="d-none">
-                <td class="header-name"></td>
-                <td></td>
-                <td></td>
-              </tr>
               <tr class="">
                 <td class="header-name">status</td>
                 <td class="header-original">200</td>
@@ -2541,6 +2840,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="text-center mt-3 mb-2 position-relative">
         <button
           type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
+          type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
           <span>Secure this payload</span>
@@ -2591,6 +2909,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       </nav>
       <div class="text-center mt-3 mb-2 position-relative">
         <button
+          type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
           type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
@@ -3032,6 +3369,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="text-center mt-3 mb-2 position-relative">
         <button
           type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
+          type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
           <span>Secure this payload</span>
@@ -3056,6 +3412,10 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="mb-3 pt-0">
         <table class="general-table pb-3 table">
           <tbody>
+            <tr>
+              <td class="smallbold">Protocol</td>
+              <td><span>HTTP/1.1</span></td>
+            </tr>
             <tr>
               <td class="smallbold">URL</td>
               <td>http://httpbin.org/post</td>
@@ -3099,6 +3459,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="text-center mt-3 mb-2 position-relative">
         <button
           type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
+          type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
           <span>Secure this payload</span>
@@ -3124,14 +3503,6 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
         <section class="request mt-2">
           <table class="header-table table table-striped">
             <tbody>
-              <tr class="heading">
-                <td class="header-name"></td>
-              </tr>
-              <tr class="d-none">
-                <td class="header-name"></td>
-                <td></td>
-                <td></td>
-              </tr>
               <tr class="">
                 <td class="header-name">Host</td>
                 <td class="header-original">httpbin.org</td>
@@ -3186,6 +3557,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       <div class="text-center mt-3 mb-2 position-relative">
         <button
           type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
+          type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
           <span>Secure this payload</span>
@@ -3211,14 +3601,6 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
         <section class="request mt-2">
           <table class="header-table table table-striped">
             <tbody>
-              <tr class="heading">
-                <td class="header-name"></td>
-              </tr>
-              <tr class="d-none">
-                <td class="header-name"></td>
-                <td></td>
-                <td></td>
-              </tr>
               <tr class="">
                 <td class="header-name">Date</td>
                 <td class="header-original">Wed, 26 Feb 2020 15:22:46 GMT</td>
@@ -3275,6 +3657,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       </nav>
       <div class="text-center mt-3 mb-2 position-relative">
         <button
+          type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
           type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >
@@ -3347,6 +3748,25 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
       </nav>
       <div class="text-center mt-3 mb-2 position-relative">
         <button
+          type="button"
+          class="ant-btn d-flex position-absolute left-0 ant-btn-ghost ant-btn-sm"
+        >
+          <i aria-label="icon: edit" class="anticon anticon-edit"
+            ><svg
+              viewBox="64 64 896 896"
+              focusable="false"
+              class=""
+              data-icon="edit"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 0 0 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 0 0 9.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z"
+              ></path></svg></i
+          ><span>Edit</span></button
+        ><button
           type="button"
           class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
         >

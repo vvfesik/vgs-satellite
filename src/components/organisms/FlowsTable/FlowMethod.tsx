@@ -12,6 +12,16 @@ const FlowMethod: React.FunctionComponent<IFlowMethodProps> = (props) => {
   return (
     <span className='d-flex text-left align-items-center'>
       {log?.http?.method || ''}
+      {log?.modified && (
+        <Popover
+          trigger='hover'
+          content={
+            <span className='text-sm d-inline-block'>Modified request</span>
+          }
+        >
+          <Icon type='edit' className='ml-1 text-secondary-light' />
+        </Popover>
+      )}
       {log?.request?.is_replay && (
         <Popover
           trigger='hover'

@@ -6,6 +6,7 @@ jobs:
         environment:
           ## this enables colors in the output
           TERM: xterm
+          NODE_OPTIONS: --max-old-space-size=2048
     working_directory: ~/app
     steps:
       - checkout

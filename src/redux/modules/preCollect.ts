@@ -5,6 +5,7 @@ import {
   replayMitmLog,
   duplicateMitmLog,
   deleteMitmLog,
+  updateMitmLog,
 } from '../apis/preCollect';
 
 const ADD_PRE_COLLECT_LOGS = 'ADD_PRE_COLLECT_LOGS';
@@ -124,6 +125,16 @@ export const deleteRequest = (logId: string) => async () => {
   try {
     await deleteMitmLog(logId);
     notify.success('Successfully deleted');
+  } catch (error) {
+    notify.error(`Something went wrong. ${error}`);
+  }
+}
+
+export const editRequest = (logId: string, payload: any) => async () => {
+  try {
+    await updateMitmLog(logId, payload);
+    notify.success('Successfully modified');
+    await fetchFlows();
   } catch (error) {
     notify.error(`Something went wrong. ${error}`);
   }

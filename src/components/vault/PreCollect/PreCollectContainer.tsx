@@ -15,6 +15,7 @@ import {
   replayRequest,
   duplicateRequest,
   deleteRequest,
+  editRequest,
 } from 'src/redux/modules/preCollect';
 import { saveRoute } from 'src/redux/modules/routes';
 import { constructUriFromLog } from 'src/redux/utils/utils';
@@ -40,6 +41,7 @@ const mapDispatchToProps = (dispatch: any) => {
       replayRequest,
       duplicateRequest,
       deleteRequest,
+      editRequest,
       saveRoute,
     },
     dispatch,
@@ -59,6 +61,7 @@ export interface IPreCollectContainerProps {
   replayRequest: (logId: string) => void;
   duplicateRequest: (logId: string) => void;
   deleteRequest: (logId: string) => void;
+  editRequest: (logId: string, payload: any) => void;
   saveRoute: (route: IRoute) => void;
 }
 
@@ -74,6 +77,7 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
     replayRequest,
     duplicateRequest,
     deleteRequest,
+    editRequest,
     saveRoute,
   } = props;
 
@@ -116,6 +120,11 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
     saveRoute(route);
   }
 
+  const handleEdit = (logId: string, payload: any) => {
+    editRequest(logId, payload);
+    selectLog(null);
+  }
+
   const demoCurl = `curl https://httpbin.org/post -k \\
   -x localhost:9099 \\
   -H "Content-type: application/json" \\
@@ -145,6 +154,7 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
           onReplay={handleReplay}
           onDuplicate={handleDuplicate}
           onDelete={handleDelete}
+          onEdit={(logId: string, payload: any) => handleEdit(logId, payload)}
         />
       ) : null}
 

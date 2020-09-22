@@ -2,6 +2,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import DiffSnippet from 'src/components/atoms/DiffSnippet/DiffSnippet';
 import { Table } from 'reactstrap';
+import { Input } from 'src/components/antd';
 import { isString } from 'lodash';
 import { ILogHeaders, ILogBody } from 'src/redux/interfaces/logs';
 
@@ -9,10 +10,13 @@ interface IRequestProps {
   activePhase: 'request' | 'response';
   headers?: ILogHeaders;
   body?: ILogBody;
+  isEditMode: boolean;
+  onEditChange: (payload: any) => void;
+  onEditSave: () => void;
 }
 
-const Request: React.SFC<IRequestProps> = (props) => {
-  const { headers, body, activePhase } = props;
+const Request: React.FC<IRequestProps> = (props) => {
+  const { headers, body, activePhase, isEditMode, onEditChange, onEditSave } = props;
   const findRewrittenHeader = ([key, value]) => {
     const index = headers[activePhase]
       .filter(h => h[0] === key)
@@ -25,21 +29,37 @@ const Request: React.SFC<IRequestProps> = (props) => {
   const rewrittenHeaders = headers && headers[`${activePhase}Rewritten`];
   const bodyRewritten = body && body[`${activePhase}Rewritten`];
 
+  const onEditChangeHeader = (key, value) => {
+    const changedHeaders = [...headers[activePhase]];
+    changedHeaders[key][1] = value;
+    onEditChange(changedHeaders);
+  }
+
   return (
     <div className="mt-3 pt-0">
       {headers && (
         <section className="request mt-2">
-          {headers[activePhase]  ? (
+          {headers[activePhase] ? isEditMode ? (
             <Table striped className="header-table">
               <tbody>
-                <tr className="heading">
-                  <td className="header-name" />
-                </tr>
-                <tr className="d-none">
-                  <td className="header-name" />
-                  <td />
-                  <td />
-                </tr>
+                {headers[activePhase].map((header, key) => (
+                  <tr key={key}>
+                    <td className="header-name">{header[0]}</td>
+                    <td className="header-original pl-0 py-0">
+                      <Input.TextArea
+                        autoSize
+                        value={header[1]}
+                        onChange={e => onEditChangeHeader(key, e.target.value)}
+                        onPressEnter={onEditSave}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ) : (
+            <Table striped className="header-table">
+              <tbody>
                 {headers[activePhase].map((header, key) => (
                   <tr
                     key={key}
@@ -58,20 +78,29 @@ const Request: React.SFC<IRequestProps> = (props) => {
           )}
         </section>
       )}
-      {body
-      && (
-        <div className="mb-3" data-role="log-payload-body-diff">
+
+      {body && (
+        <div className='mb-3' data-role='log-payload-body-diff'>
           {body[activePhase] && isString(body[activePhase]) ? (
-            <DiffSnippet
-              oldCode={body[activePhase]}
-              newCode={isString(bodyRewritten) ? bodyRewritten : ''}
-              oldTitle=""
-              newTitle=""
-              splitView={false}
-              showDiffOnly={true}
-            />
+            isEditMode ? (
+              <Input.TextArea
+                autoSize
+                value={JSON.stringify(body[activePhase])}
+                onChange={e => onEditChange(JSON.parse(e.target.value))}
+                onPressEnter={onEditSave}
+              />
+            ) : (
+              <DiffSnippet
+                oldCode={body[activePhase]}
+                newCode={isString(bodyRewritten) ? bodyRewritten : ''}
+                oldTitle=''
+                newTitle=''
+                splitView={false}
+                showDiffOnly={true}
+              />
+            )
           ) : (
-            <p className="text-center mt-4">No payload found</p>
+            <p className='text-center mt-4'>No payload found</p>
           )}
         </div>
       )}

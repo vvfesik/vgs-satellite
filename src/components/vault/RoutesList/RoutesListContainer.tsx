@@ -11,7 +11,6 @@ const mapStateToProps = ({ routes }: any) => {
   };
 }
 
-
 const mapDispatchToProps = {
   fetchRoutes,
   deleteRoute,
