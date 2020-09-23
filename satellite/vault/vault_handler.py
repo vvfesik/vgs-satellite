@@ -17,6 +17,7 @@ class VaultFlows:
             proxy_mode = satellite_ctx.webapp.master.proxy_mode
             route, route_filters = match_route(proxy_mode, Phase.REQUEST, flow)
             if route_filters:
+                # TODO: Encapsulate flow transformation somewere else
                 flow.request.text = transform_body(route_filters, content)
                 flow.request.match_details = {
                     'route_id': route.id,
@@ -33,6 +34,7 @@ class VaultFlows:
             proxy_mode = satellite_ctx.webapp.master.proxy_mode
             route, route_filters = match_route(proxy_mode, Phase.RESPONSE, flow)
             if route_filters:
+                # TODO: Encapsulate flow transformation somewere else
                 flow.response.text = transform_body(route_filters, content)
                 flow.response.match_details = {
                     'route_id': route.id,

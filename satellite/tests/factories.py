@@ -44,7 +44,7 @@ class RuleEntryFactory(Factory):
     transformer_config = '["$.foo"]'
     targets = 'body'
     classifiers = {}
-    expression_snapshot = {
+    expression_snapshot = LazyFunction(lambda: {
         'expression': None,
         'condition': 'AND',
         'rules': [
@@ -69,4 +69,4 @@ class RuleEntryFactory(Factory):
                 },
             },
         ],
-    }
+    })
