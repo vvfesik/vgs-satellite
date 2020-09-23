@@ -30,10 +30,18 @@ export const mitmlogToFlow = (entry, selectedPhase) => {
     ...entry,
     flow: {
       request: {
-        headers: entry.request.headers,
-        body: entry.request.content,
+        headers: entry.request_raw?.headers,
+        body: entry.request_raw?.content,
       },
       response: {
+        headers: entry.response_raw?.headers,
+        body: entry.response_raw?.content,
+      },
+      request_rewritten: {
+        headers: entry.request?.headers,
+        body: entry.request?.content,
+      },
+      response_rewritten: {
         headers: entry.response?.headers,
         body: entry.response?.content,
       },
