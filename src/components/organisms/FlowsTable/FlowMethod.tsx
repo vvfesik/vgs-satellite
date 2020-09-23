@@ -9,10 +9,13 @@ interface IFlowMethodProps {
 const FlowMethod: React.FunctionComponent<IFlowMethodProps> = (props) => {
   const { log } = props;
 
+  const isReplayed = !!log.request?.is_replay;
+  const isModified = !!log.modified && !isReplayed;
+
   return (
     <span className='d-flex text-left align-items-center'>
       {log?.http?.method || ''}
-      {log?.modified && (
+      {isModified && (
         <Popover
           trigger='hover'
           content={
@@ -22,7 +25,7 @@ const FlowMethod: React.FunctionComponent<IFlowMethodProps> = (props) => {
           <Icon type='edit' className='ml-1 text-secondary-light' />
         </Popover>
       )}
-      {log?.request?.is_replay && (
+      {isReplayed && (
         <Popover
           trigger='hover'
           content={
