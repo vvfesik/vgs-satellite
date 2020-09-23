@@ -60,20 +60,24 @@ const Request: React.FC<IRequestProps> = (props) => {
           ) : (
             <Table striped className="header-table">
               <tbody>
-                <tr className="heading">
-                  <td className="header-name" />
-                  <td className="header-original">
-                    <p className="heading mb-0">Original</p>
-                  </td>
-                  <td className="header-rewritten">
-                    <p className="heading mb-0">Rewritten</p>
-                  </td>
-                </tr>
-                <tr className="d-none">
-                  <td className="header-name" />
-                  <td />
-                  <td />
-                </tr>
+                {rewrittenHeaders && (
+                  <>
+                    <tr className="heading">
+                      <td className="header-name" />
+                      <td className="header-original">
+                        <p className="heading mb-0">Original</p>
+                      </td>
+                      <td className="header-rewritten">
+                        <p className="heading mb-0">Rewritten</p>
+                      </td>
+                    </tr>
+                    <tr className="d-none">
+                      <td className="header-name" />
+                      <td />
+                      <td />
+                    </tr>
+                  </>
+                )}
                 {headers[activePhase].map((header, key) => (
                   <tr
                     key={key}
@@ -83,9 +87,11 @@ const Request: React.FC<IRequestProps> = (props) => {
                   >
                     <td className="header-name">{header[0]}</td>
                     <td className="header-original">{header[1]}</td>
-                    <td className="header-rewritten">
-                      {rewrittenHeaders && findRewrittenHeader(header)}
-                    </td>
+                    {rewrittenHeaders && (
+                      <td className="header-rewritten">
+                        {findRewrittenHeader(header)}
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
@@ -110,9 +116,9 @@ const Request: React.FC<IRequestProps> = (props) => {
               <DiffSnippet
                 oldCode={body[activePhase]}
                 newCode={isString(bodyRewritten) ? bodyRewritten : ''}
-                oldTitle="Original"
-                newTitle="Rewritten"
-                splitView={true}
+                oldTitle={bodyRewritten ? 'Original' : ''}
+                newTitle={bodyRewritten ? 'Rewritten' : ''}
+                splitView={!!bodyRewritten}
                 showDiffOnly={false}
               />
             )
