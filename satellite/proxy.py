@@ -12,7 +12,8 @@ from mitmproxy.tools.web import static_viewer, webaddons
 from satellite.master import Master
 from satellite.vault.vault_handler import VaultFlows
 from satellite.controller.websocket_connection import ClientConnection
-from satellite.controller.flow_handlers import flow_to_json, logentry_to_json
+from satellite.schemas.flows import HTTPFlowSchema
+from satellite.schemas.log_entry import LogEntrySchema
 
 
 class ProxyMaster(Master):
@@ -48,14 +49,14 @@ class ProxyMaster(Master):
         ClientConnection.broadcast(
             resource="flows",
             cmd="add",
-            data=flow_to_json(flow)
+            data=HTTPFlowSchema().dump(flow)
         )
 
     def _sig_view_update(self, view, flow):
         ClientConnection.broadcast(
             resource="flows",
             cmd="update",
-            data=flow_to_json(flow)
+            data=HTTPFlowSchema().dump(flow)
         )
 
     def _sig_view_remove(self, view, flow, index):
@@ -75,7 +76,7 @@ class ProxyMaster(Master):
         ClientConnection.broadcast(
             resource="events",
             cmd="add",
-            data=logentry_to_json(entry)
+            data=LogEntrySchema().dump(entry),
         )
 
     def _sig_events_refresh(self, event_store):

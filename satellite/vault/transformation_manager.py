@@ -4,7 +4,6 @@ from satellite.vault.transformer import transformer_map
 
 
 def transform_body(routes_filters, content):
-    content_rewrite = ''
     for rule_entry in routes_filters:
         transformer = rule_entry.transformer
         transformer_type = transformer_map.get(transformer)
@@ -15,5 +14,5 @@ def transform_body(routes_filters, content):
         operation = rule_entry.operation
         token_generator = rule_entry.public_token_generator
         transformer_config = rule_entry.transformer_config
-        content_rewrite = transformer_type.transform(content, transformer_config, token_generator, operation)
-    return content_rewrite
+        content = transformer_type.transform(content, transformer_config, token_generator, operation)
+    return content

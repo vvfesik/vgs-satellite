@@ -14,7 +14,7 @@ class PayloadTransformer(metaclass=ABCMeta):
 
 class JsonTransformer(PayloadTransformer):
     def transform(self, payload, transformer_array, token_generator, operation):
-        payload_json = json.loads((payload.decode()))
+        payload_json = json.loads((payload))
         for expression in transformer_array:
             json_expr = parse(expression)
             for match in json_expr.find(payload_json):

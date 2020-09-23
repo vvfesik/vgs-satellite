@@ -1,7 +1,9 @@
 from mitmproxy import contentviews
 from mitmproxy import exceptions
 
-from satellite.controller import BaseHandler, logentry_to_json, flow_to_json, APIError
+from satellite.controller import APIError, BaseHandler, apply_response_schema
+from satellite.schemas.flows import HTTPFlowSchema
+from satellite.schemas.log_entry import LogEntrySchema
 
 
 class Index(BaseHandler):
@@ -10,9 +12,10 @@ class Index(BaseHandler):
         self.finish()
 
 
-class Events(BaseHandler):
+class EventsHandler(BaseHandler):
+    @apply_response_schema(LogEntrySchema, many=True)
     def get(self):
-        self.write([logentry_to_json(e) for e in self.master.events.data])
+        return list(self.master.events.data)
 
 
 class FlowHandler(BaseHandler):
@@ -136,6 +139,6 @@ class FlowContentView(BaseHandler):
 
 
 class Flows(BaseHandler):
-
+    @apply_response_schema(HTTPFlowSchema, many=True)
     def get(self):
-        self.write([flow_to_json(f) for f in self.view])
+        return list(self.view)

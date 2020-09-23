@@ -23,8 +23,10 @@ class AliasManager:
         alias_generator_type = generator_map.get(alias_generator)
         alias_id = str(uuid.uuid4())
         if not alias_generator_type:
-            raise RedactFailed(f'{alias_generator} can\'t be used as a alias generator. '
-                         f'Possible values: {str(alias_generator.keys())}')
+            raise RedactFailed(
+                f'{alias_generator} can\'t be used as a alias generator. '
+                f'Possible values: {str(alias_generator.keys())}'
+            )
         public_alias = alias_generator_type.generate(alias_id)
         alias = Alias(id=alias_id,
                       value=value,
