@@ -18,10 +18,17 @@ class VaultFlows:
             route, route_filters = match_route(proxy_mode, Phase.REQUEST, flow)
             if route_filters:
                 # TODO: Encapsulate flow transformation somewere else
-                flow.request.text = transform_body(route_filters, content)
+                flow.request.text, ops_applications = transform_body(
+                    route_filters,
+                    content,
+                )
+                matched_filters = [
+                    {'id': rule.id, 'operation_applied': op_applied}
+                    for rule, op_applied in zip(route_filters, ops_applications)
+                ]
                 flow.request.match_details = {
                     'route_id': route.id,
-                    'filter_ids': [rule.id for rule in route_filters]
+                    'filters': matched_filters,
                 }
 
         except (RedactFailed, RevealFailed) as error_message:
@@ -35,10 +42,17 @@ class VaultFlows:
             route, route_filters = match_route(proxy_mode, Phase.RESPONSE, flow)
             if route_filters:
                 # TODO: Encapsulate flow transformation somewere else
-                flow.response.text = transform_body(route_filters, content)
+                flow.response.text, ops_applications = transform_body(
+                    route_filters,
+                    content
+                )
+                matched_filters = [
+                    {'id': rule.id, 'operation_applied': op_applied}
+                    for rule, op_applied in zip(route_filters, ops_applications)
+                ]
                 flow.response.match_details = {
                     'route_id': route.id,
-                    'filter_ids': [rule.id for rule in route_filters]
+                    'filters': matched_filters,
                 }
         except (RedactFailed, RevealFailed) as error_message:
             ctx.log.error(str(error_message))

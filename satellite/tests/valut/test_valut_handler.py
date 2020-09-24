@@ -19,7 +19,7 @@ def test_request_redact(monkeypatch, snapshot):
     )
     monkeypatch.setattr(
         'satellite.vault.vault_handler.transform_body',
-        Mock(return_value='transformed body'),
+        Mock(return_value=('transformed body', [True])),
     )
 
     flow = load_flow('http_raw')
@@ -31,7 +31,7 @@ def test_request_redact(monkeypatch, snapshot):
     assert flow.request.content != flow.request_raw.content
     assert flow.request.match_details == {
         'route_id': route.id,
-        'filter_ids': [rule_entry.id]
+        'filters': [{'id': rule_entry.id, 'operation_applied': True}]
     }
     snapshot.assert_match(flow.request.get_state(), 'request')
     snapshot.assert_match(flow.request_raw.get_state(), 'request_raw')
@@ -45,10 +45,6 @@ def test_request_without_redact(monkeypatch):
     monkeypatch.setattr(
         'satellite.vault.vault_handler.match_route',
         Mock(return_value=(None, None)),
-    )
-    monkeypatch.setattr(
-        'satellite.vault.vault_handler.transform_body',
-        Mock(return_value='transformed body'),
     )
 
     flow = load_flow('http_raw')
@@ -75,7 +71,7 @@ def test_response_redact(monkeypatch, snapshot):
     )
     monkeypatch.setattr(
         'satellite.vault.vault_handler.transform_body',
-        Mock(return_value='transformed body'),
+        Mock(return_value=('transformed body', [True])),
     )
 
     flow = load_flow('http_raw')
@@ -87,7 +83,7 @@ def test_response_redact(monkeypatch, snapshot):
     assert flow.response.content != flow.response_raw.content
     assert flow.response.match_details == {
         'route_id': route.id,
-        'filter_ids': [rule_entry.id]
+        'filters': [{'id': rule_entry.id, 'operation_applied': True}]
     }
     snapshot.assert_match(flow.response.get_state(), 'response')
     snapshot.assert_match(flow.response_raw.get_state(), 'response_raw')
@@ -101,10 +97,6 @@ def test_response_without_redact(monkeypatch):
     monkeypatch.setattr(
         'satellite.vault.vault_handler.match_route',
         Mock(return_value=(None, None)),
-    )
-    monkeypatch.setattr(
-        'satellite.vault.vault_handler.transform_body',
-        Mock(return_value='transformed body'),
     )
 
     flow = load_flow('http_raw')
