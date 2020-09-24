@@ -2,6 +2,7 @@ from mitmproxy import contentviews
 from mitmproxy import exceptions
 
 from satellite.controller import APIError, BaseHandler, apply_response_schema
+from satellite.flows import copy_flow
 from satellite.schemas.flows import HTTPFlowSchema
 from satellite.schemas.log_entry import LogEntrySchema
 
@@ -105,7 +106,7 @@ class ResumeFlows(BaseHandler):
 
 class DuplicateFlow(BaseHandler):
     def post(self, flow_id):
-        f = self.flow.copy()
+        f = copy_flow(self.flow)
         self.view.add([f])
         self.write(f.id)
 
