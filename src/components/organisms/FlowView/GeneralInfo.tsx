@@ -103,13 +103,13 @@ const GeneralInfo: React.FC<IGeneralInfoProps> = (props) => {
             )}
           </>
         )}
-        { log.flow && log.flow.REQUEST_REWRITTEN && !!log.flow.REQUEST_REWRITTEN.url &&
-        !_.isEqual(getQueryParameters(log.flow.request.url), getQueryParameters(log.flow.REQUEST_REWRITTEN.url)) ?
+        { log.flow && log.flow.request_rewritten && !!log.flow.request_rewritten.url &&
+        !_.isEqual(getQueryParameters(log.flow.request.url), getQueryParameters(log.flow.request_rewritten.url)) ?
           <tr className="uri-diff">
             <td className="smallbold">Query Parameters</td>
             <DiffSnippet
               oldCode={getQueryParameters(log.flow.request.url)}
-              newCode={getQueryParameters(log.flow.REQUEST_REWRITTEN.url)}
+              newCode={getQueryParameters(log.flow.request_rewritten.url)}
               splitView={false}
               hideLineNumbers={true}
             />

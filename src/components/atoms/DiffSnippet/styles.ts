@@ -14,6 +14,7 @@ const baseStyles = {
       fontSize: '0.85rem',
       display: 'inline',
     },
+    overflow: 'hidden',
   },
   line: {
     border: 'none !important',
