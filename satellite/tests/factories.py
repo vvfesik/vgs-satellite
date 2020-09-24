@@ -41,7 +41,7 @@ class RuleEntryFactory(Factory):
     token_manager = 'PERSISTENT'
     public_token_generator = 'UUID'
     transformer = 'JSON_PATH'
-    transformer_config = '["$.foo"]'
+    transformer_config = ['$.foo']
     targets = 'body'
     classifiers = {}
     expression_snapshot = LazyFunction(lambda: {

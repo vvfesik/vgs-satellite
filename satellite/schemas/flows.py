@@ -51,8 +51,12 @@ class FlowSchema(Schema):
 class HTTPFlowSchema(FlowSchema):
     class RequestResponse(Schema):
         class MatchDetails(Schema):
+            class Filter(Schema):
+                id = fields.UUID(required=True)
+                operation_applied = fields.Bool(required=True)
+
             route_id = fields.UUID(required=True)
-            filter_ids = fields.List(fields.UUID, required=True)
+            filters = fields.List(fields.Nested(Filter), required=True)
 
         http_version = fields.Str(required=True)
         headers = fields.Method(serialize='get_headers')
