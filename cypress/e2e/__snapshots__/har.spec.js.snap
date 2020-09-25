@@ -81,6 +81,11 @@ exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls 
             </tr>
           </tbody>
         </table>
+        <hr class="my-3" />
+        <div class="matching-details mx-3">
+          <h3 class="my-2">Match Information</h3>
+          <p class="text-text-light">Nothing matched</p>
+        </div>
       </div>
     </div>
   </div>

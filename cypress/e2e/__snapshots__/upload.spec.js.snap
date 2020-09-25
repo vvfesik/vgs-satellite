@@ -76,6 +76,11 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
             </tr>
           </tbody>
         </table>
+        <hr class="my-3" />
+        <div class="matching-details mx-3">
+          <h3 class="my-2">Match Information</h3>
+          <p class="text-text-light">Nothing matched</p>
+        </div>
       </div>
     </div>
   </div>
@@ -832,6 +837,11 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
             </tr>
           </tbody>
         </table>
+        <hr class="my-3" />
+        <div class="matching-details mx-3">
+          <h3 class="my-2">Match Information</h3>
+          <p class="text-text-light">Nothing matched</p>
+        </div>
       </div>
     </div>
   </div>
@@ -1692,6 +1702,11 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
             </tr>
           </tbody>
         </table>
+        <hr class="my-3" />
+        <div class="matching-details mx-3">
+          <h3 class="my-2">Match Information</h3>
+          <p class="text-text-light">Nothing matched</p>
+        </div>
       </div>
     </div>
   </div>
@@ -2572,6 +2587,11 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
             </tr>
           </tbody>
         </table>
+        <hr class="my-3" />
+        <div class="matching-details mx-3">
+          <h3 class="my-2">Match Information</h3>
+          <p class="text-text-light">Nothing matched</p>
+        </div>
       </div>
     </div>
   </div>
@@ -3432,6 +3452,11 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
             </tr>
           </tbody>
         </table>
+        <hr class="my-3" />
+        <div class="matching-details mx-3">
+          <h3 class="my-2">Match Information</h3>
+          <p class="text-text-light">Nothing matched</p>
+        </div>
       </div>
     </div>
   </div>
