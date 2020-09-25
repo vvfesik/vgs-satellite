@@ -3,6 +3,7 @@ import FlowNav from './FlowNav';
 import FlowButtons from './FlowButtons';
 import RequestInfo from './RequestInfo';
 import GeneralInfo from './GeneralInfo';
+import MatchingDetails from './MatchingDetails';
 import Icon from 'src/components/atoms/Icon/Icon';
 import { Modal, ModalBody } from 'reactstrap';
 import { ILog, ILogFilters } from 'src/redux/interfaces/logs';
@@ -28,7 +29,7 @@ type TFlowViewPhase = 'request' | 'response';
 
 
 const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
-  const { log, log: { flow } } = props;
+  const { log, log: { flow }, routes, showSpinner, logFilters } = props;
   const { onRuleCreate, onClose, setPreRouteType, onReplay, onDuplicate, onDelete, onEdit } = props;
 
   const [selectedTab, setSelectedTab] = useState<TFlowViewTabs>('general');
@@ -145,6 +146,10 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
     setGeneralInfo({});
   }
 
+  const matchingRoutes = [].concat(
+    routes.find(route => route.id === log.request?.match_details?.route_id) ?? [],
+  );
+
   return (
     <Modal
       isOpen={true}
@@ -191,6 +196,14 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
               onEditChange={onEditChange}
               onEditSave={handleOnEdit}
               generalInfo={generalInfo}
+            />
+            <hr className="my-3" />
+            <MatchingDetails
+              log={log}
+              matchingRoutes={matchingRoutes}
+              logFilters={logFilters}
+              showSpinner={showSpinner}
+              activePhase={selectedPhase}
             />
           </div>
         ) : (

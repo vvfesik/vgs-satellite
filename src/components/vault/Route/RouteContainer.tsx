@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import history from 'src/redux/utils/history';
 import RoutePage from 'src/components/organisms/Route/RoutePage';
+import {  cloneDeep, remove } from 'lodash';
 import { Icon } from 'src/components/antd';
+import { removeCharset } from 'src/redux/utils/utils';
 import { fetchRoutes, deleteRoute, updateCurrentRoute, updateRoute } from 'src/redux/modules/routes';
 import { IRoute } from 'src/redux/interfaces/routes';
 
@@ -56,7 +58,16 @@ const RouteContainer: React.FunctionComponent<IRouteContainerProps> = (props) =>
   }
 
   const routeSaveHandler = (r: IRoute) => {
-    updateRoute(r);
+    let entries = cloneDeep(r.entries);
+    remove(entries, entry => entry.removing === true);
+    entries = entries.map(entry => removeCharset('Default', entry));
+    updateRoute({ ...r, entries });
+    updateCurrentRoute({ ...r, entries });
+  }
+
+  const routeDeleteHandler = (id: string) => {
+    deleteRoute(id);
+    history.push('/routes');
   }
 
   return (
@@ -71,7 +82,7 @@ const RouteContainer: React.FunctionComponent<IRouteContainerProps> = (props) =>
           routes={routes}
           routeSaveHandler={(r: IRoute) => routeSaveHandler(r)}
           routeChangeHandler={(r: IRoute) => routeChangeHandler(r)}
-          routeDeleteHandler={(id: string) => deleteRoute(id)}
+          routeDeleteHandler={(id: string) => routeDeleteHandler(id)}
           handleCancel={() => handleCancel()}
         />
       )}

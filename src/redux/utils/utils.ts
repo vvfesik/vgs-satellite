@@ -3,8 +3,9 @@ import classnames from 'classnames';
 import parseUrl from 'url-parse';
 import randomId from './random-id';
 import { volatileRulesRegex } from 'src/data/regex';
-import { includes } from 'lodash';
-import { ILog } from 'src/redux/interfaces/logs';
+import { includes, flattenDeep, uniq } from 'lodash';
+import { ILog, ILogFilters } from 'src/redux/interfaces/logs';
+import { IRoute, IEntry } from 'src/redux/interfaces/routes';
 
 export function formatDate(date) {
   if (moment().isSame(date, 'day')) {
@@ -111,4 +112,57 @@ export function isRegExp(value: string) {
   } catch (e) {
     return false;
   }
+}
+
+export function mapMatchingFilters(
+  routes: IRoute[],
+  logFilters: ILogFilters,
+) {
+  if (logFilters?.filters?.length) {
+    const matchingFilters = []
+      .concat(
+        ...routes.map(route =>
+          logFilters.filters.map((f) => {
+            const matchedFilter = route.entries.find(
+              entry => entry.id === f.id,
+            );
+            return matchedFilter && matchedFilter.id;
+          }),
+        ),
+      )
+      .filter(el => el != null);
+    return matchingFilters;
+  } else {
+    return [];
+  }
+}
+
+export const matchedInActivePhase = (entries: IEntry[], activePhase: string) =>
+  entries.find(entry => entry.phase.toLowerCase() === activePhase);
+
+export const isInCollection = (id: string, arr?: any[]) => !!(arr && arr.find(obj => obj.id === id));
+
+export function flatExpressions(filterRule) {
+  const allExpressions = (rule) => {
+    const arr = [];
+    if (!!rule.expression && rule.expression.field) {
+      arr.push(rule.expression.field);
+    }
+    if (rule.rules && !!rule.rules.length) {
+      rule.rules.forEach((innerRule) => {
+        arr.push(allExpressions(innerRule));
+      });
+    }
+    return arr;
+  };
+
+  return uniq(flattenDeep(allExpressions(filterRule)))
+    .toString()
+    .replace(/,/g, ', ');
+}
+
+export function removeCharset(value: string, entry: IEntry) {
+  const { transformer_config_map } = entry;
+  const { charset, ...noCharset } = { ...transformer_config_map };
+  return charset === value ?  { ...entry, transformer_config_map: noCharset } : entry;
 }

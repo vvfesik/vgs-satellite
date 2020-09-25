@@ -17,7 +17,7 @@ import {
   deleteRequest,
   editRequest,
 } from 'src/redux/modules/preCollect';
-import { saveRoute } from 'src/redux/modules/routes';
+import { saveRoute, fetchRoutes } from 'src/redux/modules/routes';
 import { constructUriFromLog } from 'src/redux/utils/utils';
 import { IRoute } from 'src/redux/interfaces/routes';
 
@@ -29,6 +29,8 @@ function mapStateToProps({ preCollect, routes }: any) {
     isYamlModalOpen: preCollect.isYamlModalOpen,
     isUploaded: preCollect.isUploaded,
     isSavingRoute: routes.isSaveInProgress,
+    routes: routes.list,
+    isLoadingRoutes: routes.isLoading,
   };
 }
 
@@ -43,6 +45,7 @@ const mapDispatchToProps = (dispatch: any) => {
       deleteRequest,
       editRequest,
       saveRoute,
+      fetchRoutes,
     },
     dispatch,
   );
@@ -54,15 +57,18 @@ export interface IPreCollectContainerProps {
   addPrecollectLogs: (logs: any[]) => void;
   fetchFlows: () => void;
   preRoutes: IRoute[];
+  routes: IRoute[];
   triggerYamlModal: any;
   isYamlModalOpen: boolean;
   isUploaded: boolean;
   isSavingRoute: boolean;
+  isLoadingRoutes: boolean;
   replayRequest: (logId: string) => void;
   duplicateRequest: (logId: string) => void;
   deleteRequest: (logId: string) => void;
   editRequest: (logId: string, payload: any) => void;
   saveRoute: (route: IRoute) => void;
+  fetchRoutes: () => void;
 }
 
 export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerProps> = (props) => {
@@ -70,10 +76,12 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
     routeType,
     logs,
     preRoutes,
+    routes,
     triggerYamlModal,
     isYamlModalOpen,
     isUploaded,
     isSavingRoute,
+    isLoadingRoutes,
     replayRequest,
     duplicateRequest,
     deleteRequest,
@@ -96,6 +104,7 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
       return;
     };
     props.fetchFlows();
+    props.fetchRoutes();
   }, [isYamlModalOpen, selectedLog, isSecurePayload, isUploaded]);
 
   const handleOnRuleCreate = (selectedPhase: 'REQUEST' | 'RESPONSE') => {
@@ -146,8 +155,8 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
         <FlowView
           log={entryToFlow(selectedLog)}
           logFilters={{}}
-          showSpinner={false}
-          routes={null}
+          showSpinner={isLoadingRoutes}
+          routes={routes}
           onClose={() => selectLog(null)}
           onRuleCreate={(selectedPhase: string) => handleOnRuleCreate(selectedPhase)}
           setPreRouteType={type => setPreRouteType(type)}
