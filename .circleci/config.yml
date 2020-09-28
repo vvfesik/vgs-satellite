@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: cypress/browsers:node12.16.1-chrome80-ff73
+      - image: circleci/python:3.6-node-browsers
         environment:
           ## this enables colors in the output
           TERM: xterm
@@ -13,7 +13,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: npm install --unsafe-perm
-      - run: npm test
+      - run: npm run test:ci
       - store_artifacts:
           path: /root/app/client/cypress/screenshots/
   build_python:
@@ -33,7 +33,7 @@ jobs:
           command: pytest satellite/tests
   smoketest:
     docker:
-      - image: cypress/browsers:node12.16.1-chrome80-ff73
+      - image: circleci/python:3.6-node-browsers
         environment:
           TERM: xterm
     working_directory: ~/app
