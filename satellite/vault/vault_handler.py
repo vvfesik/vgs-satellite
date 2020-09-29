@@ -1,10 +1,13 @@
-from mitmproxy import ctx
+import logging
 
-from satellite import ctx as satellite_ctx
+from satellite import ctx
 from satellite.vault.route_matcher import match_route
 from satellite.vault.transformation_manager import transform_body
 from satellite.model.route import Phase
 from satellite.service.alias_manager import RedactFailed, RevealFailed
+
+
+logger = logging.getLogger()
 
 
 class VaultFlows:
@@ -14,8 +17,7 @@ class VaultFlows:
         try:
             flow.request_raw = flow.request.copy()
             content = flow.request.content
-            proxy_mode = satellite_ctx.webapp.master.proxy_mode
-            route, route_filters = match_route(proxy_mode, Phase.REQUEST, flow)
+            route, route_filters = match_route(ctx.proxy_mode, Phase.REQUEST, flow)
             if route_filters:
                 # TODO: Encapsulate flow transformation somewere else
                 flow.request.text, ops_applications = transform_body(
@@ -31,15 +33,17 @@ class VaultFlows:
                     'filters': matched_filters,
                 }
 
-        except (RedactFailed, RevealFailed) as error_message:
-            ctx.log.error(str(error_message))
+        except (RedactFailed, RevealFailed) as exc:
+            logger.error(exc)
+
+        except Exception as exc:
+            logger.exception(exc)
 
     def response(self, flow):
         try:
             flow.response_raw = flow.response.copy()
             content = flow.response.content
-            proxy_mode = satellite_ctx.webapp.master.proxy_mode
-            route, route_filters = match_route(proxy_mode, Phase.RESPONSE, flow)
+            route, route_filters = match_route(ctx.proxy_mode, Phase.RESPONSE, flow)
             if route_filters:
                 # TODO: Encapsulate flow transformation somewere else
                 flow.response.text, ops_applications = transform_body(
@@ -54,5 +58,9 @@ class VaultFlows:
                     'route_id': route.id,
                     'filters': matched_filters,
                 }
-        except (RedactFailed, RevealFailed) as error_message:
-            ctx.log.error(str(error_message))
+
+        except (RedactFailed, RevealFailed) as exc:
+            logger.error(exc)
+
+        except Exception as exc:
+            logger.exception(exc)
