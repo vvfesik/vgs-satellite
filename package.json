@@ -20,7 +20,7 @@
     "url": "git+https://github.com/verygoodsecurity/vgs-satellite.git"
   },
   "scripts": {
-    "postinstall": "npm run build",
+    "postinstall": "npm run build -- --log-level 4",
     "clean": "rm -rf dist/ && rm -rf build/ && rm -rf .cache/",
     "dev": "NODE_ENV=dev MITM_PORT=8089 parcel src/index.html --open",
     "build": "MITM_PORT=8089 parcel build src/index.html --no-source-maps",
