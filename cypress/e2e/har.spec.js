@@ -1,10 +1,14 @@
 import { cutLine } from '../support/utils';
 
 describe('Localhoste upload single har flow', function() {
-  beforeEach(() => cy.fixCypressSpec(__filename));
 
   it('Visits Localhoste and gets 2 yamls from uploaded har file', function() {
+    cy.server();
+    cy.route('GET', '/flows.json').as('getFlows');
+    cy.route('GET', '/route').as('getRoutes');
+
     cy.visit('/');
+    cy.wait(['@getRoutes', '@getFlows']);
     cy.get('[data-role="import-from-har"]').attachFile('upload-post.har');
 
     cy.contains('/post');

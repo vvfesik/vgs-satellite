@@ -1,5 +1,4 @@
 describe('Localhoste upload yaml to dashboard', function() {
-  beforeEach(() => cy.fixCypressSpec(__filename));
 
   it('Visits dashboard and uploads Localhoste YAML', function() {
     cy.visit(`https://dashboard.${Cypress.env('VGS_DASHBOARD_DOMAIN')}`);

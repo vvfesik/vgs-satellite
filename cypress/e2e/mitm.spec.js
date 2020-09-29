@@ -1,7 +1,6 @@
 import { cutLine } from '../support/utils';
 
 describe('Localhoste mitmproxy flow', function() {
-  beforeEach(() => cy.fixCypressSpec(__filename));
 
   it('Visits Localhoste and gets 2 yamls from mitm request', function() {
     cy.visit('/');
