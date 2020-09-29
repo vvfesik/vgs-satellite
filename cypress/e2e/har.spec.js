@@ -1,7 +1,6 @@
 import { cutLine } from '../support/utils';
 
 describe('Localhoste upload single har flow', function() {
-  beforeEach(() => cy.fixCypressSpec(__filename));
 
   it('Visits Localhoste and gets 2 yamls from uploaded har file', function() {
     cy.server();

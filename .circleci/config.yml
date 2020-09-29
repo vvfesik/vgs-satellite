@@ -10,13 +10,18 @@ jobs:
     working_directory: ~/app
     steps:
       - checkout
+      - restore_cache:
+          key: npm-lock-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run:
           name: Install Dependencies
-          no_output_timeout: 20m
           command: npm install --unsafe-perm
+      - save_cache:
+          key: npm-lock-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/app/node_modules/
       - run: npm run test:ci
       - store_artifacts:
-          path: /root/app/client/cypress/screenshots/
+          path: /root/app/cypress/screenshots/
   build_python:
     docker:
       - image: circleci/python:3.6
@@ -47,7 +52,7 @@ jobs:
           name: Test YAML Consistency
           command: npm run smoketest
       - store_artifacts:
-          path: /root/app/client/cypress/screenshots/
+          path: /root/app/cypress/screenshots/
 
 
 workflows:

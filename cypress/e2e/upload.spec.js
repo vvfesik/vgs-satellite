@@ -1,5 +1,4 @@
 describe('Localhoste upload har and clickthru', function() {
-  beforeEach(() => cy.fixCypressSpec(__filename));
 
   it('Visits Localhoste, uploads har and clicks every request', function() {
     cy.server();
