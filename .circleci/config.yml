@@ -12,6 +12,7 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
+          no_output_timeout: 20m
           command: npm install --unsafe-perm
       - run: npm run test:ci
       - store_artifacts:
