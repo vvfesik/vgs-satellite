@@ -3,8 +3,8 @@ from satellite.model.route import Route, RuleEntry, RouteType
 
 
 class RouteManager:
-    def __init__(self):
-        self.session = Session()
+    def __init__(self, session=None):
+        self.session = session or Session()
 
     def get_all(self):
         return self.session.query(Route).all()
