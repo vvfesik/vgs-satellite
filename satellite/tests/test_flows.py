@@ -1,4 +1,3 @@
-from unittest.mock import Mock
 
 from satellite.flows import copy_flow, get_flow_state, load_flow_from_state
 

@@ -142,4 +142,5 @@ class FlowContentView(BaseHandler):
 class Flows(BaseHandler):
     @apply_response_schema(HTTPFlowSchema, many=True)
     def get(self):
-        return list(self.view)
+        # return list(self.view)
+        return []

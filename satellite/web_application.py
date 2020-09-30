@@ -1,5 +1,8 @@
+import asyncio
 import logging
 import signal
+
+from functools import partial
 
 from tornado import autoreload
 from tornado.ioloop import IOLoop
@@ -12,7 +15,6 @@ from satellite.controller import flow_handlers
 from satellite.controller.route_handlers import RouteHandler, RoutesHandler
 from satellite.controller.proxy_handler import ProxyConfigHandler
 from satellite.proxy.manager import ProxyManager
-from satellite.schemas.flows import HTTPFlowSchema
 
 
 logger = logging.getLogger(__file__)
@@ -54,31 +56,17 @@ class WebApplication(Application):
         self.proxy_manager = ProxyManager(
             forward_proxy_port=9099,
             reverse_proxy_port=9098,
-        )
-        self.proxy_manager.sig_flow_add.connect(self._sig_flow_add)
-        self.proxy_manager.sig_flow_update.connect(self._sig_flow_update)
-        self.proxy_manager.sig_flow_remove.connect(self._sig_flow_remove)
-
-    def _sig_flow_add(self, proxy_manager: ProxyManager, flow):
-        ClientConnection.broadcast(
-            resource='flows',
-            cmd='add',
-            data=HTTPFlowSchema().dump(flow),
+            event_handler=partial(
+                self._proxy_event_handler,
+                loop=asyncio.get_event_loop(),
+            )
         )
 
-    def _sig_flow_update(self, proxy_manager: ProxyManager, flow):
-        ClientConnection.broadcast(
-            resource='flows',
-            cmd='update',
-            data=HTTPFlowSchema().dump(flow),
-        )
-
-    def _sig_flow_remove(self, proxy_manager: ProxyManager, flow_id: str):
-        ClientConnection.broadcast(
-            resource='flows',
-            cmd='remove',
-            data=flow_id,
-        )
+    def _proxy_event_handler(self, loop, event):
+        asyncio.run_coroutine_threadsafe(
+            ClientConnection.process_proxy_event(event),
+            loop,
+        ).result()
 
     def start(self):
         signal.signal(signal.SIGINT, self._stop_signal_handler)

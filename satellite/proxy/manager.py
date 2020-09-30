@@ -1,29 +1,26 @@
-import queue
-
 from dataclasses import dataclass
-from functools import singledispatchmethod
 from multiprocessing import Pipe, Queue
 from multiprocessing.connection import Connection
+from queue import Empty
 from threading import Event, Thread
+from typing import Callable
 
-from blinker import Signal
-
-from ..flows import load_flow_from_state
-from . import process
+from .process import ProxyProcess, StopCommand
 from . import ProxyMode
 
 
 class ProxyManager:
-    def __init__(self, forward_proxy_port, reverse_proxy_port):
-        self.sig_flow_add = Signal()
-        self.sig_flow_remove = Signal()
-        self.sig_flow_update = Signal()
-
+    def __init__(
+        self,
+        forward_proxy_port: int,
+        reverse_proxy_port: int,
+        event_handler: Callable,
+    ):
         self._should_stop = Event()
         self._event_queue = Queue()
         self._event_queue.cancel_join_thread()
-
-        self._event_listener: Thread = None
+        self._event_handler = event_handler
+        self._event_listener: ProxyEventListener = None
 
         self._proxies = {}
         for mode, port in [
@@ -32,7 +29,7 @@ class ProxyManager:
         ]:
             manager_connection, proxy_connection = Pipe()
             self._proxies[mode] = ManagedProxyProcess(
-                process=process.ProxyProcess(
+                process=ProxyProcess(
                     mode=mode,
                     port=port,
                     event_queue=self._event_queue,
@@ -45,9 +42,10 @@ class ProxyManager:
         for proxy in self._proxies.values():
             proxy.process.start()
 
-        self._event_listener = Thread(
-            target=self._listen_proxy_events,
-            name='EventListener',
+        self._event_listener = ProxyEventListener(
+            self._event_queue,
+            self._should_stop,
+            self._event_handler,
         )
         self._event_listener.start()
 
@@ -59,7 +57,7 @@ class ProxyManager:
 
         for proxy in self._proxies.values():
             if proxy.process.is_alive():
-                proxy.cmd_channel.send(process.StopCommand())
+                proxy.cmd_channel.send(StopCommand())
 
         for proxy in self._proxies.values():
             if proxy.process.is_alive():
@@ -68,35 +66,30 @@ class ProxyManager:
         if self._event_listener and self._event_listener.is_alive():
             self._event_listener.join()
 
-    @singledispatchmethod
-    def _process_event(self, event):
-        raise NotImplementedError(f'Unknown event: {event}.')
 
-    @_process_event.register
-    def _process_flow_add_event(self, event: process.FlowAddEvent):
-        flow = load_flow_from_state(event.flow_state)
-        self.sig_flow_add.send(self, flow=flow)
+class ProxyEventListener(Thread):
+    def __init__(
+        self,
+        event_queue: Queue,
+        should_stop: Event,
+        event_handler: Callable,
+    ):
+        super().__init__(name='ProxyEventListener')
+        self._event_queue = event_queue
+        self._should_stop = should_stop
+        self._event_handler = event_handler
 
-    @_process_event.register
-    def _process_flow_update_event(self, event: process.FlowUpdateEvent):
-        flow = load_flow_from_state(event.flow_state)
-        self.sig_flow_update.send(self, flow=flow)
-
-    @_process_event.register
-    def _process_flow_remove_event(self, event: process.FlowRemoveEvent):
-        self.sig_flow_remove.send(self, flow_id=event.flow_id)
-
-    def _listen_proxy_events(self):
+    def run(self):
         while not self._should_stop.is_set():
             try:
                 event = self._event_queue.get(False, 1)
-            except queue.Empty:
+            except Empty:
                 pass
             else:
-                self._process_event(event)
+                self._event_handler(event=event)
 
 
 @dataclass
 class ManagedProxyProcess:
-    process: process.Process
+    process: ProxyProcess
     cmd_channel: Connection
