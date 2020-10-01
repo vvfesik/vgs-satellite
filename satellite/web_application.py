@@ -9,11 +9,9 @@ from tornado.ioloop import IOLoop
 from tornado.web import Application
 
 from satellite.model.base import init_db
-from satellite.controller.har_handler import HarHandler
 from satellite.controller.websocket_connection import ClientConnection
 from satellite.controller import flow_handlers
 from satellite.controller.route_handlers import RouteHandler, RoutesHandler
-from satellite.controller.proxy_handler import ProxyConfigHandler
 from satellite.proxy.manager import ProxyManager
 
 
@@ -32,25 +30,9 @@ class WebApplication(Application):
             (r"/route", RoutesHandler),
             (r"/route/(?P<route_id>[0-9a-f\-]+)", RouteHandler),
             (r"/flows(?:\.json)?", flow_handlers.Flows),
-            (r"/events(?:\.json)?", flow_handlers.EventsHandler),
-            (r"/flows/resume", flow_handlers.ResumeFlows),
-            (r"/flows/kill", flow_handlers.KillFlows),
             (r"/flows/(?P<flow_id>[0-9a-f\-]+)", flow_handlers.FlowHandler),
-            (r"/flows/(?P<flow_id>[0-9a-f\-]+)/resume", flow_handlers.ResumeFlow),
-            (r"/flows/(?P<flow_id>[0-9a-f\-]+)/kill", flow_handlers.KillFlow),
             (r"/flows/(?P<flow_id>[0-9a-f\-]+)/replay", flow_handlers.ReplayFlow),
             (r"/flows/(?P<flow_id>[0-9a-f\-]+)/duplicate", flow_handlers.DuplicateFlow),
-            (r"/flows/(?P<flow_id>[0-9a-f\-]+)/har", HarHandler),
-            (r"/proxy", ProxyConfigHandler),
-            (r"/clear", flow_handlers.ClearAll),
-            (
-                (
-                    r'/flows/(?P<flow_id>[0-9a-f\-]+)'
-                    r'/(?P<message>request|response)'
-                    r'/content/(?P<content_view>[0-9a-zA-Z\-\_]+)(?:\.json)?'
-                ),
-                flow_handlers.FlowContentView,
-            )
         ])
         # TODO: Make ports configurable
         self.proxy_manager = ProxyManager(

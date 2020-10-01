@@ -1,13 +1,19 @@
 from dataclasses import dataclass
+from functools import singledispatchmethod
 from multiprocessing import Pipe, Queue
 from multiprocessing.connection import Connection
 from queue import Empty
 from threading import Event, Thread
-from typing import Callable, List, Dict
+from typing import Callable, List, Dict, Optional
 
-from ..flows import load_flow_from_state
-from .process import GetFlowsCommand, ProxyProcess, StopCommand
+from mitmproxy.flow import Flow
+
+from . import commands
+from . import events
+from . import exceptions
 from . import ProxyMode
+from ..flows import load_flow_from_state
+from .process import ProxyProcess
 
 
 class ProxyManager:
@@ -20,8 +26,9 @@ class ProxyManager:
         self._should_stop = Event()
         self._event_queue = Queue()
         self._event_queue.cancel_join_thread()
-        self._event_handler = event_handler
+        self._event_handlers = [self._handle_event, event_handler]
         self._event_listener: ProxyEventListener = None
+        self._flows: Dict[str, ProxyMode] = {}
 
         self._proxies: List[Dict[ProxyMode, ManagedProxyProcess]] = {}
         for mode, port in [
@@ -46,7 +53,7 @@ class ProxyManager:
         self._event_listener = ProxyEventListener(
             self._event_queue,
             self._should_stop,
-            self._event_handler,
+            self._event_handlers,
         )
         self._event_listener.start()
 
@@ -58,7 +65,7 @@ class ProxyManager:
 
         for proxy in self._proxies.values():
             if proxy.process.is_alive():
-                proxy.cmd_channel.send(StopCommand())
+                proxy.cmd_channel.send(commands.StopCommand())
 
         for proxy in self._proxies.values():
             if proxy.process.is_alive():
@@ -67,16 +74,94 @@ class ProxyManager:
         if self._event_listener and self._event_listener.is_alive():
             self._event_listener.join()
 
-    def get_flows(self):
+    def get_flows(self) -> List[Flow]:
         flows = []
 
         for proxy in self._proxies.values():
-            proxy.cmd_channel.send(GetFlowsCommand())
+            proxy.cmd_channel.send(commands.GetFlowsCommand())
 
         for proxy in self._proxies.values():
             flows.extend(proxy.cmd_channel.recv())
 
         return list(map(load_flow_from_state, flows))
+
+    def get_flow(self, flow_id: str) -> Optional[Flow]:
+        proxy_mode = self._flows.get(flow_id)
+        if not proxy_mode:
+            raise exceptions.UnexistentFlowError()
+
+        channel = self._proxies[proxy_mode].cmd_channel
+        channel.send(commands.GetFlowCommand(flow_id))
+        flow_state = channel.recv()
+        if not flow_state:
+            raise exceptions.UnexistentFlowError()
+
+        return load_flow_from_state(flow_state)
+
+    def kill_flow(self, flow_id: str) -> Optional[str]:
+        proxy_mode = self._flows.get(flow_id)
+        if not proxy_mode:
+            raise exceptions.UnexistentFlowError()
+
+        channel = self._proxies[proxy_mode].cmd_channel
+        channel.send(commands.KillFlowCommand(flow_id))
+        success = channel.recv()
+        if not success:
+            raise exceptions.UnkillableFlowError()
+
+    def duplicate_flow(self, flow_id: str) -> str:
+        proxy_mode = self._flows.get(flow_id)
+        if not proxy_mode:
+            raise exceptions.UnexistentFlowError()
+
+        channel = self._proxies[proxy_mode].cmd_channel
+        channel.send(commands.DuplicateFlowCommand(flow_id))
+        flow_id = channel.recv()
+        if not flow_id:
+            raise exceptions.FlowDuplicationError()
+
+        return flow_id
+
+    def replay_flow(self, flow_id: str):
+        proxy_mode = self._flows.get(flow_id)
+        if not proxy_mode:
+            raise exceptions.UnexistentFlowError()
+
+        channel = self._proxies[proxy_mode].cmd_channel
+        channel.send(commands.ReplayFlowCommand(flow_id))
+        success = channel.recv()
+        if not success:
+            raise exceptions.FlowReplayError()
+
+    def update_flow(self, flow_id: str, flow_data: dict):
+        proxy_mode = self._flows.get(flow_id)
+        if not proxy_mode:
+            raise exceptions.UnexistentFlowError()
+
+        channel = self._proxies[proxy_mode].cmd_channel
+        channel.send(commands.UpdateFlowCommand(
+            flow_id=flow_id,
+            flow_data=flow_data,
+        ))
+        success = channel.recv()
+        if not success:
+            raise exceptions.FlowUpdateError()
+
+    def _handle_event(self, event):
+        self._process_event(event)
+
+    @singledispatchmethod
+    def _process_event(self, event: events.ProxyEvent):
+        pass
+
+    @_process_event.register
+    def _(self, event: events.FlowAddEvent):
+        self._flows[event.data['id']] = event.proxy_mode
+
+    @_process_event.register
+    def _(self, event: events.FlowRemoveEvent):
+        if event.data in self._flows:
+            del self._flows[event.data]
 
 
 class ProxyEventListener(Thread):
@@ -84,12 +169,12 @@ class ProxyEventListener(Thread):
         self,
         event_queue: Queue,
         should_stop: Event,
-        event_handler: Callable,
+        event_handlers: List[Callable],
     ):
         super().__init__(name='ProxyEventListener')
         self._event_queue = event_queue
         self._should_stop = should_stop
-        self._event_handler = event_handler
+        self._event_handlers = event_handlers
 
     def run(self):
         while not self._should_stop.is_set():
@@ -98,7 +183,8 @@ class ProxyEventListener(Thread):
             except Empty:
                 pass
             else:
-                self._event_handler(event=event)
+                for handler in self._event_handlers:
+                    handler(event=event)
 
 
 @dataclass

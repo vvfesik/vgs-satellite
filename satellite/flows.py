@@ -10,7 +10,7 @@ from mitmproxy.http import HTTPFlow, HTTPRequest, HTTPResponse
 
 def copy_flow(flow: HTTPFlow) -> HTTPFlow:
     state = get_flow_state(flow)
-    return load_flow_from_state({**state, 'id': str(uuid4)})
+    return load_flow_from_state({**state, 'id': str(uuid4())})
 
 
 def get_flow_state(flow: HTTPFlow) -> dict:
