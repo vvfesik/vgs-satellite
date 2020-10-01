@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/python:3.6-node-browsers
+      - image: circleci/python:3.8-node-browsers
         environment:
           ## this enables colors in the output
           TERM: xterm
@@ -24,7 +24,7 @@ jobs:
           path: /root/app/cypress/screenshots/
   build_python:
     docker:
-      - image: circleci/python:3.6
+      - image: circleci/python:3.8
     working_directory: ~/app
     steps:
       - checkout
@@ -39,7 +39,7 @@ jobs:
           command: pytest satellite/tests
   smoketest:
     docker:
-      - image: circleci/python:3.6-node-browsers
+      - image: circleci/python:3.8-node-browsers
         environment:
           TERM: xterm
     working_directory: ~/app
