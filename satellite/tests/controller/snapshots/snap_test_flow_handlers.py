@@ -147,16 +147,3 @@ snapshots['TestFlowsHandler::test_ok 1'] = [
         'type': 'http'
     }
 ]
-
-snapshots['TestEventsHandler::test_ok 1'] = [
-    {
-        'id': 4567442480,
-        'level': 'error',
-        'message': 'Some error'
-    },
-    {
-        'id': 4567442768,
-        'level': 'warning',
-        'message': 'Some warning'
-    }
-]

@@ -3,9 +3,10 @@ from multiprocessing import Pipe, Queue
 from multiprocessing.connection import Connection
 from queue import Empty
 from threading import Event, Thread
-from typing import Callable
+from typing import Callable, List, Dict
 
-from .process import ProxyProcess, StopCommand
+from ..flows import load_flow_from_state
+from .process import GetFlowsCommand, ProxyProcess, StopCommand
 from . import ProxyMode
 
 
@@ -22,7 +23,7 @@ class ProxyManager:
         self._event_handler = event_handler
         self._event_listener: ProxyEventListener = None
 
-        self._proxies = {}
+        self._proxies: List[Dict[ProxyMode, ManagedProxyProcess]] = {}
         for mode, port in [
             (ProxyMode.FORWARD, forward_proxy_port),
             (ProxyMode.REVERSE, reverse_proxy_port),
@@ -65,6 +66,17 @@ class ProxyManager:
 
         if self._event_listener and self._event_listener.is_alive():
             self._event_listener.join()
+
+    def get_flows(self):
+        flows = []
+
+        for proxy in self._proxies.values():
+            proxy.cmd_channel.send(GetFlowsCommand())
+
+        for proxy in self._proxies.values():
+            flows.extend(proxy.cmd_channel.recv())
+
+        return list(map(load_flow_from_state, flows))
 
 
 class ProxyEventListener(Thread):

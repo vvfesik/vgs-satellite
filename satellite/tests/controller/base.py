@@ -12,10 +12,10 @@ from satellite.web_application import WebApplication
 class BaseHandlerTestCase(AsyncHTTPTestCase, TestCase):
     def setUp(self):
         # Patches below must be before super().setUp()-call
-        self.master = Mock()
+        self.proxy_manager = Mock()
         create_proxy_patch = patch(
-            'satellite.web_application.create_proxy',
-            Mock(return_value=self.master),
+            'satellite.web_application.ProxyManager',
+            Mock(return_value=self.proxy_manager),
         )
         create_proxy_patch.start()
         self.addCleanup(create_proxy_patch.stop)

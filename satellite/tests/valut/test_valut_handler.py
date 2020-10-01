@@ -1,5 +1,6 @@
 from unittest.mock import Mock
 
+from satellite.proxy import ProxyMode
 from satellite.vault.vault_handler import VaultFlows
 
 from ..factories import load_flow, RouteFactory, RuleEntryFactory
@@ -10,8 +11,8 @@ def test_request_redact(monkeypatch, snapshot):
     rule_entry = RuleEntryFactory()
 
     monkeypatch.setattr(
-        'satellite.vault.vault_handler.satellite_ctx',
-        Mock(webapp=Mock(master=Mock(proxy_mode='regular'))),
+        'satellite.vault.vault_handler.ctx',
+        Mock(proxy_mode=ProxyMode.FORWARD),
     )
     monkeypatch.setattr(
         'satellite.vault.vault_handler.match_route',
@@ -39,8 +40,8 @@ def test_request_redact(monkeypatch, snapshot):
 
 def test_request_without_redact(monkeypatch):
     monkeypatch.setattr(
-        'satellite.vault.vault_handler.satellite_ctx',
-        Mock(webapp=Mock(master=Mock(proxy_mode='regular'))),
+        'satellite.vault.vault_handler.ctx',
+        Mock(proxy_mode=ProxyMode.FORWARD),
     )
     monkeypatch.setattr(
         'satellite.vault.vault_handler.match_route',
@@ -62,8 +63,8 @@ def test_response_redact(monkeypatch, snapshot):
     rule_entry = RuleEntryFactory()
 
     monkeypatch.setattr(
-        'satellite.vault.vault_handler.satellite_ctx',
-        Mock(webapp=Mock(master=Mock(proxy_mode='regular'))),
+        'satellite.vault.vault_handler.ctx',
+        Mock(proxy_mode=ProxyMode.FORWARD),
     )
     monkeypatch.setattr(
         'satellite.vault.vault_handler.match_route',
@@ -91,8 +92,8 @@ def test_response_redact(monkeypatch, snapshot):
 
 def test_response_without_redact(monkeypatch):
     monkeypatch.setattr(
-        'satellite.vault.vault_handler.satellite_ctx',
-        Mock(webapp=Mock(master=Mock(proxy_mode='regular'))),
+        'satellite.vault.vault_handler.ctx',
+        Mock(proxy_mode=ProxyMode.FORWARD),
     )
     monkeypatch.setattr(
         'satellite.vault.vault_handler.match_route',

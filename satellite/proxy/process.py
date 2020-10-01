@@ -1,12 +1,14 @@
+import asyncio
 import logging
 import signal
 
 from dataclasses import dataclass
 from enum import Enum, unique
-from functools import singledispatchmethod
+from functools import partial, singledispatchmethod
 from multiprocessing import Queue, Process
 from multiprocessing.connection import Connection
 from threading import Event, Thread
+from typing import Any, Callable, List
 
 from mitmproxy.flow import Flow
 from mitmproxy.addons.view import View
@@ -69,6 +71,12 @@ class StopCommand(ProxyCommand):
     expects_result: bool = False
 
 
+@dataclass
+class GetFlowsCommand(ProxyCommand):
+    type: ProxyCommandType = ProxyCommandType.GET_FLOWS
+    expects_result: bool = True
+
+
 class ProxyProcess(Process):
     def __init__(
         self,
@@ -94,10 +102,13 @@ class ProxyProcess(Process):
 
         self._should_stop = Event()
 
-        self._command_listener = Thread(
-            target=self._listen_commands,
-            name='CommandListener',
-            daemon=True,
+        self._command_listener = CommandListener(
+            cmd_channel=self._cmd_channel,
+            cmd_handler=partial(
+                self._handle_command,
+                loop=asyncio.get_event_loop(),
+            ),
+            should_stop=self._should_stop,
         )
         self._command_listener.start()
 
@@ -127,23 +138,53 @@ class ProxyProcess(Process):
     def _sig_flow_remove(self, view: View, flow: Flow, index: int):
         self._event_queue.put_nowait(FlowRemoveEvent(flow.id))
 
-    def _listen_commands(self):
-        while not self._should_stop.is_set():
-            if self._cmd_channel.poll(1):
-                cmd = self._cmd_channel.recv()
-                result = self._process_command(cmd)
-                if cmd.expects_result:
-                    self._cmd_channel.send(result)
+    def _handle_command(
+        self,
+        cmd: ProxyCommand,
+        loop: asyncio.AbstractEventLoop,
+    ) -> Any:
+        return asyncio.run_coroutine_threadsafe(
+            self._handle_command_coro(cmd),
+            loop,
+        ).result()
+
+    async def _handle_command_coro(self, cmd: ProxyCommand):
+        return self._process_command(cmd)
 
     @singledispatchmethod
-    def _process_command(self, cmd):
+    def _process_command(self, cmd) -> Any:
         raise NotImplementedError(f'Unknown command: {cmd}.')
 
     @_process_command.register
-    def _process_command(self, _: StopCommand):
+    def _(self, _: StopCommand):
         if self._should_stop.is_set():
             return
         logger.info(f'Stopping proxy({self._mode.value}).')
         self._should_stop.set()
         self._master.shutdown()
         logger.info(f'Stopped proxy({self._mode.value}).')
+
+    @_process_command.register
+    def _(self, _: GetFlowsCommand) -> List[dict]:
+        return list(map(get_flow_state, self._master.view))
+
+
+class CommandListener(Thread):
+    def __init__(
+        self,
+        cmd_channel: Connection,
+        cmd_handler: Callable,
+        should_stop: Event,
+    ):
+        super().__init__(name='CommandListener', daemon=True)
+        self._cmd_channel = cmd_channel
+        self._cmd_handler = cmd_handler
+        self._should_stop = should_stop
+
+    def run(self):
+        while not self._should_stop.is_set():
+            if self._cmd_channel.poll(1):
+                cmd = self._cmd_channel.recv()
+                result = self._cmd_handler(cmd)
+                if cmd.expects_result:
+                    self._cmd_channel.send(result)

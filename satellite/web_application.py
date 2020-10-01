@@ -62,7 +62,7 @@ class WebApplication(Application):
             )
         )
 
-    def _proxy_event_handler(self, loop, event):
+    def _proxy_event_handler(self, event, loop):
         asyncio.run_coroutine_threadsafe(
             ClientConnection.process_proxy_event(event),
             loop,
