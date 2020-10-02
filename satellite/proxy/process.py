@@ -14,6 +14,7 @@ from mitmproxy.addons.view import View
 from satellite import ctx
 
 from . import events
+from . import exceptions
 from . import ProxyMode
 from ..flows import get_flow_state
 from ..logging import configure_logging
@@ -132,6 +133,13 @@ class CommandListener(Thread):
         while not self._should_stop.is_set():
             if self._cmd_channel.poll(1):
                 cmd = self._cmd_channel.recv()
-                result = self._cmd_handler(cmd)
-                if cmd.expects_result:
-                    self._cmd_channel.send(result)
+                result = None
+                try:
+                    result = self._cmd_handler(cmd)
+                except exceptions.ProxyError as exc:
+                    logger.error(exc)
+                    result = exc
+                except Exception as exc:
+                    logger.exception(exc)
+                    result = exc
+                self._cmd_channel.send(result)

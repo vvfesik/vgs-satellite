@@ -3,7 +3,10 @@ from typing import Any, List, Optional
 
 from functools import singledispatchmethod
 
+from mitmproxy.flow import Flow
+
 from . import commands
+from . import exceptions
 from ..flows import copy_flow, get_flow_state
 
 
@@ -36,46 +39,35 @@ class ProxyCommandProcessor:
 
     @process_command.register
     def _(self, cmd: commands.GetFlowCommand) -> Optional[dict]:
-        flow = self.view.get_by_id(cmd.flow_id)
-        return flow and get_flow_state(flow)
+        flow = self._get_flow(cmd.flow_id)
+        return get_flow_state(flow)
 
     @process_command.register
     def _(self, cmd: commands.KillFlowCommand) -> Optional[str]:
-        flow = self.view.get_by_id(cmd.flow_id)
-        if flow and flow.killable:
-            flow.kill()
-            self.view.remove([flow])
-            return True
-        return False
+        flow = self._get_flow(cmd.flow_id)
+        if not flow.killable:
+            raise exceptions.UnkillableFlowError(cmd.flow_id)
+        flow.kill()
+        self.view.remove([flow])
 
     @process_command.register
     def _(self, cmd: commands.DuplicateFlowCommand) -> Optional[str]:
-        flow = self.view.get_by_id(cmd.flow_id)
-        if flow:
-            new_flow = copy_flow(flow)
-            self.view.add([new_flow])
-            return new_flow.id
+        flow = self._get_flow(cmd.flow_id)
+        new_flow = copy_flow(flow)
+        self.view.add([new_flow])
+        return new_flow.id
 
     @process_command.register
     def _(self, cmd: commands.ReplayFlowCommand):
-        flow = self.view.get_by_id(cmd.flow_id)
-        if not flow:
-            return False
-
+        flow = self._get_flow(cmd.flow_id)
         flow.backup()
         flow.response = None
         self.view.update([flow])
-
         self.master.commands.call('replay.client', [flow])
-
-        return True
 
     @process_command.register
     def _(self, cmd: commands.UpdateFlowCommand):
-        flow = self.view.get_by_id(cmd.flow_id)
-        if not flow:
-            return False
-
+        flow = self._get_flow(cmd.flow_id)
         flow.backup()
         try:
             for a, b in cmd.flow_data.items():
@@ -93,7 +85,7 @@ class ProxyCommandProcessor:
                         elif k == 'content':
                             request.text = v
                         else:
-                            raise Exception('Unknown request field.')
+                            raise exceptions.FlowUpdateError('Unknown request field.')
 
                 elif a == 'response' and hasattr(flow, 'response'):
                     response = flow.response
@@ -109,16 +101,19 @@ class ProxyCommandProcessor:
                         elif k == 'content':
                             response.text = v
                         else:
-                            raise Exception('Unknown response field.')
+                            raise exceptions.FlowUpdateError('Unknown response field.')
                 else:
-                    raise Exception('Unknown flow field.')
+                    raise exceptions.FlowUpdateError('Unknown flow field.')
 
         except Exception as exc:
             logger.error(f'Unable to update flow {flow.id}: {exc}')
             flow.revert()
-            return False
+            raise
 
-        else:
-            self.view.update([flow])
+        self.view.update([flow])
 
-        return True
+    def _get_flow(self, flow_id: str) -> Flow:
+        flow = self.view.get_by_id(flow_id)
+        if not flow:
+            raise exceptions.UnexistentFlowError(flow_id)
+        return flow

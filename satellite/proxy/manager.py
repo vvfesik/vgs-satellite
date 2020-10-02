@@ -4,8 +4,9 @@ from multiprocessing import Pipe, Queue
 from multiprocessing.connection import Connection
 from operator import attrgetter
 from queue import Empty
+from satellite.proxy.commands import ProxyCommand
 from threading import Event, Thread
-from typing import Callable, List, Dict, Optional
+from typing import Any, Callable, List, Dict, Optional
 
 from mitmproxy.flow import Flow
 
@@ -78,78 +79,63 @@ class ProxyManager:
     def get_flows(self) -> List[Flow]:
         flows = []
 
-        for proxy in self._proxies.values():
-            proxy.cmd_channel.send(commands.GetFlowsCommand())
-
         for proxy_mode, proxy in self._proxies.items():
+            proxy_flows = self._send_proxy_command(
+                proxy.cmd_channel,
+                commands.GetFlowsCommand(),
+            )
             flows.extend(
                 self._build_flow(proxy_mode, flow_state)
-                for flow_state in proxy.cmd_channel.recv()
+                for flow_state in proxy_flows
             )
 
         return sorted(flows, key=attrgetter('timestamp_start'))
 
     def get_flow(self, flow_id: str) -> Optional[Flow]:
-        proxy_mode = self._flows.get(flow_id)
-        if not proxy_mode:
-            raise exceptions.UnexistentFlowError()
-
-        channel = self._proxies[proxy_mode].cmd_channel
-        channel.send(commands.GetFlowCommand(flow_id))
-        flow_state = channel.recv()
-        if not flow_state:
-            raise exceptions.UnexistentFlowError()
-
+        channel = self._get_flow_proxy_channel(flow_id)
+        flow_state = self._send_proxy_command(
+            channel,
+            commands.GetFlowCommand(flow_id),
+        )
         return load_flow_from_state(flow_state)
 
     def kill_flow(self, flow_id: str) -> Optional[str]:
-        proxy_mode = self._flows.get(flow_id)
-        if not proxy_mode:
-            raise exceptions.UnexistentFlowError()
-
-        channel = self._proxies[proxy_mode].cmd_channel
-        channel.send(commands.KillFlowCommand(flow_id))
-        success = channel.recv()
-        if not success:
-            raise exceptions.UnkillableFlowError()
+        channel = self._get_flow_proxy_channel(flow_id)
+        self._send_proxy_command(
+            channel,
+            commands.KillFlowCommand(flow_id),
+        )
 
     def duplicate_flow(self, flow_id: str) -> str:
-        proxy_mode = self._flows.get(flow_id)
-        if not proxy_mode:
-            raise exceptions.UnexistentFlowError()
-
-        channel = self._proxies[proxy_mode].cmd_channel
-        channel.send(commands.DuplicateFlowCommand(flow_id))
-        flow_id = channel.recv()
-        if not flow_id:
-            raise exceptions.FlowDuplicationError()
-
-        return flow_id
+        channel = self._get_flow_proxy_channel(flow_id)
+        return self._send_proxy_command(
+            channel,
+            commands.DuplicateFlowCommand(flow_id),
+        )
 
     def replay_flow(self, flow_id: str):
-        proxy_mode = self._flows.get(flow_id)
-        if not proxy_mode:
-            raise exceptions.UnexistentFlowError()
-
-        channel = self._proxies[proxy_mode].cmd_channel
-        channel.send(commands.ReplayFlowCommand(flow_id))
-        success = channel.recv()
-        if not success:
-            raise exceptions.FlowReplayError()
+        channel = self._get_flow_proxy_channel(flow_id)
+        self._send_proxy_command(channel, commands.ReplayFlowCommand(flow_id))
 
     def update_flow(self, flow_id: str, flow_data: dict):
-        proxy_mode = self._flows.get(flow_id)
-        if not proxy_mode:
-            raise exceptions.UnexistentFlowError()
-
-        channel = self._proxies[proxy_mode].cmd_channel
-        channel.send(commands.UpdateFlowCommand(
+        channel = self._get_flow_proxy_channel(flow_id)
+        self._send_proxy_command(channel, commands.UpdateFlowCommand(
             flow_id=flow_id,
             flow_data=flow_data,
         ))
-        success = channel.recv()
-        if not success:
-            raise exceptions.FlowUpdateError()
+
+    def _get_flow_proxy_channel(self, flow_id: str) -> Connection:
+        proxy_mode = self._flows.get(flow_id)
+        if not proxy_mode:
+            raise exceptions.UnexistentFlowError()
+        return self._proxies[proxy_mode].cmd_channel
+
+    def _send_proxy_command(self, channel: Connection, cmd: ProxyCommand) -> Any:
+        channel.send(cmd)
+        result = channel.recv()
+        if isinstance(result, Exception):
+            raise result
+        return result
 
     def _build_flow(self, proxy_mode: ProxyMode, flow_state: dict) -> Flow:
         flow = load_flow_from_state(flow_state)
