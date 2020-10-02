@@ -18,6 +18,12 @@ from ..flows import load_flow_from_state
 from .process import ProxyProcess
 
 
+@dataclass
+class ManagedProxyProcess:
+    process: ProxyProcess
+    cmd_channel: Connection
+
+
 class ProxyManager:
     def __init__(
         self,
@@ -67,7 +73,7 @@ class ProxyManager:
 
         for proxy in self._proxies.values():
             if proxy.process.is_alive():
-                proxy.cmd_channel.send(commands.StopCommand())
+                self._send_proxy_command(proxy, commands.StopCommand())
 
         for proxy in self._proxies.values():
             if proxy.process.is_alive():
@@ -81,7 +87,7 @@ class ProxyManager:
 
         for proxy_mode, proxy in self._proxies.items():
             proxy_flows = self._send_proxy_command(
-                proxy.cmd_channel,
+                proxy,
                 commands.GetFlowsCommand(),
             )
             flows.extend(
@@ -92,47 +98,47 @@ class ProxyManager:
         return sorted(flows, key=attrgetter('timestamp_start'))
 
     def get_flow(self, flow_id: str) -> Optional[Flow]:
-        channel = self._get_flow_proxy_channel(flow_id)
+        proxy = self._get_proxy_by_flow_id(flow_id)
         flow_state = self._send_proxy_command(
-            channel,
+            proxy,
             commands.GetFlowCommand(flow_id),
         )
         return load_flow_from_state(flow_state)
 
     def kill_flow(self, flow_id: str) -> Optional[str]:
-        channel = self._get_flow_proxy_channel(flow_id)
+        proxy = self._get_proxy_by_flow_id(flow_id)
         self._send_proxy_command(
-            channel,
+            proxy,
             commands.KillFlowCommand(flow_id),
         )
 
     def duplicate_flow(self, flow_id: str) -> str:
-        channel = self._get_flow_proxy_channel(flow_id)
+        proxy = self._get_proxy_by_flow_id(flow_id)
         return self._send_proxy_command(
-            channel,
+            proxy,
             commands.DuplicateFlowCommand(flow_id),
         )
 
     def replay_flow(self, flow_id: str):
-        channel = self._get_flow_proxy_channel(flow_id)
-        self._send_proxy_command(channel, commands.ReplayFlowCommand(flow_id))
+        proxy = self._get_proxy_by_flow_id(flow_id)
+        self._send_proxy_command(proxy, commands.ReplayFlowCommand(flow_id))
 
     def update_flow(self, flow_id: str, flow_data: dict):
-        channel = self._get_flow_proxy_channel(flow_id)
-        self._send_proxy_command(channel, commands.UpdateFlowCommand(
+        proxy = self._get_proxy_by_flow_id(flow_id)
+        self._send_proxy_command(proxy, commands.UpdateFlowCommand(
             flow_id=flow_id,
             flow_data=flow_data,
         ))
 
-    def _get_flow_proxy_channel(self, flow_id: str) -> Connection:
+    def _get_proxy_by_flow_id(self, flow_id: str) -> ManagedProxyProcess:
         proxy_mode = self._flows.get(flow_id)
         if not proxy_mode:
             raise exceptions.UnexistentFlowError()
-        return self._proxies[proxy_mode].cmd_channel
+        return self._proxies[proxy_mode]
 
-    def _send_proxy_command(self, channel: Connection, cmd: ProxyCommand) -> Any:
-        channel.send(cmd)
-        result = channel.recv()
+    def _send_proxy_command(self, proxy: ManagedProxyProcess, cmd: ProxyCommand) -> Any:
+        proxy.cmd_channel.send(cmd)
+        result = proxy.cmd_channel.recv()
         if isinstance(result, Exception):
             raise result
         return result
@@ -180,9 +186,3 @@ class ProxyEventListener(Thread):
             else:
                 for handler in self._event_handlers:
                     handler(event=event)
-
-
-@dataclass
-class ManagedProxyProcess:
-    process: ProxyProcess
-    cmd_channel: Connection
