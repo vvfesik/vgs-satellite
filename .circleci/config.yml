@@ -19,6 +19,7 @@ jobs:
           key: npm-lock-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - ~/app/node_modules/
+            - /home/circleci/.cache/Cypress
       - run: npm run test:ci
       - store_artifacts:
           path: /root/app/cypress/screenshots/
