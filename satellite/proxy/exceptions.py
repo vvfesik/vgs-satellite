@@ -3,19 +3,13 @@ class ProxyError(Exception):
 
 
 class UnexistentFlowError(ProxyError):
-    pass
+    def __init__(self, flow_id: str):
+        super().__init__(f'Unkillable flow: {flow_id}')
 
 
 class UnkillableFlowError(ProxyError):
-    pass
-
-
-class FlowDuplicationError(ProxyError):
-    pass
-
-
-class FlowReplayError(ProxyError):
-    pass
+    def __init__(self, flow_id: str):
+        super().__init__(f'Unkillable flow: {flow_id}')
 
 
 class FlowUpdateError(ProxyError):

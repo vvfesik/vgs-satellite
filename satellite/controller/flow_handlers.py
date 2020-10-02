@@ -1,4 +1,4 @@
-from satellite.controller import APIError, BaseHandler, apply_response_schema
+from satellite.controller import BaseHandler, apply_response_schema
 import satellite.proxy.exceptions as proxy_exceptions
 from satellite.schemas.flows import HTTPFlowSchema
 
@@ -18,33 +18,24 @@ class FlowHandler(BaseHandler):
         try:
             self.application.proxy_manager.kill_flow(flow_id)
         except proxy_exceptions.UnkillableFlowError as exc:
-            raise APIError(400, 'Unkillable flow') from exc
-
-        self.set_status(200)
+            self.set_status(400, str(exc))
 
     def put(self, flow_id):
         try:
             self.application.proxy_manager.update_flow(flow_id, self.json)
         except proxy_exceptions.FlowUpdateError as exc:
-            raise APIError(400, 'Unable to update flow') from exc
+            self.set_status(400, str(exc))
 
 
 class DuplicateFlow(BaseHandler):
     def post(self, flow_id):
-        try:
-            new_flow_id = self.application.proxy_manager.duplicate_flow(flow_id)
-        except proxy_exceptions.FlowDuplicationError as exc:
-            raise APIError(400, 'Unable to duplicate flow') from exc
+        new_flow_id = self.application.proxy_manager.duplicate_flow(flow_id)
         self.write(new_flow_id)
 
 
 class ReplayFlow(BaseHandler):
     def post(self, flow_id):
-        try:
-            self.application.proxy_manager.replay_flow(flow_id)
-        except proxy_exceptions.FlowReplayError as exc:
-            raise APIError(400, 'Unable to replay flow') from exc
-        self.set_status(200)
+        self.application.proxy_manager.replay_flow(flow_id)
 
 
 class Flows(BaseHandler):
