@@ -34,7 +34,7 @@ class WebApplication(Application):
             (r"/flows/(?P<flow_id>[0-9a-f\-]+)/replay", flow_handlers.ReplayFlow),
             (r"/flows/(?P<flow_id>[0-9a-f\-]+)/duplicate", flow_handlers.DuplicateFlow),
         ])
-        # TODO: Make ports configurable
+        # TODO: (SAT-40) Make ports configurable
         self.proxy_manager = ProxyManager(
             forward_proxy_port=9099,
             reverse_proxy_port=9098,
@@ -58,7 +58,7 @@ class WebApplication(Application):
 
         self.proxy_manager.start()
 
-        port = 8089  # TODO: Make port configurable
+        port = 8089  # TODO: (SAT-40) Make port configurable
         self.listen(port)
         logger.info(f'Web server listening at {port} port.')
         IOLoop.current().start()

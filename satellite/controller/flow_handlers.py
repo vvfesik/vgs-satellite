@@ -12,16 +12,11 @@ class Index(BaseHandler):
 class FlowHandler(BaseHandler):
     @apply_response_schema(HTTPFlowSchema)
     def get(self, flow_id):
-        try:
-            return self.application.proxy_manager.get_flow(flow_id)
-        except proxy_exceptions.UnexistentFlowError as exc:
-            raise APIError(404, 'Unknown flow') from exc
+        return self.application.proxy_manager.get_flow(flow_id)
 
     def delete(self, flow_id):
         try:
             self.application.proxy_manager.kill_flow(flow_id)
-        except proxy_exceptions.UnexistentFlowError as exc:
-            raise APIError(404, 'Unknown flow') from exc
         except proxy_exceptions.UnkillableFlowError as exc:
             raise APIError(400, 'Unkillable flow') from exc
 
@@ -30,8 +25,6 @@ class FlowHandler(BaseHandler):
     def put(self, flow_id):
         try:
             self.application.proxy_manager.update_flow(flow_id, self.json)
-        except proxy_exceptions.UnexistentFlowError as exc:
-            raise APIError(404, 'Unknown flow') from exc
         except proxy_exceptions.FlowUpdateError as exc:
             raise APIError(400, 'Unable to update flow') from exc
 

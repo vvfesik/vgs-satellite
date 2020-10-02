@@ -2,6 +2,8 @@ import json
 
 from unittest.mock import Mock
 
+from satellite.proxy import exceptions
+
 from ..factories import load_flow
 from .base import BaseHandlerTestCase
 
@@ -14,3 +16,158 @@ class TestFlowsHandler(BaseHandlerTestCase):
         response = self.fetch(self.get_url('/flows.json'))
         self.assertEqual(response.code, 200)
         self.assertMatchSnapshot(json.loads(response.body))
+
+
+class TestFlowHandler(BaseHandlerTestCase):
+    def test_get_ok(self):
+        flow = load_flow('http_raw')
+        self.proxy_manager.get_flow = Mock(return_value=flow)
+        response = self.fetch(self.get_url(f'/flows/{flow.id}'))
+        self.assertEqual(response.code, 200)
+        self.proxy_manager.get_flow.assert_called_once_with(flow.id)
+        self.assertMatchSnapshot(json.loads(response.body))
+
+    def test_get_absent_flow(self):
+        flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+        self.proxy_manager.get_flow.side_effect = exceptions.UnexistentFlowError
+        response = self.fetch(self.get_url(f'/flows/{flow_id}'))
+        self.assertEqual(response.code, 404)
+        self.proxy_manager.get_flow.assert_called_once_with(flow_id)
+
+    def test_delete_ok(self):
+        flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+        response = self.fetch(
+            self.get_url(f'/flows/{flow_id}'),
+            method='DELETE',
+        )
+        self.assertEqual(response.code, 200)
+        self.proxy_manager.kill_flow.assert_called_once_with(flow_id)
+
+    def test_delete_absent_flow(self):
+        flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+        self.proxy_manager.kill_flow.side_effect = exceptions.UnexistentFlowError
+        response = self.fetch(
+            self.get_url(f'/flows/{flow_id}'),
+            method='DELETE',
+        )
+        self.assertEqual(response.code, 404)
+        self.proxy_manager.kill_flow.assert_called_once_with(flow_id)
+
+    def test_delete_not_killable_flow(self):
+        flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+        self.proxy_manager.kill_flow.side_effect = exceptions.UnkillableFlowError
+        response = self.fetch(
+            self.get_url(f'/flows/{flow_id}'),
+            method='DELETE',
+        )
+        self.assertEqual(response.code, 400)
+        self.proxy_manager.kill_flow.assert_called_once_with(flow_id)
+
+    def test_update_ok(self):
+        flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+        flow_data = {'flow': 'data'}
+        response = self.fetch(
+            self.get_url(f'/flows/{flow_id}'),
+            method='PUT',
+            body=json.dumps(flow_data),
+            headers={'Content-Type': 'application/json'},
+        )
+        self.assertEqual(response.code, 200)
+        self.proxy_manager.update_flow.assert_called_once_with(flow_id, flow_data)
+
+    def test_update_absent_flow(self):
+        flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+        flow_data = {'flow': 'data'}
+        self.proxy_manager.update_flow.side_effect = exceptions.UnexistentFlowError
+        response = self.fetch(
+            self.get_url(f'/flows/{flow_id}'),
+            method='PUT',
+            body=json.dumps(flow_data),
+            headers={'Content-Type': 'application/json'},
+        )
+        self.assertEqual(response.code, 404)
+        self.proxy_manager.update_flow.assert_called_once_with(flow_id, flow_data)
+
+    def test_update_error(self):
+        flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+        flow_data = {'flow': 'data'}
+        self.proxy_manager.update_flow.side_effect = exceptions.FlowUpdateError
+        response = self.fetch(
+            self.get_url(f'/flows/{flow_id}'),
+            method='PUT',
+            body=json.dumps(flow_data),
+            headers={'Content-Type': 'application/json'},
+        )
+        self.assertEqual(response.code, 400)
+        self.proxy_manager.update_flow.assert_called_once_with(flow_id, flow_data)
+
+
+class TestDuplicateFlowHandler(BaseHandlerTestCase):
+    def test_ok(self):
+        flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+        new_flow_id = '599c2bed-c79a-4ddb-a9df-92cdf999a3a7'
+        self.proxy_manager.duplicate_flow.return_value = new_flow_id
+        response = self.fetch(
+            self.get_url(f'/flows/{flow_id}/duplicate'),
+            method='POST',
+            body=b'',
+        )
+        self.assertEqual(response.code, 200)
+        self.assertEqual(response.body.decode(), new_flow_id)
+        self.proxy_manager.duplicate_flow.assert_called_once_with(flow_id)
+
+    def test_absent_error(self):
+        flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+        self.proxy_manager.duplicate_flow.side_effect = exceptions.UnexistentFlowError
+        response = self.fetch(
+            self.get_url(f'/flows/{flow_id}/duplicate'),
+            method='POST',
+            body=b'',
+        )
+        self.assertEqual(response.code, 404)
+        self.proxy_manager.duplicate_flow.assert_called_once_with(flow_id)
+
+    def test_duplicate_error(self):
+        flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+        self.proxy_manager.duplicate_flow.side_effect = exceptions.FlowDuplicationError
+        response = self.fetch(
+            self.get_url(f'/flows/{flow_id}/duplicate'),
+            method='POST',
+            body=b'',
+        )
+        self.assertEqual(response.code, 400)
+        self.proxy_manager.duplicate_flow.assert_called_once_with(flow_id)
+
+
+class TestReplayFlowHandler(BaseHandlerTestCase):
+    def test_ok(self):
+        flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+        response = self.fetch(
+            self.get_url(f'/flows/{flow_id}/replay'),
+            method='POST',
+            body=b'',
+        )
+        self.assertEqual(response.code, 200)
+        self.proxy_manager.replay_flow.assert_called_once_with(flow_id)
+
+    def test_absent_error(self):
+        flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+        self.proxy_manager.replay_flow.side_effect = exceptions.UnexistentFlowError
+        response = self.fetch(
+            self.get_url(f'/flows/{flow_id}/replay'),
+            method='POST',
+            body=b'',
+        )
+        self.assertEqual(response.code, 404)
+        self.proxy_manager.replay_flow.assert_called_once_with(flow_id)
+
+    def test_replay_error(self):
+        flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+        self.proxy_manager.replay_flow.side_effect = exceptions.FlowReplayError
+        response = self.fetch(
+            self.get_url(f'/flows/{flow_id}/replay'),
+            method='POST',
+            body=b'',
+        )
+        self.assertEqual(response.code, 400)
+        self.proxy_manager.replay_flow.assert_called_once_with(flow_id)
