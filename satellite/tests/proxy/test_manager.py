@@ -3,8 +3,6 @@ from unittest.mock import Mock
 from satellite.proxy import commands, ProxyMode
 from satellite.proxy.manager import ProxyManager
 
-from ..factories import load_flow
-
 
 def test_start_stop(monkeypatch):
     proxy_processes = [Mock(), Mock()]
