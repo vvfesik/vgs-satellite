@@ -29,6 +29,7 @@ snapshots['TestFlowsHandler::test_ok 1'] = [
         'id': '805b2a13-c921-48f4-85c4-dbceaea21fb4',
         'intercepted': False,
         'marked': False,
+        'mode': 'regular',
         'modified': False,
         'request': {
             'content': '{"foo": "bar"}',
@@ -169,6 +170,7 @@ snapshots['TestFlowHandler::test_get_ok 1'] = {
     'id': '805b2a13-c921-48f4-85c4-dbceaea21fb4',
     'intercepted': False,
     'marked': False,
+    'mode': 'regular',
     'modified': False,
     'request': {
         'content': '{"foo": "bar"}',

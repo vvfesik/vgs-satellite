@@ -43,6 +43,7 @@ class FlowSchema(Schema):
     type = fields.Str()
     modified = fields.Method(serialize='get_modified')
     marked = fields.Bool()
+    mode = fields.Str()
 
     def get_modified(self, flow: Flow) -> bool:
         return flow.modified()

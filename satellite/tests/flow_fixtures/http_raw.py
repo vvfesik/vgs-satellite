@@ -83,6 +83,6 @@ state = {
         'timestamp_start': 1600522834.159654,
         'timestamp_end': 1600522834.1649642,
     },
-    'mode': 'transparent',
+    'mode': 'regular',
     'version': 8,
 }

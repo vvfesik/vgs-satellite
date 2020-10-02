@@ -81,13 +81,13 @@ class ProxyManager:
         for proxy in self._proxies.values():
             proxy.cmd_channel.send(commands.GetFlowsCommand())
 
-        for proxy in self._proxies.values():
-            flows.extend(proxy.cmd_channel.recv())
+        for proxy_mode, proxy in self._proxies.items():
+            flows.extend(
+                self._build_flow(proxy_mode, flow_state)
+                for flow_state in proxy.cmd_channel.recv()
+            )
 
-        return sorted(
-            map(load_flow_from_state, flows),
-            key=attrgetter('timestamp_start'),
-        )
+        return sorted(flows, key=attrgetter('timestamp_start'))
 
     def get_flow(self, flow_id: str) -> Optional[Flow]:
         proxy_mode = self._flows.get(flow_id)
@@ -150,6 +150,11 @@ class ProxyManager:
         success = channel.recv()
         if not success:
             raise exceptions.FlowUpdateError()
+
+    def _build_flow(self, proxy_mode: ProxyMode, flow_state: dict) -> Flow:
+        flow = load_flow_from_state(flow_state)
+        flow.mode = proxy_mode.value
+        return flow
 
     def _handle_event(self, event):
         self._process_event(event)
