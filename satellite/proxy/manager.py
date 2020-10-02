@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from functools import singledispatchmethod
 from multiprocessing import Pipe, Queue
 from multiprocessing.connection import Connection
+from operator import attrgetter
 from queue import Empty
 from threading import Event, Thread
 from typing import Callable, List, Dict, Optional
@@ -83,7 +84,10 @@ class ProxyManager:
         for proxy in self._proxies.values():
             flows.extend(proxy.cmd_channel.recv())
 
-        return list(map(load_flow_from_state, flows))
+        return sorted(
+            map(load_flow_from_state, flows),
+            key=attrgetter('timestamp_start'),
+        )
 
     def get_flow(self, flow_id: str) -> Optional[Flow]:
         proxy_mode = self._flows.get(flow_id)
