@@ -22,6 +22,7 @@ from .process import ProxyProcess
 class ManagedProxyProcess:
     process: ProxyProcess
     cmd_channel: Connection
+    proxy_mode: ProxyMode
 
 
 class ProxyManager:
@@ -52,6 +53,7 @@ class ProxyManager:
                     cmd_channel=proxy_connection,
                 ),
                 cmd_channel=manager_connection,
+                proxy_mode=mode,
             )
 
     def start(self):
@@ -103,7 +105,7 @@ class ProxyManager:
             proxy,
             commands.GetFlowCommand(flow_id),
         )
-        return load_flow_from_state(flow_state)
+        return self._build_flow(proxy.proxy_mode, flow_state)
 
     def kill_flow(self, flow_id: str) -> Optional[str]:
         proxy = self._get_proxy_by_flow_id(flow_id)
