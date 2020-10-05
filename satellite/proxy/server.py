@@ -24,15 +24,10 @@ class ProxyServer(BaseProxyServer):
 
         if ctx.proxy_mode == ProxyMode.REVERSE:
             upstream = self._get_upstream()
-            if not upstream:
-                logger.warning('No upstream is configured.')
-                # TODO: Send a proper HTTP error response.
-                conn.close()
-                return
-
-            options = copy(self.config.options)
-            options.mode = f'reverse:{upstream}'
-            config = ProxyConfig(options)
+            if upstream:
+                options = copy(self.config.options)
+                options.mode = f'reverse:{upstream}'
+                config = ProxyConfig(options)
 
         handler = ConnectionHandler(
             conn,
