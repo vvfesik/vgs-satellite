@@ -8,6 +8,8 @@ from multiprocessing.connection import Connection
 from threading import Event, Thread
 from typing import Any, Callable
 
+import blinker
+
 from mitmproxy.flow import Flow
 from mitmproxy.addons.view import View
 
@@ -67,40 +69,44 @@ class ProxyProcess(Process):
         self.master.view.sig_view_remove.connect(self._sig_flow_remove)
         self.master.view.sig_view_update.connect(self._sig_flow_update)
 
+        blinker.signal('sat_proxy_started').connect(self._sig_proxy_started)
+
         self._command_processor = ProxyCommandProcessor(self)
 
         signal.signal(signal.SIGINT, signal.SIG_IGN)
-
-        logger.info(
-            f'Starting proxy({self._mode.value}) at {self._port} port.',
-        )
 
         self.master.run()
 
     def stop(self):
         if self._should_stop.is_set():
             return
-        logger.info(f'Stopping proxy({self._mode.value}).')
+        logger.info('Stopping proxy.')
         self._should_stop.set()
         self.master.shutdown()
-        logger.info(f'Stopped proxy({self._mode.value}).')
+        logger.info('Stopped proxy.')
 
     def _sig_flow_add(self, view: View, flow: Flow):
         self._event_queue.put_nowait(events.FlowAddEvent(
             proxy_mode=self._mode,
-            data=get_flow_state(flow),
+            flow_state=get_flow_state(flow),
         ))
 
     def _sig_flow_update(self, view: View, flow: Flow):
         self._event_queue.put_nowait(events.FlowUpdateEvent(
             proxy_mode=self._mode,
-            data=get_flow_state(flow),
+            flow_state=get_flow_state(flow),
         ))
 
     def _sig_flow_remove(self, view: View, flow: Flow, index: int):
         self._event_queue.put_nowait(events.FlowRemoveEvent(
             proxy_mode=self._mode,
-            data=flow.id,
+            flow_id=flow.id,
+        ))
+
+    def _sig_proxy_started(self, _):
+        self._event_queue.put_nowait(events.ProxyStarted(
+            proxy_mode=self._mode,
+            port=self._port,
         ))
 
     def _handle_command(

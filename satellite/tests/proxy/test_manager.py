@@ -83,4 +83,111 @@ def test_get_flow(monkeypatch):
     flow = manager.get_flow(flow_id)
     assert flow.timestamp_start == 1
     assert flow.mode == ProxyMode.FORWARD.value
-    connections[0][0].send.assert_called_once_with(commands.GetFlowCommand(flow_id))
+    connections[0][0].send.assert_called_once_with(
+        commands.GetFlowCommand(flow_id),
+    )
+
+
+def test_kill_flow(monkeypatch):
+    proxy_processes = [Mock(), Mock()]
+    connections = [
+        (Mock(), Mock()),
+        (Mock(), Mock()),
+    ]
+    monkeypatch.setattr(
+        'satellite.proxy.manager.ProxyProcess',
+        Mock(side_effect=proxy_processes),
+    )
+    monkeypatch.setattr(
+        'satellite.proxy.manager.Pipe',
+        Mock(side_effect=connections),
+    )
+
+    flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+    manager = ProxyManager(9099, 9098, Mock())
+    manager._flows[flow_id] = ProxyMode.FORWARD
+
+    manager.kill_flow(flow_id)
+
+    connections[0][0].send.assert_called_once_with(
+        commands.KillFlowCommand(flow_id),
+    )
+
+
+def test_duplicate_flow(monkeypatch):
+    proxy_processes = [Mock(), Mock()]
+    connections = [
+        (Mock(), Mock()),
+        (Mock(), Mock()),
+    ]
+    monkeypatch.setattr(
+        'satellite.proxy.manager.ProxyProcess',
+        Mock(side_effect=proxy_processes),
+    )
+    monkeypatch.setattr(
+        'satellite.proxy.manager.Pipe',
+        Mock(side_effect=connections),
+    )
+
+    flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+    manager = ProxyManager(9099, 9098, Mock())
+    manager._flows[flow_id] = ProxyMode.FORWARD
+
+    manager.duplicate_flow(flow_id)
+
+    connections[0][0].send.assert_called_once_with(
+        commands.DuplicateFlowCommand(flow_id),
+    )
+
+
+def test_replay_flow(monkeypatch):
+    proxy_processes = [Mock(), Mock()]
+    connections = [
+        (Mock(), Mock()),
+        (Mock(), Mock()),
+    ]
+    monkeypatch.setattr(
+        'satellite.proxy.manager.ProxyProcess',
+        Mock(side_effect=proxy_processes),
+    )
+    monkeypatch.setattr(
+        'satellite.proxy.manager.Pipe',
+        Mock(side_effect=connections),
+    )
+
+    flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+    manager = ProxyManager(9099, 9098, Mock())
+    manager._flows[flow_id] = ProxyMode.FORWARD
+
+    manager.replay_flow(flow_id)
+
+    connections[0][0].send.assert_called_once_with(
+        commands.ReplayFlowCommand(flow_id),
+    )
+
+
+def test_update_flow(monkeypatch):
+    proxy_processes = [Mock(), Mock()]
+    connections = [
+        (Mock(), Mock()),
+        (Mock(), Mock()),
+    ]
+    monkeypatch.setattr(
+        'satellite.proxy.manager.ProxyProcess',
+        Mock(side_effect=proxy_processes),
+    )
+    monkeypatch.setattr(
+        'satellite.proxy.manager.Pipe',
+        Mock(side_effect=connections),
+    )
+
+    flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
+    flow_data = {'flow': 'data'}
+    manager = ProxyManager(9099, 9098, Mock())
+    manager._flows[flow_id] = ProxyMode.FORWARD
+
+    manager.update_flow(flow_id, flow_data)
+
+    connections[0][0].send.assert_called_once_with(
+        commands.UpdateFlowCommand(flow_id, flow_data),
+    )

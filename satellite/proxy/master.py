@@ -1,3 +1,4 @@
+from blinker import signal
 from mitmproxy.addons import default_addons
 from mitmproxy.addons.view import View
 from mitmproxy.master import Master as Master
@@ -8,6 +9,11 @@ from ..vault.vault_handler import VaultFlows
 
 from . import ProxyMode
 from .server import ProxyServer
+
+
+class ProxyEventsAddon:
+    def running(self):
+        signal('sat_proxy_started').send(self)
 
 
 class ProxyMaster(Master):
@@ -21,7 +27,11 @@ class ProxyMaster(Master):
         super().__init__(opts)
 
         self.view = View()
-        self.addons.add(*default_addons())
-        self.addons.add(VaultFlows(), self.view)
+        self.addons.add(
+            *default_addons(),
+            VaultFlows(),
+            self.view,
+            ProxyEventsAddon(),
+        )
 
         self.server = ProxyServer(ProxyConfig(opts))

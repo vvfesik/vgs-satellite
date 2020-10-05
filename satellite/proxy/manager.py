@@ -1,3 +1,5 @@
+import logging
+
 from dataclasses import dataclass
 from functools import singledispatchmethod
 from multiprocessing import Pipe, Queue
@@ -16,6 +18,9 @@ from . import exceptions
 from . import ProxyMode
 from ..flows import load_flow_from_state
 from .process import ProxyProcess
+
+
+logger = logging.getLogger()
 
 
 @dataclass
@@ -158,13 +163,19 @@ class ProxyManager:
         pass
 
     @_process_event.register
+    def _(self, event: events.ProxyStarted):
+        logger.info(
+            f'Started proxy({event.proxy_mode.value}) at {event.port} port.',
+        )
+
+    @_process_event.register
     def _(self, event: events.FlowAddEvent):
-        self._flows[event.data['id']] = event.proxy_mode
+        self._flows[event.flow_state['id']] = event.proxy_mode
 
     @_process_event.register
     def _(self, event: events.FlowRemoveEvent):
         if event.data in self._flows:
-            del self._flows[event.data]
+            del self._flows[event.flow_id]
 
 
 class ProxyEventListener(Thread):
