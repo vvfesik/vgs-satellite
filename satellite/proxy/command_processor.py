@@ -61,6 +61,8 @@ class ProxyCommandProcessor:
     def _(self, cmd: commands.ReplayFlowCommand):
         flow = self._get_flow(cmd.flow_id)
         flow.backup()
+        if hasattr(flow, 'request_raw'):
+            flow.request = flow.request_raw
         flow.response = None
         self.view.update([flow])
         self.master.commands.call('replay.client', [flow])
