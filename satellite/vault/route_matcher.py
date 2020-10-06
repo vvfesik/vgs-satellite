@@ -2,7 +2,7 @@ from typing import List, Optional, Tuple
 
 from mitmproxy.flow import Flow
 
-from satellite.master import ProxyMode
+from satellite.proxy import ProxyMode
 from satellite.service import route_manager
 from satellite.model.route import Phase, Route, RouteType, RuleEntry
 
@@ -12,9 +12,6 @@ def match_route(
     phase: Phase,
     flow: Flow,
 ) -> Tuple[Optional[Route], Optional[List[RuleEntry]]]:
-    if proxy_mode == ProxyMode.INCOMPATIBLE:
-        return None, None
-
     request = flow.request
     route_type = RouteType.INBOUND if proxy_mode == ProxyMode.REVERSE else RouteType.OUTBOUND
     routes = route_manager.get_all_by_type(route_type)

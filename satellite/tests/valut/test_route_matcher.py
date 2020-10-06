@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 from ..factories import load_flow, RouteFactory, RuleEntryFactory
 
-from satellite.master import ProxyMode
+from satellite.proxy import ProxyMode
 from satellite.model.route import Phase
 from satellite.vault.route_matcher import match_route
 

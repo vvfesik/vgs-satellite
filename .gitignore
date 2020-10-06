@@ -21,6 +21,8 @@ Thumbs.db
 **/cypress/**/examples/
 **/cypress/videos/
 **/cypress/screenshots/
+.coverage
+htmlcov/
 
 # Environments
 venv/
