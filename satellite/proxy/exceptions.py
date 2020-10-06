@@ -4,7 +4,7 @@ class ProxyError(Exception):
 
 class UnexistentFlowError(ProxyError):
     def __init__(self, flow_id: str):
-        super().__init__(f'Unkillable flow: {flow_id}')
+        super().__init__(f'Unexistent flow: {flow_id}')
 
 
 class FlowUpdateError(ProxyError):

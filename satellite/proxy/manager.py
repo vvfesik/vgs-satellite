@@ -174,7 +174,7 @@ class ProxyManager:
 
     @_process_event.register
     def _(self, event: events.FlowRemoveEvent):
-        if event.data in self._flows:
+        if event.flow_id in self._flows:
             del self._flows[event.flow_id]
 
 
