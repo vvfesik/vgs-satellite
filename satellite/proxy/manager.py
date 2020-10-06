@@ -112,11 +112,11 @@ class ProxyManager:
         )
         return self._build_flow(proxy.proxy_mode, flow_state)
 
-    def kill_flow(self, flow_id: str) -> Optional[str]:
+    def remove_flow(self, flow_id: str) -> Optional[str]:
         proxy = self._get_proxy_by_flow_id(flow_id)
         self._send_proxy_command(
             proxy,
-            commands.KillFlowCommand(flow_id),
+            commands.RemoveFlowCommand(flow_id),
         )
 
     def duplicate_flow(self, flow_id: str) -> str:
@@ -140,7 +140,7 @@ class ProxyManager:
     def _get_proxy_by_flow_id(self, flow_id: str) -> ManagedProxyProcess:
         proxy_mode = self._flows.get(flow_id)
         if not proxy_mode:
-            raise exceptions.UnexistentFlowError()
+            raise exceptions.UnexistentFlowError(flow_id)
         return self._proxies[proxy_mode]
 
     def _send_proxy_command(self, proxy: ManagedProxyProcess, cmd: ProxyCommand) -> Any:

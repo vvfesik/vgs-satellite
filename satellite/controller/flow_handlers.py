@@ -15,10 +15,7 @@ class FlowHandler(BaseHandler):
         return self.application.proxy_manager.get_flow(flow_id)
 
     def delete(self, flow_id):
-        try:
-            self.application.proxy_manager.kill_flow(flow_id)
-        except proxy_exceptions.UnkillableFlowError as exc:
-            self.set_status(400, str(exc))
+        self.application.proxy_manager.remove_flow(flow_id)
 
     def put(self, flow_id):
         try:

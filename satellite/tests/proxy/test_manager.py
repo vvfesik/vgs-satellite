@@ -88,7 +88,7 @@ def test_get_flow(monkeypatch):
     )
 
 
-def test_kill_flow(monkeypatch):
+def test_remove_flow(monkeypatch):
     proxy_processes = [Mock(), Mock()]
     connections = [
         (Mock(), Mock()),
@@ -107,10 +107,10 @@ def test_kill_flow(monkeypatch):
     manager = ProxyManager(9099, 9098, Mock())
     manager._flows[flow_id] = ProxyMode.FORWARD
 
-    manager.kill_flow(flow_id)
+    manager.remove_flow(flow_id)
 
     connections[0][0].send.assert_called_once_with(
-        commands.KillFlowCommand(flow_id),
+        commands.RemoveFlowCommand(flow_id),
     )
 
 

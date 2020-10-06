@@ -41,27 +41,17 @@ class TestFlowHandler(BaseHandlerTestCase):
             method='DELETE',
         )
         self.assertEqual(response.code, 200)
-        self.proxy_manager.kill_flow.assert_called_once_with(flow_id)
+        self.proxy_manager.remove_flow.assert_called_once_with(flow_id)
 
     def test_delete_absent_flow(self):
         flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
-        self.proxy_manager.kill_flow.side_effect = exceptions.UnexistentFlowError(flow_id)
+        self.proxy_manager.remove_flow.side_effect = exceptions.UnexistentFlowError(flow_id)
         response = self.fetch(
             self.get_url(f'/flows/{flow_id}'),
             method='DELETE',
         )
         self.assertEqual(response.code, 404)
-        self.proxy_manager.kill_flow.assert_called_once_with(flow_id)
-
-    def test_delete_not_killable_flow(self):
-        flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
-        self.proxy_manager.kill_flow.side_effect = exceptions.UnkillableFlowError(flow_id)
-        response = self.fetch(
-            self.get_url(f'/flows/{flow_id}'),
-            method='DELETE',
-        )
-        self.assertEqual(response.code, 400)
-        self.proxy_manager.kill_flow.assert_called_once_with(flow_id)
+        self.proxy_manager.remove_flow.assert_called_once_with(flow_id)
 
     def test_update_ok(self):
         flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'

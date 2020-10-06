@@ -22,7 +22,7 @@ class GetFlowCommand(ProxyCommand):
 
 
 @dataclass
-class KillFlowCommand(ProxyCommand):
+class RemoveFlowCommand(ProxyCommand):
     flow_id: str
 
 

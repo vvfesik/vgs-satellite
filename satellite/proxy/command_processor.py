@@ -43,11 +43,8 @@ class ProxyCommandProcessor:
         return get_flow_state(flow)
 
     @process_command.register
-    def _(self, cmd: commands.KillFlowCommand) -> Optional[str]:
+    def _(self, cmd: commands.RemoveFlowCommand) -> Optional[str]:
         flow = self._get_flow(cmd.flow_id)
-        if not flow.killable:
-            raise exceptions.UnkillableFlowError(cmd.flow_id)
-        flow.kill()
         self.view.remove([flow])
 
     @process_command.register
