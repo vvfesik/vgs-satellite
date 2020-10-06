@@ -70,8 +70,8 @@ class ProxyCommandProcessor:
         flow.backup()
         try:
             for a, b in cmd.flow_data.items():
-                if a == 'request' and hasattr(flow, 'request'):
-                    request = flow.request
+                if a == 'request' and hasattr(flow, 'request_raw'):
+                    request = flow.request_raw
                     for k, v in b.items():
                         if k in ['method', 'scheme', 'host', 'path', 'http_version']:
                             setattr(request, k, str(v))
@@ -86,8 +86,8 @@ class ProxyCommandProcessor:
                         else:
                             raise exceptions.FlowUpdateError('Unknown request field.')
 
-                elif a == 'response' and hasattr(flow, 'response'):
-                    response = flow.response
+                elif a == 'response' and hasattr(flow, 'response_raw'):
+                    response = flow.response_raw
                     for k, v in b.items():
                         if k in ['msg', 'http_version']:
                             setattr(response, k, str(v))
