@@ -1,9 +1,12 @@
-from typing import List, Tuple
+import logging
 
-from mitmproxy import ctx
+from typing import List, Tuple
 
 from satellite.model.route import RuleEntry
 from satellite.vault.transformer import transformer_map
+
+
+logger = logging.getLogger(__file__)
 
 
 def transform_body(
@@ -17,8 +20,11 @@ def transform_body(
         transformer = rule_entry.transformer
         transformer_type = transformer_map.get(transformer)
         if not transformer_type:
-            ctx.log.info(f'{transformer} can\'t be used as a transformer. '
-                         f'Possible values: {str(transformer_map.keys())}')
+            allowed_transformers = ', '.join(map(str, transformer_map.keys()))
+            logger.warning(
+                f'{transformer} can not be used as a transformer. '
+                f'Possible values: {allowed_transformers}'
+            )
             continue
 
         operation = rule_entry.operation
