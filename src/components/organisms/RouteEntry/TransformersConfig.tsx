@@ -62,7 +62,7 @@ export const TransformersConfig: React.FC<ITransformersConfigProps> = (props) =>
         className={cn([
           'btn-light',
           { active: props.form.transformer === transformer.name },
-          { 'is-disabled': !enabledTransformers.includes(transformer.name),
+          { 'is-disabled': !enabledTransformers.includes(transformer.name)},
         ])}
         onClick={(e: any) => { e.preventDefault(); props.onChange(transformer.name, 'transformer', transformer.name === 'REGEX'); }}
       >
