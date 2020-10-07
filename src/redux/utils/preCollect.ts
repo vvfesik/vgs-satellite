@@ -79,21 +79,21 @@ export function harToLog(harEntry, routeType) {
 }
 
 export const mitmlogToLog = (entry, routeType) => {
-  const dateFromTimestamp = unixToFormat(entry.request.timestamp_start);
+  const dateFromTimestamp = unixToFormat(entry.request_raw.timestamp_start);
   const log = {
     ...entry,
-    path: entry.request.path,
-    upstream: entry.request.host,
-    scheme: entry.request.scheme,
+    path: entry.request_raw.path,
+    upstream: entry.request_raw.host,
+    scheme: entry.request_raw.scheme,
     occurred_at: dateFromTimestamp,
     expired_at: dateFromTimestamp,
     route_type: routeType,
-    proxy_status: entry.response?.status_code,
+    proxy_status: entry.response_raw?.status_code,
     routes: {
       data: [],
     },
     http: {
-      method: entry.request.method,
+      method: entry.request_raw.method,
     },
   };
   return log;

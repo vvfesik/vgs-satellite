@@ -25,6 +25,8 @@ const GeneralInfo: React.FC<IGeneralInfoProps> = (props) => {
   const { route_type, upstream_time_ms, upstream_status, proxy_status, http } = log;
   const { isEditMode, generalInfo, onEditChange, onEditSave } = props;
 
+  const httpVersion = log.request?.httpVersion || log.request_raw?.http_version;
+
   return (
     <Table className="general-table pb-3">
       <tbody>
@@ -39,18 +41,18 @@ const GeneralInfo: React.FC<IGeneralInfoProps> = (props) => {
               </td>
           </tr>
         )}
-        {!!log.request?.httpVersion && (
+        {!!httpVersion && (
           <tr>
             <td className="smallbold">Protocol</td>
             <td>
               {isEditMode ? (
                 <Input
-                  value={generalInfo.request?.httpVersion ?? log.request.httpVersion}
-                  onChange={e => onEditChange({ request: { httpVersion: e.target.value } })}
+                  value={generalInfo.request?.http_version ?? httpVersion}
+                  onChange={e => onEditChange({ request: { http_version: e.target.value } })}
                   onPressEnter={onEditSave}
                 />
               ) : (
-                <span>{log.request.httpVersion}</span>
+                <span>{httpVersion}</span>
               )}
             </td>
           </tr>
@@ -65,36 +67,36 @@ const GeneralInfo: React.FC<IGeneralInfoProps> = (props) => {
         )}
         {isEditMode && (
           <>
-            {log.request?.scheme && (
+            {log.request_raw?.scheme && (
               <tr>
                 <td className="smallbold">Scheme</td>
                 <td>
                   <Input
-                    value={generalInfo.request?.scheme ?? log.request.scheme}
+                    value={generalInfo.request?.scheme ?? log.request_raw.scheme}
                     onChange={e => onEditChange({ request: { scheme: e.target.value } })}
                     onPressEnter={onEditSave}
                   />
                 </td>
               </tr>
             )}
-            {log.request?.host && (
+            {log.request_raw?.host && (
               <tr>
                 <td className="smallbold">Host</td>
                 <td>
                   <Input
-                    value={generalInfo.request?.host ?? log.request.host}
+                    value={generalInfo.request?.host ?? log.request_raw.host}
                     onChange={e => onEditChange({ request: { host: e.target.value } })}
                     onPressEnter={onEditSave}
                   />
                 </td>
               </tr>
             )}
-            {log.request?.path && (
+            {log.request_raw?.path && (
               <tr>
                 <td className="smallbold">Path</td>
                 <td>
                   <Input
-                    value={generalInfo.request?.path ?? log.request.path}
+                    value={generalInfo.request?.path ?? log.request_raw.path}
                     onChange={e => onEditChange({ request: { path: e.target.value } })}
                     onPressEnter={onEditSave}
                   />

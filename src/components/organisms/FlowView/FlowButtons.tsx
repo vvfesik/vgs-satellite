@@ -27,7 +27,7 @@ const FlowButtons: React.FC<IFlowButtonsProps> = (props) => {
 
   return (
     <div className='text-center mt-3 mb-2 position-relative'>
-      {isEditMode ? (
+      {props.isMitmLog && (isEditMode ? (
         <div className='ant-btn-group d-flex position-absolute left-0'>
           <Button size='small' type='ghost' onClick={onEditCancel}>
             <Icon type='close-square' />
@@ -48,7 +48,7 @@ const FlowButtons: React.FC<IFlowButtonsProps> = (props) => {
           <Icon type='edit' />
           Edit
         </Button>
-      )}
+      ))}
       {hasPayload && onRuleCreate && !hideSecureButton && (
         <Button
           type='primary'
