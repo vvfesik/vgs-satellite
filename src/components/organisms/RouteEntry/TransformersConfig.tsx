@@ -47,6 +47,8 @@ const transformersList = [{
   name: 'CSV',
 }];
 
+const enabledTransformers = ['JSON_PATH', 'FORM_FIELD']
+
 export const TransformersConfig: React.FC<ITransformersConfigProps> = (props) => {
 
   const renderTransformersList = () => {
@@ -60,7 +62,7 @@ export const TransformersConfig: React.FC<ITransformersConfigProps> = (props) =>
         className={cn([
           'btn-light',
           { active: props.form.transformer === transformer.name },
-          { 'is-disabled': transformer.name !== 'JSON_PATH' },
+          { 'is-disabled': !enabledTransformers.includes(transformer.name),
         ])}
         onClick={(e: any) => { e.preventDefault(); props.onChange(transformer.name, 'transformer', transformer.name === 'REGEX'); }}
       >
