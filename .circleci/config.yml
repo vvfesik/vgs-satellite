@@ -15,6 +15,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: npm ci --unsafe-perm
+          no_output_timeout: 30m
       - save_cache:
           key: npm-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
