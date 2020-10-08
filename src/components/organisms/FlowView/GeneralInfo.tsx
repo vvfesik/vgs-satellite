@@ -22,7 +22,7 @@ interface IGeneralInfoProps {
 
 const GeneralInfo: React.FC<IGeneralInfoProps> = (props) => {
   const { log, validUri, showRequestMethod, showRouteType, showStatusCode } = props;
-  const { route_type, upstream_time_ms, upstream_status, proxy_status, http } = log;
+  const { mode, upstream_time_ms, upstream_status, proxy_status, http } = log;
   const { isEditMode, generalInfo, onEditChange, onEditSave } = props;
 
   const httpVersion = log.request?.httpVersion || log.request_raw?.http_version;
@@ -30,13 +30,13 @@ const GeneralInfo: React.FC<IGeneralInfoProps> = (props) => {
   return (
     <Table className="general-table pb-3">
       <tbody>
-        {!!route_type && (
+        {!!mode && (
           <tr>
             <td className="smallbold w-25">Type</td>
               <td>
                 {showRouteType
-                  ? <RouteTypeLabel type={route_type} />
-                  : route_type
+                  ? <RouteTypeLabel type={mode} />
+                  : mode
                 }
               </td>
           </tr>

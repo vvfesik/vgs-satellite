@@ -3,7 +3,7 @@ import { ILog } from 'src/redux/interfaces/logs';
 
 const ROUTE_TYPES = {
   reverse: 'inbound',
-  forward: 'outbound',
+  regular: 'outbound',
 };
 
 const RouteTypeLabel: React.SFC<{type: ILog['route_type']}> = (props) => {

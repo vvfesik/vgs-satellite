@@ -108,6 +108,10 @@ exports[`Localhoste redact-reveal flow > Imports redact route yaml and redacts s
         <table class="general-table pb-3 table">
           <tbody>
             <tr>
+              <td class="smallbold w-25">Type</td>
+              <td><span>outbound</span></td>
+            </tr>
+            <tr>
               <td class="smallbold">Protocol</td>
               <td><span>HTTP/1.1</span></td>
             </tr>
@@ -333,6 +337,10 @@ exports[`Localhoste redact-reveal flow > Imports reveal route yaml and reveals s
       <div class="mb-3 pt-0">
         <table class="general-table pb-3 table">
           <tbody>
+            <tr>
+              <td class="smallbold w-25">Type</td>
+              <td><span>outbound</span></td>
+            </tr>
             <tr>
               <td class="smallbold">Protocol</td>
               <td><span>HTTP/1.1</span></td>

@@ -43,7 +43,7 @@ const MatchingDetails: React.FC<IMatchingDetailsProps> = (props) => {
           {log.request?.match_details?.route_id ? (
             <MatchingRoutesList
               logRoutes={[log.request?.match_details?.route_id]}
-              logRouteType={log.route_type === 'reverse' ? 'inbound' : 'outbound'}
+              logRouteType={log.mode === 'reverse' ? 'inbound' : 'outbound'}
               matchingRoutes={matchingRoutes}
               matchingFilters={matchingFilters()}
               matchingOperations={log.request?.match_details?.filters ?? []}
