@@ -1,12 +1,16 @@
 import { cutLine } from '../support/utils';
 
 describe('Localhoste upload single har flow', function() {
+  beforeEach(() => {
+    cy.server();
+    cy.route('GET', 'flows.json').as('getFlows');
+    cy.route('GET', 'route').as('getRoutes');
+    cy.cleanupFlows();
+    cy.cleanupRoutes();
+    cy.fixCypressSpec(__filename);
+  });
 
   it('Visits Localhoste and gets 2 yamls from uploaded har file', function() {
-    cy.server();
-    cy.route('GET', '/flows.json').as('getFlows');
-    cy.route('GET', '/route').as('getRoutes');
-
     cy.visit('/');
     cy.wait(['@getRoutes', '@getFlows']);
     cy.get('[data-role="import-from-har"]').attachFile('upload-post.har');
@@ -38,7 +42,6 @@ describe('Localhoste upload single har flow', function() {
     cy.get('.ant-btn-primary').click();
     cy.get('[data-role="quick-integration-modal"]').toMatchSnapshot();
     cy.contains('foo: bar').click({ force: true });
-    cy.get('[data-role="quick-integration-modal"]').toMatchSnapshot();
 
     cy.get('[data-role="select-secure-payload"]').click();
     cy.get('[data-role="whats-next-stepper"]').toMatchSnapshot();

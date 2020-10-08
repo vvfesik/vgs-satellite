@@ -1,0 +1,41 @@
+data:
+  - created_at: '2020-10-05T19:15:45.662810'
+    destination_override_endpoint: '*'
+    entries:
+      - classifiers: {}
+        config:
+          condition: AND
+          rules:
+            - expression:
+                field: PathInfo
+                operator: equals
+                type: string
+                values:
+                  - /post
+            - expression:
+                field: ContentType
+                operator: equals
+                type: string
+                values:
+                  - application/json
+        created_at: '2020-10-05T19:15:45.663984'
+        id: a2f9c0f6-b612-4356-bb96-d9893502d1dc
+        operation: ENRICH
+        phase: REQUEST
+        public_token_generator: UUID
+        targets:
+          - body
+        token_manager: PERSISTENT
+        transformer: JSON_PATH
+        transformer_config:
+          - $.foo
+    host_endpoint: httpbin\.org
+    id: 617a6c3f-7900-4214-914e-ad2f1659b5f5
+    port: 443
+    protocol: http
+    source_endpoint: '*'
+    tags:
+      name: test-basic-reveal
+      source: vgs-satellite
+    type: rule_chain
+version: 1

@@ -769,215 +769,51 @@ exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls 
 
 exports[`Localhoste upload single har flow > Visits Localhoste and gets 2 yamls from uploaded har file #6`] = `
 <div
-  data-role="quick-integration-modal"
-  class="modal-dialog modal-lg"
-  role="document"
+  class="stepper-rows text-primary-light mb-4"
+  data-role="whats-next-stepper"
 >
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title">Secure a Payload</h5>
-      <span id="" class="cursor-pointer"><i class="fa-times fas"></i></span>
-    </div>
-    <div class="modal-body">
-      <div>
-        <h4 class="mb-3">
-          Select the fields that you want to Redact<sup
-            ><i
-              aria-label="icon: question-circle"
-              tabindex="-1"
-              class="anticon anticon-question-circle d-inline-flex mr-2 text-text text-sm"
-              style="font-size: 14px;"
-              ><svg
-                viewBox="64 64 896 896"
-                focusable="false"
-                class=""
-                data-icon="question-circle"
-                width="1em"
-                height="1em"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 708c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40zm62.9-219.5a48.3 48.3 0 0 0-30.9 44.8V620c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8v-21.5c0-23.1 6.7-45.9 19.9-64.9 12.9-18.6 30.9-32.8 52.1-40.9 34-13.1 56-41.6 56-72.7 0-44.1-43.1-80-96-80s-96 35.9-96 80v7.6c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V420c0-39.3 17.2-76 48.4-103.3C430.4 290.4 470 276 512 276s81.6 14.5 111.6 40.7C654.8 344 672 380.7 672 420c0 57.8-38.1 109.8-97.1 132.5z"
-                ></path></svg></i></sup
-          >or Reveal<sup
-            ><i
-              aria-label="icon: question-circle"
-              tabindex="-1"
-              class="anticon anticon-question-circle d-inline-flex mr-2 text-text text-sm"
-              style="font-size: 14px;"
-              ><svg
-                viewBox="64 64 896 896"
-                focusable="false"
-                class=""
-                data-icon="question-circle"
-                width="1em"
-                height="1em"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 708c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40zm62.9-219.5a48.3 48.3 0 0 0-30.9 44.8V620c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8v-21.5c0-23.1 6.7-45.9 19.9-64.9 12.9-18.6 30.9-32.8 52.1-40.9 34-13.1 56-41.6 56-72.7 0-44.1-43.1-80-96-80s-96 35.9-96 80v7.6c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V420c0-39.3 17.2-76 48.4-103.3C430.4 290.4 470 276 512 276s81.6 14.5 111.6 40.7C654.8 344 672 380.7 672 420c0 57.8-38.1 109.8-97.1 132.5z"
-                ></path></svg></i
-          ></sup>
-        </h4>
-        <div>
-          <div>
-            <ul class="css-5q6xdk">
-              <li class="css-79elbk">
-                <div>
-                  <input
-                    name="isGoing"
-                    type="checkbox"
-                    readonly=""
-                    checked=""
-                  />
-                  <div
-                    title="$.foo"
-                    data-role="checkbox-text"
-                    class="w-95 text-word-break"
-                    style="display: inline-block; vertical-align: top; color: inherit; padding-left: 10px; cursor: pointer;"
-                  >
-                    foo: bar
-                  </div>
-                </div>
-                <div><ul class="css-1s1o8u8" style="display: block;"></ul></div>
-              </li>
-            </ul>
-            <div class="mt-3">
-              <div class="row">
-                <div class="col-lg-6 col-sm-4">Transformer</div>
-                <div class="col-lg-6">
-                  <div class="payload-wrapper">
-                    Operation &nbsp;<i
-                      aria-label="icon: question-circle"
-                      tabindex="-1"
-                      class="anticon anticon-question-circle d-inline-flex mr-2 text-text undefined"
-                      style="font-size: 14px;"
-                      ><svg
-                        viewBox="64 64 896 896"
-                        focusable="false"
-                        class=""
-                        data-icon="question-circle"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 708c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40zm62.9-219.5a48.3 48.3 0 0 0-30.9 44.8V620c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8v-21.5c0-23.1 6.7-45.9 19.9-64.9 12.9-18.6 30.9-32.8 52.1-40.9 34-13.1 56-41.6 56-72.7 0-44.1-43.1-80-96-80s-96 35.9-96 80v7.6c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V420c0-39.3 17.2-76 48.4-103.3C430.4 290.4 470 276 512 276s81.6 14.5 111.6 40.7C654.8 344 672 380.7 672 420c0 57.8-38.1 109.8-97.1 132.5z"
-                        ></path></svg
-                    ></i>
-                  </div>
-                  <div class="payload-wrapper">
-                    Storage &nbsp;<i
-                      aria-label="icon: question-circle"
-                      tabindex="-1"
-                      class="anticon anticon-question-circle d-inline-flex mr-2 text-text undefined"
-                      style="font-size: 14px;"
-                      ><svg
-                        viewBox="64 64 896 896"
-                        focusable="false"
-                        class=""
-                        data-icon="question-circle"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 708c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40zm62.9-219.5a48.3 48.3 0 0 0-30.9 44.8V620c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8v-21.5c0-23.1 6.7-45.9 19.9-64.9 12.9-18.6 30.9-32.8 52.1-40.9 34-13.1 56-41.6 56-72.7 0-44.1-43.1-80-96-80s-96 35.9-96 80v7.6c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V420c0-39.3 17.2-76 48.4-103.3C430.4 290.4 470 276 512 276s81.6 14.5 111.6 40.7C654.8 344 672 380.7 672 420c0 57.8-38.1 109.8-97.1 132.5z"
-                        ></path></svg
-                    ></i>
-                  </div>
-                  <div class="payload-wrapper">
-                    Format &nbsp;<i
-                      aria-label="icon: question-circle"
-                      tabindex="-1"
-                      class="anticon anticon-question-circle d-inline-flex mr-2 text-text undefined"
-                      style="font-size: 14px;"
-                      ><svg
-                        viewBox="64 64 896 896"
-                        focusable="false"
-                        class=""
-                        data-icon="question-circle"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 708c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40zm62.9-219.5a48.3 48.3 0 0 0-30.9 44.8V620c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8v-21.5c0-23.1 6.7-45.9 19.9-64.9 12.9-18.6 30.9-32.8 52.1-40.9 34-13.1 56-41.6 56-72.7 0-44.1-43.1-80-96-80s-96 35.9-96 80v7.6c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V420c0-39.3 17.2-76 48.4-103.3C430.4 290.4 470 276 512 276s81.6 14.5 111.6 40.7C654.8 344 672 380.7 672 420c0 57.8-38.1 109.8-97.1 132.5z"
-                        ></path></svg
-                    ></i>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div class="row mt-2">
-                  <div class="col-lg-6 col-sm-4">
-                    <div class="string-wrapper">
-                      <span class="path-wrapper-undefined">$.foo</span>
-                    </div>
-                  </div>
-                  <div class="col-lg-6">
-                    <div class="payload-wrapper">
-                      <select
-                        ><option value="REDACT">Redact</option
-                        ><option value="ENRICH">Reveal</option></select
-                      >
-                    </div>
-                    <div class="payload-wrapper">
-                      <select
-                        ><option value="PERSISTENT">Persistent</option
-                        ><option value="VOLATILE">Volatile</option></select
-                      >
-                    </div>
-                    <div class="payload-wrapper">
-                      <select
-                        ><option value="UUID"
-                          >Generic - VGS Alias (Default) </option
-                        ><option value="NUM_LENGTH_PRESERVING"
-                          >Generic - Numeric Length Preserving </option
-                        ><option value="FPE_SIX_T_FOUR"
-                          >Payment Card - Format Preserving, Luhn Valid (6T4) </option
-                        ><option value="FPE_T_FOUR"
-                          >Payment Card - Format Preserving, Luhn Valid (T4) </option
-                        ><option value="PFPT"
-                          >Payment Card - Prefixed, Luhn Valid, 19 Digits Fixed
-                          Length </option
-                        ><option value="NON_LUHN_FPE_ALPHANUMERIC"
-                          >Payment Card - Format Preserving - Non Luhn Valid </option
-                        ><option value="FPE_SSN_T_FOUR"
-                          >SSN - Format Preserving (A4) </option
-                        ><option value="FPE_ACC_NUM_T_FOUR"
-                          >Account Number - Numeric Length Preserving (A4) </option
-                        ><option value="FPE_ALPHANUMERIC_ACC_NUM_T_FOUR"
-                          >Account Number - Alphanumeric Length Preserving (A4) </option
-                        ><option value="GENERIC_T_FOUR"
-                          >Generic - VGS Alias Last Four (T4) </option
-                        ><option value="RAW_UUID"
-                          >Generic - UUID
-                        </option></select
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="mt-5 text-center">
-              <button
-                type="button"
-                data-role="select-secure-payload"
-                class="button-next btn btn-primary"
-              >
-                Secure this payload
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="stepper-row current-step text-accent">
+    <span class="circle"
+      ><i aria-label="icon: check" class="anticon anticon-check"
+        ><svg
+          viewBox="64 64 896 896"
+          focusable="false"
+          class=""
+          data-icon="check"
+          width="1em"
+          height="1em"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            d="M912 190h-69.9c-9.8 0-19.1 4.5-25.1 12.2L404.7 724.5 207 474a32 32 0 0 0-25.1-12.2H112c-6.7 0-10.4 7.7-6.3 12.9l273.9 347c12.8 16.2 37.4 16.2 50.3 0l488.4-618.9c4.1-5.1.4-12.8-6.3-12.8z"
+          ></path></svg></i
+    ></span>
+    <p>Your <strong>route</strong> has been created</p>
+  </div>
+  <div class="stepper-row">
+    <span class="circle">2</span>
+    <p>
+      Create
+      <a href="https://dashboard.verygoodsecurity.com" target="_blank"
+        >VGS Account</a
+      >
+    </p>
+  </div>
+  <div class="stepper-row">
+    <span class="circle">3</span>
+    <p>
+      <a
+        href="https://www.verygoodsecurity.com/docs/features/yaml#import-a-single-route"
+        target="_blank"
+        >Import your route</a
+      >
+      to the VGS Dashboard or use the
+      <a href="https://www.verygoodsecurity.com/docs/cli/index" target="_blank"
+        >VGS CLI</a
+      >
+      to complete your integration.
+    </p>
   </div>
 </div>
 `;

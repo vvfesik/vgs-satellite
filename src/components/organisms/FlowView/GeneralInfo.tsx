@@ -94,7 +94,7 @@ const GeneralInfo: React.FC<IGeneralInfoProps> = (props) => {
             {log.request_raw?.path && (
               <tr>
                 <td className="smallbold">Path</td>
-                <td>
+                <td data-role="edit-path-input">
                   <Input
                     value={generalInfo.request?.path ?? log.request_raw.path}
                     onChange={e => onEditChange({ request: { path: e.target.value } })}

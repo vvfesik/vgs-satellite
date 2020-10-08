@@ -16,6 +16,7 @@
  * @type {Cypress.PluginConfig}
  */
 const { initPlugin } = require('cypress-plugin-snapshots/plugin');
+const axios = require('axios');
 
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
@@ -23,5 +24,22 @@ module.exports = (on, config) => {
   initPlugin(on, config);
   require('@cypress/code-coverage/task')(on, config);
   on('file:preprocessor', require('@cypress/code-coverage/use-babelrc'));
+
+  on('task', {
+    viaProxy ({ method, url, data, headers = { 'Content-type': 'application/json' } }) {
+      axios({
+        url,
+        data,
+        method,
+        headers,
+        proxy: {
+          host: '127.0.0.1',
+          port: 9099,
+        },
+      });
+      return null;
+    }
+  });
+
   return config;
 };

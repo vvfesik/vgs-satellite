@@ -50,7 +50,10 @@ const RoutesPage: React.FC<IRoutesPageProps> = (props) => {
       {props.routes?.length ? (
         <div>
           <div className='row justify-content-center mx-3'>
-            <div className='col d-flex justify-content-center align-self-center'>
+            <div
+              className='col d-flex justify-content-center align-self-center'
+              data-role='routes-type-switch'
+            >
               <Radio.Group
                 value={activeTab}
                 onChange={(e) => setActiveTab(e.target.value)}

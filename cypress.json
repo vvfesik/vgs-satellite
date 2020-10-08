@@ -1,6 +1,7 @@
 {
   "baseUrl": "http://localhost:1234",
   "integrationFolder": "cypress/e2e",
+  "requestTimeout": 30000,
   "video": false,
   "ignoreTestFiles": [
     "**/smoke/*",

@@ -22,7 +22,7 @@ jobs:
             - /home/circleci/.cache/Cypress
       - run: npm run test:ci
       - store_artifacts:
-          path: /root/app/cypress/screenshots/
+          path: /home/circleci/app/cypress/screenshots/
   build_python:
     docker:
       - image: circleci/python:3.8
@@ -46,14 +46,26 @@ jobs:
     working_directory: ~/app
     steps:
       - checkout
+      - restore_cache:
+          key: npm-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run:
           name: Install Dependencies
           command: npm ci --unsafe-perm
+      - save_cache:
+          key: npm-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/app/node_modules/
+            - /home/circleci/.cache/Cypress
       - run:
           name: Test YAML Consistency
-          command: npm run smoketest
+          command: |
+            CYPRESS_BASE_URL=https://dashboard.$VGS_DASHBOARD_DOMAIN \
+            CYPRESS_VGS_DASHBOARD_DOMAIN=$VGS_DASHBOARD_DOMAIN \
+            CYPRESS_VGS_DASHBOARD_EMAIL=$VGS_DASHBOARD_EMAIL \
+            CYPRESS_VGS_DASHBOARD_PASS=$VGS_DASHBOARD_PASS \
+            npm run cy:smoke
       - store_artifacts:
-          path: /root/app/cypress/screenshots/
+          path: /home/circleci/app/cypress/screenshots/
 
 
 workflows:
@@ -62,14 +74,14 @@ workflows:
     jobs:
       - build
       - build_python
-  periodical_smoke_test:
-    ## create dashboard route by uploading satellite-generated YAML
-    triggers:
-      - schedule:
-          cron: "0 8 * * *"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - smoketest
+  # periodical_smoke_test:
+  #   ## create dashboard route by uploading satellite-generated YAML
+  #   triggers:
+  #     - schedule:
+  #         cron: "0 8 * * *"
+  #         filters:
+  #           branches:
+  #             only:
+  #               - master
+  #   jobs:
+  #     - smoketest

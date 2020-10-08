@@ -31,7 +31,7 @@
     "start:quiet": "start-test ./runapp.sh 8089 serve:quiet",
     "electron:build": "npm run build && electron-builder",
     "cy:dev": "cypress open",
-    "cy:run": "cypress run -b chrome -c ignoreTestFiles=*mitm.spec.js -s './cypress/e2e/*.*' --headless",
+    "cy:run": "cypress run -b chrome -c -s './cypress/e2e/*.*' --headless",
     "cy:smoke": "cypress run -b chrome -c ignoreTestFiles=**/__*__/* -s './cypress/e2e/smoke/*.*' --headless",
     "smoketest": "CYPRESS_VGS_DASHBOARD_DOMAIN=$VGS_DASHBOARD_DOMAIN CYPRESS_VGS_DASHBOARD_EMAIL=$VGS_DASHBOARD_EMAIL CYPRESS_VGS_DASHBOARD_PASS=$VGS_DASHBOARD_PASS start-test serve:quiet 1234 cy:smoke",
     "test": "start-test serve:quiet 1234 cy:run",

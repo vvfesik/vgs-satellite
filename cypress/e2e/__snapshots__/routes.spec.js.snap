@@ -1,0 +1,105 @@
+exports[`Localhoste route flow > Visits Localhoste, imports route, then updates and deletes it #0`] = `
+<div
+  data-role="route-delete-confirm-modal"
+  class="modal-dialog"
+  role="document"
+>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Are you sure you want to delete this route?</h5>
+      <span id=""><i class="fa-times fas"></i></span>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="alert alert-warning fade" role="alert">
+          <div>
+            <p class="m-0"></p>
+            <div class="row w-100 mx-0">
+              <div class="col-12">
+                <div class="row">
+                  <div
+                    class="text-mono align-self-center"
+                    data-role="route-summary-item"
+                  >
+                    <strong>Redact</strong>&nbsp;the
+                    <strong>JSON path</strong>&nbsp;entries
+                    <strong>$.foo</strong>&nbsp;in the
+                    <strong>request</strong>&nbsp;targets: <strong>body</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="m-0 text-muted">
+          This route will be deleted immediately. There is no undo.
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        data-role="modal-submit-button"
+        class="btn btn-link"
+      >
+        Delete</button
+      ><button type="button" data-role="close-modal" class="btn btn-primary">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Localhoste route flow > Visits Localhoste, imports route, then updates and deletes it #1`] = `
+<div
+  data-role="route-delete-confirm-modal"
+  class="modal-dialog"
+  role="document"
+>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Are you sure you want to delete this route?</h5>
+      <span id=""><i class="fa-times fas"></i></span>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="alert alert-warning fade" role="alert">
+          <div>
+            <p class="m-0"></p>
+            <div class="row w-100 mx-0">
+              <div class="col-12">
+                <div class="row">
+                  <div
+                    class="text-mono align-self-center"
+                    data-role="route-summary-item"
+                  >
+                    <strong>Redact</strong>&nbsp;the
+                    <strong>JSON path</strong>&nbsp;entries
+                    <strong>$.foo</strong>&nbsp;in the
+                    <strong>request</strong>&nbsp;targets: <strong>body</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="m-0 text-muted">
+          This route will be deleted immediately. There is no undo.
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        data-role="modal-submit-button"
+        class="btn btn-link"
+      >
+        Delete</button
+      ><button type="button" data-role="close-modal" class="btn btn-primary">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+`;

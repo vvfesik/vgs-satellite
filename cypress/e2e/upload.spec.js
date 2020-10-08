@@ -1,10 +1,14 @@
 describe('Localhoste upload har and clickthru', function() {
+  beforeEach(() => {
+    cy.server();
+    cy.route('GET', 'flows.json').as('getFlows');
+    cy.route('GET', 'route').as('getRoutes');
+    cy.cleanupFlows();
+    cy.cleanupRoutes();
+    cy.fixCypressSpec(__filename);
+  });
 
   it('Visits Localhoste, uploads har and clicks every request', function() {
-    cy.server();
-    cy.route('GET', '/flows.json').as('getFlows');
-    cy.route('GET', '/route').as('getRoutes');
-
     cy.visit('/');
     cy.wait(['@getRoutes', '@getFlows']);
     cy.get('[data-role="import-from-har"]').attachFile('upload.har');

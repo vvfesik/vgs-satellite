@@ -23,7 +23,12 @@ const RouteDeleteConfirmModal: React.FunctionComponent<IRouteDeleteConfirmModalP
   const entries = getFiltersWithoutOperations(route);
 
   return (
-    <Modal isOpen={isModalOpen} toggle={() => toggleModal(!isModalOpen)} fade={false}>
+    <Modal
+      isOpen={isModalOpen}
+      toggle={() => toggleModal(!isModalOpen)}
+      fade={false}
+      data-role='route-delete-confirm-modal'
+    >
       <div className="modal-header">
         <h5 className="modal-title">Are you sure you want to delete this route?</h5>
         <Icon name="times" onClick={() => toggleModal(!isModalOpen)}/>
