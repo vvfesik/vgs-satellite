@@ -1,6 +1,6 @@
 import click
 
-from satellite.config import configure
+from satellite.config import configure, InvalidConfigError
 from satellite.logging import configure_logging
 from satellite.web_application import WebApplication
 
@@ -16,14 +16,18 @@ from satellite.web_application import WebApplication
 )
 def main(**kwargs):
     configure_logging()
-    config = configure(**{
-        name: value
-        for name, value in kwargs.items()
-        if value is not None
-    })
-    print(config)
-    # app = WebApplication(config)
-    # app.start()
+
+    try:
+        config = configure(**{
+            name: value
+            for name, value in kwargs.items()
+            if value is not None
+        })
+    except InvalidConfigError as exc:
+        raise click.ClickException(f'Invalid config: {exc}') from exc
+
+    app = WebApplication(config)
+    app.start()
 
 
 if __name__ == '__main__':

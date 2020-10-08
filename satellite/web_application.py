@@ -22,8 +22,8 @@ logger = logging.getLogger(__file__)
 class WebApplication(Application):
 
     def __init__(self, config: SatelliteConfig = None):
-        self.config = config or SatelliteConfig()
         super().__init__(debug=True)
+        self.config = config or SatelliteConfig()
         self._should_exit = False
         init_db()
         self.add_handlers(r'^(localhost|[0-9.]+|\[[0-9a-fA-F:]+\])$', [

@@ -26,36 +26,23 @@ class InvalidConfigError(Exception):
 
 def configure(config_path: str = None, **kwargs):
     params_from_file = _get_params_from_config_file(config_path)
-    return SatelliteConfig(**{**params_from_file, **kwargs})
+    params = {**params_from_file, **kwargs}
+
+    schema = SatelliteConfigSchema(unknown='EXCLUDE')
+    errors = schema.validate(params)
+    if errors:
+        raise InvalidConfigError(errors)
+
+    return SatelliteConfig(**schema.dump(params))
 
 
 def _get_params_from_config_file(config_path: str = None) -> dict:
     for path in filter(None, [config_path, DEFAULT_CONFIG_PATH]):
         path = Path(path).expanduser().resolve()
         if path.exists():
-            return _load_params_from_file(path)
+            try:
+                with open(path) as stream:
+                    return YAML().load(stream)
+            except Exception as exc:
+                raise InvalidConfigError(str(exc)) from exc
     return {}
-
-
-def _load_params_from_file(path: Path) -> dict:
-    try:
-        with open(path) as stream:
-            params = YAML().load(stream)
-    except Exception as exc:
-        raise InvalidConfigError(f'Invalid config file: {exc}.') from exc
-
-    # schema =
-    errors = SatelliteConfigSchema(unknown='EXCLUDE').validate(params)
-    if errors:
-        raise InvalidConfigError(errors)
-
-    return {}
-
-    # known_params = set(
-    #     field.name for field in dataclasses.fields(SatelliteConfig)
-    # )
-    # return {
-    #     name: value
-    #     for name, value in params.items()
-    #     if name in known_params
-    # }
