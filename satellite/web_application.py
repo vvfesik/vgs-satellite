@@ -8,6 +8,7 @@ from tornado import autoreload
 from tornado.ioloop import IOLoop
 from tornado.web import Application
 
+from satellite.config import SatelliteConfig
 from satellite.model.base import init_db
 from satellite.controller.websocket_connection import ClientConnection
 from satellite.controller import flow_handlers
@@ -20,8 +21,9 @@ logger = logging.getLogger(__file__)
 
 class WebApplication(Application):
 
-    def __init__(self):
+    def __init__(self, config: SatelliteConfig = None):
         super().__init__(debug=True)
+        self.config = config or SatelliteConfig()
         self._should_exit = False
         init_db()
         self.add_handlers(r'^(localhost|[0-9.]+|\[[0-9a-fA-F:]+\])$', [
@@ -34,10 +36,9 @@ class WebApplication(Application):
             (r"/flows/(?P<flow_id>[0-9a-f\-]+)/replay", flow_handlers.ReplayFlow),
             (r"/flows/(?P<flow_id>[0-9a-f\-]+)/duplicate", flow_handlers.DuplicateFlow),
         ])
-        # TODO: (SAT-40) Make ports configurable
         self.proxy_manager = ProxyManager(
-            forward_proxy_port=9099,
-            reverse_proxy_port=9098,
+            forward_proxy_port=self.config.forward_proxy_port,
+            reverse_proxy_port=self.config.reverse_proxy_port,
             event_handler=partial(
                 self._proxy_event_handler,
                 loop=asyncio.get_event_loop(),
@@ -58,9 +59,8 @@ class WebApplication(Application):
 
         self.proxy_manager.start()
 
-        port = 8089  # TODO: (SAT-40) Make port configurable
-        self.listen(port)
-        logger.info(f'Web server listening at {port} port.')
+        self.listen(self.config.web_server_port)
+        logger.info(f'Web server listening at {self.config.web_server_port} port.')
         IOLoop.current().start()
 
     def stop(self):
