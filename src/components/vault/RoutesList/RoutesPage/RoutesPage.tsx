@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import RoutesList from 'src/components/organisms/RoutesList/RoutesList';
-import RoutesListEmpty from 'src/components/organisms/RoutesList/RoutesListEmpty';
 import RouteDeleteConfirmModal from 'src/components/organisms/RouteDeleteConfirmModal/RouteDeleteConfirmModal';
-import ImportFromYamlContainer from 'src/components/organisms/ImportFromYaml/ImportFromYamlContainer';
+import RoutesPageHeader from './RoutesPageHeader';
 import { groupBy } from 'lodash';
 import { IRoute, TRouteType } from 'src/redux/interfaces/routes';
 import { getProxyType } from 'src/redux/utils/routes';
 import { TabContent, TabPane } from 'reactstrap';
-import { Radio } from 'src/components/antd';
 
 export interface IRoutesPageProps {
   routes: IRoute[];
@@ -47,43 +45,26 @@ const RoutesPage: React.FC<IRoutesPageProps> = (props) => {
 
   return (
     <div data-role="routes-container">
-      {props.routes?.length ? (
-        <div>
-          <div className='row justify-content-center mx-3'>
-            <div
-              className='col d-flex justify-content-center align-self-center'
-              data-role='routes-type-switch'
-            >
-              <Radio.Group
-                value={activeTab}
-                onChange={(e) => setActiveTab(e.target.value)}
-              >
-                <Radio.Button value='all-routes'>All</Radio.Button>
-                <Radio.Button value='inbound'>Inbound</Radio.Button>
-                <Radio.Button value='outbound'>Outbound</Radio.Button>
-              </Radio.Group>
-            </div>
-            <div className="d-flex justify-content-end">
-              <ImportFromYamlContainer />
-            </div>
-          </div>
-          <TabContent className='mt-4' activeTab={activeTab}>
-            <TabPane tabId='all-routes'>
-              <h4>Inbound</h4>
-              {renderList(grouppedRoutes.Reverse, 'Inbound')}
-              <h4>Outbound</h4>
-              {renderList(grouppedRoutes.Forward, 'Outbound')}
-            </TabPane>
-            <TabPane tabId='inbound'>
-              {renderList(grouppedRoutes.Reverse, 'Inbound')}
-            </TabPane>
-            <TabPane tabId='outbound'>
-              {renderList(grouppedRoutes.Forward, 'Outbound')}
-            </TabPane>
-          </TabContent>
-        </div>
-      ) : (
-        <RoutesListEmpty />
+      <RoutesPageHeader
+        hasRoutes={!!props.routes?.length}
+        activeTab={activeTab}
+        setActiveTab={(tabId: string) => setActiveTab(tabId)}
+      />
+      {!!props.routes?.length && (
+        <TabContent className='mt-4' activeTab={activeTab}>
+          <TabPane tabId='all-routes'>
+            <h4>Inbound</h4>
+            {renderList(grouppedRoutes.Reverse, 'Inbound')}
+            <h4>Outbound</h4>
+            {renderList(grouppedRoutes.Forward, 'Outbound')}
+          </TabPane>
+          <TabPane tabId='inbound'>
+            {renderList(grouppedRoutes.Reverse, 'Inbound')}
+          </TabPane>
+          <TabPane tabId='outbound'>
+            {renderList(grouppedRoutes.Forward, 'Outbound')}
+          </TabPane>
+        </TabContent>
       )}
       {!!currentRoute && (
         <RouteDeleteConfirmModal

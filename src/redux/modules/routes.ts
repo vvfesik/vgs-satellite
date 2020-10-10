@@ -5,10 +5,12 @@ import {
   updateRouteById,
 } from 'src/redux/apis/routes';
 import { notify } from 'src/redux/utils/notifications';
+import { getRouteTemplate } from 'src/data/routes';
 import { IRoutesState, IRoute } from 'src/redux/interfaces/routes';
 
 const SET_LOADING = 'SET_LOADING';
 const GET_ROUTES_LIST = 'GET_ROUTES_LIST';
+const GET_ROUTE = 'GET_ROUTE';
 const DELETE_ROUTE = 'DELETE_ROUTE';
 const TOGGLE_ROUTE_CONFIRM_DELETE_MODAL = 'TOGGLE_ROUTE_CONFIRM_DELETE_MODAL';
 const SET_SAVE_PROGRESS = 'SET_SAVE_PROGRESS';
@@ -138,6 +140,13 @@ export function toggleRouteConfirmDeleteModal(isOpen: boolean) {
   };
 }
 
+export function getRouteFromTemplate(routeType: string) {
+  return {
+    type: GET_ROUTE,
+    data: getRouteTemplate(routeType === 'inbound'),
+  };
+}
+
 export function updateCurrentRoute(route: IRoute | null) {
   return (dispatch: any) => {
     dispatch({
@@ -175,6 +184,11 @@ export default function reducer(state = initialState, action: any) {
       return {
         ...state,
         list: action.data,
+      };
+    case GET_ROUTE:
+      return {
+        ...state,
+        currentRoute: action.data,
       };
     case TOGGLE_ROUTE_CONFIRM_DELETE_MODAL:
       return {
