@@ -19,6 +19,7 @@ interface IYamlProps {
   setExternalToggle?: (open: boolean) => void;
   isExternalOpen?: boolean;
   handleSaveRoute: (route: IRoute) => void;
+  proxyMode?: string;
 }
 
 const Yaml: React.FC<IYamlProps> = (props) => {
@@ -33,6 +34,8 @@ const Yaml: React.FC<IYamlProps> = (props) => {
       getRouteYamlStr(props.routes.inbound);
     }
   },        [props.isExternalOpen]);
+
+  const routeType = props.proxyMode === 'regular' ? 'outbound' : 'inbound';
 
   const getRouteYamlStr = (routes: IRoute[] | IRoute) => {
     const routesList = Array.isArray(routes) ? routes : [routes];
@@ -89,7 +92,7 @@ const Yaml: React.FC<IYamlProps> = (props) => {
         <div className="text-center mt-3">
           <DownloadBtn
             fileName={`${tab.name}-configuration.yaml`}
-            className="json-to-yaml__download"
+            className="json-to-yaml__download ant-btn-ghost"
             text={routeYamlStr}
             eventAction="Route has been downloaded"
             category="ROUTES"
@@ -99,7 +102,7 @@ const Yaml: React.FC<IYamlProps> = (props) => {
           {!props.route && (
             <Button type='primary' onClick={saveRoute} className='ml-3'>
               <Icon type='save' />
-              Save route
+              Save {tab.label} route
             </Button>
           )}
         </div>
@@ -143,64 +146,54 @@ const Yaml: React.FC<IYamlProps> = (props) => {
         }
         className="json-to-yaml"
         width={800}
-        title={<h5 className="mb-0">What's next</h5>}
+        title={<h5 className="mb-0">Save route</h5>}
         closable={false}
       >
-        <div className="stepper-rows text-primary-light mb-4" data-role="whats-next-stepper">
-          <div className="stepper-row current-step text-accent">
-            <span className="circle"><Icon type="check" /></span>
-            <p>Your <strong>route</strong> has been created</p>
-          </div>
-          <div className="stepper-row">
-            <span className="circle">2</span>
-            <p>Create {externalLink('dashboard', 'VGS Account')}</p>
-          </div>
-          <div className="stepper-row">
-            <span className="circle">3</span>
-            <p>
-              {externalLink('docsYamlImport', 'Import your route')} to the VGS
-              Dashboard or use the {externalLink('docsVGSCLI', 'VGS CLI')} to
-              complete your integration.
-            </p>
-          </div>
-        </div>
         {props.route ? (
           <TabContent activeTab={'route'}>
             {tabContent([{ name: 'route', label: '', syntax: 'yaml' }])}
           </TabContent>
         ) : (
           <div className="ta-left">
-            <Nav tabs>
-              {tabList(tabs)}
-              <div className="cursor-pointer position-absolute right mr-4 mt-2">
-                <Popover
-                  content={(
-                    <span className="text-sm d-inline-block">
-                      Normally you will need only one route to set up either
-                      <br />
-                      <strong>inbound connection </strong>
-                      (Your Client ﹤﹥ VGS ﹤﹥ Your Server)
-                      <br />
-                      or <strong>outbound connection </strong>
-                      (Your Server ﹤﹥ VGS ﹤﹥ Third party).
-                      <br />
-                      {externalLink('docsTermRoute', 'Read more')}
-                    </span>
-                  )}
-                  trigger="hover"
-                >
-                  <Icon
-                    type="question-circle"
-                    theme="filled"
-                    className="ml-2 align-self-center text-secondary"
-                    style={{ fontSize: '14px' }}
-                  />
-                </Popover>
-              </div>
-            </Nav>
-            <TabContent activeTab={activeTab}>
-              {tabContent(tabs)}
-            </TabContent>
+            {!props.proxyMode && (
+              <Nav tabs>
+                {tabList(tabs)}
+                <div className="cursor-pointer position-absolute right mr-4 mt-2">
+                  <Popover
+                    content={(
+                      <span className="text-sm d-inline-block">
+                        Normally you will need only one route to set up either
+                        <br />
+                        <strong>inbound connection </strong>
+                        (Your Client ﹤﹥ VGS ﹤﹥ Your Server)
+                        <br />
+                        or <strong>outbound connection </strong>
+                        (Your Server ﹤﹥ VGS ﹤﹥ Third party).
+                        <br />
+                        {externalLink('docsTermRoute', 'Read more')}
+                      </span>
+                    )}
+                    trigger="hover"
+                  >
+                    <Icon
+                      type="question-circle"
+                      theme="filled"
+                      className="ml-2 align-self-center text-secondary"
+                      style={{ fontSize: '14px' }}
+                    />
+                  </Popover>
+                </div>
+              </Nav>
+            )}
+            {props.proxyMode ? (
+              <TabContent activeTab={routeType}>
+                {tabContent([tabs.find(tab => tab.name === routeType)])}
+              </TabContent>
+            ) : (
+              <TabContent activeTab={activeTab}>
+                {tabContent(tabs)}
+              </TabContent>
+            )}
           </div>
         )}
       </Modal>
