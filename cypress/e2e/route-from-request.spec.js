@@ -31,7 +31,6 @@ describe('Localhoste route from request flow', function() {
     cy.get('[data-role="select-secure-payload"]').click();
     cy.get('.tab-pane.active button').contains('Save Outbound route').click({ force: true });
     cy.wait('@postRoute');
-    cy.get('[data-role="outbound-code-container"]').type('{esc}');
 
     cy.get('.menu-item').contains('Routes').click();
     cy.wait('@getRoutes');
