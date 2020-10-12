@@ -1,5 +1,4 @@
 import json
-import logging
 
 from abc import abstractmethod, ABCMeta
 from typing import List, Union
@@ -10,9 +9,6 @@ from lxml import etree
 
 from satellite.model.route import Operation
 from satellite.service import alias_manager
-
-
-logger = logging.getLogger(__file__)
 
 
 class TransformerError(Exception):
