@@ -5,6 +5,7 @@ base58
 jsonpath-ng
 marshmallow
 marshmallow-dataclass
+lxml
 # TODO: Separate prod/test/dev dependencies when we decide on packaging.
 flake8
 pip-tools
