@@ -1,6 +1,9 @@
 import json
 
+from datetime import datetime
 from unittest.mock import Mock
+
+from mitmproxy.flow import Error
 
 from satellite.proxy import exceptions
 
@@ -26,6 +29,20 @@ class TestFlowHandler(BaseHandlerTestCase):
         self.assertEqual(response.code, 200)
         self.proxy_manager.get_flow.assert_called_once_with(flow.id)
         self.assertMatchSnapshot(json.loads(response.body))
+
+    def test_flow_with_error(self):
+        flow = load_flow('http_raw')
+        flow.error = Error('Test error', datetime.utcnow().timestamp())
+        self.proxy_manager.get_flow = Mock(return_value=flow)
+
+        response = self.fetch(self.get_url(f'/flows/{flow.id}'))
+
+        self.assertEqual(response.code, 200)
+        response_data = json.loads(response.body)
+        self.assertEqual(response_data['error'], {
+            'msg': flow.error.msg,
+            'timestamp': flow.error.timestamp,
+        })
 
     def test_get_absent_flow(self):
         flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'

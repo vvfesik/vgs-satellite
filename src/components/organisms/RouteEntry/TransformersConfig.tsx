@@ -47,7 +47,7 @@ const transformersList = [{
   name: 'CSV',
 }];
 
-const enabledTransformers = ['JSON_PATH', 'FORM_FIELD']
+const enabledTransformers = ['JSON_PATH', 'FORM_FIELD', 'XPATH']
 
 export const TransformersConfig: React.FC<ITransformersConfigProps> = (props) => {
 

@@ -44,6 +44,7 @@ class FlowSchema(Schema):
     modified = fields.Method(serialize='get_modified')
     marked = fields.Bool()
     mode = fields.Str()
+    error = fields.Nested(Error)
 
     def get_modified(self, flow: Flow) -> bool:
         return flow.modified()

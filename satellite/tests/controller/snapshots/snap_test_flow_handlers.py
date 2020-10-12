@@ -26,6 +26,7 @@ snapshots['TestFlowsHandler::test_ok 1'] = [
             'tls_established': True,
             'tls_version': 'TLSv1.2'
         },
+        'error': None,
         'id': '805b2a13-c921-48f4-85c4-dbceaea21fb4',
         'intercepted': False,
         'marked': False,
@@ -167,6 +168,7 @@ snapshots['TestFlowHandler::test_get_ok 1'] = {
         'tls_established': True,
         'tls_version': 'TLSv1.2'
     },
+    'error': None,
     'id': '805b2a13-c921-48f4-85c4-dbceaea21fb4',
     'intercepted': False,
     'marked': False,

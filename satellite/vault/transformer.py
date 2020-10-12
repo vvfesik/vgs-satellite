@@ -5,8 +5,14 @@ from typing import List, Union
 from urllib.parse import parse_qsl, urlencode
 
 from jsonpath_ng import parse
+from lxml import etree
+
 from satellite.model.route import Operation
 from satellite.service import alias_manager
+
+
+class TransformerError(Exception):
+    pass
 
 
 class PayloadTransformer(metaclass=ABCMeta):
@@ -52,6 +58,49 @@ class FormDataTransformer(PayloadTransformer):
         return urlencode(result)
 
 
+class XMLTransformer(PayloadTransformer):
+    def transform(
+        self,
+        payload: Union[str, bytes],
+        transformer_array: List[str],
+        token_generator: str,
+        operation: Operation,
+    ) -> str:
+        try:
+            root = etree.fromstring(payload)
+        except etree.XMLSyntaxError as exc:
+            raise TransformerError(f'Invalid XML payload: {exc}.') from exc
+
+        has_matches = False
+        for expr in transformer_array:
+            try:
+                for element in root.xpath(expr):
+                    has_matches = True
+                    self._transform(token_generator, operation, element)
+
+            except etree.XPathEvalError as exc:
+                raise TransformerError(
+                    f'Invalid XPath expression {expr}: {exc}.'
+                ) from exc
+
+        if has_matches:
+            return etree.tostring(root, encoding='utf-8').decode('utf-8')
+
+        return payload
+
+    def _transform(
+        self,
+        token_generator: str,
+        operation: Operation,
+        element: etree.ElementBase,
+    ):
+        value = ''.join(element.itertext())
+        if not value:
+            return
+        element.clear()
+        element.text = transform(value, operation, token_generator)
+
+
 def transform(value, operation, token_generator='UUID'):
     if operation == Operation.REDACT.value:
         return alias_manager.redact(value, token_generator)
@@ -62,4 +111,5 @@ def transform(value, operation, token_generator='UUID'):
 transformer_map = {
     'FORM_FIELD': FormDataTransformer(),
     'JSON_PATH': JsonTransformer(),
+    'XPATH': XMLTransformer(),
 }

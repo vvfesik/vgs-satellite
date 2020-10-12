@@ -1,8 +1,13 @@
+import logging
+
+from types import MappingProxyType
+
 from blinker import signal
 from mitmproxy.addons import default_addons
 from mitmproxy.addons.view import View
 from mitmproxy.flow import Error
 from mitmproxy.http import HTTPFlow, make_error_response
+from mitmproxy.log import LogEntry
 from mitmproxy.master import Master as Master
 from mitmproxy.options import Options
 from mitmproxy.proxy.config import ProxyConfig
@@ -13,7 +18,16 @@ from . import ProxyMode
 from .server import ProxyServer
 
 
+logger = logging.getLogger(__file__)
+
+
 class ProxyEventsAddon:
+    PROXY_LOG_LEVELS = MappingProxyType({
+        'error': logging.ERROR,
+        'info': logging.INFO,
+        'warning': logging.WARNING,
+    })
+
     def running(self):
         signal('sat_proxy_started').send(self)
 
@@ -24,6 +38,11 @@ class ProxyEventsAddon:
                 400,
                 'No upstream is configured.',
             )
+
+    def log(self, entry: LogEntry):
+        level = self.PROXY_LOG_LEVELS.get(entry.level)
+        if level is not None:
+            logger.log(level, entry.msg)
 
 
 class ProxyMaster(Master):
