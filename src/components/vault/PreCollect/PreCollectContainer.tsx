@@ -134,6 +134,7 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
 
   const handleSaveRoute = (route: IRoute) => {
     saveRoute(route);
+    triggerYamlModal(false);
   };
 
   const handleEdit = (logId: string, payload: any) => {
