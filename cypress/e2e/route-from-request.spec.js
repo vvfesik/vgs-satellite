@@ -20,6 +20,7 @@ describe('Localhoste route from request flow', function() {
       data: { foo: 'bar' },
     });
 
+    cy.get('[data-role="logs-row"] .badge-success').contains('200');
     cy.get('[data-role="logs-row"]').contains('/post').click();
 
     cy.get('[data-role="log-details-modal"]');
@@ -28,10 +29,8 @@ describe('Localhoste route from request flow', function() {
     cy.get('[data-role="quick-integration-modal"] input[type="checkbox"]').click({ force: true });
 
     cy.get('[data-role="select-secure-payload"]').click();
-    cy.get('.nav-item').contains('Outbound').click();
-    cy.get('.tab-pane.active button').contains('Save route').click({ force: true });
+    cy.get('.tab-pane.active button').contains('Save Outbound route').click({ force: true });
     cy.wait('@postRoute');
-    cy.get('[data-role="whats-next-stepper"]').type('{esc}');
 
     cy.get('.menu-item').contains('Routes').click();
     cy.wait('@getRoutes');

@@ -18,6 +18,7 @@ export interface IFlowViewProps {
   onRuleCreate: (selectedPhase: string) => void;
   onClose: () => void;
   setPreRouteType: (type: 'inbound' | 'outbound') => void;
+  setProxyMode: (mode: 'regular' | 'forward' | undefined) => void;
   onReplay: () => void;
   onDuplicate: () => void;
   onDelete: () => void;
@@ -30,7 +31,7 @@ type TFlowViewPhase = 'request' | 'response';
 
 const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
   const { log, log: { flow }, routes, showSpinner, logFilters } = props;
-  const { onRuleCreate, onClose, setPreRouteType, onReplay, onDuplicate, onDelete, onEdit } = props;
+  const { onRuleCreate, onClose, onReplay, onDuplicate, onDelete, onEdit } = props;
 
   const [selectedTab, setSelectedTab] = useState<TFlowViewTabs>('general');
   const [selectedPhase, setSelectedPhase] = useState<TFlowViewPhase>('request');
@@ -65,6 +66,8 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
           });
         }
       });
+      props.setPreRouteType(log.mode === 'regular' ? 'outbound' : 'inbound');
+      props.setProxyMode(log.mode);
     }
   }, [flow])
 
@@ -175,7 +178,6 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
           hideSecureButton={hideSecureButton()}
           onRuleCreate={() => handleRuleCreate()}
           onSelectPhase={(phase: TFlowViewPhase) => setSelectedPhase(phase)}
-          setPreRouteType={setPreRouteType}
           onReplay={onReplay}
           onDuplicate={onDuplicate}
           onDelete={onDelete}

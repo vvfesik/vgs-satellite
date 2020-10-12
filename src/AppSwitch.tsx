@@ -4,6 +4,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import PreCollectContainer from 'src/components/vault/PreCollect/PreCollectContainer';
 import RoutesListContainer from 'src/components/vault/RoutesList/RoutesListContainer';
 import RouteContainer from 'src/components/vault/Route/RouteContainer';
+import NewRouteContainer from 'src/components/vault/Route/NewRouteContainer';
 
 interface IAppSwitchProps {
 }
@@ -19,6 +20,16 @@ const AppSwitch: React.FC<IAppSwitchProps> = (props) => {
           exact
           path="/routes/:routeId/edit"
           render={(p) => <RouteContainer routeId={p.match.params.routeId} />}
+        />
+        <Route
+          exact
+          path="/routes/new/inbound"
+          render={() => <NewRouteContainer routeType="inbound" />}
+        />
+        <Route
+          exact
+          path="/routes/new/outbound"
+          render={() => <NewRouteContainer routeType="outbound" />}
         />
       </Switch>
     </>

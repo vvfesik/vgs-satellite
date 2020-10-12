@@ -44,7 +44,9 @@ describe('Localhoste upload single har flow', function() {
     cy.contains('foo: bar').click({ force: true });
 
     cy.get('[data-role="select-secure-payload"]').click();
-    cy.get('[data-role="whats-next-stepper"]').toMatchSnapshot();
+    cy.get('.ant-modal-content .ant-modal-title').contains('Save route');
+    cy.get('.ant-modal-content .nav-tabs .active').contains('Inbound');
+    cy.get('.ant-modal-content .active [data-role="inbound-code-container"]');
 
     cy.fixture('upload-inbound.yaml').then(yaml => {
       cy.get('[data-role="inbound-code-container"] pre code').should($div => {
@@ -56,6 +58,9 @@ describe('Localhoste upload single har flow', function() {
     cy.get('.nav-link')
       .contains('Outbound')
       .click();
+
+    cy.get('.ant-modal-content .nav-tabs .active').contains('Outbound');
+    cy.get('.ant-modal-content .active [data-role="outbound-code-container"]');
 
     cy.fixture('upload-outbound.yaml').then(yaml => {
       cy.get('[data-role="outbound-code-container"] pre code').should($div => {

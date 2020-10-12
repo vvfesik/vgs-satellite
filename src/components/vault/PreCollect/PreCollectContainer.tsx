@@ -91,7 +91,8 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
 
   const [selectedLog, selectLog] = useState(null);
   const [isSecurePayload, securePayload] = useState(false);
-  const [preRouteType, setPreRouteType] = useState<'inbound'|'outbound'>('inbound');
+  const [preRouteType, setPreRouteType] = useState<'inbound'|'outbound'|undefined>();
+  const [proxyMode, setProxyMode] = useState<'regular'|'forward'|undefined>();
 
   const onUpload = (har) => {
     const harParsed = JSON.parse(har);
@@ -112,14 +113,20 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
     securePayload(entryToFlow(selectedLog, selectedPhase));
   };
 
+  const handleOnClose = () => {
+    selectLog(null);
+    setPreRouteType(undefined);
+    setProxyMode(undefined);
+  };
+
   const handleReplay = () => {
     replayRequest(selectedLog.id);
     selectLog(null);
-  }
+  };
   const handleDuplicate = () => {
     duplicateRequest(selectedLog.id);
     selectLog(null);
-  }
+  };
   const handleDelete = () => {
     deleteRequest(selectedLog.id);
     selectLog(null);
@@ -127,12 +134,13 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
 
   const handleSaveRoute = (route: IRoute) => {
     saveRoute(route);
-  }
+    triggerYamlModal(false);
+  };
 
   const handleEdit = (logId: string, payload: any) => {
     editRequest(logId, payload);
     selectLog(null);
-  }
+  };
 
   const demoCurl = `curl https://httpbin.org/post -k \\
   -x localhost:9099 \\
@@ -157,9 +165,10 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
           logFilters={{}}
           showSpinner={isLoadingRoutes}
           routes={routes}
-          onClose={() => selectLog(null)}
+          onClose={handleOnClose}
           onRuleCreate={(selectedPhase: string) => handleOnRuleCreate(selectedPhase)}
           setPreRouteType={type => setPreRouteType(type)}
+          setProxyMode={mode => setProxyMode(mode)}
           onReplay={handleReplay}
           onDuplicate={handleDuplicate}
           onDelete={handleDelete}
@@ -184,6 +193,7 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
         isExternalOpen={isYamlModalOpen}
         handleSaveRoute={handleSaveRoute}
         isSavingRoute={isSavingRoute}
+        proxyMode={proxyMode}
       />
     </div>
   );

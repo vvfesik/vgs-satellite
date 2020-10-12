@@ -15,7 +15,6 @@ interface IFlowButtonsProps {
   onDelete: () => void;
   onEdit: () => void;
   onEditCancel: () => void;
-  setPreRouteType: (type: 'inbound' | 'outbound') => void;
   selectedTab: 'general' | 'headers' | 'body';
   isMitmLog: boolean;
   isEditMode: boolean;
@@ -54,10 +53,7 @@ const FlowButtons: React.FC<IFlowButtonsProps> = (props) => {
           type='primary'
           size='small'
           className='d-flex position-absolute right-0'
-          onClick={() => {
-            props.setPreRouteType('inbound');
-            onRuleCreate();
-          }}
+          onClick={() => onRuleCreate()}
           disabled={isEditMode}
         >
           <span>Secure this payload</span>

@@ -21,6 +21,7 @@ describe('Localhoste request actions flow', function() {
     });
 
     cy.get('[data-role="logs-row"]').should('have.length', 1);
+    cy.get('[data-role="logs-row"] .badge-success').contains('200');
     cy.get('[data-role="logs-row"]').contains('/post').click();
 
     cy.get('button').contains('Duplicate').click({ force: true });
