@@ -25,7 +25,7 @@ export const getRouteTemplate = (isReverse: boolean): IRoute => ({
   protocol: 'http',
   source_endpoint: '*',
   transport: 'HTTP',
-  entries: [getEntryTemplate(isReverse)],
+  entries: isReverse ? [] : [getEntryTemplate(false)],
   tags: { name : isReverse
     ? generateRouteName(config.echoServerHostname)
     : generateRouteName(),

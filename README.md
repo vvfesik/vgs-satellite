@@ -3,18 +3,25 @@
 <p align="center"><b>@vgs/vgs-satellite</b><br/>VGS Offline integration/debugging application.</p>
 <p align="center">
 <a href="https://circleci.com/gh/verygoodsecurity/vgs-satellite/tree/master"><img src="https://circleci.com/gh/verygoodsecurity/vgs-satellite/tree/master.svg?style=svg" alt="circleci-test"></a>
-<a href="https://badge.fury.io/js/%40vgs%2Fvgs-satellite"><img src="https://badge.fury.io/js/%40vgs%2Fvgs-satellite.svg" alt="npm-version"></a>
-<a href="https://badge.fury.io/js/%40vgs%2Fvgs-satellite"><img src="https://img.shields.io/npm/dw/@vgs/vgs-satellite?style=flat-square" alt="npm-downloads"></a>
-<a href="https://opensource.org/licenses/ISC"><img src="https://img.shields.io/npm/l/@vgs/vgs-satellite?style=flat-square" alt="NPM"></a>
 </p>
 
 
 <!-- toc -->
+* [Prerequisites](#prerequisites)
 * [Description](#description)
-* [Running from github](#running-from-github)
-* [How to run](#how-to-use)
+* [How to start application](#how-to-start-application)
+    * [Configurations](#configurations)
+* [How to use](#how-to-use)
+    * [How to generate route](#how-to-generate-route)
+    * [How to manage routes](#how-to-manage-routes)
 * [Reverse proxy mode](#reverse-proxy-mode)
+* [mitmproxy](#mitmproxy)
 <!-- tocstop -->
+
+## Prerequisites
+
+- python =>3.8.0 (python --version)
+- npm =>6.14.0 (npm --version)
 
 ## Description
 
@@ -32,42 +39,114 @@ VGS Satellite provides:
 This  application gives you an ability to run requests with your service and transform them into suitable VGS route configuration
 without any need to sign up.
 
-## Running from github
+_Note: VGS Satellite is in beta right now and is being run in electron development mode. Going forward VGS Satellite would be a bundled up executable._
+
+## How to start application
 
 1. Clone sources
     ```bash
         git clone git@github.com:verygoodsecurity/vgs-satellite.git && cd vgs-satellite
     ```
+   
+1. Install dependencies
 
-1. Create `~/.mitmproxy/config.yaml` configuration file. 
-    ```bash
-        echo "listen_port: 9099\nweb_port: 8089\nweb_host: localhost\nweb_open_browser: false" > ~/.mitmproxy/config.yaml
-    ```
+   ```bash
+       npm ci
+   ```
    
     
 1. Run application...
-
-    a) ...in browser 
+ 
     ```bash
-        npm i
-        npm start
-    ```
-    b) ...in electron 
-    ```bash
-       npm i
        npm run start:app
     ```
+   
+   _Note: This would run application in electron locally. If you need to run in browser use `npm start`_
 
 ## How to use 
 
-_Note: this manual of how to use vgs-satellite assuming you are running from docker-compose_
+When started VGS Satellite runs 2 proxies:
+    - reverse proxy (default port: 9098)
+    ![reverse-proxy](https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Reverse_proxy_h2g2bob.svg/1920px-Reverse_proxy_h2g2bob.svg.png)
+    - forward proxy (default port: 9099)
+    ![forward-proxy](https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Open_proxy_h2g2bob.svg/1920px-Open_proxy_h2g2bob.svg.png)
 
-1. Run application. 
-   We assume that content of `.env` wasn't changed
-1. Open [http://localhost:1234](http://localhost:1234) or wait for electron application to start
-1. Run example requests:
+_Note: Reverse proxy is started with dummy upstream, and can be used only when at least 1 inbound route is created_ 
+
+### Configurations
+
+Satellite support following parameters:
+
+- `web_server_port` - ports that is used by backend webservice (default: 8089)
+- `reverse_proxy_port` - reverse proxy port (default: 9098)
+- `forward_proxy_port` - forward proxy port (default: 9099)
+
+You can override default values using configuration file. Default location for config file is `~/.vgs-satellite/config.yml`
+You can find config file example at `config.yml-example`
+
+You can also override them using command line arguments:
+
+- `--web-server-port` - ports that is used by backend webservice
+- `--reverse-proxy-port` - reverse proxy port
+- `--forward-proxy-port` - forward proxy port
+- `--config-path` - path for config file. 
+
+Overriding priority from highest priority to lowest is:
+
+Command argument -> Configuration file -> Default value
+
+
+### How to generate inbound route
+
+Lets use inbound route for redact scenario
+
+1. Navigate to routes page and click `Add route` -> `Inbound route`
+
+   ![add-route](manual/in-1-route-create.png)
+   
+1. Add upstream, for example `interactive-form.herokuapp.com` and click `Save`
+
+   ![route-upstream](manual/in-2-route-upstream.png)
+   
+1. Visit `localhost:9098` and make request you want to secure or make request directly to `localhost:9098`
+
+  _Note: If you are using `interactive-form.herokuapp.com` as an upstream, click `Fill`, then `Place Order`_ 
+
+  ![interactive-demo](manual/in-3-interactive-demo.png)
+  
+1. Find your request in requests list and click it
+
+  _Note: For our example we take `/payment` request_
+  
+  ![secure-request](manual/in-4-request-list.png)
+  
+  ![request-details](manual/in-5-request.png)
+  
+1. Pick field that needs to be secured click `Secure this payload` -> `View route configuration` -> `Save inbound route`
+
+  ![secure-payload](manual/in-6-secure.png)
+  
+1. Visit routes page and delete route created on step #2
+  
+1. Choose your request in requests list and click `Replay`
+
+   Navigate to request one more time and click `Body`. 
+   
+  ![diff-checker](manual/in-7-diff.png)
+  
+  Your payload has been secured!
+  
+
+
+### How to generate outbound route
+
+Lets use outbound route to reveal previously redacted payload scenario
+
+This scenario will help you generate an outbound route using your request, made to a forward proxy
+
+1. Run some request with alias, proxying it through forward proxy. For example:
     ```bash
-    curl http://httpbin.org/post -k -x localhost:9099 -H "Content-type: application/json" -d '{"foo": "bar"}'
+    curl http://httpbin.org/post -k -x localhost:9099 -H "Content-type: application/json" -d '{"foo": "tok_dev_m8bMGyxWD82NJZSvjqayem"}'
     ```
 1. Wait for your requests to appear
    
@@ -81,17 +160,13 @@ _Note: this manual of how to use vgs-satellite assuming you are running from doc
 
    ![secure-payload](manual/3-secure-payload.png)
    
-1. Check field you would like to secure.
+1. Check field you would like to reveal, choose `Reveal` in `Operation` dropdown.
 
    ![secure-check](manual/4-secure-check.png)
 
     For additional setting please reference the [nomenclature](https://www.verygoodsecurity.com/docs/terminology/nomenclature)
 
-1. Click `Secure this payload`, then `View route configuration`
-
-   ![route-config](manual/5-route-config.png)
-   
-1. Switch to `Outbound` and click `Save route`
+1. Click `Secure this payload` -> `View route configuration`-> `Save outbound route`
     
     Your route is now available on `Routes` page. You can edit/delete it or import another one from YAML.
     
@@ -104,25 +179,17 @@ _Note: this manual of how to use vgs-satellite assuming you are running from doc
 1. Click on the replayed request and click `Body` tab. You will see that your payload was redacted. 
 
     ![diff-viewer](manual/8-diffviewer.png)
-    
-1. Navigate to `Routes` page and click `Manage` on route you saved. Switch `Redact` to `Reveal`.
 
-    ![manage-route](manual/9-manage-route.png)
+## Python demo <> Satellite
 
-    Click `Save`
+### Inbound route
+For inbound route integration example please see [this](https://drive.google.com/file/d/17LobNQBHZ_tA8oU6cKUn9e_GBJn-j2jh/preview)
 
-    ![save-route](manual/10-save-route.png)
+### Outbound route
+For outbound route integration example please see [this](https://drive.google.com/file/d/1aDHWvxjs-TEcADIOei6r86jC3uLKfNHW/preview) 
 
-1. Send request substituting raw payload with aliased one from #11
+## Mitmproxy
 
-    ```bash
-    curl http://httpbin.org/post -k -x localhost:9099 -H "Content-type: application/json" -d '{"foo": "tok_dev_Q5NGpoZvMiCikwcmKhJtcK"}'
-    ```
-   
-   You will see previously sent raw payload.
-   
-   
-## Reverse proxy mode
-
-VGS Satellite can be run in reverse proxy mode. For this add `mode: reverse:upstream.local` to the end of ~/.mitmproxy/config.yaml.
-You would need to run request directly to `localhost:9099` without -x(proxy option) in #3 and #13 
+VGS Satellite's core depends on [mitmproxy](https://github.com/mitmproxy/mitmproxy/). 
+**mitmproxy** or man-in-the-middle proxy is an interactive intercepting proxy with ton of build-in functionalities and protocol support.
+VGS Satellite is provided as a Open Source product under Apache License v2.0 

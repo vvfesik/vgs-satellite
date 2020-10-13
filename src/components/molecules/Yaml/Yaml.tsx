@@ -57,7 +57,7 @@ const Yaml: React.FC<IYamlProps> = (props) => {
   };
   
   const saveRoute = () => {
-    props.handleSaveRoute(props.routes[activeTab]);
+    props.handleSaveRoute(props.routes[props.proxyMode ? routeType : activeTab]);
   };
 
   const tabs = [
