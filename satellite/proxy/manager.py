@@ -27,7 +27,6 @@ logger = logging.getLogger()
 class ManagedProxyProcess:
     process: ProxyProcess
     cmd_channel: Connection
-    proxy_mode: ProxyMode
 
 
 class ProxyManager:
@@ -58,16 +57,18 @@ class ProxyManager:
                     cmd_channel=proxy_connection,
                 ),
                 cmd_channel=manager_connection,
-                proxy_mode=mode,
             )
 
     def start(self):
         for proxy in self._proxies.values():
             proxy.process.start()
-            # !!! DEBUG START (WIP) !!!
-            import time
-            time.sleep(3)
-            # !!! DEBUG STOP (WIP) !!!
+            # To avoid potential raise conditions during start proxies
+            # should be started sequentially.
+            proxy.process.wait_proxy_started()
+            logger.info(
+                f'Started proxy({proxy.process.mode.value}) '
+                f'at {proxy.process.port} port.'
+            )
 
         self._event_listener = ProxyEventListener(
             self._event_queue,
@@ -114,7 +115,7 @@ class ProxyManager:
             proxy,
             commands.GetFlowCommand(flow_id),
         )
-        return self._build_flow(proxy.proxy_mode, flow_state)
+        return self._build_flow(proxy.process.mode, flow_state)
 
     def remove_flow(self, flow_id: str) -> Optional[str]:
         proxy = self._get_proxy_by_flow_id(flow_id)
@@ -165,12 +166,6 @@ class ProxyManager:
     @singledispatchmethod
     def _process_event(self, event: events.ProxyEvent):
         pass
-
-    @_process_event.register
-    def _(self, event: events.ProxyStarted):
-        logger.info(
-            f'Started proxy({event.proxy_mode.value}) at {event.port} port.',
-        )
 
     @_process_event.register
     def _(self, event: events.FlowAddEvent):
