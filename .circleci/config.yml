@@ -47,7 +47,7 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
-          command: pip3 install -r requirements.txt
+          command: pip install -r requirements.txt
       - run:
           name: Build distribution
           command: make dist
@@ -62,7 +62,7 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
-          command: pip install -r requirements.txt
+          command: pip3 install -r requirements.txt
       - run:
           name: Build distribution
           command: make dist
