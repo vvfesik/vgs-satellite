@@ -48,6 +48,11 @@ class ProxyProcess(Process):
         self._command_processor: ProxyCommandProcessor = None
 
     def run(self):
+        # We need a brand new event loop for child process since we have to
+        # use fork process start method.
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
         configure_logging()
 
         ctx.proxy_mode = self._mode

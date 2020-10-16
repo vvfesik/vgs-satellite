@@ -16,3 +16,7 @@ def free_port():
     s.close()
 
     return portnum
+
+
+def pytest_configure(config):
+    config.addinivalue_line('markers', 'dist: distribution tests')

@@ -12,6 +12,7 @@ DEFAULT_CONFIG_PATH = '~/.vgs-satellite/config.yml'
 
 @dataclasses.dataclass(frozen=True)
 class SatelliteConfig:
+    debug: bool = False
     web_server_port: int = 8089
     reverse_proxy_port: int = 9098
     forward_proxy_port: int = 9099

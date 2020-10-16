@@ -24,7 +24,7 @@ jobs:
       - run: npm run test:ci
       - store_artifacts:
           path: /home/circleci/app/cypress/screenshots/
-  build_python:
+  python_test:
     docker:
       - image: circleci/python:3.8
     working_directory: ~/app
@@ -35,10 +35,25 @@ jobs:
           command: pip install -r requirements.txt
       - run:
           name: Run linter for Python sources
-          command: flake8 satellite
+          command: make lint
       - run:
           name: Run Python unit tests
-          command: pytest satellite/tests
+          command: make test
+  python_dist_linux:
+    docker:
+      - image: circleci/python:3.8
+    working_directory: ~/app
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: pip install -r requirements.txt
+      - run:
+          name: Build distribution
+          command: make dist
+      - run:
+          name: Test distribution
+          command: make test_dist
   smoketest:
     docker:
       - image: circleci/python:3.8-node-browsers
@@ -74,7 +89,8 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - build_python
+      - python_test
+      - python_dist_linux
   # periodical_smoke_test:
   #   ## create dashboard route by uploading satellite-generated YAML
   #   triggers:

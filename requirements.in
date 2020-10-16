@@ -12,3 +12,4 @@ pip-tools
 pytest
 snapshottest
 factory_boy
+pyinstaller
