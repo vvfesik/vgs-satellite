@@ -64,6 +64,10 @@ class ProxyManager:
     def start(self):
         for proxy in self._proxies.values():
             proxy.process.start()
+            # !!! DEBUG START (WIP) !!!
+            import time
+            time.sleep(3)
+            # !!! DEBUG STOP (WIP) !!!
 
         self._event_listener = ProxyEventListener(
             self._event_queue,
