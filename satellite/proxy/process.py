@@ -100,8 +100,8 @@ class ProxyProcess(Process):
         self.master.shutdown()
         logger.info('Stopped proxy.')
 
-    def wait_proxy_started(self):
-        self._started_event.wait()
+    def wait_proxy_started(self, timeout=None):
+        return self._started_event.wait(timeout)
 
     def _sig_flow_add(self, view: View, flow: Flow):
         self._event_queue.put_nowait(events.FlowAddEvent(

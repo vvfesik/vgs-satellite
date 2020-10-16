@@ -5,7 +5,10 @@ from satellite.proxy.manager import ProxyManager
 
 
 def test_start_stop(monkeypatch):
-    proxy_processes = [Mock(), Mock()]
+    proxy_processes = [
+        Mock(mode=ProxyMode.FORWARD),
+        Mock(mode=ProxyMode.REVERSE),
+    ]
     connections = [(Mock(), Mock()), (Mock(), Mock())]
     monkeypatch.setattr(
         'satellite.proxy.manager.ProxyProcess',
@@ -30,7 +33,10 @@ def test_start_stop(monkeypatch):
 
 
 def test_get_flows(monkeypatch):
-    proxy_processes = [Mock(), Mock()]
+    proxy_processes = [
+        Mock(mode=ProxyMode.FORWARD),
+        Mock(mode=ProxyMode.REVERSE),
+    ]
     connections = [
         (Mock(recv=Mock(return_value=[{'timestamp_start': 2}])), Mock()),
         (Mock(recv=Mock(return_value=[{'timestamp_start': 1}])), Mock()),
@@ -58,7 +64,10 @@ def test_get_flows(monkeypatch):
 
 
 def test_get_flow(monkeypatch):
-    proxy_processes = [Mock(), Mock()]
+    proxy_processes = [
+        Mock(mode=ProxyMode.FORWARD),
+        Mock(mode=ProxyMode.REVERSE),
+    ]
     connections = [
         (Mock(recv=Mock(return_value={'timestamp_start': 1})), Mock()),
         (Mock(), Mock()),
@@ -89,7 +98,10 @@ def test_get_flow(monkeypatch):
 
 
 def test_remove_flow(monkeypatch):
-    proxy_processes = [Mock(), Mock()]
+    proxy_processes = [
+        Mock(mode=ProxyMode.FORWARD),
+        Mock(mode=ProxyMode.REVERSE),
+    ]
     connections = [
         (Mock(), Mock()),
         (Mock(), Mock()),
@@ -115,7 +127,10 @@ def test_remove_flow(monkeypatch):
 
 
 def test_duplicate_flow(monkeypatch):
-    proxy_processes = [Mock(), Mock()]
+    proxy_processes = [
+        Mock(mode=ProxyMode.FORWARD),
+        Mock(mode=ProxyMode.REVERSE),
+    ]
     connections = [
         (Mock(), Mock()),
         (Mock(), Mock()),
@@ -141,7 +156,10 @@ def test_duplicate_flow(monkeypatch):
 
 
 def test_replay_flow(monkeypatch):
-    proxy_processes = [Mock(), Mock()]
+    proxy_processes = [
+        Mock(mode=ProxyMode.FORWARD),
+        Mock(mode=ProxyMode.REVERSE),
+    ]
     connections = [
         (Mock(), Mock()),
         (Mock(), Mock()),
@@ -167,7 +185,10 @@ def test_replay_flow(monkeypatch):
 
 
 def test_update_flow(monkeypatch):
-    proxy_processes = [Mock(), Mock()]
+    proxy_processes = [
+        Mock(mode=ProxyMode.FORWARD),
+        Mock(mode=ProxyMode.REVERSE),
+    ]
     connections = [
         (Mock(), Mock()),
         (Mock(), Mock()),
