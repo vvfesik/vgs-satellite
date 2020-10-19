@@ -39,7 +39,7 @@ def main(**kwargs):
 
 if __name__ == '__main__':
     # Locale should be set before runing Click
-    _, encoding = locale.getlocale()
-    if not encoding:
+    lang, encoding = locale.getlocale()
+    if not lang or not encoding:
         locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
     main()
