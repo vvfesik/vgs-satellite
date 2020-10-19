@@ -20,13 +20,13 @@ class RouteFactory(Factory):
     class Meta:
         model = Route
 
-    id = LazyFunction(uuid4)
+    id = LazyFunction(lambda: str(uuid4()))
     created_at = LazyFunction(datetime.now)
     protocol = 'http'
     source_endpoint = '*'
     destination_override_endpoint = '*'
     host_endpoint = r'httpbin\.org'
-    port = 443,
+    port = 443
     tags = {'source': 'vgs-satellite'}
 
 
@@ -34,7 +34,7 @@ class RuleEntryFactory(Factory):
     class Meta:
         model = RuleEntry
 
-    id = LazyFunction(uuid4)
+    id = LazyFunction(lambda: str(uuid4()))
     created_at = LazyFunction(datetime.now)
     phase = 'REQUEST'
     operation = 'REDACT'

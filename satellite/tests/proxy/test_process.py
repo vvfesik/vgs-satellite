@@ -1,7 +1,6 @@
 from multiprocessing import Pipe, Queue
 
 from satellite.proxy import commands
-from satellite.proxy import events
 from satellite.proxy import ProxyMode
 from satellite.proxy.process import ProxyProcess
 
@@ -18,13 +17,10 @@ def test_start_stop(free_port):
     process.start()
 
     try:
-        event: events.ProxyStarted = event_queue.get(True, 2)
-        assert isinstance(event, events.ProxyStarted)
-        assert event.proxy_mode == ProxyMode.FORWARD
-        assert event.port == free_port
+        assert process.wait_proxy_started(3)
         client_channel.send(commands.StopCommand())
     finally:
-        process.kill()
+        process.terminate()
 
     process.join(2)
     assert not process.is_alive()

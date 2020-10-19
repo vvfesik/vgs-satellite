@@ -3,9 +3,9 @@ import logging
 import signal
 
 from functools import partial
-from multiprocessing import Queue, Process
+from multiprocessing import Event as MPEvent, Queue, Process
 from multiprocessing.connection import Connection
-from threading import Event, Thread
+from threading import Event as ThreadingEvent, Thread
 from typing import Any, Callable
 
 import blinker
@@ -42,17 +42,32 @@ class ProxyProcess(Process):
         self._port = port
         self._event_queue = event_queue
         self._cmd_channel = cmd_channel
+        self._started_event = MPEvent()
+
         self.master: ProxyMaster = None
-        self._should_stop: Event = None
+        self._should_stop: ThreadingEvent = None
         self._command_listener: Thread = None
         self._command_processor: ProxyCommandProcessor = None
 
+    @property
+    def mode(self):
+        return self._mode
+
+    @property
+    def port(self):
+        return self._port
+
     def run(self):
+        # We need a brand new event loop for child process since we have to
+        # use fork process start method.
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
         configure_logging()
 
-        ctx.proxy_mode = self._mode
+        ctx.proxy_mode = self.mode
 
-        self._should_stop = Event()
+        self._should_stop = ThreadingEvent()
 
         self._command_listener = CommandListener(
             cmd_channel=self._cmd_channel,
@@ -64,7 +79,7 @@ class ProxyProcess(Process):
         )
         self._command_listener.start()
 
-        self.master = ProxyMaster(self._mode, self._port)
+        self.master = ProxyMaster(self.mode, self.port)
         self.master.view.sig_view_add.connect(self._sig_flow_add)
         self.master.view.sig_view_remove.connect(self._sig_flow_remove)
         self.master.view.sig_view_update.connect(self._sig_flow_update)
@@ -85,29 +100,29 @@ class ProxyProcess(Process):
         self.master.shutdown()
         logger.info('Stopped proxy.')
 
+    def wait_proxy_started(self, timeout=None):
+        return self._started_event.wait(timeout)
+
     def _sig_flow_add(self, view: View, flow: Flow):
         self._event_queue.put_nowait(events.FlowAddEvent(
-            proxy_mode=self._mode,
+            proxy_mode=self.mode,
             flow_state=get_flow_state(flow),
         ))
 
     def _sig_flow_update(self, view: View, flow: Flow):
         self._event_queue.put_nowait(events.FlowUpdateEvent(
-            proxy_mode=self._mode,
+            proxy_mode=self.mode,
             flow_state=get_flow_state(flow),
         ))
 
     def _sig_flow_remove(self, view: View, flow: Flow, index: int):
         self._event_queue.put_nowait(events.FlowRemoveEvent(
-            proxy_mode=self._mode,
+            proxy_mode=self.mode,
             flow_id=flow.id,
         ))
 
     def _sig_proxy_started(self, _):
-        self._event_queue.put_nowait(events.ProxyStarted(
-            proxy_mode=self._mode,
-            port=self._port,
-        ))
+        self._started_event.set()
 
     def _handle_command(
         self,
@@ -128,7 +143,7 @@ class CommandListener(Thread):
         self,
         cmd_channel: Connection,
         cmd_handler: Callable,
-        should_stop: Event,
+        should_stop: ThreadingEvent,
     ):
         super().__init__(name='CommandListener', daemon=True)
         self._cmd_channel = cmd_channel

@@ -22,8 +22,8 @@ logger = logging.getLogger(__file__)
 class WebApplication(Application):
 
     def __init__(self, config: SatelliteConfig = None):
-        super().__init__(debug=True)
         self.config = config or SatelliteConfig()
+        super().__init__(debug=self.config.debug)
         self._should_exit = False
         init_db()
         self.add_handlers(r'^(localhost|[0-9.]+|\[[0-9a-fA-F:]+\])$', [
@@ -52,10 +52,12 @@ class WebApplication(Application):
         ).result()
 
     def start(self):
-        signal.signal(signal.SIGINT, self._stop_signal_handler)
-        signal.signal(signal.SIGTERM, self._stop_signal_handler)
+        loop = asyncio.get_event_loop()
+        for sig in [signal.SIGINT, signal.SIGTERM]:
+            loop.add_signal_handler(sig, self.stop)
 
-        autoreload.add_reload_hook(self.proxy_manager.stop)
+        if self.settings.get('autoreload'):
+            autoreload.add_reload_hook(self.proxy_manager.stop)
 
         self.proxy_manager.start()
 
@@ -69,6 +71,3 @@ class WebApplication(Application):
         self._should_exit = True
         self.proxy_manager.stop()
         IOLoop.current().stop()
-
-    def _stop_signal_handler(self, signal: int, frame):
-        self.stop()

@@ -11,6 +11,7 @@ from satellite.config import configure, InvalidConfigError
 
 
 DEFAULT_CONFIG_VALUES = MappingProxyType({
+    'debug': False,
     'forward_proxy_port': 9099,
     'reverse_proxy_port': 9098,
     'web_server_port': 8089,

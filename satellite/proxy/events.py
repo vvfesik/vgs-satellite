@@ -9,11 +9,6 @@ class ProxyEvent:
 
 
 @dataclass
-class ProxyStarted(ProxyEvent):
-    port: int
-
-
-@dataclass
 class FlowAddEvent(ProxyEvent):
     flow_state: dict
 
