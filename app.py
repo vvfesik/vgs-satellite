@@ -1,3 +1,4 @@
+import os
 import locale
 
 from multiprocessing import set_start_method
@@ -39,7 +40,7 @@ def main(**kwargs):
 
 if __name__ == '__main__':
     # Locale should be set before runing Click
-    lang, encoding = locale.getlocale()
+    lang, encoding = locale.getdefaultlocale()
     if not lang or not encoding:
-        locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+        os.environ['LC_ALL'] = 'en_US.utf-8'
     main()
