@@ -109,8 +109,8 @@ workflows:
     jobs:
       - build
       - python_test
-      - python_dist_linux
-      - python_dist_macos
+      - python_test_dist_linux
+      - python_test_dist_macos
   # periodical_smoke_test:
   #   ## create dashboard route by uploading satellite-generated YAML
   #   triggers:
