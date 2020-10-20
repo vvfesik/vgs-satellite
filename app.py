@@ -5,6 +5,8 @@ from multiprocessing import set_start_method
 
 import click
 
+from tblib import pickling_support
+
 from satellite import db
 from satellite.logging import configure_logging
 from satellite.config import configure, init_satellite_dir, InvalidConfigError
@@ -29,7 +31,11 @@ from satellite.web_application import WebApplication
 def main(**kwargs):
     set_start_method('fork')  # PyInstaller supports only fork start method
 
+    pickling_support.install()
+
     init_satellite_dir()
+
+    configure_logging()
 
     try:
         config = configure(**{

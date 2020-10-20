@@ -176,6 +176,10 @@ class ProxyManager:
         if event.flow_id in self._flows:
             del self._flows[event.flow_id]
 
+    @_process_event.register
+    def _(self, event: events.LogEvent):
+        logger.handle(event.record)
+
 
 class ProxyEventListener(Thread):
     def __init__(

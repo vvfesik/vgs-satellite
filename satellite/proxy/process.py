@@ -17,15 +17,15 @@ from satellite import ctx
 
 from . import events
 from . import exceptions
+from . import logging as proxy_logging
 from . import ProxyMode
 from ..flows import get_flow_state
-from ..logging import configure_logging
 from .command_processor import ProxyCommandProcessor
 from .commands import ProxyCommand
 from .master import ProxyMaster
 
 
-logger = logging.getLogger(__file__)
+logger = logging.getLogger()
 
 
 class ProxyProcess(Process):
@@ -63,7 +63,7 @@ class ProxyProcess(Process):
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
 
-        configure_logging()
+        proxy_logging.configure(self._event_queue)
 
         ctx.proxy_mode = self.mode
 
