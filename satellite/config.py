@@ -9,6 +9,7 @@ from ruamel.yaml import YAML
 
 SATELLITE_DIR = Path.home() / '.vgs-satellite'
 DEFAULT_CONFIG_PATH = SATELLITE_DIR / 'config.yml'
+DEFAULT_DB_PATH = SATELLITE_DIR / 'db.sqlite'
 
 
 @dataclasses.dataclass(frozen=True)
@@ -17,7 +18,7 @@ class SatelliteConfig:
     web_server_port: int = 8089
     reverse_proxy_port: int = 9098
     forward_proxy_port: int = 9099
-    db_path: str = str(SATELLITE_DIR / 'db.sqlite')
+    db_path: str = str(DEFAULT_DB_PATH)
 
 
 SatelliteConfigSchema = marshmallow_dataclass.class_schema(SatelliteConfig)
