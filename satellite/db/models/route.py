@@ -4,7 +4,8 @@ from datetime import datetime
 
 from sqlalchemy import Column, Integer, String, DateTime, JSON, ForeignKey
 from sqlalchemy.orm import relationship
-from satellite.model.base import Base
+
+from .. import Base
 
 
 class Route(Base):

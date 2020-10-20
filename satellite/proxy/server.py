@@ -9,10 +9,9 @@ from mitmproxy.proxy.server import (
 )
 
 from .. import ctx
-from ..model.base import session_scope
-from ..model.route import RouteType
+from ..db.models.route import RouteType
 from ..proxy import ProxyMode
-from ..service.route_manager import RouteManager
+from ..service import route_manager
 
 
 logger = logging.getLogger(__file__)
@@ -38,7 +37,5 @@ class ProxyServer(BaseProxyServer):
         handler.handle()
 
     def _get_upstream(self):
-        with session_scope() as session:
-            route_manager = RouteManager(session)
-            routes = route_manager.get_all_by_type(RouteType.INBOUND)
-            return routes and routes[0].destination_override_endpoint
+        routes = route_manager.get_all_by_type(RouteType.INBOUND)
+        return routes and routes[0].destination_override_endpoint

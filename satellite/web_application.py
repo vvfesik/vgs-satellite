@@ -9,7 +9,6 @@ from tornado.ioloop import IOLoop
 from tornado.web import Application
 
 from satellite.config import SatelliteConfig
-from satellite.model.base import init_db
 from satellite.controller.websocket_connection import ClientConnection
 from satellite.controller import flow_handlers
 from satellite.controller.route_handlers import RouteHandler, RoutesHandler
@@ -25,7 +24,6 @@ class WebApplication(Application):
         self.config = config or SatelliteConfig()
         super().__init__(debug=self.config.debug)
         self._should_exit = False
-        init_db()
         self.add_handlers(r'^(localhost|[0-9.]+|\[[0-9a-fA-F:]+\])$', [
             (r"/", flow_handlers.Index),
             (r"/updates", ClientConnection),

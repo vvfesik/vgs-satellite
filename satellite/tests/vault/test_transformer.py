@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from satellite.model.route import Operation
+from satellite.db.models.route import Operation
 from satellite.vault.transformer import (
     FormDataTransformer,
     TransformerError,

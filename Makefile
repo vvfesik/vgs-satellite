@@ -1,4 +1,4 @@
-.PHONY: lint test dist test_dist
+.PHONY: lint test dist test_dist clean
 
 lint:
 	flake8 satellite
@@ -11,3 +11,6 @@ dist:
 
 test_dist:
 	pytest satellite/tests -m "dist"
+
+clean:
+	find satellite -name "*.pyc" | xargs -I {} rm -rf {}

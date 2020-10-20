@@ -6,7 +6,7 @@ from uuid import uuid4
 from factory import Factory, LazyFunction
 from mitmproxy.http import HTTPFlow
 
-from satellite.model.route import Route, RuleEntry
+from satellite.db.models.route import Route, RuleEntry
 
 
 def load_flow(flow_name: str) -> HTTPFlow:

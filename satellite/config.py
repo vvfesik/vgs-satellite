@@ -7,7 +7,8 @@ import marshmallow_dataclass
 from ruamel.yaml import YAML
 
 
-DEFAULT_CONFIG_PATH = '~/.vgs-satellite/config.yml'
+SATELLITE_DIR = Path.home() / '.vgs-satellite'
+DEFAULT_CONFIG_PATH = SATELLITE_DIR / 'config.yml'
 
 
 @dataclasses.dataclass(frozen=True)
@@ -16,6 +17,7 @@ class SatelliteConfig:
     web_server_port: int = 8089
     reverse_proxy_port: int = 9098
     forward_proxy_port: int = 9099
+    db_path: str = str(SATELLITE_DIR / 'db.sqlite')
 
 
 SatelliteConfigSchema = marshmallow_dataclass.class_schema(SatelliteConfig)
@@ -23,6 +25,10 @@ SatelliteConfigSchema = marshmallow_dataclass.class_schema(SatelliteConfig)
 
 class InvalidConfigError(Exception):
     pass
+
+
+def init_satellite_dir():
+    SATELLITE_DIR.mkdir(exist_ok=True)
 
 
 def configure(config_path: str = None, **kwargs):

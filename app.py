@@ -5,8 +5,9 @@ from multiprocessing import set_start_method
 
 import click
 
-from satellite.config import configure, InvalidConfigError
+from satellite import db
 from satellite.logging import configure_logging
+from satellite.config import configure, init_satellite_dir, InvalidConfigError
 from satellite.web_application import WebApplication
 
 
@@ -20,10 +21,15 @@ from satellite.web_application import WebApplication
     type=click.Path(exists=True, dir_okay=False),
     help='Path to a VGS Satellite config YAML file.',
 )
+@click.option(
+    '--db-path',
+    type=click.Path(dir_okay=False),
+    help='Path to the VGS Satellite DB file.',
+)
 def main(**kwargs):
     set_start_method('fork')  # PyInstaller supports only fork start method
 
-    configure_logging()
+    init_satellite_dir()
 
     try:
         config = configure(**{
@@ -33,6 +39,11 @@ def main(**kwargs):
         })
     except InvalidConfigError as exc:
         raise click.ClickException(f'Invalid config: {exc}') from exc
+
+    configure_logging()
+
+    db.configure(config.db_path)
+    db.init()
 
     app = WebApplication(config)
     app.start()

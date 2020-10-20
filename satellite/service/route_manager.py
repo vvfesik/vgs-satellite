@@ -1,13 +1,10 @@
-from satellite.model.base import Session, EntityAlreadyExists
-from satellite.model.route import Route, RuleEntry, RouteType
+from ..db import EntityAlreadyExists, get_session
+from ..db.models.route import Route, RuleEntry, RouteType
 
 
 class RouteManager:
-    def __init__(self, session=None):
-        self.session = session or Session()
-
     def get_all(self):
-        return self.session.query(Route).all()
+        return get_session().query(Route).all()
 
     def get_all_by_type(self, route_type: RouteType):
         route_all = self.get_all()
@@ -21,15 +18,16 @@ class RouteManager:
         return [] if len(route_all) == 0 else [route.serialize() for route in route_all]
 
     def get(self, route_id):
-        return self.session.query(Route).filter(Route.id == route_id).first()
+        return get_session().query(Route).filter(Route.id == route_id).first()
 
     def create(self, route):
         route_id = route['id'] if 'id' in route else None
         if self.get(route_id):
             raise EntityAlreadyExists(route_id)
         route_entity = self.__parse_route(route, route_id)
-        self.session.add(route_entity)
-        self.session.commit()
+        session = get_session()
+        session.add(route_entity)
+        session.commit()
         return route_entity.serialize()
 
     def update(self, route_id, route):
@@ -40,8 +38,9 @@ class RouteManager:
 
     def delete(self, route_id):
         route = self.get(route_id)
-        self.session.delete(route)
-        self.session.commit()
+        session = get_session()
+        session.delete(route)
+        session.commit()
 
     def __parse_route(self, route, route_id):
         return Route(id=route_id,

@@ -7,7 +7,7 @@ from urllib.parse import parse_qsl, urlencode
 from jsonpath_ng import parse
 from lxml import etree
 
-from satellite.model.route import Operation
+from satellite.db.models.route import Operation
 from satellite.service import alias_manager
 
 

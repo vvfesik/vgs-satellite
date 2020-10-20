@@ -12,6 +12,7 @@ from satellite.config import configure, InvalidConfigError
 
 DEFAULT_CONFIG_VALUES = MappingProxyType({
     'debug': False,
+    'db_path': str(Path.home() / '.vgs-satellite' / 'db.sqlite'),
     'forward_proxy_port': 9099,
     'reverse_proxy_port': 9098,
     'web_server_port': 8089,
