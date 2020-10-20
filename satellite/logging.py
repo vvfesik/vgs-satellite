@@ -4,7 +4,7 @@ import logging
 LOG_FORMAT = '[%(levelname)s][%(processName)s][%(threadName)s] %(message)s'
 
 
-def configure_logging(log_path: str = './vgs-satellite.log'):  # WIP, should be defaulted to None
+def configure(log_path: str = None):
     root = logging.getLogger()
     formatter = logging.Formatter(LOG_FORMAT)
 

@@ -1,6 +1,7 @@
 import dataclasses
 
 from pathlib import Path
+from typing import Optional
 
 import marshmallow_dataclass
 
@@ -19,6 +20,7 @@ class SatelliteConfig:
     reverse_proxy_port: int = 9098
     forward_proxy_port: int = 9099
     db_path: str = str(DEFAULT_DB_PATH)
+    log_path: Optional[str] = None
 
 
 SatelliteConfigSchema = marshmallow_dataclass.class_schema(SatelliteConfig)
