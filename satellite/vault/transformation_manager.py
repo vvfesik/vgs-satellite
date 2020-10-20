@@ -2,7 +2,7 @@ import logging
 
 from typing import List, Tuple
 
-from satellite.model.route import RuleEntry
+from satellite.db.models.route import RuleEntry
 from satellite.vault.transformer import transformer_map
 
 

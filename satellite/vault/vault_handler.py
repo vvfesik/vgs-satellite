@@ -3,7 +3,7 @@ import logging
 from satellite import ctx
 from satellite.vault.route_matcher import match_route
 from satellite.vault.transformation_manager import transform_body
-from satellite.model.route import Phase
+from satellite.db.models.route import Phase
 from satellite.service.alias_manager import RedactFailed, RevealFailed
 
 

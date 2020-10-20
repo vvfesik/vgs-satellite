@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime
 
-from satellite.model.base import Base
+from .. import Base
 
 
 class Alias(Base):

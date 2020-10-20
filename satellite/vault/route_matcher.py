@@ -4,7 +4,7 @@ from mitmproxy.flow import Flow
 
 from satellite.proxy import ProxyMode
 from satellite.service import route_manager
-from satellite.model.route import Phase, Route, RouteType, RuleEntry
+from satellite.db.models.route import Phase, Route, RouteType, RuleEntry
 
 
 def match_route(
