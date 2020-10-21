@@ -36,6 +36,7 @@ def test_start_stop():
     proc = Popen(path)
     try:
         wait_for_ports([8089, 9098, 9099], 15)
+        time.sleep(2)  # Give proxies some time to finalize connections
     finally:
         if proc.poll() is None:
             proc.send_signal(signal.SIGINT)
