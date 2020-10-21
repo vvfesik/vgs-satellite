@@ -6,6 +6,7 @@ from multiprocessing import Pipe, Queue
 from multiprocessing.connection import Connection
 from operator import attrgetter
 from queue import Empty
+import time
 from satellite.proxy.commands import ProxyCommand
 from threading import Event, Thread
 from typing import Any, Callable, List, Dict, Optional
@@ -60,22 +61,26 @@ class ProxyManager:
             )
 
     def start(self):
-        for proxy in self._proxies.values():
-            proxy.process.start()
-            # To avoid potential raise conditions during start proxies
-            # should be started sequentially.
-            proxy.process.wait_proxy_started()
-            logger.info(
-                f'Started proxy({proxy.process.mode.value}) '
-                f'at {proxy.process.port} port.'
-            )
+        try:
+            for proxy in self._proxies.values():
+                proxy.process.start()
+                # To avoid potential raise conditions during start proxies
+                # should be started sequentially.
+                proxy.process.wait_proxy_started(5)
+                logger.info(
+                    f'Started proxy({proxy.process.mode.value}) '
+                    f'at {proxy.process.port} port.'
+                )
 
-        self._event_listener = ProxyEventListener(
-            self._event_queue,
-            self._should_stop,
-            self._event_handlers,
-        )
-        self._event_listener.start()
+            self._event_listener = ProxyEventListener(
+                self._event_queue,
+                self._should_stop,
+                self._event_handlers,
+            )
+            self._event_listener.start()
+        except Exception:
+            self.stop()
+            raise
 
     def stop(self):
         if self._should_stop.is_set():
@@ -83,13 +88,21 @@ class ProxyManager:
 
         self._should_stop.set()
 
-        for proxy in self._proxies.values():
+        for mode, proxy in self._proxies.items():
             if proxy.process.is_alive():
-                self._send_proxy_command(proxy, commands.StopCommand())
-
-        for proxy in self._proxies.values():
-            if proxy.process.is_alive():
-                proxy.process.join()
+                try:
+                    self._send_proxy_command(
+                        proxy,
+                        commands.StopCommand(),
+                        timeout=5
+                    )
+                except exceptions.ProxyCommandTimeoutError:
+                    logger.error(
+                        f'Unable to gracefully stop {mode.value} proxy. '
+                        'Killing it now.'
+                    )
+                    proxy.process.kill()
+                    proxy.process.join()
 
         if self._event_listener and self._event_listener.is_alive():
             self._event_listener.join()
@@ -148,11 +161,26 @@ class ProxyManager:
             raise exceptions.UnexistentFlowError(flow_id)
         return self._proxies[proxy_mode]
 
-    def _send_proxy_command(self, proxy: ManagedProxyProcess, cmd: ProxyCommand) -> Any:
+    def _send_proxy_command(
+        self,
+        proxy: ManagedProxyProcess,
+        cmd: ProxyCommand,
+        timeout: float = None,
+    ) -> Any:
         proxy.cmd_channel.send(cmd)
+        if timeout:
+            start_ts = time.monotonic()
+            while not proxy.cmd_channel.poll(0.5):
+                if time.monotonic() - start_ts > timeout:
+                    raise exceptions.ProxyCommandTimeoutError(
+                        f'Proxy ({proxy.process.mode.value}) command {cmd} '
+                        f'execution timeout ({timeout}) is exceeded.'
+                    )
+
         result = proxy.cmd_channel.recv()
         if isinstance(result, Exception):
             raise result
+
         return result
 
     def _build_flow(self, proxy_mode: ProxyMode, flow_state: dict) -> Flow:

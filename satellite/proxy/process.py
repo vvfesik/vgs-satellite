@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import signal
+import time
 
 from functools import partial
 from multiprocessing import Event as MPEvent, Queue, Process
@@ -100,8 +101,20 @@ class ProxyProcess(Process):
         self.master.shutdown()
         logger.info('Stopped proxy.')
 
-    def wait_proxy_started(self, timeout=None):
-        return self._started_event.wait(timeout)
+    def wait_proxy_started(self, timeout: float):
+        start_ts = time.monotonic()
+        while not self._started_event.wait(0.5):
+            if not self.is_alive():
+                raise exceptions.ProxyError(
+                    f'Unable to start {self.mode.value} proxy.'
+                )
+            if time.monotonic() - start_ts > timeout:
+                self.kill()
+                self.join()
+                raise exceptions.ProxyError(
+                    f'Exceeded proxy start timeout ({timeout}) '
+                    f'for {self.mode.value} proxy.'
+                )
 
     def _sig_flow_add(self, view: View, flow: Flow):
         self._event_queue.put_nowait(events.FlowAddEvent(
