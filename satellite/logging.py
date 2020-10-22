@@ -1,7 +1,7 @@
 import logging
 
 
-LOG_FORMAT = '[%(levelname)s][%(processName)s][%(threadName)s] %(message)s'
+LOG_FORMAT = '[%(levelname)s][%(asctime)s][%(processName)s][%(threadName)s] %(message)s'
 
 
 def configure(log_path: str = None, silent: bool = False):
