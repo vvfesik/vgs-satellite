@@ -53,7 +53,7 @@ def _get_params_from_config_file(config_path: str = None) -> dict:
         if path.exists():
             try:
                 with open(path) as stream:
-                    return YAML().load(stream)
+                    return YAML().load(stream) or {}
             except Exception as exc:
                 raise InvalidConfigError(str(exc)) from exc
     return {}
