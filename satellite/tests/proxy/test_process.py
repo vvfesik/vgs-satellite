@@ -17,10 +17,11 @@ def test_start_stop(free_port):
     process.start()
 
     try:
-        assert process.wait_proxy_started(3)
+        process.wait_proxy_started(5)
         client_channel.send(commands.StopCommand())
+        process.join(5)
+        assert not process.is_alive()
     finally:
-        process.terminate()
-
-    process.join(2)
-    assert not process.is_alive()
+        if process.is_alive():
+            process.kill()
+            process.join()

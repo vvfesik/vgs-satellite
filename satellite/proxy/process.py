@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import signal
+import time
 
 from functools import partial
 from multiprocessing import Event as MPEvent, Queue, Process
@@ -17,15 +18,15 @@ from satellite import ctx
 
 from . import events
 from . import exceptions
+from . import logging as proxy_logging
 from . import ProxyMode
 from ..flows import get_flow_state
-from ..logging import configure_logging
 from .command_processor import ProxyCommandProcessor
 from .commands import ProxyCommand
 from .master import ProxyMaster
 
 
-logger = logging.getLogger(__file__)
+logger = logging.getLogger()
 
 
 class ProxyProcess(Process):
@@ -63,7 +64,7 @@ class ProxyProcess(Process):
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
 
-        configure_logging()
+        proxy_logging.configure(self._event_queue)
 
         ctx.proxy_mode = self.mode
 
@@ -100,8 +101,20 @@ class ProxyProcess(Process):
         self.master.shutdown()
         logger.info('Stopped proxy.')
 
-    def wait_proxy_started(self, timeout=None):
-        return self._started_event.wait(timeout)
+    def wait_proxy_started(self, timeout: float):
+        start_ts = time.monotonic()
+        while not self._started_event.wait(0.5):
+            if not self.is_alive():
+                raise exceptions.ProxyError(
+                    f'Unable to start {self.mode.value} proxy.'
+                )
+            if time.monotonic() - start_ts > timeout:
+                self.kill()
+                self.join()
+                raise exceptions.ProxyError(
+                    f'Exceeded proxy start timeout ({timeout}) '
+                    f'for {self.mode.value} proxy.'
+                )
 
     def _sig_flow_add(self, view: View, flow: Flow):
         self._event_queue.put_nowait(events.FlowAddEvent(

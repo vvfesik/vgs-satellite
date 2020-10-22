@@ -10,7 +10,7 @@ from . import exceptions
 from ..flows import copy_flow, get_flow_state
 
 
-logger = logging.getLogger(__file__)
+logger = logging.getLogger()
 
 
 class ProxyCommandProcessor:

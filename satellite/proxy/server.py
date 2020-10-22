@@ -14,7 +14,7 @@ from ..proxy import ProxyMode
 from ..service import route_manager
 
 
-logger = logging.getLogger(__file__)
+logger = logging.getLogger()
 
 
 class ProxyServer(BaseProxyServer):

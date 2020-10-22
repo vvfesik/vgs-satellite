@@ -1,6 +1,7 @@
 import dataclasses
 
 from pathlib import Path
+from typing import Optional
 
 import marshmallow_dataclass
 
@@ -19,6 +20,8 @@ class SatelliteConfig:
     reverse_proxy_port: int = 9098
     forward_proxy_port: int = 9099
     db_path: str = str(DEFAULT_DB_PATH)
+    log_path: Optional[str] = None
+    silent: bool = False
 
 
 SatelliteConfigSchema = marshmallow_dataclass.class_schema(SatelliteConfig)
@@ -50,7 +53,7 @@ def _get_params_from_config_file(config_path: str = None) -> dict:
         if path.exists():
             try:
                 with open(path) as stream:
-                    return YAML().load(stream)
+                    return YAML().load(stream) or {}
             except Exception as exc:
                 raise InvalidConfigError(str(exc)) from exc
     return {}

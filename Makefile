@@ -1,4 +1,4 @@
-.PHONY: lint test dist test_dist clean
+.PHONY: lint test dist test_dist clean check
 
 lint:
 	flake8 satellite
@@ -14,3 +14,7 @@ test_dist:
 
 clean:
 	find satellite -name "*.pyc" | xargs -I {} rm -rf {}
+
+# Run this before push
+check: lint test dist test_dist
+	@echo "All good, push your changes."

@@ -15,7 +15,7 @@ from satellite.controller.route_handlers import RouteHandler, RoutesHandler
 from satellite.proxy.manager import ProxyManager
 
 
-logger = logging.getLogger(__file__)
+logger = logging.getLogger()
 
 
 class WebApplication(Application):

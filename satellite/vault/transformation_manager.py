@@ -6,7 +6,7 @@ from satellite.db.models.route import RuleEntry
 from satellite.vault.transformer import transformer_map
 
 
-logger = logging.getLogger(__file__)
+logger = logging.getLogger()
 
 
 def transform_body(

@@ -9,3 +9,7 @@ class UnexistentFlowError(ProxyError):
 
 class FlowUpdateError(ProxyError):
     pass
+
+
+class ProxyCommandTimeoutError(ProxyError):
+    pass
