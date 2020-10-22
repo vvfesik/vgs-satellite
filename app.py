@@ -33,6 +33,7 @@ from satellite.web_application import WebApplication
     type=click.Path(dir_okay=False),
     help='Path to a log file. If omitted log messages will appear only in stdout.',
 )
+@click.option('--silent', is_flag=True, help='Do not log into stdout.')
 def main(**kwargs):
     set_start_method('fork')  # PyInstaller supports only fork start method
 
@@ -49,7 +50,7 @@ def main(**kwargs):
     except InvalidConfigError as exc:
         raise click.ClickException(f'Invalid config: {exc}') from exc
 
-    logging.configure(config.log_path)
+    logging.configure(log_path=config.log_path, silent=config.silent)
 
     db.configure(config.db_path)
     db.init()

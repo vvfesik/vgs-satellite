@@ -21,6 +21,7 @@ class SatelliteConfig:
     forward_proxy_port: int = 9099
     db_path: str = str(DEFAULT_DB_PATH)
     log_path: Optional[str] = None
+    silent: bool = False
 
 
 SatelliteConfigSchema = marshmallow_dataclass.class_schema(SatelliteConfig)
