@@ -44,10 +44,11 @@ class WebApplication(Application):
         )
 
     def _proxy_event_handler(self, event, loop):
-        asyncio.run_coroutine_threadsafe(
-            ClientConnection.process_proxy_event(event),
-            loop,
-        ).result()
+        if not self._should_exit:
+            asyncio.run_coroutine_threadsafe(
+                ClientConnection.process_proxy_event(event),
+                loop,
+            ).result()
 
     def start(self):
         loop = asyncio.get_event_loop()

@@ -100,6 +100,8 @@ class ProxyProcess(Process):
         self._should_stop.set()
         self.master.shutdown()
         logger.info('Stopped proxy.')
+        self._event_queue.close()
+        self._event_queue.join_thread()
 
     def wait_proxy_started(self, timeout: float):
         start_ts = time.monotonic()

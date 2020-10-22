@@ -39,7 +39,6 @@ class ProxyManager:
     ):
         self._should_stop = Event()
         self._event_queue = Queue()
-        self._event_queue.cancel_join_thread()
         self._event_handlers = [self._handle_event, event_handler]
         self._event_listener: ProxyEventListener = None
         self._flows: Dict[str, ProxyMode] = {}
@@ -86,8 +85,6 @@ class ProxyManager:
         if self._should_stop.is_set():
             return
 
-        self._should_stop.set()
-
         for mode, proxy in self._proxies.items():
             if proxy.process.is_alive():
                 try:
@@ -103,6 +100,8 @@ class ProxyManager:
                     )
                     proxy.process.kill()
                     proxy.process.join()
+
+        self._should_stop.set()
 
         if self._event_listener and self._event_listener.is_alive():
             self._event_listener.join()
@@ -224,9 +223,21 @@ class ProxyEventListener(Thread):
     def run(self):
         while not self._should_stop.is_set():
             try:
-                event = self._event_queue.get(False, 1)
+                event = self._event_queue.get(timeout=1)
             except Empty:
                 pass
             else:
-                for handler in self._event_handlers:
-                    handler(event=event)
+                self.process_event(event)
+
+        # There are still might be events in the queue
+        while True:
+            try:
+                event = self._event_queue.get_nowait()
+            except Empty:
+                break
+            else:
+                self.process_event(event)
+
+    def process_event(self, event):
+        for handler in self._event_handlers:
+            handler(event=event)
