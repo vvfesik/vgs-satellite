@@ -1,5 +1,5 @@
 {
-  "name": "@vgs/vgs-satellite",
+  "name": "vgs-satellite",
   "version": "2.0.0",
   "description": "VGS Offline integration project",
   "main": "src/app.js",
@@ -29,7 +29,7 @@
     "start": "start-test ./runapp.sh 8089 serve",
     "start:app": "start-test start:quiet 1234 'electron .'",
     "start:quiet": "start-test ./runapp.sh 8089 serve:quiet",
-    "electron:build": "npm run build && electron-builder",
+    "electron:build": "npm run build && make dist && electron-builder",
     "cy:dev": "cypress open",
     "cy:run": "cypress run -b chrome -c -s './cypress/e2e/*.*' --headless",
     "cy:smoke": "cypress run -b chrome -c ignoreTestFiles=**/__*__/* -s './cypress/e2e/smoke/*.*' --headless",
@@ -49,6 +49,12 @@
       "src/app.js",
       "static/*",
       "dist/**/*"
+    ],
+    "extraFiles": [
+      {
+        "from": "dist/vgs-satellite-backend",
+        "to": "Resources/"
+      }
     ]
   },
   "dependencies": {
@@ -66,8 +72,6 @@
     "deep-object-diff": "^1.1.0",
     "deep-replace-in-object": "^1.1.7",
     "deep-sort-object": "^1.0.2",
-    "electron": "^10.1.3",
-    "electron-builder": "^22.8.1",
     "electron-is-dev": "^1.2.0",
     "fast-xml-parser": "^3.17.4",
     "file-saver": "^2.0.2",
@@ -128,7 +132,9 @@
     "@types/url-parse": "^1.4.3",
     "cypress": "^5.3.0",
     "cypress-file-upload": "^4.1.1",
-    "cypress-plugin-snapshots": "^1.4.4"
+    "cypress-plugin-snapshots": "^1.4.4",
+    "electron": "^10.1.4",
+    "electron-builder": "^22.9.1"
   },
   "browserslist": [
     "since 2017-06"
