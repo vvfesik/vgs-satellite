@@ -35,6 +35,17 @@ app.on("ready", () => {
     createWindow();
   } else {
     backend = spawn(backendPath, backendParams);
+    backend.on("exit", (code) => {
+      if (code !== null && code !== 0) {
+        let error = 'Unknown error';
+        const output = backend.stderr.read()
+        if (output !== null) {
+          error = output.toString('utf8');
+        }
+        electron.dialog.showErrorBox('Backend crashed', error);
+        app.quit()
+      }
+    })
     waitOn({
       resources: [`http://localhost:${webPort}`]
     }).then(createWindow);
@@ -54,7 +65,7 @@ app.on("activate", () => {
 });
 
 app.on("will-quit", () => {
-  if (backend) {
+  if (backend && backend.exitCode === null) {
     backend.kill("SIGINT");
   }
 });
