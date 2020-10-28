@@ -12,7 +12,8 @@
   ],
   "authors": [
     "Vasyl Fesik @vvfesik",
-    "Andrew Slepakurov @aslepakurov"
+    "Andrew Slepakurov @aslepakurov",
+    "Petro Melnykov @rozenbom"
   ],
   "license": "ISC",
   "repository": {
@@ -29,13 +30,14 @@
     "start": "start-test ./runapp.sh 8089 serve",
     "start:app": "start-test start:quiet 1234 'electron .'",
     "start:quiet": "start-test ./runapp.sh 8089 serve:quiet",
-    "electron:build": "npm run build && make dist && electron-builder",
+    "electron:build": "npm run build && make dist && electron-builder -p never",
     "cy:dev": "cypress open",
     "cy:run": "cypress run -b chrome -c -s './cypress/e2e/*.*' --headless",
     "cy:smoke": "cypress run -b chrome -c ignoreTestFiles=**/__*__/* -s './cypress/e2e/smoke/*.*' --headless",
     "smoketest": "CYPRESS_VGS_DASHBOARD_DOMAIN=$VGS_DASHBOARD_DOMAIN CYPRESS_VGS_DASHBOARD_EMAIL=$VGS_DASHBOARD_EMAIL CYPRESS_VGS_DASHBOARD_PASS=$VGS_DASHBOARD_PASS start-test serve:quiet 1234 cy:smoke",
     "test": "start-test serve:quiet 1234 cy:run",
-    "test:ci": "start-test 'start-test ./ci.sh 8089 serve:quiet' 1234 cy:run"
+    "test:ci": "start-test 'start-test ./ci.sh 8089 serve:quiet' 1234 cy:run",
+    "release": "git tag $(node -pe \"require('./package.json').version\") && git push origin --tags"
   },
   "alias": {
     "src": "./src"
@@ -55,7 +57,13 @@
         "from": "dist/vgs-satellite-backend",
         "to": "Resources/"
       }
-    ]
+    ],
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
   },
   "dependencies": {
     "@babel/core": "^7.11.4",
