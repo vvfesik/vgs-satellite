@@ -55,7 +55,7 @@
     "extraFiles": [
       {
         "from": "dist/vgs-satellite-backend",
-        "to": "Resources/"
+        "to": "vgs-satellite-backend"
       }
     ],
     "mac": {

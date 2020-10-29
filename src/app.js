@@ -11,7 +11,11 @@ const waitOn = require('wait-on');
 let mainWindow;
 
 const webPort = 8089;  // TODO: read port from the config
-const backendPath = path.join(path.dirname(app.getAppPath()), "./vgs-satellite-backend");
+const backendPath = path.join(
+  path.dirname(app.getAppPath()),
+  "..",
+  "./vgs-satellite-backend"
+);
 const backendParams = ["--silent", "--web-server-port", webPort];
 
 let backend;
@@ -21,6 +25,7 @@ function createWindow() {
     width: 1200,
     height: 800
   });
+  mainWindow.setMenuBarVisibility(false);
 
   if (isDev) {
     mainWindow.loadURL("http://localhost:1234");
