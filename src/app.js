@@ -8,23 +8,28 @@ const isDev = require("electron-is-dev");
 const { spawn } = require('child_process');
 const waitOn = require('wait-on');
 
+const { is } = require("electron-util");
+
 let mainWindow;
 
 const webPort = 8089;  // TODO: read port from the config
-const backendPath = path.join(
-  path.dirname(app.getAppPath()),
-  "..",
-  "./vgs-satellite-backend"
-);
+const rootPath = path.join(path.dirname(app.getAppPath()), "..");
+const backendPath = path.join(rootPath, "./vgs-satellite-backend");
 const backendParams = ["--silent", "--web-server-port", webPort];
 
 let backend;
 
 function createWindow() {
-  mainWindow = new BrowserWindow({
+  let options = {
     width: 1200,
     height: 800
-  });
+  };
+  if (is.linux) {
+    options = Object.assign({}, options, {
+      icon: path.join(rootPath, "./vgs-satellite.png")
+    });
+  }
+  mainWindow = new BrowserWindow(options);
   mainWindow.setMenuBarVisibility(false);
 
   if (isDev) {

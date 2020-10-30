@@ -45,7 +45,8 @@
   "build": {
     "appId": "com.verygoodsecurity.satellite",
     "directories": {
-      "output": "build"
+      "output": "build",
+      "buildResources": "static"
     },
     "files": [
       "src/app.js",
@@ -59,10 +60,12 @@
       }
     ],
     "mac": {
-      "target": "dmg"
+      "target": "dmg",
+      "icon": "images/electron/appicon_512x512.png"
     },
     "linux": {
-      "target": "AppImage"
+      "target": "AppImage",
+      "icon": "images/electron/appicon_512x512.png"
     }
   },
   "dependencies": {
@@ -81,6 +84,7 @@
     "deep-replace-in-object": "^1.1.7",
     "deep-sort-object": "^1.0.2",
     "electron-is-dev": "^1.2.0",
+    "electron-util": "^0.14.2",
     "fast-xml-parser": "^3.17.4",
     "file-saver": "^2.0.2",
     "is-cidr": "^4.0.2",
