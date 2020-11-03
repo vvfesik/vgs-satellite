@@ -18,6 +18,7 @@ from . import events
 from . import exceptions
 from . import ProxyMode
 from ..flows import load_flow_from_state
+from .audit_logs import AuditLogRecord, AuditLogStore
 from .process import ProxyProcess
 
 
@@ -42,6 +43,7 @@ class ProxyManager:
         self._event_handlers = [self._handle_event, event_handler]
         self._event_listener: ProxyEventListener = None
         self._flows: Dict[str, ProxyMode] = {}
+        self._audit_logs = AuditLogStore()
 
         self._proxies: List[Dict[ProxyMode, ManagedProxyProcess]] = {}
         for mode, port in [
@@ -154,6 +156,9 @@ class ProxyManager:
             flow_data=flow_data,
         ))
 
+    def get_audit_logs(self, flow_id: str) -> List[AuditLogRecord]:
+        return self._audit_logs.get(flow_id)
+
     def _get_proxy_by_flow_id(self, flow_id: str) -> ManagedProxyProcess:
         proxy_mode = self._flows.get(flow_id)
         if not proxy_mode:
@@ -206,6 +211,10 @@ class ProxyManager:
     @_process_event.register
     def _(self, event: events.LogEvent):
         logger.handle(event.record)
+
+    @_process_event.register
+    def _(self, event: events.AuditLogEvent):
+        self._audit_logs.save(event.record)
 
 
 class ProxyEventListener(Thread):

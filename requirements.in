@@ -1,4 +1,4 @@
-mitmproxy
+mitmproxy~=5.2.0
 SQLAlchemy
 base58
 jsonpath-ng
@@ -12,3 +12,5 @@ pytest
 snapshottest
 factory_boy
 pyinstaller
+freezegun
+coverage

@@ -1,10 +1,13 @@
 import logging
 
+from mitmproxy.http import HTTPFlow
+
 from satellite import ctx
+from satellite.db.models.route import Phase
+from satellite.proxy import audit_logs
+from satellite.service.alias_manager import RedactFailed, RevealFailed
 from satellite.vault.route_matcher import match_route
 from satellite.vault.transformation_manager import transform_body
-from satellite.db.models.route import Phase
-from satellite.service.alias_manager import RedactFailed, RevealFailed
 
 
 logger = logging.getLogger()
@@ -13,8 +16,13 @@ logger = logging.getLogger()
 class VaultFlows:
 
     # DO NOT EXTRACT COMMON CODE - BREAKS HTTP2 ON MITMPROXY (TODO: investigate)
-    def request(self, flow):
+    def request(self, flow: HTTPFlow):
         try:
+            audit_logs.emit(audit_logs.VaultRequestAuditLogRecord(
+                flow_id=flow.id,
+                method=flow.request.method,
+                uri=flow.request.url,
+            ))
             flow.request_raw = flow.request.copy()
             content = flow.request.content
             route, route_filters = match_route(ctx.proxy_mode, Phase.REQUEST, flow)

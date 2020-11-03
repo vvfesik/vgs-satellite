@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from logging import LogRecord
 
 from . import ProxyMode
+from .audit_logs import AuditLogRecord
 
 
 @dataclass
@@ -27,3 +28,8 @@ class FlowUpdateEvent(ProxyEvent):
 @dataclass
 class LogEvent(ProxyEvent):
     record: LogRecord
+
+
+@dataclass
+class AuditLogEvent(ProxyEvent):
+    record: AuditLogRecord

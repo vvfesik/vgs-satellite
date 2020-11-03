@@ -1,7 +1,14 @@
+import time
+
 from unittest.mock import Mock
 
-from satellite.proxy import commands, ProxyMode
+from satellite.proxy import commands, events, ProxyMode
+from satellite.proxy.audit_logs import AuditLogRecord
 from satellite.proxy.manager import ProxyManager
+
+
+class AuditLogTestRecord(AuditLogRecord):
+    pass
 
 
 def test_start_stop(monkeypatch):
@@ -212,3 +219,37 @@ def test_update_flow(monkeypatch):
     connections[0][0].send.assert_called_once_with(
         commands.UpdateFlowCommand(flow_id, flow_data),
     )
+
+
+def test_audit_logs(monkeypatch):
+    proxy_processes = [
+        Mock(mode=ProxyMode.FORWARD),
+        Mock(mode=ProxyMode.REVERSE),
+    ]
+    connections = [
+        (Mock(), Mock()),
+        (Mock(), Mock()),
+    ]
+    make_proxy_process = Mock(side_effect=proxy_processes)
+    monkeypatch.setattr(
+        'satellite.proxy.manager.ProxyProcess',
+        make_proxy_process,
+    )
+    monkeypatch.setattr(
+        'satellite.proxy.manager.Pipe',
+        Mock(side_effect=connections),
+    )
+    manager = ProxyManager(9099, 9098, Mock())
+    manager.start()
+
+    try:
+        event_queue = make_proxy_process.call_args.kwargs['event_queue']
+        record = AuditLogTestRecord(flow_id='flow-id')
+        event_queue.put(events.AuditLogEvent(
+            proxy_mode=ProxyMode.FORWARD,
+            record=record,
+        ))
+        time.sleep(0.1)
+        assert manager.get_audit_logs('flow-id') == [record]
+    finally:
+        manager.stop()

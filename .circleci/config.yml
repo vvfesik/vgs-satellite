@@ -39,6 +39,11 @@ jobs:
       - run:
           name: Run Python unit tests
           command: make test
+      - run:
+          name: Generate test coverage report
+          command: coverage html --include $(git diff --name-only origin/master HEAD | grep .py | tr '\n' ',')
+      - store_artifacts:
+          path: htmlcov
   python_test_dist_linux:
     docker:
       - image: circleci/python:3.8

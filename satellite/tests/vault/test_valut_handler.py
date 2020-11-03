@@ -1,11 +1,15 @@
 from unittest.mock import Mock
 
+from freezegun import freeze_time
+
 from satellite.proxy import ProxyMode
+from satellite.proxy.audit_logs import VaultRequestAuditLogRecord
 from satellite.vault.vault_handler import VaultFlows
 
 from ..factories import load_flow, RouteFactory, RuleEntryFactory
 
 
+@freeze_time()
 def test_request_redact(monkeypatch, snapshot):
     route = RouteFactory()
     rule_entry = RuleEntryFactory()
@@ -22,12 +26,22 @@ def test_request_redact(monkeypatch, snapshot):
         'satellite.vault.vault_handler.transform_body',
         Mock(return_value=('transformed body', [True])),
     )
+    emit_audit_log_record = Mock()
+    monkeypatch.setattr(
+        'satellite.vault.vault_handler.audit_logs.emit',
+        emit_audit_log_record,
+    )
 
     flow = load_flow('http_raw')
     assert not hasattr(flow, 'request_raw')
 
     VaultFlows().request(flow)
 
+    emit_audit_log_record.assert_called_once_with(VaultRequestAuditLogRecord(
+        flow_id=flow.id,
+        method=flow.request.method,
+        uri=flow.request.url,
+    ))
     assert hasattr(flow, 'request_raw')
     assert flow.request.content != flow.request_raw.content
     assert flow.request.match_details == {

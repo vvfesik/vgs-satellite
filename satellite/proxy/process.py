@@ -16,6 +16,7 @@ from mitmproxy.addons.view import View
 
 from satellite import ctx
 
+from . import audit_logs
 from . import events
 from . import exceptions
 from . import logging as proxy_logging
@@ -91,6 +92,8 @@ class ProxyProcess(Process):
 
         signal.signal(signal.SIGINT, signal.SIG_IGN)
 
+        audit_logs.subscribe(self._sig_audit_log)
+
         self.master.run()
 
     def stop(self):
@@ -138,6 +141,12 @@ class ProxyProcess(Process):
 
     def _sig_proxy_started(self, _):
         self._started_event.set()
+
+    def _sig_audit_log(self, record: audit_logs.AuditLogRecord):
+        self._event_queue.put_nowait(events.AuditLogEvent(
+            proxy_mode=record.proxy_mode,
+            record=record,
+        ))
 
     def _handle_command(
         self,
