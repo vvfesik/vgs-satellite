@@ -25,7 +25,8 @@
 
 ## Description
 
-VGS Satellite is an application that can ease your integration with Very Good Security.
+VGS Satellite is an application that can ease your integration with Very Good Security to achieve Zero Data security.
+
 VGS Satellite provides:
 
     - Demo VGS Vault capabilities
