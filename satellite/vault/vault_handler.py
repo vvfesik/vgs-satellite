@@ -20,6 +20,7 @@ class VaultFlows:
         try:
             audit_logs.emit(audit_logs.VaultRequestAuditLogRecord(
                 flow_id=flow.id,
+                proxy_mode=ctx.proxy_mode,
                 method=flow.request.method,
                 uri=flow.request.url,
             ))

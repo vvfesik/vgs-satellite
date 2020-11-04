@@ -39,6 +39,7 @@ def test_request_redact(monkeypatch, snapshot):
 
     emit_audit_log_record.assert_called_once_with(VaultRequestAuditLogRecord(
         flow_id=flow.id,
+        proxy_mode=ProxyMode.FORWARD,
         method=flow.request.method,
         uri=flow.request.url,
     ))

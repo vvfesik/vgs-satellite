@@ -35,7 +35,9 @@ lxml==4.5.2               # via -r requirements.in
 macholib==1.14            # via pyinstaller
 markupsafe==1.1.1         # via jinja2
 marshmallow-dataclass==8.0.0  # via -r requirements.in
-marshmallow==3.8.0        # via -r requirements.in, marshmallow-dataclass
+marshmallow-enum==1.5.1   # via -r requirements.in
+marshmallow-oneofschema==2.1.0  # via -r requirements.in
+marshmallow==3.8.0        # via -r requirements.in, marshmallow-dataclass, marshmallow-enum, marshmallow-oneofschema
 mccabe==0.6.1             # via flake8
 mitmproxy==5.2            # via -r requirements.in
 more-itertools==8.5.0     # via pytest

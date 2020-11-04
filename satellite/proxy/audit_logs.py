@@ -9,7 +9,6 @@ from typing import Callable, List
 from blinker import Signal
 
 from . import ProxyMode
-from .. import ctx
 
 
 @dataclass
@@ -20,12 +19,9 @@ class AuditLogRecord(ABC):
         return super().__new__(cls)
 
     flow_id: str
+    proxy_mode: ProxyMode
     timestamp: float = field(
         default_factory=lambda: time.time(),
-        init=False,
-    )
-    proxy_mode: ProxyMode = field(
-        default_factory=lambda: ctx.proxy_mode,
         init=False,
     )
 

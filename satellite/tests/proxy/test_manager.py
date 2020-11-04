@@ -244,7 +244,10 @@ def test_audit_logs(monkeypatch):
 
     try:
         event_queue = make_proxy_process.call_args.kwargs['event_queue']
-        record = AuditLogTestRecord(flow_id='flow-id')
+        record = AuditLogTestRecord(
+            flow_id='flow-id',
+            proxy_mode=ProxyMode.FORWARD,
+        )
         event_queue.put(events.AuditLogEvent(
             proxy_mode=ProxyMode.FORWARD,
             record=record,

@@ -10,7 +10,7 @@ from tornado.web import Application
 
 from satellite.config import SatelliteConfig
 from satellite.controller.websocket_connection import ClientConnection
-from satellite.controller import flow_handlers
+from satellite.controller import audit_logs_handler, flow_handlers
 from satellite.controller.route_handlers import RouteHandler, RoutesHandler
 from satellite.proxy.manager import ProxyManager
 
@@ -25,14 +25,15 @@ class WebApplication(Application):
         super().__init__(debug=self.config.debug)
         self._should_exit = False
         self.add_handlers(r'^(localhost|[0-9.]+|\[[0-9a-fA-F:]+\])$', [
-            (r"/", flow_handlers.Index),
-            (r"/updates", ClientConnection),
-            (r"/route", RoutesHandler),
-            (r"/route/(?P<route_id>[0-9a-f\-]+)", RouteHandler),
-            (r"/flows(?:\.json)?", flow_handlers.Flows),
-            (r"/flows/(?P<flow_id>[0-9a-f\-]+)", flow_handlers.FlowHandler),
-            (r"/flows/(?P<flow_id>[0-9a-f\-]+)/replay", flow_handlers.ReplayFlow),
-            (r"/flows/(?P<flow_id>[0-9a-f\-]+)/duplicate", flow_handlers.DuplicateFlow),
+            (r'/', flow_handlers.Index),
+            (r'/updates', ClientConnection),
+            (r'/route', RoutesHandler),
+            (r'/route/(?P<route_id>[0-9a-f\-]+)', RouteHandler),
+            (r'/flows(?:\.json)?', flow_handlers.Flows),
+            (r'/flows/(?P<flow_id>[0-9a-f\-]+)', flow_handlers.FlowHandler),
+            (r'/flows/(?P<flow_id>[0-9a-f\-]+)/replay', flow_handlers.ReplayFlow),
+            (r'/flows/(?P<flow_id>[0-9a-f\-]+)/duplicate', flow_handlers.DuplicateFlow),
+            (r'/logs/(?P<flow_id>[0-9a-f\-]+)', audit_logs_handler.AuditLogsHandler),
         ])
         self.proxy_manager = ProxyManager(
             forward_proxy_port=self.config.forward_proxy_port,

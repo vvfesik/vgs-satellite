@@ -4,6 +4,8 @@ base58
 jsonpath-ng
 marshmallow
 marshmallow-dataclass
+marshmallow-enum
+marshmallow-oneofschema
 lxml
 tblib
 flake8

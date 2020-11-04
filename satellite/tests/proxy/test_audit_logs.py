@@ -23,12 +23,11 @@ def test_record(monkeypatch):
         'satellite.proxy.audit_logs.time.time',
         Mock(return_value=123)
     )
-    monkeypatch.setattr(
-        'satellite.proxy.audit_logs.ctx.proxy_mode',
-        ProxyMode.REVERSE,
-    )
 
-    record = AuditLogTestRecord(flow_id='flow-id')
+    record = AuditLogTestRecord(
+        flow_id='flow-id',
+        proxy_mode=ProxyMode.REVERSE,
+    )
     assert dataclasses.asdict(record) == {
         'flow_id': 'flow-id',
         'proxy_mode': ProxyMode.REVERSE,
@@ -39,7 +38,10 @@ def test_record(monkeypatch):
 def test_pubsub():
     records = []
 
-    record = AuditLogTestRecord(flow_id='flow-id')
+    record = AuditLogTestRecord(
+        flow_id='flow-id',
+        proxy_mode=ProxyMode.REVERSE,
+    )
     subscribe(lambda record: records.append(record))
     emit(record)
 
@@ -48,7 +50,10 @@ def test_pubsub():
 
 def test_store_get_ok():
     store = AuditLogStore()
-    record = AuditLogTestRecord(flow_id='flow-id')
+    record = AuditLogTestRecord(
+        flow_id='flow-id',
+        proxy_mode=ProxyMode.REVERSE,
+    )
     store.save(record)
     assert store.get('flow-id') == [record]
 
