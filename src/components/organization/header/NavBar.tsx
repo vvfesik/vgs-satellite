@@ -7,7 +7,7 @@ const NavBar: React.FC = () => {
     <Navbar id="main-navbar" className="navbar-container" light expand="sm">
       <Nav className="mr-auto" navbar>
         <NavItem className="d-flex align-items-center navbar-logotitle">
-          <img src="/images/vgs-dashboard-logo.svg" />
+          <img src="./images/vgs-dashboard-logo.svg" />
           <span className="pl-3 text-white _600 text-uppercase cursor-default">
             Satellite
           </span>

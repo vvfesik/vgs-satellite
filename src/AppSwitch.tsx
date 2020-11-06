@@ -31,6 +31,7 @@ const AppSwitch: React.FC<IAppSwitchProps> = (props) => {
           path="/routes/new/outbound"
           render={() => <NewRouteContainer routeType="outbound" />}
         />
+        <Route component={PreCollectContainer}/>
       </Switch>
     </>
   );

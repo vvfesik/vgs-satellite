@@ -19,7 +19,7 @@ export const VaultSidebar: React.SFC<IVaultSidebarProps> = (props) => {
             className="navbar-brand"
             title={RELEASE_VERSION}
           >
-            <img src="/images/vgs-dashboard-logo.svg" />
+            <img src="./images/vgs-dashboard-logo.svg" />
           </Link>
         </div>
       </div>
