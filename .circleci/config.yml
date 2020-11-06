@@ -1,4 +1,12 @@
 version: 2
+
+setup_python_macos: &setup_python_macos
+  run:
+    name: Install Python
+    command: |
+      brew install python@3.8
+      /usr/local/opt/python@3.8/bin/python3 -m venv venv
+
 jobs:
   build:
     docker:
@@ -67,15 +75,22 @@ jobs:
     working_directory: ~/app
     steps:
       - checkout
+      - <<: *setup_python_macos
       - run:
           name: Install Dependencies
-          command: pip3 install -r requirements.txt
+          command: |
+            . venv/bin/activate
+            pip install -r requirements.txt
       - run:
           name: Build distribution
-          command: make dist
+          command: |
+            . venv/bin/activate
+            make dist
       - run:
           name: Test distribution
-          command: make test_dist
+          command: |
+            . venv/bin/activate
+            make test_dist
       - store_artifacts:
           path: dist/vgs-satellite-backend
   smoketest:
@@ -116,14 +131,18 @@ jobs:
       - run:
           name: Check app version
           command: ./check-version.sh
+      - <<: *setup_python_macos
       - run:
           name: Install Dependencies
           command: |
-            pip3 install -r requirements.txt
+            . venv/bin/activate
+            pip install -r requirements.txt
             npm ci --unsafe-perm
       - run:
           name: Build the app
-          command: npm run electron:build
+          command: |
+            . venv/bin/activate
+            npm run electron:build
       - persist_to_workspace:
           root: build
           paths:
