@@ -35,7 +35,10 @@ function createWindow() {
   if (isDev) {
     mainWindow.loadURL("http://localhost:1234");
   } else {
-    mainWindow.loadFile("dist/index.html");
+    mainWindow.loadFile("dist/preloader.html");
+    waitOn({
+      resources: [`http://localhost:${webPort}`]
+    }).then(() => mainWindow.loadFile("dist/index.html"));
   }
   mainWindow.on("closed", () => (mainWindow = null));
 }
@@ -56,9 +59,7 @@ app.on("ready", () => {
         app.quit()
       }
     })
-    waitOn({
-      resources: [`http://localhost:${webPort}`]
-    }).then(createWindow);
+    createWindow();
   }
 });
 
