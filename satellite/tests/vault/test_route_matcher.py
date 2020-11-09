@@ -1,16 +1,23 @@
 from unittest.mock import Mock
 
-from ..factories import load_flow, RouteFactory, RuleEntryFactory
+from freezegun import freeze_time
 
-from satellite.proxy import ProxyMode
+from satellite.proxy import audit_logs, ProxyMode
 from satellite.db.models.route import Phase
 from satellite.vault.route_matcher import match_route
+
+from ..factories import load_flow, RouteFactory, RuleEntryFactory
 
 
 def test_match_route_no_match(monkeypatch):
     monkeypatch.setattr(
         'satellite.vault.route_matcher.route_manager',
         Mock(get_all_by_type=Mock(return_value=[]))
+    )
+    emit_audit_log = Mock()
+    monkeypatch.setattr(
+        'satellite.vault.route_matcher.audit_logs.emit',
+        emit_audit_log,
     )
     flow = load_flow('http_raw')
 
@@ -22,8 +29,10 @@ def test_match_route_no_match(monkeypatch):
 
     assert matched_route is None
     assert matched_filters is None
+    emit_audit_log.assert_not_called()
 
 
+@freeze_time('2020-11-04')
 def test_match_route_inbound(monkeypatch):
     filters = RuleEntryFactory.build_batch(2)
     filters[1].expression_snapshot['rules'][0]['expression']['values'] = ['/put']
@@ -31,6 +40,11 @@ def test_match_route_inbound(monkeypatch):
     monkeypatch.setattr(
         'satellite.vault.route_matcher.route_manager',
         Mock(get_all_by_type=Mock(return_value=[route]))
+    )
+    emit_audit_log = Mock()
+    monkeypatch.setattr(
+        'satellite.vault.route_matcher.audit_logs.emit',
+        emit_audit_log,
     )
     flow = load_flow('http_raw')
 
@@ -42,6 +56,13 @@ def test_match_route_inbound(monkeypatch):
 
     assert matched_route is route
     assert matched_filters == [filters[0]]
+    emit_audit_log.assert_called_once_with(audit_logs.RuleChainEvaluationLogRecord(
+        flow_id=flow.id,
+        matched=True,
+        phase=Phase.REQUEST,
+        proxy_mode=ProxyMode.REVERSE,
+        route_id=route.id,
+    ))
 
 
 def test_match_route_outbound(monkeypatch):

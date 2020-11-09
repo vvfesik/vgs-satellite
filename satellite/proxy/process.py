@@ -14,7 +14,7 @@ import blinker
 from mitmproxy.flow import Flow
 from mitmproxy.addons.view import View
 
-from satellite import ctx
+from satellite.ctx import set_context, ProxyContext
 
 from . import audit_logs
 from . import events
@@ -67,7 +67,7 @@ class ProxyProcess(Process):
 
         proxy_logging.configure(self._event_queue)
 
-        ctx.proxy_mode = self.mode
+        set_context(ProxyContext(mode=self.mode, port=self.port))
 
         self._should_stop = ThreadingEvent()
 

@@ -8,7 +8,7 @@ from mitmproxy.proxy.server import (
     ProxyServer as BaseProxyServer,
 )
 
-from .. import ctx
+from ..ctx import get_proxy_context
 from ..db.models.route import RouteType
 from ..proxy import ProxyMode
 from ..service import route_manager
@@ -21,7 +21,7 @@ class ProxyServer(BaseProxyServer):
     def handle_client_connection(self, conn, client_address):
         config = self.config
 
-        if ctx.proxy_mode == ProxyMode.REVERSE:
+        if get_proxy_context().mode == ProxyMode.REVERSE:
             upstream = self._get_upstream()
             if upstream:
                 options = copy(self.config.options)

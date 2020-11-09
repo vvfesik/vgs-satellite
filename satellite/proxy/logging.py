@@ -2,7 +2,7 @@ import logging
 
 from multiprocessing import Queue
 
-from .. import ctx
+from ..ctx import get_proxy_context
 from .events import LogEvent
 
 
@@ -19,4 +19,4 @@ class LogEventHandler(logging.Handler):
         self._queue = event_queue
 
     def emit(self, record: logging.LogRecord):
-        self._queue.put_nowait(LogEvent(ctx.proxy_mode, record))
+        self._queue.put_nowait(LogEvent(get_proxy_context().mode, record))

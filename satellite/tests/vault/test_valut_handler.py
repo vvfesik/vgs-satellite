@@ -1,9 +1,9 @@
-from unittest.mock import Mock
+from unittest.mock import call, Mock
 
 from freezegun import freeze_time
 
-from satellite.proxy import ProxyMode
-from satellite.proxy.audit_logs import VaultRequestAuditLogRecord
+from satellite.ctx import ProxyContext
+from satellite.proxy import audit_logs, ProxyMode
 from satellite.vault.vault_handler import VaultFlows
 
 from ..factories import load_flow, RouteFactory, RuleEntryFactory
@@ -15,8 +15,11 @@ def test_request_redact(monkeypatch, snapshot):
     rule_entry = RuleEntryFactory()
 
     monkeypatch.setattr(
-        'satellite.vault.vault_handler.ctx',
-        Mock(proxy_mode=ProxyMode.FORWARD),
+        'satellite.vault.vault_handler.ctx.get_proxy_context',
+        Mock(return_value=ProxyContext(
+            mode=ProxyMode.FORWARD,
+            port=9099,
+        )),
     )
     monkeypatch.setattr(
         'satellite.vault.vault_handler.match_route',
@@ -37,12 +40,14 @@ def test_request_redact(monkeypatch, snapshot):
 
     VaultFlows().request(flow)
 
-    emit_audit_log_record.assert_called_once_with(VaultRequestAuditLogRecord(
-        flow_id=flow.id,
-        proxy_mode=ProxyMode.FORWARD,
-        method=flow.request.method,
-        uri=flow.request.url,
-    ))
+    emit_audit_log_record.assert_called_once_with(
+        audit_logs.VaultRequestAuditLogRecord(
+            flow_id=flow.id,
+            proxy_mode=ProxyMode.FORWARD,
+            method=flow.request.method,
+            uri=flow.request.url,
+        ),
+    )
     assert hasattr(flow, 'request_raw')
     assert flow.request.content != flow.request_raw.content
     assert flow.request.match_details == {
@@ -55,8 +60,11 @@ def test_request_redact(monkeypatch, snapshot):
 
 def test_request_without_redact(monkeypatch):
     monkeypatch.setattr(
-        'satellite.vault.vault_handler.ctx',
-        Mock(proxy_mode=ProxyMode.FORWARD),
+        'satellite.vault.vault_handler.ctx.get_proxy_context',
+        Mock(return_value=ProxyContext(
+            mode=ProxyMode.FORWARD,
+            port=9099,
+        )),
     )
     monkeypatch.setattr(
         'satellite.vault.vault_handler.match_route',
@@ -73,13 +81,17 @@ def test_request_without_redact(monkeypatch):
     assert not hasattr(flow.request, 'match_details')
 
 
+@freeze_time()
 def test_response_redact(monkeypatch, snapshot):
     route = RouteFactory()
     rule_entry = RuleEntryFactory()
 
     monkeypatch.setattr(
-        'satellite.vault.vault_handler.ctx',
-        Mock(proxy_mode=ProxyMode.FORWARD),
+        'satellite.vault.vault_handler.ctx.get_proxy_context',
+        Mock(return_value=ProxyContext(
+            mode=ProxyMode.FORWARD,
+            port=9099,
+        )),
     )
     monkeypatch.setattr(
         'satellite.vault.vault_handler.match_route',
@@ -89,12 +101,39 @@ def test_response_redact(monkeypatch, snapshot):
         'satellite.vault.vault_handler.transform_body',
         Mock(return_value=('transformed body', [True])),
     )
+    emit_audit_log_record = Mock()
+    monkeypatch.setattr(
+        'satellite.vault.vault_handler.audit_logs.emit',
+        emit_audit_log_record,
+    )
 
     flow = load_flow('http_raw')
+    flow.server_conn.wfile = Mock(get_log=Mock(return_value=b'abc'))
+    flow.server_conn.rfile = Mock(get_log=Mock(return_value=b'qwerty'))
     assert not hasattr(flow, 'response_raw')
 
     VaultFlows().response(flow)
 
+    emit_audit_log_record.assert_has_calls([
+        call(audit_logs.VaultTrafficLogRecord(
+            flow_id=flow.id,
+            proxy_mode=ProxyMode.FORWARD,
+            bytes=3,
+            label=audit_logs.TrafficLabel.TO_SERVER,
+        )),
+        call(audit_logs.VaultTrafficLogRecord(
+            flow_id=flow.id,
+            proxy_mode=ProxyMode.FORWARD,
+            bytes=6,
+            label=audit_logs.TrafficLabel.FROM_SERVER,
+        )),
+        call(audit_logs.UpstreamResponseLogRecord(
+            flow_id=flow.id,
+            proxy_mode=ProxyMode.FORWARD,
+            upstream='httpbin.org',
+            status_code=200,
+        )),
+    ])
     assert hasattr(flow, 'response_raw')
     assert flow.response.content != flow.response_raw.content
     assert flow.response.match_details == {
@@ -107,8 +146,11 @@ def test_response_redact(monkeypatch, snapshot):
 
 def test_response_without_redact(monkeypatch):
     monkeypatch.setattr(
-        'satellite.vault.vault_handler.ctx',
-        Mock(proxy_mode=ProxyMode.FORWARD),
+        'satellite.vault.vault_handler.ctx.get_proxy_context',
+        Mock(return_value=ProxyContext(
+            mode=ProxyMode.FORWARD,
+            port=9099,
+        )),
     )
     monkeypatch.setattr(
         'satellite.vault.vault_handler.match_route',
@@ -117,6 +159,9 @@ def test_response_without_redact(monkeypatch):
 
     flow = load_flow('http_raw')
     assert not hasattr(flow, 'response_raw')
+
+    flow.server_conn.wfile = Mock(get_log=Mock(return_value=b'abc'))
+    flow.server_conn.rfile = Mock(get_log=Mock(return_value=b'qwerty'))
 
     VaultFlows().response(flow)
 

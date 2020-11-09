@@ -2,7 +2,7 @@ from typing import List, Optional, Tuple
 
 from mitmproxy.flow import Flow
 
-from satellite.proxy import ProxyMode
+from satellite.proxy import audit_logs, ProxyMode
 from satellite.service import route_manager
 from satellite.db.models.route import Phase, Route, RouteType, RuleEntry
 
@@ -21,7 +21,15 @@ def match_route(
 
     for route in routes:
         rule_entries_list = match_filters(route.rule_entries_list, phase, request)
-        if rule_entries_list:
+        matched = bool(rule_entries_list)
+        audit_logs.emit(audit_logs.RuleChainEvaluationLogRecord(
+            flow_id=flow.id,
+            matched=matched,
+            phase=phase,
+            proxy_mode=proxy_mode,
+            route_id=route.id,
+        ))
+        if matched:
             return route, rule_entries_list
 
     return None, None
