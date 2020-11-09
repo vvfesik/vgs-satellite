@@ -133,15 +133,25 @@ jobs:
           command: ./check-version.sh
       - <<: *setup_python_macos
       - run:
+          name: Install node
+          command: |
+            brew install nvm
+            . "/usr/local/opt/nvm/nvm.sh"
+            nvm install 14.15.0
+      - run:
           name: Install Dependencies
           command: |
             . venv/bin/activate
             pip install -r requirements.txt
+            . "/usr/local/opt/nvm/nvm.sh"
+            nvm use 14.15.0
             npm ci --unsafe-perm
       - run:
           name: Build the app
           command: |
             . venv/bin/activate
+            . "/usr/local/opt/nvm/nvm.sh"
+            nvm use 14.15.0
             npm run electron:build
       - persist_to_workspace:
           root: build
