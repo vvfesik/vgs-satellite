@@ -4,6 +4,7 @@ setup_python_macos: &setup_python_macos
   run:
     name: Install Python
     command: |
+      brew update
       brew install python@3.8
       /usr/local/opt/python@3.8/bin/python3 -m venv venv
 
@@ -71,7 +72,7 @@ jobs:
           path: dist/vgs-satellite-backend
   python_test_dist_macos:
     macos:
-      xcode: 12.1.0
+      xcode: 10.1.0
     working_directory: ~/app
     steps:
       - checkout
@@ -124,7 +125,7 @@ jobs:
 
   build_app_macos:
     macos:
-      xcode: 12.1.0
+      xcode: 10.1.0
     working_directory: ~/app
     steps:
       - checkout
