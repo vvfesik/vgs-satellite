@@ -122,6 +122,7 @@ class ProxyProcess(Process):
                 )
 
     def _sig_flow_add(self, view: View, flow: Flow):
+        flow.mode = self.mode.value
         self._event_queue.put_nowait(events.FlowAddEvent(
             proxy_mode=self.mode,
             flow_state=get_flow_state(flow),

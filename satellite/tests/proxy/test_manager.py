@@ -75,8 +75,9 @@ def test_get_flow(monkeypatch):
         Mock(mode=ProxyMode.FORWARD),
         Mock(mode=ProxyMode.REVERSE),
     ]
+    flow_state = {'mode': ProxyMode.FORWARD.value, 'timestamp_start': 1}
     connections = [
-        (Mock(recv=Mock(return_value={'timestamp_start': 1})), Mock()),
+        (Mock(recv=Mock(return_value=flow_state)), Mock()),
         (Mock(), Mock()),
     ]
     monkeypatch.setattr(

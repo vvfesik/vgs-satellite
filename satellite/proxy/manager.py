@@ -116,10 +116,7 @@ class ProxyManager:
                 proxy,
                 commands.GetFlowsCommand(),
             )
-            flows.extend(
-                self._build_flow(proxy_mode, flow_state)
-                for flow_state in proxy_flows
-            )
+            flows.extend(map(load_flow_from_state, proxy_flows))
 
         return sorted(flows, key=attrgetter('timestamp_start'))
 
@@ -129,7 +126,7 @@ class ProxyManager:
             proxy,
             commands.GetFlowCommand(flow_id),
         )
-        return self._build_flow(proxy.process.mode, flow_state)
+        return load_flow_from_state(flow_state)
 
     def remove_flow(self, flow_id: str) -> Optional[str]:
         proxy = self._get_proxy_by_flow_id(flow_id)
@@ -186,11 +183,6 @@ class ProxyManager:
             raise result
 
         return result
-
-    def _build_flow(self, proxy_mode: ProxyMode, flow_state: dict) -> Flow:
-        flow = load_flow_from_state(flow_state)
-        flow.mode = proxy_mode.value
-        return flow
 
     def _handle_event(self, event):
         self._process_event(event)
