@@ -204,3 +204,75 @@ class TestRouteHandler(BaseHandlerTestCase):
 
         self.assertEqual(response.code, 200, response.body)
         self.assertMatchSnapshot(json.loads(response.body))
+
+    def test_put_add_filter_to_existing_route(self):
+        uuid_patch = patch(
+            'satellite.db.models.route.uuid.uuid4',
+            Mock(return_value='ae8df099-4e92-404e-b4c9-80abfdac5f8a'),
+        )
+        uuid_patch.start()
+        self.addCleanup(uuid_patch.stop)
+
+        route = RouteFactory(
+            id='2c813c5a-be1b-487f-816d-d692aea96852',
+            rule_entries_list=[
+                RuleEntryFactory(
+                    id='8e6d779a-1f57-4b89-8c0b-579d933f783c',
+                    phase='REQUEST',
+                ),
+            ],
+        )
+
+        response = self.fetch(
+            self.get_url(f'/route/{route.id}'),
+            method='PUT',
+            body=json.dumps({
+                'data': {
+                    'attributes': {
+                        'entries': [
+                            {
+                                'targets': ['body'],
+                                'phase': 'REQUEST',
+                                'operation': 'REDACT',
+                                'classifiers': {},
+                                'config': {
+                                    'condition': 'AND',
+                                    'rules': [
+                                        {
+                                            'expression': {
+                                                'field': 'PathInfo',
+                                                'type': 'string',
+                                                'operator': 'equals',
+                                                'values': [
+                                                    '/put'
+                                                ],
+                                            },
+                                        },
+                                        {
+                                            'expression': {
+                                                'field': 'ContentType',
+                                                'type': 'string',
+                                                'operator': 'equals',
+                                                'values': [
+                                                    'application/json'
+                                                ],
+                                            },
+                                        },
+                                    ],
+                                },
+                                'transformer': 'JSON_PATH',
+                                'transformer_config': [
+                                    '$.field2'
+                                ],
+                                'public_token_generator': 'UUID',
+                                'token_manager': 'PERSISTENT'
+                            },
+                        ],
+                    },
+                    'type': 'rule-chains',
+                }
+            }),
+        )
+
+        self.assertEqual(response.code, 200, response.body)
+        self.assertMatchSnapshot(json.loads(response.body))

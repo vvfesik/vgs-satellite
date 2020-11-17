@@ -4,11 +4,7 @@ from satellite.controller import (
     BaseHandler,
 )
 from satellite.service import route_manager
-from satellite.schemas.route import (
-    CreateRouteSchema,
-    RouteSchema,
-    UpdateRouteSchema,
-)
+from satellite.schemas.route import CreateUpdateRouteSchema, RouteSchema
 
 
 class RoutesHandler(BaseHandler):
@@ -17,7 +13,7 @@ class RoutesHandler(BaseHandler):
     def get(self):
         return route_manager.get_all()
 
-    @apply_request_schema(CreateRouteSchema)
+    @apply_request_schema(CreateUpdateRouteSchema)
     @apply_response_schema(RouteSchema)
     def post(self, validated_data: dict):
         return route_manager.create(validated_data['data']['attributes'])
@@ -29,7 +25,7 @@ class RouteHandler(BaseHandler):
     def get(self, route_id):
         return route_manager.get(route_id)
 
-    @apply_request_schema(UpdateRouteSchema)
+    @apply_request_schema(CreateUpdateRouteSchema)
     @apply_response_schema(RouteSchema)
     def put(self, route_id, validated_data):
         try:

@@ -55,11 +55,12 @@ def update(route_id: str, route_data: dict) -> Route:
 
     rule_entries = {entry.id: entry for entry in route.rule_entries_list}
     for rule_data in route_data.get('rule_entries_list', []):
-        rule_id = rule_data['id']
-        rule = rule_entries.get(rule_id)
-        if not rule:
-            raise EntityNotFound(f'Unknown rule ID: {rule_id}.')
-        update_model(rule, rule_data, ['id'])
+        rule_id = rule_data.get('id')
+        rule = rule_id is not None and rule_entries.get(rule_id)
+        if rule:
+            update_model(rule, rule_data, ['id'])
+        else:
+            route.rule_entries_list.append(RuleEntry(**rule_data))
 
     session = get_session()
     try:
