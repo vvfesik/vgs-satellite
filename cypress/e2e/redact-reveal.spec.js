@@ -25,7 +25,7 @@ describe('Localhoste redact-reveal flow', function() {
 
     // visit requests page and send request via proxy
     cy.get('.menu-item')
-      .contains('Requests')
+      .contains('Logs')
       .click();
 
     cy.wait(['@getRoutes', '@getFlows']);
@@ -46,17 +46,17 @@ describe('Localhoste redact-reveal flow', function() {
 
     // check diffsnippet
     cy.get('[data-role="tab-body"]').click();
-    cy.get('[data-role="log-payload-body-diff"]').contains('{"foo": "tok_dev_');
+    cy.get('[data-role="log-payload-body-diff"]').contains('{"foo": "tok_');
 
     cy.get('[data-role="log-payload-body-diff"]')
-      .contains('tok_dev_')
+      .contains('tok_')
       .then(($tok) => {
         expect($tok[0].className).to.match(/-added/);
       });
 
     // save alias for next test
     cy.get('[data-role="log-payload-body-diff"]')
-      .contains('{"foo": "tok_dev_')
+      .contains('{"foo": "tok_')
       .then(($bar) => {
         alias = JSON.parse($bar.text()).foo;
       });
@@ -76,7 +76,7 @@ describe('Localhoste redact-reveal flow', function() {
 
     // visit requests page and send request with alias via proxy
     cy.get('.menu-item')
-      .contains('Requests')
+      .contains('Logs')
       .click();
 
     cy.wait(['@getRoutes', '@getFlows']);
@@ -100,7 +100,7 @@ describe('Localhoste redact-reveal flow', function() {
     cy.get('[data-role="log-payload-body-diff"]').contains('"bar"');
 
     cy.get('[data-role="log-payload-body-diff"]')
-      .contains('tok_dev_')
+      .contains('tok_')
       .then(($tok) => {
         expect($tok[0].className).to.match(/-removed/);
       });

@@ -7,6 +7,8 @@ import { includes, flattenDeep, uniq } from 'lodash';
 import { ILog, ILogFilters } from 'src/redux/interfaces/logs';
 import { IRoute, IEntry } from 'src/redux/interfaces/routes';
 
+export const dateToFormat = (date: moment.MomentInput, format: string) => moment(date).format(format);
+
 export function formatDate(date) {
   if (moment().isSame(date, 'day')) {
     return moment.utc(date).local().format('[Today] HH:mm:ss');
@@ -65,7 +67,7 @@ export function constructUriFromLog(log: ILog) {
 export const getFiltersWithoutOperations = (route: IRoute) => route.entries.filter(entry => !entry.operations);
 
 export function isValidHostname(hostname: string) {
-  const hostnameRegex = /^\s*((?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?(?:\.{1,}[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?){1,}?)\s*$/; // tslint:disable-line
+  const hostnameRegex = /^\s*((?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?(?:\.{1,}[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?){1,}?(:[0-9]{1,4}){0,1})\s*$/; // tslint:disable-line
   return hostnameRegex.test(hostname);
 }
 
