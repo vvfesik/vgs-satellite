@@ -53,14 +53,15 @@ class VaultFlows:
                 (flow.server_conn.wfile, audit_logs.TrafficLabel.TO_SERVER),
                 (flow.server_conn.rfile, audit_logs.TrafficLabel.FROM_SERVER),
             ]:
-                # TODO: (SAT-98) trigger TO_SERVER-event at the right time.
-                audit_logs.emit(audit_logs.VaultTrafficLogRecord(
-                    flow_id=flow.id,
-                    proxy_mode=proxy_context.mode,
-                    bytes=len(sock.get_log()),
-                    label=label,
-                ))
-                sock.stop_log()
+                if sock and sock.is_logging():
+                    # TODO: (SAT-98) trigger TO_SERVER-event at the right time.
+                    audit_logs.emit(audit_logs.VaultTrafficLogRecord(
+                        flow_id=flow.id,
+                        proxy_mode=proxy_context.mode,
+                        bytes=len(sock.get_log()),
+                        label=label,
+                    ))
+                    sock.stop_log()
 
             audit_logs.emit(audit_logs.UpstreamResponseLogRecord(
                 flow_id=flow.id,

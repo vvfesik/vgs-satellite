@@ -1,45 +1,45 @@
-import tornado.escape
-
-from satellite.controller import BaseHandler
+from satellite.controller import (
+    apply_request_schema,
+    apply_response_schema,
+    BaseHandler,
+)
 from satellite.service import route_manager
-
-from satellite.service.route_manager import EntityAlreadyExists
+from satellite.schemas.route import (
+    CreateRouteSchema,
+    RouteSchema,
+    UpdateRouteSchema,
+)
 
 
 class RoutesHandler(BaseHandler):
 
+    @apply_response_schema(RouteSchema, many=True)
     def get(self):
-        self.set_json_headers()
-        routes = route_manager.get_all_serialized()
-        self.write(routes)
+        return route_manager.get_all()
 
-    def post(self):
-        try:
-            data = tornado.escape.json_decode(self.request.body)
-            route = data['data']['attributes']
-            route_entity = route_manager.create(route)
-            self.write(route_entity)
-        except EntityAlreadyExists as e:
-            self.set_status(400)
-            self.write(f'Entity with id={e} already exists')
+    @apply_request_schema(CreateRouteSchema)
+    @apply_response_schema(RouteSchema)
+    def post(self, validated_data: dict):
+        return route_manager.create(validated_data['data']['attributes'])
 
 
 class RouteHandler(BaseHandler):
 
+    @apply_response_schema(RouteSchema)
     def get(self, route_id):
-        self.set_json_headers()
-        route = route_manager.get(route_id)
-        self.write(route.serialize())
+        return route_manager.get(route_id)
 
-    def put(self, route_id):
+    @apply_request_schema(UpdateRouteSchema)
+    @apply_response_schema(RouteSchema)
+    def put(self, route_id, validated_data):
         try:
-            data = tornado.escape.json_decode(self.request.body)
-            route = data['data']['attributes']
-            route_entity = route_manager.update(route_id, route)
-            self.write(route_entity)
-        except EntityAlreadyExists as e:
-            self.set_status(400)
-            self.write(f'Entity with id={e} already exists')
+            return route_manager.update(
+                route_id,
+                validated_data['data']['attributes'],
+            )
+        except route_manager.EntityNotFound as exc:
+            self.set_status(404)
+            self.finish(str(exc))
 
     def delete(self, route_id):
         route_manager.delete(route_id)

@@ -1,6 +1,11 @@
 import pytest
 import socket
 
+from tempfile import NamedTemporaryFile
+
+from satellite import db
+from satellite.db.models import alias, route  # noqa
+
 
 @pytest.fixture(scope='class')
 def snapshot_pytest_unitest_bridge(request):
@@ -20,3 +25,11 @@ def free_port():
 
 def pytest_configure(config):
     config.addinivalue_line('markers', 'dist: distribution tests')
+
+
+def pytest_sessionstart(session):
+    db.configure(_db_file.name)
+    db.init()
+
+
+_db_file = NamedTemporaryFile()

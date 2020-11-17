@@ -1,10 +1,14 @@
 from typing import List
 
-from ..db import EntityAlreadyExists, get_session
+from ..db import get_session, update_model
 from ..db.models.route import Route, RuleEntry, RouteType
 
 
-def get_all():
+class EntityNotFound(Exception):
+    pass
+
+
+def get_all() -> List[Route]:
     return get_session().query(Route).all()
 
 
@@ -16,31 +20,55 @@ def get_all_by_type(route_type: RouteType) -> List[Route]:
         return [route for route in route_all if not route.is_outbound()]
 
 
-def get_all_serialized():
-    route_all = get_all()
-    return [] if len(route_all) == 0 else [route.serialize() for route in route_all]
-
-
-def get(route_id):
+def get(route_id: str) -> Route:
     return get_session().query(Route).filter(Route.id == route_id).first()
 
 
-def create(route):
-    route_id = route['id'] if 'id' in route else None
-    if get(route_id):
-        raise EntityAlreadyExists(route_id)
-    route_entity = __parse_route(route, route_id)
+def create(route_data: dict) -> Route:
+    route = Route(**{
+        **route_data,
+        'rule_entries_list': [
+            RuleEntry(**rule_entry)
+            for rule_entry in route_data.get('rule_entries_list', [])
+        ]
+    })
+
     session = get_session()
-    session.add(route_entity)
-    session.commit()
-    return route_entity.serialize()
+    try:
+        session.add(route)
+        session.commit()
+    except Exception:
+        session.rollback()
+        raise
+
+    return route
 
 
-def update(route_id, route):
-    if get(route_id):
-        delete(route_id)
-    route['id'] = route_id
-    return create(route)
+def update(route_id: str, route_data: dict) -> Route:
+    route = get(route_id)
+    if not route:
+        # Have to allow route creation via update since currently FE uses the
+        # update endpoint for routes import.
+        return create({**route_data, 'id': route_id})
+
+    update_model(route, route_data)
+
+    rule_entries = {entry.id: entry for entry in route.rule_entries_list}
+    for rule_data in route_data.get('rule_entries_list', []):
+        rule_id = rule_data['id']
+        rule = rule_entries.get(rule_id)
+        if not rule:
+            raise EntityNotFound(f'Unknown rule ID: {rule_id}.')
+        update_model(rule, rule_data, ['id'])
+
+    session = get_session()
+    try:
+        session.commit()
+    except Exception:
+        session.rollback()
+        raise
+
+    return route
 
 
 def delete(route_id):
@@ -48,36 +76,3 @@ def delete(route_id):
     session = get_session()
     session.delete(route)
     session.commit()
-
-
-def __parse_route(route, route_id):
-    return Route(
-        id=route_id,
-        protocol=route.get('protocol'),
-        source_endpoint=route.get('source_endpoint'),
-        destination_override_endpoint=route.get('destination_override_endpoint'),
-        host_endpoint=route.get('host_endpoint'),
-        port=route.get('port'),
-        tags=route.get('tags'),
-        rule_entries_list=__parse_route_entries(route.get('entries')),
-    )
-
-
-def __parse_route_entries(route_entries):
-    entries = []
-    for entry in route_entries:
-        entry_id = entry.get('id') if 'id' in entry else None
-        rule_entry = RuleEntry(
-            id=entry_id,
-            phase=entry.get('phase'),
-            operation=entry.get('operation'),
-            token_manager=entry.get('token_manager'),
-            public_token_generator=entry.get('public_token_generator'),
-            transformer=entry.get('transformer'),
-            transformer_config=entry.get('transformer_config'),
-            targets=entry.get('targets'),
-            classifiers=entry.get('classifiers'),
-            expression_snapshot=entry.get('config')
-        )
-        entries.append(rule_entry)
-    return entries

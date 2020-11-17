@@ -3,9 +3,11 @@ from datetime import datetime
 from importlib import import_module
 from uuid import uuid4
 
-from factory import Factory, LazyFunction
+from factory import LazyFunction
+from factory.alchemy import SQLAlchemyModelFactory
 from mitmproxy.http import HTTPFlow
 
+from satellite.db import get_session
 from satellite.db.models.route import Route, RuleEntry
 
 
@@ -16,12 +18,16 @@ def load_flow(flow_name: str) -> HTTPFlow:
     return flow
 
 
-class RouteFactory(Factory):
-    class Meta:
+class MetaWithSession(type):
+    sqlalchemy_session = property(lambda cls: get_session())
+
+
+class RouteFactory(SQLAlchemyModelFactory):
+    class Meta(metaclass=MetaWithSession):
         model = Route
 
     id = LazyFunction(lambda: str(uuid4()))
-    created_at = LazyFunction(datetime.now)
+    created_at = LazyFunction(lambda: datetime.now())
     protocol = 'http'
     source_endpoint = '*'
     destination_override_endpoint = '*'
@@ -30,12 +36,12 @@ class RouteFactory(Factory):
     tags = {'source': 'vgs-satellite'}
 
 
-class RuleEntryFactory(Factory):
-    class Meta:
+class RuleEntryFactory(SQLAlchemyModelFactory):
+    class Meta(metaclass=MetaWithSession):
         model = RuleEntry
 
     id = LazyFunction(lambda: str(uuid4()))
-    created_at = LazyFunction(datetime.now)
+    created_at = LazyFunction(lambda: datetime.now())
     phase = 'REQUEST'
     operation = 'REDACT'
     token_manager = 'PERSISTENT'

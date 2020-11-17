@@ -1,4 +1,7 @@
+import json
+
 from functools import wraps
+from typing import Type
 
 import tornado.websocket
 
@@ -46,14 +49,49 @@ class BaseHandler(RequestHandler):
         return False
 
 
-def apply_response_schema(schema_cls: Schema, many: bool = False):
+def apply_response_schema(schema_cls: Type[Schema], many: bool = False):
     def decorator(handler_method):
         @wraps(handler_method)
         def wrapper(handler: BaseHandler, *args, **kwargs):
             result = handler_method(handler, *args, **kwargs)
-            schema = schema_cls(many=many)
-            handler.write(schema.dump(result))
+            if result is not None and not handler._finished:
+                schema = schema_cls(many=many)
+                handler.write(schema.dump(result))
+
         return wrapper
+
+    return decorator
+
+
+def apply_request_schema(schema_cls: Type[Schema]):
+    def decorator(handler_method):
+        @wraps(handler_method)
+        def wrapper(handler: BaseHandler, *args, **kwargs):
+            try:
+                data = json.loads(handler.request.body)
+            except json.JSONDecodeError as exc:
+                handler.set_status(400, 'Invalid content type')
+                handler.finish(str(exc))
+                return
+
+            schema = schema_cls()
+            errors = schema.validate(data)
+            if errors:
+                handler.set_status(400, 'Invalid request data')
+                handler.finish(json.dumps(errors))
+                return
+
+            validated_data = schema.load(data)
+
+            return handler_method(
+                handler,
+                *args,
+                validated_data=validated_data,
+                **kwargs,
+            )
+
+        return wrapper
+
     return decorator
 
 
