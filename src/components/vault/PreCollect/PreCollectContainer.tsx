@@ -160,6 +160,7 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
         <QuickIntegrationModal
           isReverse={preRouteType === 'inbound'}
           log={isSecurePayload}
+          routes={routes}
           url={constructUriFromLog(isSecurePayload)}
           closeModal={() => securePayload(false)}
         />

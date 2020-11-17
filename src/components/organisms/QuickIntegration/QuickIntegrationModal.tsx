@@ -8,23 +8,28 @@ import { ILog } from 'src/redux/interfaces/logs';
 import QuickIntegration from 'src/components/organisms/QuickIntegration/QuickIntegration';
 import { IRoute, IEntry, IPartialEntry } from 'src/redux/interfaces/routes';
 import { createPrecollectRoutes, triggerYamlModal } from 'src/redux/modules/preCollect';
+import { updateRoute } from 'src/redux/modules/routes';
 import { pick } from 'lodash';
+import history from 'src/redux/utils/history';
 
 interface IQuickIntegrationModalProps {
   isReverse: boolean;
   log: ILog;
   url: string;
+  routes: IRoute[];
   preRoute: any;
   preRoutes: any;
   closeModal: () => void;
   showYamlModal: () => void;
   createPrecollectRoutes: (inbound: IRoute, outbound: IRoute) => void;
   triggerYaml: (open: boolean) => void;
+  updateRoute: (route: IRoute) => void;
 }
 
 interface IQuickIntegrationModalState {
   isFilterSaved: boolean;
   ruleEntries: any;
+  routeId?: string;
 }
 
 function mapStateToProps({ preCollect }: { preCollect: any }) {
@@ -38,6 +43,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     createPrecollectRoutes: (inbound: IRoute, outbound: IRoute) => dispatch(createPrecollectRoutes(inbound, outbound)),
     triggerYaml: (open: boolean) => dispatch(triggerYamlModal(open)),
+    updateRoute: (route: IRoute) => dispatch(updateRoute(route)),
   };
 };
 
@@ -48,7 +54,7 @@ export class QuickIntegrationModal extends React.Component<IQuickIntegrationModa
     this.state = {
       isFilterSaved: false,
       ruleEntries: [],
-      routeId: null,
+      routeId: undefined,
     };
   }
 
@@ -57,11 +63,16 @@ export class QuickIntegrationModal extends React.Component<IQuickIntegrationModa
     const reverseRoute = getReverseRoute([], parsedUrl);
     const forwardRoute = getForwardRoute([], parsedUrl);
 
-    [reverseRoute, forwardRoute].forEach(route => (
-      route.attributes = {
-        ...route,
+    const route = this.props.isReverse
+      ? getReverseRoute(this.props.routes, parsedUrl)
+      : getForwardRoute(this.props.routes, parsedUrl);
+    const isRouteExists = Boolean(route.id);
+
+    [reverseRoute, forwardRoute, route].forEach(r => (
+      r.attributes = {
+        ...r,
         entries: [
-          ...route.entries,
+          ...r.entries,
           ...ruleEntries,
         ],
       }
@@ -75,9 +86,14 @@ export class QuickIntegrationModal extends React.Component<IQuickIntegrationModa
     this.setState({
       ruleEntries,
       isFilterSaved: true,
+      routeId: isRouteExists ? route.id : undefined,
     });
 
-    this.showYamlModal();
+    if (isRouteExists) {
+      this.props.updateRoute(route);
+    } else {
+      this.showYamlModal();
+    }
   }
 
   showYamlModal() {
@@ -86,16 +102,8 @@ export class QuickIntegrationModal extends React.Component<IQuickIntegrationModa
   }
 
   render () {
-    const {
-      log,
-      closeModal,
-      url,
-      isReverse,
-    } = this.props;
-    const {
-      isFilterSaved,
-      ruleEntries,
-    } = this.state;
+    const { log, closeModal, url, isReverse } = this.props;
+    const { isFilterSaved, ruleEntries, routeId } = this.state;
 
     return (
       <Modal
@@ -130,7 +138,7 @@ export class QuickIntegrationModal extends React.Component<IQuickIntegrationModa
                   <button
                     className="btn btn-primary"
                     data-role="har-view-yaml"
-                    onClick={() => this.showYamlModal()}
+                    onClick={() => routeId ? history.push(`/routes/${routeId}/edit`) : this.showYamlModal()}
                   >
                     View route configuration
                   </button>
