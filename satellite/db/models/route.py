@@ -50,6 +50,7 @@ class RuleEntry(Base):
     targets = Column(JSON)
     classifiers = Column(JSON)
     expression_snapshot = Column(JSON)
+    operations_v2 = Column(JSON)
 
 
 class RouteType(Enum):
