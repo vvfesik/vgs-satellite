@@ -15,7 +15,7 @@
     * [How to generate route](#how-to-generate-route)
     * [How to manage routes](#how-to-manage-routes)
 * [Reverse proxy mode](#reverse-proxy-mode)
-* [mitmproxy](#mitmproxy)
+* [Open-source](#open-source)
 <!-- tocstop -->
 
 ## Prerequisites
@@ -181,16 +181,13 @@ This scenario will help you generate an outbound route using your request, made 
 
     ![diff-viewer](manual/8-diffviewer.png)
 
-## Python demo <> Satellite
 
-### Inbound route
-For inbound route integration example please see [this](https://drive.google.com/file/d/17LobNQBHZ_tA8oU6cKUn9e_GBJn-j2jh/preview)
-
-### Outbound route
-For outbound route integration example please see [this](https://drive.google.com/file/d/1aDHWvxjs-TEcADIOei6r86jC3uLKfNHW/preview) 
-
-## Mitmproxy
+## Open-source
 
 VGS Satellite's core depends on [mitmproxy](https://github.com/mitmproxy/mitmproxy/). 
 **mitmproxy** or man-in-the-middle proxy is an interactive intercepting proxy with ton of build-in functionalities and protocol support.
 VGS Satellite is provided as a Open Source product under Apache License v2.0 
+
+---------------------
+VGS Satellite is an application that can ease your integration with Very Good Security to achieve [Zero Data security](https://www.verygoodsecurity.com/#data-security-platform)
+
