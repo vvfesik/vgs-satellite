@@ -25,7 +25,7 @@
 
 ## Description
 
-VGS Satellite is an application that can ease your integration with Very Good Security to achieve Zero Data security.
+VGS Satellite is an application that can ease your integration with Very Good Security to achieve [Zero Data security](https://www.verygoodsecurity.com/#data-security-platform)
 
 VGS Satellite provides:
 
@@ -187,7 +187,3 @@ This scenario will help you generate an outbound route using your request, made 
 VGS Satellite's core depends on [mitmproxy](https://github.com/mitmproxy/mitmproxy/). 
 **mitmproxy** or man-in-the-middle proxy is an interactive intercepting proxy with ton of build-in functionalities and protocol support.
 VGS Satellite is provided as a Open Source product under Apache License v2.0 
-
----------------------
-VGS Satellite is an application that can ease your integration with Very Good Security to achieve [Zero Data security](https://www.verygoodsecurity.com/#data-security-platform)
-
