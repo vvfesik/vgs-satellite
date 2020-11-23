@@ -5,8 +5,9 @@ import pytest
 from freezegun import freeze_time
 
 from satellite import ctx
+from satellite.audit_logs import records
 from satellite.db.models.route import Phase
-from satellite.proxy import audit_logs, ProxyMode
+from satellite.proxy import ProxyMode
 from satellite.service import alias_manager
 
 
@@ -59,8 +60,8 @@ def test_redact_new_token(
         result = alias_manager.redact('value', 'UUID')
 
     assert result == 'tok_sat_medNmHNXKxwuHq8AvfAhmo'
-    emit_audit_log.assert_called_once_with(audit_logs.VaultRecordUsageLogRecord(
-        action_type=audit_logs.ActionType.CREATED,
+    emit_audit_log.assert_called_once_with(records.VaultRecordUsageLogRecord(
+        action_type=records.ActionType.CREATED,
         alias_generator='UUID',
         flow_id='313980a8-ff6c-4b13-b5a3-03909389295b',
         phase=Phase.REQUEST,
@@ -102,8 +103,8 @@ def test_redact_existing_token(
         result = alias_manager.redact('value', 'UUID')
 
     assert result == 'tok_sat_medNmHNXKxwuHq8AvfAhmo'
-    emit_audit_log.assert_called_once_with(audit_logs.VaultRecordUsageLogRecord(
-        action_type=audit_logs.ActionType.DE_DUPE,
+    emit_audit_log.assert_called_once_with(records.VaultRecordUsageLogRecord(
+        action_type=records.ActionType.DE_DUPE,
         alias_generator='UUID',
         flow_id='313980a8-ff6c-4b13-b5a3-03909389295b',
         phase=Phase.REQUEST,
@@ -146,8 +147,8 @@ def test_reveal(
         result = alias_manager.reveal('tok_sat_medNmHNXKxwuHq8AvfAhmo')
 
     assert result == 'value'
-    emit_audit_log.assert_called_once_with(audit_logs.VaultRecordUsageLogRecord(
-        action_type=audit_logs.ActionType.RETRIEVED,
+    emit_audit_log.assert_called_once_with(records.VaultRecordUsageLogRecord(
+        action_type=records.ActionType.RETRIEVED,
         alias_generator='UUID',
         flow_id='313980a8-ff6c-4b13-b5a3-03909389295b',
         phase=Phase.REQUEST,

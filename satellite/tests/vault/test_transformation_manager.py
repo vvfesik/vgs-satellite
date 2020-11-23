@@ -1,21 +1,25 @@
 from unittest.mock import Mock
 
-from satellite.vault.transformation_manager import transform_body
+import pytest
 
-from ..factories import RuleEntryFactory
+from satellite.db.models.route import Phase
+from satellite.vault.transformation_manager import transform
+
+from ..factories import load_flow, RuleEntryFactory
 
 
-def test_transform_body(monkeypatch):
+@pytest.mark.parametrize('phase', [Phase.REQUEST, Phase.RESPONSE])
+def test_transform_body(phase, monkeypatch, snapshot):
+    transformer = Mock(transform=Mock(
+        wraps=lambda payload, **kwargs: payload.replace('bar', 'bar_redacted'),
+    ))
     monkeypatch.setattr(
-        'satellite.vault.transformer.alias_manager',
-        Mock(redact=lambda val, _: f'{val}_redacted'),
+        'satellite.vault.transformation_manager.transformer_map',
+        {'JSON_PATH': transformer},
     )
+    flow = load_flow('http_raw')
+    rule_entry = RuleEntryFactory()
 
-    rules = RuleEntryFactory.build_batch(2)
-    rules[0].transformer_config = ['$.foo']
-    rules[1].transformer_config = ['$.bar']
+    transform(flow, phase, rule_entry)
 
-    content, ops_application_flags = transform_body(rules, b'{"foo": "abc"}')
-
-    assert content == '{"foo": "abc_redacted"}'
-    assert ops_application_flags == [True, False]
+    snapshot.assert_match(flow.get_state())

@@ -1,9 +1,18 @@
-from marshmallow import EXCLUDE, fields, Schema
+from marshmallow import EXCLUDE, fields, Schema, validate
+
+from ..operations.operations import get_supported_operations
 
 
 class RuleEntrySchema(Schema):
     class Meta:
         unknown = EXCLUDE
+
+    class Operation(Schema):
+        name = fields.Str(
+            required=True,
+            validate=validate.OneOf(get_supported_operations()),
+        )
+        parameters = fields.Dict(required=True)
 
     # TODO: (SAT-108) Determine which fields are required.
     id = fields.Str()
@@ -17,6 +26,10 @@ class RuleEntrySchema(Schema):
     targets = fields.Raw()
     classifiers = fields.Raw()
     config = fields.Raw(attribute='expression_snapshot')
+    operations_v2 = fields.List(
+        fields.Nested(Operation),
+        allow_none=True,
+    )
 
 
 class RouteSchema(Schema):

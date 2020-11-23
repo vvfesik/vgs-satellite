@@ -2,7 +2,8 @@ from unittest.mock import Mock
 
 from freezegun import freeze_time
 
-from satellite.proxy import audit_logs, ProxyMode
+from satellite.audit_logs.records import RuleChainEvaluationLogRecord
+from satellite.proxy import ProxyMode
 from satellite.db.models.route import Phase
 from satellite.vault.route_matcher import match_route
 
@@ -28,7 +29,7 @@ def test_match_route_no_match(monkeypatch):
     )
 
     assert matched_route is None
-    assert matched_filters is None
+    assert matched_filters == []
     emit_audit_log.assert_not_called()
 
 
@@ -56,7 +57,7 @@ def test_match_route_inbound(monkeypatch):
 
     assert matched_route is route
     assert matched_filters == [filters[0]]
-    emit_audit_log.assert_called_once_with(audit_logs.RuleChainEvaluationLogRecord(
+    emit_audit_log.assert_called_once_with(RuleChainEvaluationLogRecord(
         flow_id=flow.id,
         matched=True,
         phase=Phase.REQUEST,

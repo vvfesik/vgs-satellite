@@ -2,8 +2,8 @@ import time
 
 from unittest.mock import Mock
 
+from satellite.audit_logs.records import AuditLogRecord
 from satellite.proxy import commands, events, ProxyMode
-from satellite.proxy.audit_logs import AuditLogRecord
 from satellite.proxy.manager import ProxyManager
 
 

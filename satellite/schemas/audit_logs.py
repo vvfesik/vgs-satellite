@@ -2,8 +2,9 @@ from marshmallow import fields, Schema, validate
 from marshmallow_enum import EnumField
 from marshmallow_oneofschema import OneOfSchema
 
+from ..audit_logs import records
 from ..db.models.route import Phase
-from ..proxy import audit_logs, ProxyMode
+from ..proxy import ProxyMode
 
 
 class AuditLogRecordBaseSchema(Schema):
@@ -33,11 +34,11 @@ class UpstreamResponseLogRecordSchema(AuditLogRecordBaseSchema):
 
 
 class VaultRecordUsageLogRecordSchema(AuditLogRecordBaseSchema):
-    action_type = EnumField(audit_logs.ActionType, by_value=True, required=True)
+    action_type = EnumField(records.ActionType, by_value=True, required=True)
     alias_generator = fields.Str(required=True)
     phase = EnumField(Phase, by_value=True, required=True)
     record_id = fields.Str(required=True)
-    record_type = EnumField(audit_logs.RecordType, by_value=True, required=True)
+    record_type = EnumField(records.RecordType, by_value=True, required=True)
     route_id = fields.Str(required=True)
 
 
@@ -49,12 +50,34 @@ class RuleChainEvaluationLogRecordSchema(AuditLogRecordBaseSchema):
 
 class VaultTrafficLogRecordSchema(AuditLogRecordBaseSchema):
     bytes = fields.Int(required=True)
-    label = EnumField(audit_logs.TrafficLabel, by_value=True, required=True)
+    label = EnumField(records.TrafficLabel, by_value=True, required=True)
+
+
+class OperationLogRecordSchema(AuditLogRecordBaseSchema):
+    route_id = fields.Str(required=True)
+    filter_id = fields.Str(required=True)
+    phase = EnumField(Phase, by_value=True, required=True)
+    operation_name = fields.Str(required=True)
+    execution_time_ms = fields.Int(required=True)
+    execution_time_ns = fields.Int(required=True)
+    status = EnumField(records.OperationStatus, by_value=True, required=True)
+    error_message = fields.Str(required=True)
+
+
+class OperationPipelineEvaluationLogRecordSchema(AuditLogRecordBaseSchema):
+    route_id = fields.Str(required=True)
+    filter_id = fields.Str(required=True)
+    phase = EnumField(Phase, by_value=True, required=True)
+    execution_time_ms = fields.Int(required=True)
+    execution_time_ns = fields.Int(required=True)
+    operations = fields.List(fields.Str)
 
 
 class AuditLogRecordSchema(OneOfSchema):
     type_field_remove = False
     type_schemas = {
+        'OperationLogRecord': OperationLogRecordSchema,
+        'OperationPipelineEvaluationLogRecord': OperationPipelineEvaluationLogRecordSchema,
         'RuleChainEvaluationLogRecord': RuleChainEvaluationLogRecordSchema,
         'UpstreamResponseLogRecord': UpstreamResponseLogRecordSchema,
         'VaultRecordUsageLogRecord': VaultRecordUsageLogRecordSchema,

@@ -17,9 +17,10 @@ from . import commands
 from . import events
 from . import exceptions
 from . import ProxyMode
-from ..flows import load_flow_from_state
-from .audit_logs import AuditLogRecord, AuditLogStore
 from .process import ProxyProcess
+from ..flows import load_flow_from_state
+from ..audit_logs.records import AuditLogRecord
+from ..audit_logs.store import AuditLogStore
 
 
 logger = logging.getLogger()

@@ -1,11 +1,27 @@
 import uuid
 from enum import Enum
 from datetime import datetime
+from typing import List
 
 from sqlalchemy import Column, Integer, String, DateTime, JSON, ForeignKey
 from sqlalchemy.orm import relationship
 
 from .. import Base
+
+
+class RouteType(Enum):
+    INBOUND = 'INBOUND'
+    OUTBOUND = 'OUTBOUND'
+
+
+class Phase(Enum):
+    REQUEST = 'REQUEST'
+    RESPONSE = 'RESPONSE'
+
+
+class Operation(Enum):
+    REDACT = 'REDACT'
+    ENRICH = 'ENRICH'
 
 
 class Route(Base):
@@ -27,10 +43,10 @@ class Route(Base):
     )
 
     @property
-    def route_type(self):
+    def route_type(self) -> RouteType:
         return RouteType.OUTBOUND if self.is_outbound() else RouteType.INBOUND
 
-    def is_outbound(self):
+    def is_outbound(self) -> bool:
         return self.destination_override_endpoint == '*'
 
 
@@ -52,17 +68,10 @@ class RuleEntry(Base):
     expression_snapshot = Column(JSON)
     operations_v2 = Column(JSON)
 
+    @property
+    def has_operations(self) -> bool:
+        return bool(self.operations_v2)
 
-class RouteType(Enum):
-    INBOUND = 'INBOUND'
-    OUTBOUND = 'OUTBOUND'
-
-
-class Phase(Enum):
-    REQUEST = 'REQUEST'
-    RESPONSE = 'RESPONSE'
-
-
-class Operation(Enum):
-    REDACT = 'REDACT'
-    ENRICH = 'ENRICH'
+    @property
+    def operations_config(self) -> List[dict]:
+        return self.operations_v2

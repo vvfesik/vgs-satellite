@@ -1,10 +1,21 @@
+
+import logging
+
 from typing import List
 
 from ..db import get_session, update_model
 from ..db.models.route import Route, RuleEntry, RouteType
+from ..operations.pipeline import build_pipeline
+
+
+logger = logging.getLogger()
 
 
 class EntityNotFound(Exception):
+    pass
+
+
+class InvalidRouteConfiguration(Exception):
     pass
 
 
@@ -32,6 +43,8 @@ def create(route_data: dict) -> Route:
             for rule_entry in route_data.get('rule_entries_list', [])
         ]
     })
+
+    check_route(route)
 
     session = get_session()
     try:
@@ -62,6 +75,8 @@ def update(route_id: str, route_data: dict) -> Route:
         else:
             route.rule_entries_list.append(RuleEntry(**rule_data))
 
+    check_route(route)
+
     session = get_session()
     try:
         session.commit()
@@ -77,3 +92,19 @@ def delete(route_id):
     session = get_session()
     session.delete(route)
     session.commit()
+
+
+def check_rule(rule: RuleEntry):
+    if not rule.has_operations:
+        return
+
+    try:
+        build_pipeline(rule)
+    except Exception as exc:
+        logger.exception(exc)
+        raise InvalidRouteConfiguration(f'Invalid operations: {exc}') from exc
+
+
+def check_route(route: Route):
+    for rule in route.rule_entries_list:
+        check_rule(rule)

@@ -1,15 +1,11 @@
 import time
 
-from abc import ABC
-from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum, unique
-from typing import Callable, List
-
-from blinker import Signal
+from typing import List
 
 from ..db.models.route import Phase
-from . import ProxyMode
+from ..proxy import ProxyMode
 
 
 @unique
@@ -30,8 +26,14 @@ class TrafficLabel(Enum):
     FROM_SERVER = 'bytesReceivedFromServer'
 
 
+@unique
+class OperationStatus(Enum):
+    OK = 'OK'
+    ERROR = 'ERROR'
+
+
 @dataclass
-class AuditLogRecord(ABC):
+class AuditLogRecord:
     def __new__(cls, *args, **kwargs):
         if cls is AuditLogRecord:
             raise TypeError('Cannot instantiate abstract AuditLogRecord class.')
@@ -83,33 +85,23 @@ class VaultTrafficLogRecord(AuditLogRecord):
     label: TrafficLabel
 
 
-class UnknownFlowIdError(Exception):
-    def __init__(self, flow_id: str):
-        super().__init__(
-            f'Requested audit logs for unknown flow ID: {flow_id}'
-        )
+@dataclass
+class OperationPipelineEvaluationLogRecord(AuditLogRecord):
+    route_id: str
+    filter_id: str
+    phase: Phase
+    execution_time_ms: int
+    execution_time_ns: int
+    operations: List[str]
 
 
-class AuditLogStore:
-    def __init__(self):
-        self._store = defaultdict(list)
-
-    def save(self, record: AuditLogRecord):
-        self._store[record.flow_id].append(record)
-
-    def get(self, flow_id: str) -> List[AuditLogRecord]:
-        records = self._store.get(flow_id)
-        if not records:
-            raise UnknownFlowIdError(flow_id)
-        return records
-
-
-def emit(record: AuditLogRecord):
-    _sig_audit_log.send(record=record)
-
-
-def subscribe(callback: Callable):
-    _sig_audit_log.connect(lambda _, record: callback(record), weak=False)
-
-
-_sig_audit_log = Signal()
+@dataclass
+class OperationLogRecord(AuditLogRecord):
+    route_id: str
+    filter_id: str
+    phase: Phase
+    operation_name: str
+    execution_time_ms: int
+    execution_time_ns: int
+    status: OperationStatus
+    error_message: str

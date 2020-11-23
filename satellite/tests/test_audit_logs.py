@@ -4,14 +4,10 @@ from unittest.mock import Mock
 
 import pytest
 
+from satellite.audit_logs import emit, subscribe
+from satellite.audit_logs.records import AuditLogRecord
+from satellite.audit_logs.store import AuditLogStore, UnknownFlowIdError
 from satellite.proxy import ProxyMode
-from satellite.proxy.audit_logs import (
-    AuditLogRecord,
-    AuditLogStore,
-    emit,
-    subscribe,
-    UnknownFlowIdError,
-)
 
 
 class AuditLogTestRecord(AuditLogRecord):
@@ -20,7 +16,7 @@ class AuditLogTestRecord(AuditLogRecord):
 
 def test_record(monkeypatch):
     monkeypatch.setattr(
-        'satellite.proxy.audit_logs.time.time',
+        'satellite.audit_logs.records.time.time',
         Mock(return_value=123)
     )
 

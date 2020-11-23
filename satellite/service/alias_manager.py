@@ -5,9 +5,9 @@ from typing import Optional
 
 from satellite import ctx
 
+from .. import audit_logs
 from ..db import get_session
 from ..db.models.alias import Alias, RevealFailed, RedactFailed
-from ..proxy import audit_logs
 from ..vault.generator import generator_map
 
 
@@ -22,7 +22,7 @@ def get_by_alias(alias: str) -> Optional[Alias]:
 def redact(value: str, alias_generator: str) -> str:
     flow_context = ctx.get_flow_context()
     make_log_record = partial(
-        audit_logs.VaultRecordUsageLogRecord,
+        audit_logs.records.VaultRecordUsageLogRecord,
         alias_generator=alias_generator,
         flow_id=flow_context.flow.id,
         phase=flow_context.phase,
@@ -33,7 +33,7 @@ def redact(value: str, alias_generator: str) -> str:
     alias_entity = get_by_value(value)
     if alias_entity:
         audit_logs.emit(make_log_record(
-            action_type=audit_logs.ActionType.DE_DUPE,
+            action_type=audit_logs.records.ActionType.DE_DUPE,
             record_id=alias_entity.id,
         ))
         return alias_entity.public_alias
@@ -57,7 +57,7 @@ def redact(value: str, alias_generator: str) -> str:
     session.commit()
 
     audit_logs.emit(make_log_record(
-        action_type=audit_logs.ActionType.CREATED,
+        action_type=audit_logs.records.ActionType.CREATED,
         record_id=alias.id,
     ))
 
@@ -70,13 +70,13 @@ def reveal(alias: str) -> str:
         raise RevealFailed('Alias was not found!')
 
     flow_context = ctx.get_flow_context()
-    audit_logs.emit(audit_logs.VaultRecordUsageLogRecord(
+    audit_logs.emit(audit_logs.records.VaultRecordUsageLogRecord(
         alias_generator=alias_entity.alias_generator,
         flow_id=flow_context.flow.id,
         phase=flow_context.phase,
         proxy_mode=ctx.get_proxy_context().mode,
         route_id=ctx.get_route_context().route.id,
-        action_type=audit_logs.ActionType.RETRIEVED,
+        action_type=audit_logs.records.ActionType.RETRIEVED,
         record_id=alias_entity.id,
     ))
 

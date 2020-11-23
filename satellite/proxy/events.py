@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from logging import LogRecord
 
 from . import ProxyMode
-from .audit_logs import AuditLogRecord
+from ..audit_logs.records import AuditLogRecord
 
 
 @dataclass
