@@ -48,9 +48,7 @@ def del_context(context_cls: Type[Context]):
 
 
 def get_context(context_cls: Type[Context]) -> Context:
-    if context_cls not in _context_store:
-        raise ContextError(f'Getting unset context {context_cls}.')
-    return _context_store[context_cls]
+    return _context_store.get(context_cls)
 
 
 @contextmanager

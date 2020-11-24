@@ -3,11 +3,10 @@ import logging
 from mitmproxy.connections import ServerConnection
 from mitmproxy.http import HTTPFlow
 
-from satellite import ctx
-from satellite import audit_logs
+from satellite import audit_logs, ctx
+from satellite.db.models.alias import RedactFailed, RevealFailed
 from satellite.db.models.route import Phase
 from satellite.operations.pipeline import build_pipeline
-from satellite.service.alias_manager import RedactFailed, RevealFailed
 from satellite.vault.route_matcher import match_route
 from satellite.vault.transformation_manager import transform
 

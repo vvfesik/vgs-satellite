@@ -9,9 +9,13 @@ from tornado.ioloop import IOLoop
 from tornado.web import Application
 
 from satellite.config import SatelliteConfig
-from satellite.controller.websocket_connection import ClientConnection
-from satellite.controller import audit_logs_handler, flow_handlers
+from satellite.controller import (
+    alias_handlers,
+    audit_logs_handler,
+    flow_handlers,
+)
 from satellite.controller.route_handlers import RouteHandler, RoutesHandler
+from satellite.controller.websocket_connection import ClientConnection
 from satellite.proxy.manager import ProxyManager
 
 
@@ -34,6 +38,8 @@ class WebApplication(Application):
             (r'/flows/(?P<flow_id>[0-9a-f\-]+)/replay', flow_handlers.ReplayFlow),
             (r'/flows/(?P<flow_id>[0-9a-f\-]+)/duplicate', flow_handlers.DuplicateFlow),
             (r'/logs/(?P<flow_id>[0-9a-f\-]+)', audit_logs_handler.AuditLogsHandler),
+            (r'/aliases', alias_handlers.AliasesHandler),
+            (r'/aliases/(?P<public_alias>[\w]+)', alias_handlers.AliasHandler),
         ])
         self.proxy_manager = ProxyManager(
             forward_proxy_port=self.config.forward_proxy_port,

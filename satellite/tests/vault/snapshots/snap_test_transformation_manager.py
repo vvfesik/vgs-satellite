@@ -242,7 +242,7 @@ snapshots['test_transform_body[Phase.RESPONSE] 1'] = {
         'trailers': None
     },
     'response': {
-        'content': b'{\n  "args": {}, \n  "data": "{\\"foo\\": \\"bar_redacted\\"}", \n  "files": {}, \n  "form": {}, \n  "headers": {\n    "Accept": "*/*", \n    "Content-Length": "14", \n    "Content-Type": "application/json", \n    "Host": "httpbin.org", \n    "User-Agent": "curl/7.64.1", \n    "X-Amzn-Trace-Id": "Root=1-5f660a52-406ee7a82be72f6c58b5ba7c"\n  }, \n  "json": {\n    "foo": "bar_redacted"\n  }, \n  "origin": "185.205.44.203", \n  "url": "https://httpbin.org/post"\n}\n',
+        'content': b'{"args": {}, "data": "{\\"foo\\": \\"bar\\"}", "files": {}, "form": {}, "headers": {"Accept": "*/*", "Content-Length": "14", "Content-Type": "application/json", "Host": "httpbin.org", "User-Agent": "curl/7.64.1", "X-Amzn-Trace-Id": "Root=1-5f660a52-406ee7a82be72f6c58b5ba7c"}, "json": {"foo": "bar"}, "origin": "185.205.44.203", "url": "https://httpbin.org/post"}',
         'headers': (
             (
                 b'date',
@@ -254,7 +254,7 @@ snapshots['test_transform_body[Phase.RESPONSE] 1'] = {
             ),
             (
                 b'content-length',
-                b'444'
+                b'359'
             ),
             (
                 b'server',

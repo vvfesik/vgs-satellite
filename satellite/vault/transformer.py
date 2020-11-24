@@ -103,9 +103,9 @@ class XMLTransformer(PayloadTransformer):
 
 def transform(value, operation, token_generator='UUID'):
     if operation == Operation.REDACT.value:
-        return alias_manager.redact(value, token_generator)
+        return alias_manager.redact(value, token_generator).public_alias
     else:
-        return alias_manager.reveal(value)
+        return alias_manager.reveal(value).value
 
 
 transformer_map = {

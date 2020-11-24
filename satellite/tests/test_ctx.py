@@ -18,8 +18,7 @@ def test_get_set_context_ok(context):
 
 
 def test_get_unset_context():
-    with pytest.raises(ctx.ContextError):
-        ctx.get_proxy_context()
+    assert ctx.get_proxy_context() is None
 
 
 def test_del_unset_context():

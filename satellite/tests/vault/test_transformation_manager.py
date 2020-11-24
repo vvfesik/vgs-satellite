@@ -10,16 +10,13 @@ from ..factories import load_flow, RuleEntryFactory
 
 @pytest.mark.parametrize('phase', [Phase.REQUEST, Phase.RESPONSE])
 def test_transform_body(phase, monkeypatch, snapshot):
-    transformer = Mock(transform=Mock(
-        wraps=lambda payload, **kwargs: payload.replace('bar', 'bar_redacted'),
-    ))
     monkeypatch.setattr(
-        'satellite.vault.transformation_manager.transformer_map',
-        {'JSON_PATH': transformer},
+        'satellite.vault.transformer.alias_manager',
+        Mock(redact=lambda val, _: Mock(public_alias=f'{val}_redacted')),
     )
     flow = load_flow('http_raw')
-    rule_entry = RuleEntryFactory()
+    fltr = RuleEntryFactory()
 
-    transform(flow, phase, rule_entry)
+    transform(flow, phase, fltr)
 
     snapshot.assert_match(flow.get_state())
