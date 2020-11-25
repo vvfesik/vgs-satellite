@@ -1,5 +1,5 @@
 import React from 'react';
-import { getOperationsName } from 'src/redux/utils/utils';
+import { getOperationsV2Name } from 'src/redux/utils/utils';
 import { IEntry } from 'src/redux/interfaces/routes';
 import classNames from 'classnames';
 
@@ -10,10 +10,10 @@ export interface IRouteEntrySummaryProps {
 
 const OperationsSummary: React.SFC<IRouteEntrySummaryProps> = (props) => {
   const { entry, className } = props;
-  const operationsList = getOperationsName(entry.operations);
+  const operationsList = getOperationsV2Name(entry.operations_v2);
   return (
     <div className={classNames(className, 'align-self-center')}>
-      <span>SetupPipelineOperation{operationsList && `, ${operationsList}`}</span>
+      <span>{operationsList}</span>
     </div>
   );
 };

@@ -13,3 +13,10 @@
     width: calc(100% + .5rem);
   }
 }
+
+.placeholder-dark {
+  &::placeholder {
+    opacity: 0.6;
+    color: inherit;
+  }
+}

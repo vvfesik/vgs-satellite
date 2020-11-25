@@ -14,6 +14,16 @@ export const ModeTabs = (props: any) => {
           Basic
         </NavLink>
       </NavItem>
+      <NavItem>
+        <NavLink
+          href="#"
+          active={props.activeTab === 'advanced'}
+          onClick={() => props.onChange('advanced')}
+          data-role="advanced-tab-link"
+        >
+          Advanced
+        </NavLink>
+      </NavItem>
     </Nav>
   );
 };

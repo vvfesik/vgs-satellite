@@ -13,9 +13,9 @@ import { sftpFields } from 'src/data/query-builder/fields';
 import ClassifiersSelect from './ClassifiersSelect';
 import { IEntry } from 'src/redux/interfaces/routes';
 import { isOperatorExist } from 'src/redux/utils/utils';
-import { Alert, Icon, Popover  } from 'src/components/antd';
+import { Alert, Icon  } from 'src/components/antd';
 import { isEmpty } from 'ramda';
-import OperationsSummary from 'src/components/organisms/RouteEntry/OperationsSummary';
+import CustomScriptOperation from './Operations/CustomScriptOperation';
 
 export interface IRuleEntryProps {
   isExperimentsVisible: boolean;
@@ -27,8 +27,13 @@ export interface IRuleEntryProps {
 export interface IRuleEntryState {
   activeTab: string;
 }
+
 export const getActiveTab = (entry: any) => {
+  if (entry.operations_v2?.length) {
+    return 'advanced';
+  } else {
     return 'basic';
+  }
 };
 
 export class RouteEntry extends React.Component<IRuleEntryProps, IRuleEntryState> {
@@ -177,6 +182,11 @@ export class RouteEntry extends React.Component<IRuleEntryProps, IRuleEntryState
                   switch (this.state.activeTab) {
                     case 'basic':
                       return this.renderOperations();
+                    case 'advanced':
+                      return <CustomScriptOperation
+                        operations={entry.operations_v2}
+                        onChange={operations_v2 => this.onChange({ operations_v2 })}
+                      />;
                     default:
                       return null;
                   }
@@ -216,7 +226,7 @@ export class RouteEntry extends React.Component<IRuleEntryProps, IRuleEntryState
 
   renderOperations() {
     return (
-      this.props.entry.operations
+      this.props.entry.operations_v2?.length
         ? (
           <div className="alert d-flex align-items-center">
             <Icon

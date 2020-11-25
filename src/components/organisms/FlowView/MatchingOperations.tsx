@@ -1,5 +1,6 @@
 import React from 'react';
 import RouteEntrySummary from 'src/components/organisms/RouteEntry/RouteEntrySummary';
+import OperationsSummary from 'src/components/organisms/RouteEntry/OperationsSummary';
 import { IconTrue, IconFalse } from './MatchIcons';
 import { IEntry } from 'src/redux/interfaces/routes';
 
@@ -20,7 +21,11 @@ const MatchingOperations: React.FC<IMatchingOperationsProps> = (props) => {
         <span className="pr-3">
           {matched ? <IconTrue /> : <IconFalse />}
         </span>
-        <RouteEntrySummary entry={entry} />
+        {entry.operations_v2?.length ? (
+          <OperationsSummary entry={entry} className='bold-font' />
+        ) : (
+          <RouteEntrySummary entry={entry} />
+        )}
       </div>
     </div>
   );

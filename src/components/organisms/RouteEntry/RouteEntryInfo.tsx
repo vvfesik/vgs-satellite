@@ -1,6 +1,7 @@
 import React from 'react';
 import { IRoute, IEntry } from 'src/redux/interfaces/routes';
 import RouteEntrySummary from 'src/components/organisms/RouteEntry/RouteEntrySummary';
+import OperationsSummary from 'src/components/organisms/RouteEntry/OperationsSummary';
 import MatchingConditionsDetails from 'src/components/organisms/FlowView/MatchingConditionsDetails';
 
 export interface IRouteEntryInfoProps {
@@ -21,7 +22,11 @@ const RouteEntryInfo: React.SFC<IRouteEntryInfoProps> = (props) => {
               <MatchingConditionsDetails entry={entry} />
             </div>
             <p className="filter-title mt-3 mb-2">Operations</p>
-            <RouteEntrySummary entry={entry} className="ml-4" />
+            {entry.operations_v2?.length ? (
+              <OperationsSummary entry={entry} className="ml-4 bold-font" />
+            ) : (
+              <RouteEntrySummary entry={entry} className="ml-4" />
+            )}
           </div>
         </div>
       ))}
