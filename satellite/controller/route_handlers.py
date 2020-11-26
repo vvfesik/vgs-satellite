@@ -1,10 +1,10 @@
 from satellite.controller import (
+    BaseHandler,
     apply_request_schema,
     apply_response_schema,
-    BaseHandler,
 )
-from satellite.service import route_manager
 from satellite.schemas.route import CreateUpdateRouteSchema, RouteSchema
+from satellite.service import route_manager
 
 
 class RoutesHandler(BaseHandler):

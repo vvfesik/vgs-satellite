@@ -1,5 +1,4 @@
 import json
-
 from datetime import datetime
 from unittest.mock import Mock
 
@@ -7,8 +6,8 @@ from mitmproxy.flow import Error
 
 from satellite.proxy import exceptions
 
-from ..factories import load_flow
 from .base import BaseHandlerTestCase
+from ..factories import load_flow
 
 
 class TestFlowsHandler(BaseHandlerTestCase):

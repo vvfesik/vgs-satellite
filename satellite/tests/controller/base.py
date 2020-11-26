@@ -3,6 +3,7 @@ from unittest.mock import Mock, patch
 import pytest
 
 from snapshottest.unittest import TestCase
+
 from tornado.testing import AsyncHTTPTestCase
 
 from satellite.web_application import WebApplication

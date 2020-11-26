@@ -1,5 +1,5 @@
-from satellite.controller import BaseHandler, apply_response_schema
 import satellite.proxy.exceptions as proxy_exceptions
+from satellite.controller import BaseHandler, apply_response_schema
 from satellite.schemas.flows import HTTPFlowSchema
 
 

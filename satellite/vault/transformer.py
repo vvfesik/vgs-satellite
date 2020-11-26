@@ -1,10 +1,10 @@
 import json
-
-from abc import abstractmethod, ABCMeta
+from abc import ABCMeta, abstractmethod
 from typing import List, Union
 from urllib.parse import parse_qsl, urlencode
 
 from jsonpath_ng import parse
+
 from lxml import etree
 
 from satellite.db.models.route import Operation

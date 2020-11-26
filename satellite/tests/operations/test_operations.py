@@ -1,8 +1,8 @@
 from unittest.mock import ANY, Mock
 
-import pytest
-
 from freezegun import freeze_time
+
+import pytest
 
 from satellite.audit_logs.records import OperationLogRecord
 from satellite.ctx import ProxyContext

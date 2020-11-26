@@ -1,7 +1,6 @@
 import logging
-from typing import Any, List, Optional
-
 from functools import singledispatchmethod
+from typing import Any, List, Optional
 
 from mitmproxy.flow import Flow
 

@@ -2,29 +2,24 @@ import asyncio
 import logging
 import signal
 import time
-
 from functools import partial
-from multiprocessing import Event as MPEvent, Queue, Process
+from multiprocessing import Event as MPEvent, Process, Queue
 from multiprocessing.connection import Connection
 from threading import Event as ThreadingEvent, Thread
 from typing import Any, Callable
 
 import blinker
 
-from mitmproxy.flow import Flow
 from mitmproxy.addons.view import View
+from mitmproxy.flow import Flow
 
-from satellite.ctx import set_context, ProxyContext
-
-from . import events
-from . import exceptions
-from . import logging as proxy_logging
-from . import ProxyMode
-from .. import audit_logs
-from ..flows import get_flow_state
+from . import ProxyMode, events, exceptions, logging as proxy_logging
 from .command_processor import ProxyCommandProcessor
 from .commands import ProxyCommand
 from .master import ProxyMaster
+from .. import audit_logs
+from ..ctx import ProxyContext, set_context
+from ..flows import get_flow_state
 
 
 logger = logging.getLogger()

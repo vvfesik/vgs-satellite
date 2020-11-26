@@ -1,6 +1,5 @@
 
 import json
-
 from unittest.mock import Mock, patch
 
 from freezegun import freeze_time

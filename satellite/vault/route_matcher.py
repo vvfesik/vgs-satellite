@@ -3,9 +3,9 @@ from typing import List, Optional, Tuple
 from mitmproxy.flow import Flow
 
 from satellite import audit_logs
+from satellite.db.models.route import Phase, Route, RouteType, RuleEntry
 from satellite.proxy import ProxyMode
 from satellite.service import route_manager
-from satellite.db.models.route import Phase, Route, RouteType, RuleEntry
 
 
 def match_route(

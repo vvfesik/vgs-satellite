@@ -5,10 +5,10 @@ from freezegun import freeze_time
 from satellite.audit_logs.records import OperationPipelineEvaluationLogRecord
 from satellite.ctx import ProxyContext
 from satellite.db.models.route import Phase
-from satellite.operations.pipeline import build_pipeline, OperationPipeline
+from satellite.operations.pipeline import OperationPipeline, build_pipeline
 from satellite.proxy import ProxyMode
 
-from ..factories import load_flow, RuleEntryFactory
+from ..factories import RuleEntryFactory, load_flow
 
 
 @freeze_time('2020-11-18')

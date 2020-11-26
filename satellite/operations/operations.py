@@ -1,5 +1,4 @@
 import logging
-
 from abc import ABCMeta, abstractproperty
 from dataclasses import dataclass
 from enum import Enum, unique
@@ -8,12 +7,11 @@ from typing import List, Tuple, Type
 from mitmproxy.http import HTTPFlow
 from mitmproxy.net.http.headers import Headers
 
+from .utils import measure_execution_time
 from .. import audit_logs
 from ..audit_logs.records import OperationLogRecord
 from ..ctx import get_proxy_context
 from ..db.models.route import Phase
-
-from .utils import measure_execution_time
 
 
 logger = logging.getLogger()

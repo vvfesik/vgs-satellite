@@ -1,9 +1,8 @@
 import logging
-
 from multiprocessing import Queue
 
-from ..ctx import get_proxy_context
 from .events import LogEvent
+from ..ctx import get_proxy_context
 
 
 def configure(event_queue: Queue):

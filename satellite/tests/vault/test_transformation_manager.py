@@ -5,7 +5,7 @@ import pytest
 from satellite.db.models.route import Phase
 from satellite.vault.transformation_manager import transform
 
-from ..factories import load_flow, RuleEntryFactory
+from ..factories import RuleEntryFactory, load_flow
 
 
 @pytest.mark.parametrize('phase', [Phase.REQUEST, Phase.RESPONSE])

@@ -1,26 +1,21 @@
 import logging
-
+import time
 from dataclasses import dataclass
 from functools import singledispatchmethod
 from multiprocessing import Pipe, Queue
 from multiprocessing.connection import Connection
 from operator import attrgetter
 from queue import Empty
-import time
-from satellite.proxy.commands import ProxyCommand
 from threading import Event, Thread
-from typing import Any, Callable, List, Dict, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from mitmproxy.flow import Flow
 
-from . import commands
-from . import events
-from . import exceptions
-from . import ProxyMode
+from . import ProxyMode, commands, events, exceptions
 from .process import ProxyProcess
-from ..flows import load_flow_from_state
 from ..audit_logs.records import AuditLogRecord
 from ..audit_logs.store import AuditLogStore
+from ..flows import load_flow_from_state
 
 
 logger = logging.getLogger()
@@ -112,7 +107,7 @@ class ProxyManager:
     def get_flows(self) -> List[Flow]:
         flows = []
 
-        for proxy_mode, proxy in self._proxies.items():
+        for proxy in self._proxies.values():
             proxy_flows = self._send_proxy_command(
                 proxy,
                 commands.GetFlowsCommand(),
@@ -166,7 +161,7 @@ class ProxyManager:
     def _send_proxy_command(
         self,
         proxy: ManagedProxyProcess,
-        cmd: ProxyCommand,
+        cmd: commands.ProxyCommand,
         timeout: float = None,
     ) -> Any:
         proxy.cmd_channel.send(cmd)

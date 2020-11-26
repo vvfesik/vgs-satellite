@@ -1,17 +1,13 @@
 from typing import Optional, Tuple
 
-from ..service import alias_manager
+from . import BaseHandler, apply_request_schema, apply_response_schema
 from ..db.models.alias import RevealFailed
 from ..schemas.aliases import (
-    RedactRequestSchema,
     AliasResponseSchema,
     AliasesResponseSchema,
+    RedactRequestSchema,
 )
-from . import (
-    BaseHandler,
-    apply_request_schema,
-    apply_response_schema,
-)
+from ..service import alias_manager
 
 
 class AliasesHandler(BaseHandler):

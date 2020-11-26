@@ -1,4 +1,4 @@
-from unittest.mock import call, Mock
+from unittest.mock import Mock, call
 
 from freezegun import freeze_time
 
@@ -7,7 +7,7 @@ from satellite.ctx import ProxyContext
 from satellite.proxy import ProxyMode
 from satellite.vault.vault_handler import VaultFlows
 
-from ..factories import load_flow, RouteFactory, RuleEntryFactory
+from ..factories import RouteFactory, RuleEntryFactory, load_flow
 
 
 def mock_transform(flow, *args, **kwargs):

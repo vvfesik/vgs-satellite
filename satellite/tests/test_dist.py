@@ -1,11 +1,9 @@
 import signal
 import socket
 import time
-
-from typing import List
-
 from pathlib import Path
 from subprocess import Popen
+from typing import List
 
 import pytest
 

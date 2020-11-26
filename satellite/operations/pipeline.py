@@ -2,13 +2,12 @@ from typing import List
 
 from mitmproxy.http import HTTPFlow
 
+from .operations import Operation, get_operation_class
+from .utils import measure_execution_time
 from .. import audit_logs
 from ..audit_logs.records import OperationPipelineEvaluationLogRecord
 from ..ctx import get_proxy_context
 from ..db.models.route import Phase, RuleEntry
-from .operations import get_operation_class, Operation
-
-from .utils import measure_execution_time
 
 
 class OperationPipeline:

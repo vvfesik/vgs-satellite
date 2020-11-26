@@ -1,10 +1,10 @@
 from typing import List, Optional, Tuple
 
+from marshmallow import Schema, fields, pre_dump
+
 from mitmproxy import ctx
 from mitmproxy.flow import Flow
 from mitmproxy.net.http import Message
-
-from marshmallow import Schema, fields, pre_dump
 
 
 class Address(fields.Tuple):

@@ -5,6 +5,7 @@ from uuid import uuid4
 
 from factory import LazyFunction
 from factory.alchemy import SQLAlchemyModelFactory
+
 from mitmproxy.http import HTTPFlow
 
 from satellite.db import get_session

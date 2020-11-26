@@ -4,8 +4,8 @@ from typing import Type
 
 from mitmproxy.http import HTTPFlow
 
-from .proxy import ProxyMode
 from .db.models.route import Phase, Route
+from .proxy import ProxyMode
 
 
 @dataclass

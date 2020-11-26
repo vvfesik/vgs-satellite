@@ -1,9 +1,9 @@
 import uuid
-from enum import Enum
 from datetime import datetime
+from enum import Enum
 from typing import List
 
-from sqlalchemy import Column, Integer, String, DateTime, JSON, ForeignKey
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, JSON, String
 from sqlalchemy.orm import relationship
 
 from .. import Base

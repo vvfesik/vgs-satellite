@@ -3,11 +3,11 @@ from unittest.mock import Mock
 from freezegun import freeze_time
 
 from satellite.audit_logs.records import RuleChainEvaluationLogRecord
-from satellite.proxy import ProxyMode
 from satellite.db.models.route import Phase
+from satellite.proxy import ProxyMode
 from satellite.vault.route_matcher import match_route
 
-from ..factories import load_flow, RouteFactory, RuleEntryFactory
+from ..factories import RouteFactory, RuleEntryFactory, load_flow
 
 
 def test_match_route_no_match(monkeypatch):

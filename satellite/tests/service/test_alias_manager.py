@@ -1,8 +1,8 @@
 from unittest.mock import Mock
 
-import pytest
-
 from freezegun import freeze_time
+
+import pytest
 
 from satellite import ctx
 from satellite.audit_logs import records

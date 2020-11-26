@@ -1,10 +1,9 @@
 
 import logging
-
 from typing import List
 
 from ..db import get_session, update_model
-from ..db.models.route import Route, RuleEntry, RouteType
+from ..db.models.route import Route, RouteType, RuleEntry
 from ..operations.pipeline import build_pipeline
 
 

@@ -1,7 +1,7 @@
 from tornado.web import HTTPError
 
-from satellite.controller import BaseHandler, apply_response_schema
 from satellite.audit_logs.store import UnknownFlowIdError
+from satellite.controller import BaseHandler, apply_response_schema
 from satellite.schemas.audit_logs import AuditLogsResponseSchema
 
 

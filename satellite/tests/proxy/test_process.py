@@ -1,7 +1,6 @@
 from multiprocessing import Pipe, Queue
 
-from satellite.proxy import commands
-from satellite.proxy import ProxyMode
+from satellite.proxy import ProxyMode, commands
 from satellite.proxy.process import ProxyProcess
 
 

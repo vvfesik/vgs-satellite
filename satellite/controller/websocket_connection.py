@@ -4,8 +4,8 @@ from typing import ClassVar
 from mitmproxy.tools.web.app import WebSocketEventBroadcaster
 
 from ..flows import load_flow_from_state
-from ..schemas.flows import HTTPFlowSchema
 from ..proxy import events
+from ..schemas.flows import HTTPFlowSchema
 
 
 class ClientConnection(WebSocketEventBroadcaster):

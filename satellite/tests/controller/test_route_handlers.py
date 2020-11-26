@@ -1,5 +1,4 @@
 import json
-
 from copy import deepcopy
 from unittest.mock import Mock, patch
 
@@ -9,8 +8,8 @@ from satellite.db import get_session
 from satellite.db.models.route import Route
 from satellite.schemas.route import RuleEntrySchema
 
-from ..factories import RouteFactory, RuleEntryFactory
 from .base import BaseHandlerTestCase
+from ..factories import RouteFactory, RuleEntryFactory
 
 
 CREATE_ROUTE_REQUEST = {

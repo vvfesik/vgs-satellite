@@ -1,6 +1,7 @@
-from abc import abstractmethod, ABCMeta
-from base58 import b58encode
+from abc import ABCMeta, abstractmethod
 from typing import List
+
+from base58 import b58encode
 
 
 # Filled in by AliasGeneratorMeta

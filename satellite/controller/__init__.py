@@ -1,12 +1,12 @@
 import json
-
 from functools import wraps
 from typing import Type
 
-import tornado.websocket
-
 from marshmallow import Schema
+
 from mitmproxy.tools.web.app import RequestHandler
+
+import tornado.websocket
 
 from ..proxy import exceptions
 

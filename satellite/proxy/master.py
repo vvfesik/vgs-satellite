@@ -1,8 +1,8 @@
 import logging
-
 from types import MappingProxyType
 
 from blinker import signal
+
 from mitmproxy.addons import default_addons
 from mitmproxy.addons.view import View
 from mitmproxy.flow import Error
@@ -12,10 +12,9 @@ from mitmproxy.master import Master as Master
 from mitmproxy.options import Options
 from mitmproxy.proxy.config import ProxyConfig
 
-from ..vault.vault_handler import VaultFlows
-
 from . import ProxyMode
 from .server import ProxyServer
+from ..vault.vault_handler import VaultFlows
 
 
 logger = logging.getLogger()

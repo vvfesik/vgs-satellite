@@ -1,15 +1,13 @@
-import json
 import base64
+import json
+from datetime import datetime, timezone
 from typing import Dict, Set
-from datetime import datetime
-from datetime import timezone
 
-
+from mitmproxy import connections
 from mitmproxy import ctx
 from mitmproxy import version
-from mitmproxy import connections
-from mitmproxy.utils import strutils
 from mitmproxy.net.http import cookies
+from mitmproxy.utils import strutils
 
 from satellite.controller import BaseHandler
 

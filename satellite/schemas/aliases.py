@@ -1,6 +1,6 @@
 from functools import partial
 
-from marshmallow import fields, pre_load, Schema, validate
+from marshmallow import Schema, fields, pre_load, validate
 
 from ..vault.generator import get_generator_types
 

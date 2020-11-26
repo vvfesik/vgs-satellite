@@ -1,5 +1,4 @@
 import dataclasses
-
 from pathlib import Path
 from types import MappingProxyType
 
@@ -7,7 +6,7 @@ import pytest
 
 from ruamel.yaml import YAML
 
-from satellite.config import configure, InvalidConfigError
+from satellite.config import InvalidConfigError, configure
 
 
 DEFAULT_CONFIG_VALUES = MappingProxyType({

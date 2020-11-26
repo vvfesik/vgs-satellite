@@ -1,5 +1,4 @@
 import logging
-
 from copy import copy
 
 from mitmproxy.proxy.config import ProxyConfig
