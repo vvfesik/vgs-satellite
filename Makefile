@@ -1,4 +1,8 @@
-.PHONY: lint test dist test_dist clean check
+.PHONY: lint test dist test_dist clean check image
+
+VERSION = $(shell node -pe "require('./package.json').version")
+DOCKER_IMAGE_NAME = vgs-satellite
+DOCKER_REPO = verygoodsecurity
 
 lint:
 	flake8 satellite
@@ -21,3 +25,6 @@ check: lint test dist test_dist
 
 pin_requirements:
 	pip-compile --output-file=requirements.txt requirements.in
+
+image:
+	docker build -t ${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:${VERSION} .

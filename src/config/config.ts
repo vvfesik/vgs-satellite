@@ -1,10 +1,10 @@
 const env = process.env.NODE_ENV;
-const port = process.env.MITM_PORT;
+const port = process.env.SATELLITE_API_PORT;
 
 function getConfig(environment = 'dev') {
   const ENV = {
     environment,
-    mitmLogsEndpoint: `http://localhost:${port}`,
+    satelliteApiEndpoint: `http://localhost:${port}`,
     defaultRuleTokenizeHostEndpoint: '(.*)\\.verygoodproxy\\.com',
     defaultRuleDetokenizeHostEndpoint: 'echo\\.apps\\.verygood\\.systems',
     defaultRuleDestinationOverrideEndpoint: 'https://echo.apps.verygood.systems',
@@ -21,7 +21,7 @@ function getConfig(environment = 'dev') {
     docsMultipleInbounds: 'https://www.verygoodsecurity.com/docs/guides/managing-your-routes#how-to-configure-multiple-inbound-routes-using-cname',
   };
   if (environment === 'dev') {
-    ENV.mitmLogsEndpoint = `http://localhost:${port}`;
+    ENV.satelliteApiEndpoint = `http://localhost:${port}`;
   };
   return ENV;
 };

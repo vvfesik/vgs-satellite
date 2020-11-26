@@ -3,13 +3,13 @@ import config from 'src/config/config';
 import { IRoute } from 'src/redux/interfaces/routes';
 
 export const getRoutes = () =>
-  axios.get(`${config.mitmLogsEndpoint}/route`);
+  axios.get(`${config.satelliteApiEndpoint}/route`);
 
 export const getRouteById = (routeId: string) =>
-  axios.get(`${config.mitmLogsEndpoint}/route/${routeId}`);
+  axios.get(`${config.satelliteApiEndpoint}/route/${routeId}`);
 
 export const createRoute = (route: IRoute) =>
-  axios.post(`${config.mitmLogsEndpoint}/route`, {
+  axios.post(`${config.satelliteApiEndpoint}/route`, {
     data: {
       attributes: route.attributes || route,
       type: 'rule-chains',
@@ -17,7 +17,7 @@ export const createRoute = (route: IRoute) =>
   });
 
 export const updateRouteById = (route: IRoute, routeId: string) =>
-  axios.put(`${config.mitmLogsEndpoint}/route/${routeId}`, {
+  axios.put(`${config.satelliteApiEndpoint}/route/${routeId}`, {
     data: {
       attributes: route.attributes || route,
       type: 'rule-chains',
@@ -25,7 +25,7 @@ export const updateRouteById = (route: IRoute, routeId: string) =>
   });
 
 export const deleteRouteById = (routeId: string) =>
-  axios.delete(`${config.mitmLogsEndpoint}/route/${routeId}`);
+  axios.delete(`${config.satelliteApiEndpoint}/route/${routeId}`);
 
 
 

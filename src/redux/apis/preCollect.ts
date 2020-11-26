@@ -2,16 +2,16 @@ import axios from 'axios';
 import config from 'src/config/config';
 
 export const getMitmLogs = () =>
-  axios.get(`${config.mitmLogsEndpoint}/flows.json`);
+  axios.get(`${config.satelliteApiEndpoint}/flows.json`);
 
 export const replayMitmLog = (logId: string) =>
-  axios.post(`${config.mitmLogsEndpoint}/flows/${logId}/replay`);
+  axios.post(`${config.satelliteApiEndpoint}/flows/${logId}/replay`);
 
 export const duplicateMitmLog = (logId: string) =>
-  axios.post(`${config.mitmLogsEndpoint}/flows/${logId}/duplicate`);
+  axios.post(`${config.satelliteApiEndpoint}/flows/${logId}/duplicate`);
 
 export const deleteMitmLog = (logId: string) =>
-  axios.delete(`${config.mitmLogsEndpoint}/flows/${logId}`);
+  axios.delete(`${config.satelliteApiEndpoint}/flows/${logId}`);
 
 export const updateMitmLog = (logId: string, payload: any) =>
-  axios.put(`${config.mitmLogsEndpoint}/flows/${logId}`, payload);
+  axios.put(`${config.satelliteApiEndpoint}/flows/${logId}`, payload);

@@ -72,7 +72,7 @@ export const fetchFlows = () => async (dispatch: any) => {
   });
 
   if (!socket) {
-    socket = new WebSocket(`${config.mitmLogsEndpoint.replace('http', 'ws')}/updates`)
+    socket = new WebSocket(`${config.satelliteApiEndpoint.replace('http', 'ws')}/updates`)
     socket.addEventListener('message', (message: any) => {
       const msg = JSON.parse(message.data)
       if (msg.resource === 'flows' && ['add', 'update', 'remove'].includes(msg.cmd)) {

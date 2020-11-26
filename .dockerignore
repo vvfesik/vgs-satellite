@@ -1,0 +1,43 @@
+
+**/.cache/
+**/coverage/
+**/dist/
+**/build/
+**/node_modules/
+**/mitm-requests/
+**/.nyc_output/
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Testing
+**/cypress/**/examples/
+**/cypress/videos/
+**/cypress/screenshots/
+.coverage
+htmlcov/
+
+# Environments
+venv/
+venv.bak/
+.python-version
+
+# Cache
+__pycache__/
+
+# sqlite
+route.sqlite
+route.sqlite-journal
+
+# IDE
+.vscode
+
+# PyInstaller
+vgs-satellite-backend.spec
