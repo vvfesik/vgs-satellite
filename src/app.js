@@ -19,10 +19,19 @@ const backendParams = ["--silent", "--web-server-port", webPort];
 
 let backend;
 
+const enableCookies = `
+  const ElectronCookies = require("@exponent/electron-cookies");
+  ElectronCookies.enable({ origin: 'https://VGSsatellite.localhoste' });
+`;
+
 function createWindow() {
   let options = {
     width: 1200,
-    height: 800
+    height: 800,
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true
+    }
   };
   if (is.linux) {
     options = Object.assign({}, options, {
@@ -38,7 +47,13 @@ function createWindow() {
     mainWindow.loadFile("dist/preloader.html");
     waitOn({
       resources: [`http://localhost:${webPort}`]
-    }).then(() => mainWindow.loadFile("dist/index.html"));
+    })
+      .then(() => {
+        mainWindow.loadFile("dist/index.html");
+        mainWindow.webContents.once('dom-ready', function() {
+          mainWindow.webContents.executeJavaScript(enableCookies);
+        });
+      });
   }
   mainWindow.on("closed", () => (mainWindow = null));
 }

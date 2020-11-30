@@ -72,6 +72,7 @@
     }
   },
   "dependencies": {
+    "@exponent/electron-cookies": "^2.0.0",
     "antd": "^3.26.18",
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",

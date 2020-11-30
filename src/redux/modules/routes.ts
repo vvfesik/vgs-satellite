@@ -4,6 +4,7 @@ import {
   deleteRouteById,
   updateRouteById,
 } from 'src/redux/apis/routes';
+import { set } from 'lodash';
 import { notify } from 'src/redux/utils/notifications';
 import { getRouteTemplate } from 'src/data/routes';
 import { IRoutesState, IRoute } from 'src/redux/interfaces/routes';
@@ -48,11 +49,16 @@ export function saveRoute(
         type: SET_SAVE_PROGRESS,
         data: true,
       });
-      if (params.source) {
-        route.attributes
-        ? (route.attributes.tags.source = params.source)
-        : (route.tags.source = params.source);
-      }
+      set(
+        route,
+        route.attributes ? 'attributes.tags.source' : 'tags.source',
+        'vgs-satellite',
+      );
+      set(
+        route,
+        route.attributes ? 'attributes.tags.analytic_id' : 'tags.analytic_id',
+        window.heap?.userId,
+      );
       await createRoute(route);
       if (!params.hideNotify) {
         notify.success('Route created successfully');
@@ -90,6 +96,16 @@ export function updateRoute(
         type: SET_SAVE_PROGRESS,
         data: true,
       });
+      set(
+        route,
+        route.attributes ? 'attributes.tags.source' : 'tags.source',
+        'vgs-satellite',
+      );
+      set(
+        route,
+        route.attributes ? 'attributes.tags.analytic_id' : 'tags.analytic_id',
+        window.heap?.userId,
+      );
       await updateRouteById(route, route.id!);
       if (!params.hideNotify) {
         notify.success('Your route was updated and your changes have been applied.');

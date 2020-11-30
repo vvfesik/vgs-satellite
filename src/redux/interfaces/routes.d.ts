@@ -69,6 +69,7 @@ export interface IRouteTags {
   name: string;
   integration?: string;
   source?: string;
+  analytic_id?: string;
 }
 
 export interface IUpstream {

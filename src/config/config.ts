@@ -1,9 +1,11 @@
 const env = process.env.NODE_ENV;
 const port = process.env.SATELLITE_API_PORT;
+const heapTrackingId = process.env.HEAP_ID;
 
 function getConfig(environment = 'dev') {
   const ENV = {
     environment,
+    heapTrackingId,
     satelliteApiEndpoint: `http://localhost:${port}`,
     defaultRuleTokenizeHostEndpoint: '(.*)\\.verygoodproxy\\.com',
     defaultRuleDetokenizeHostEndpoint: 'echo\\.apps\\.verygood\\.systems',
@@ -19,9 +21,6 @@ function getConfig(environment = 'dev') {
     docsVGSCLILink: 'https://www.verygoodsecurity.com/docs/cli/index',
     docsTermRouteLink: 'https://www.verygoodsecurity.com/docs/terminology/nomenclature#route',
     docsMultipleInbounds: 'https://www.verygoodsecurity.com/docs/guides/managing-your-routes#how-to-configure-multiple-inbound-routes-using-cname',
-  };
-  if (environment === 'dev') {
-    ENV.satelliteApiEndpoint = `http://localhost:${port}`;
   };
   return ENV;
 };

@@ -153,7 +153,7 @@ jobs:
             . venv/bin/activate
             . "/usr/local/opt/nvm/nvm.sh"
             nvm use 14.15.0
-            npm run electron:build
+            HEAP_ID=${HEAP_TRACKING_ID} npm run electron:build
       - persist_to_workspace:
           root: build
           paths:
@@ -175,7 +175,7 @@ jobs:
             npm ci --unsafe-perm
       - run:
           name: Build the app
-          command: npm run electron:build
+          command: HEAP_ID=${HEAP_TRACKING_ID} npm run electron:build
       - persist_to_workspace:
           root: build
           paths:
