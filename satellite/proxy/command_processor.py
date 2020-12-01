@@ -2,7 +2,7 @@ import logging
 from functools import singledispatchmethod
 from typing import Any, List, Optional
 
-from mitmproxy.flow import Flow
+from mitmproxy.http import HTTPFlow
 
 from . import commands
 from . import exceptions
@@ -56,11 +56,16 @@ class ProxyCommandProcessor:
     @process_command.register
     def _(self, cmd: commands.ReplayFlowCommand):
         flow = self._get_flow(cmd.flow_id)
-        flow.backup()
         if hasattr(flow, 'request_raw'):
             flow.request = flow.request_raw
-        flow.response = None
-        self.view.update([flow])
+
+        # Workaround for https://github.com/mitmproxy/mitmproxy/issues/4318
+        if (
+            flow.request.http_version == 'HTTP/2.0' and
+            ':authority' not in flow.request.headers
+        ):
+            flow.request.headers[':authority'] = flow.request.authority
+
         self.master.commands.call('replay.client', [flow])
 
     @process_command.register
@@ -110,7 +115,7 @@ class ProxyCommandProcessor:
 
         self.view.update([flow])
 
-    def _get_flow(self, flow_id: str) -> Flow:
+    def _get_flow(self, flow_id: str) -> HTTPFlow:
         flow = self.view.get_by_id(flow_id)
         if not flow:
             raise exceptions.UnexistentFlowError(flow_id)

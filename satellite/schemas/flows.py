@@ -66,7 +66,6 @@ class HTTPFlowSchema(FlowSchema):
         contentLength = fields.Method(serialize='get_content_length')
         timestamp_start = fields.Float()
         timestamp_end = fields.Float()
-        is_replay = fields.Bool()
         match_details = fields.Nested(MatchDetails)
 
         @pre_dump
@@ -103,6 +102,7 @@ class HTTPFlowSchema(FlowSchema):
         status_code = fields.Int(required=True)
         reason = fields.Str()
 
+    is_replay = fields.Str()
     request = fields.Nested(Request)
     request_raw = fields.Nested(Request)
     response = fields.Nested(Response)

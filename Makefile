@@ -5,7 +5,7 @@ DOCKER_IMAGE_NAME = vgs-satellite
 DOCKER_REPO = verygoodsecurity
 
 lint:
-	flake8 satellite
+	flake8 satellite app.py
 
 test:
 	coverage run -m pytest satellite/tests -m "not dist"
@@ -25,6 +25,9 @@ check: lint test dist test_dist
 
 pin_requirements:
 	pip-compile --output-file=requirements.txt requirements.in
+
+upgrade_requirements:
+	pip-compile -U --output-file=requirements.txt requirements.in
 
 image:
 	docker build -t ${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:${VERSION} .

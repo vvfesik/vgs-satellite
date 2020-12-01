@@ -1,4 +1,4 @@
-mitmproxy~=5.2.0
+mitmproxy~=5.3.0
 SQLAlchemy
 base58
 jsonpath-ng
@@ -14,6 +14,6 @@ pip-tools
 pytest
 snapshottest
 factory_boy
-pyinstaller
+pyinstaller==4.0  # https://github.com/pyinstaller/pyinstaller/issues/5338
 freezegun
 coverage

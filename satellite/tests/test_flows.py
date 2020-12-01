@@ -1,4 +1,3 @@
-
 from satellite.flows import copy_flow, get_flow_state, load_flow_from_state
 
 from .factories import load_flow
@@ -21,9 +20,9 @@ def test_copy_flow():
     flow_state = flow.get_state()
     del flow_state['id']
     assert new_flow_state == flow_state
-    assert new_flow.request_raw == flow.request_raw
+    assert new_flow.request_raw.get_state() == flow.request_raw.get_state()
     assert new_flow.request.match_details == flow.request.match_details
-    assert new_flow.response_raw == flow.response_raw
+    assert new_flow.response_raw.get_state() == flow.response_raw.get_state()
     assert new_flow.response.match_details == flow.response.match_details
 
 
@@ -43,7 +42,7 @@ def test_flow_state(snapshot):
     new_flow_state = new_flow.get_state()
     flow_state = flow.get_state()
     assert new_flow_state == flow_state
-    assert new_flow.request_raw == flow.request_raw
+    assert new_flow.request_raw.get_state() == flow.request_raw.get_state()
     assert new_flow.request.match_details == flow.request.match_details
-    assert new_flow.response_raw == flow.response_raw
+    assert new_flow.response_raw.get_state() == flow.response_raw.get_state()
     assert new_flow.response.match_details == flow.response.match_details

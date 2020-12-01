@@ -9,7 +9,7 @@ interface IFlowMethodProps {
 const FlowMethod: React.FunctionComponent<IFlowMethodProps> = (props) => {
   const { log } = props;
 
-  const isReplayed = !!log.request?.is_replay;
+  const isReplayed = !!log.is_replay;
   const isModified = !!log.modified && !isReplayed;
 
   return (

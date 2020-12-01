@@ -52,18 +52,15 @@ snapshots['test_transform_body[Phase.REQUEST] 1'] = {
     'error': None,
     'id': '805b2a13-c921-48f4-85c4-dbceaea21fb4',
     'intercepted': False,
+    'is_replay': None,
     'marked': False,
     'metadata': {
     },
     'mode': 'regular',
     'request': {
+        'authority': b'httpbin.org',
         'content': b'{"foo": "bar_redacted"}',
-        'first_line_format': 'relative',
         'headers': (
-            (
-                b':authority',
-                b'httpbin.org'
-            ),
             (
                 b'user-agent',
                 b'curl/7.64.1'
@@ -81,9 +78,8 @@ snapshots['test_transform_body[Phase.REQUEST] 1'] = {
                 b'23'
             )
         ),
-        'host': b'httpbin.org',
+        'host': 'httpbin.org',
         'http_version': b'HTTP/2.0',
-        'is_replay': False,
         'method': b'POST',
         'path': b'/post',
         'port': 443,
@@ -153,7 +149,7 @@ snapshots['test_transform_body[Phase.REQUEST] 1'] = {
         'via': None
     },
     'type': 'http',
-    'version': 8
+    'version': 9
 }
 
 snapshots['test_transform_body[Phase.RESPONSE] 1'] = {
@@ -201,18 +197,15 @@ snapshots['test_transform_body[Phase.RESPONSE] 1'] = {
     'error': None,
     'id': '805b2a13-c921-48f4-85c4-dbceaea21fb4',
     'intercepted': False,
+    'is_replay': None,
     'marked': False,
     'metadata': {
     },
     'mode': 'regular',
     'request': {
+        'authority': b'httpbin.org',
         'content': b'{"foo": "bar"}',
-        'first_line_format': 'relative',
         'headers': (
-            (
-                b':authority',
-                b'httpbin.org'
-            ),
             (
                 b'user-agent',
                 b'curl/7.64.1'
@@ -230,9 +223,8 @@ snapshots['test_transform_body[Phase.RESPONSE] 1'] = {
                 b'14'
             )
         ),
-        'host': b'httpbin.org',
+        'host': 'httpbin.org',
         'http_version': b'HTTP/2.0',
-        'is_replay': False,
         'method': b'POST',
         'path': b'/post',
         'port': 443,
@@ -302,5 +294,5 @@ snapshots['test_transform_body[Phase.RESPONSE] 1'] = {
         'via': None
     },
     'type': 'http',
-    'version': 8
+    'version': 9
 }

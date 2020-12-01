@@ -1,6 +1,5 @@
-import os
 import locale
-
+import os
 from multiprocessing import set_start_method
 
 import click
@@ -9,7 +8,7 @@ from tblib import pickling_support
 
 from satellite import db
 from satellite import logging
-from satellite.config import configure, init_satellite_dir, InvalidConfigError
+from satellite.config import InvalidConfigError, configure, init_satellite_dir
 from satellite.web_application import WebApplication
 
 

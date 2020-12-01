@@ -8,13 +8,9 @@ from snapshottest import Snapshot
 snapshots = Snapshot()
 
 snapshots['test_evaluate_ok[Phase.REQUEST] request'] = {
+    'authority': b'httpbin.org',
     'content': b'{"foo": "bar_processed"}',
-    'first_line_format': 'relative',
     'headers': (
-        (
-            b':authority',
-            b'httpbin.org'
-        ),
         (
             b'user-agent',
             b'curl/7.64.1'
@@ -32,9 +28,8 @@ snapshots['test_evaluate_ok[Phase.REQUEST] request'] = {
             b'24'
         )
     ),
-    'host': b'httpbin.org',
+    'host': 'httpbin.org',
     'http_version': b'HTTP/2.0',
-    'is_replay': False,
     'method': b'POST',
     'path': b'/post',
     'port': 443,
@@ -81,13 +76,9 @@ snapshots['test_evaluate_ok[Phase.REQUEST] response'] = {
 }
 
 snapshots['test_evaluate_ok[Phase.RESPONSE] request'] = {
+    'authority': b'httpbin.org',
     'content': b'{"foo": "bar"}',
-    'first_line_format': 'relative',
     'headers': (
-        (
-            b':authority',
-            b'httpbin.org'
-        ),
         (
             b'user-agent',
             b'curl/7.64.1'
@@ -105,9 +96,8 @@ snapshots['test_evaluate_ok[Phase.RESPONSE] request'] = {
             b'14'
         )
     ),
-    'host': b'httpbin.org',
+    'host': 'httpbin.org',
     'http_version': b'HTTP/2.0',
-    'is_replay': False,
     'method': b'POST',
     'path': b'/post',
     'port': 443,
