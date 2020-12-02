@@ -132,20 +132,21 @@ jobs:
       - run:
           name: Install node
           command: |
-            brew install nvm
-            . "/usr/local/opt/nvm/nvm.sh"
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+            . ~/.nvm/nvm.sh
             nvm install 14.15.0
       - run:
           name: Install Dependencies
           command: |
             pip install -r requirements.txt
-            . "/usr/local/opt/nvm/nvm.sh"
+            . $NVM_DIR/nvm.sh
             nvm use 14.15.0
-            npm ci --unsafe-perm
+            npm ci
       - run:
           name: Build the app
           command: |
-            . "/usr/local/opt/nvm/nvm.sh"
+            . $NVM_DIR/nvm.sh
             nvm use 14.15.0
             HEAP_ID=${HEAP_TRACKING_ID} npm run electron:build
       - persist_to_workspace:
