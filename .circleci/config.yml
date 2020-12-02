@@ -186,6 +186,17 @@ jobs:
           name: Publish Release
           command: ghr -draft -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -n ${CIRCLE_TAG} ${CIRCLE_TAG} ./artifacts
 
+  build_and_publish_docker_image:
+    docker:
+      - image: circleci/golang:1.15
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+          docker_layer_caching: true
+      - run:
+          name: Build & Publish Docker image
+          command: make docker_publish
 
 workflows:
   version: 2
@@ -219,6 +230,12 @@ workflows:
           requires:
             - build_app_macos
             - build_app_linux
+      - build_and_publish_docker_image:
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+(-[a-z]+)?$/
+            branches:
+              ignore: /.*/
 
   # periodical_smoke_test:
   #   ## create dashboard route by uploading satellite-generated YAML

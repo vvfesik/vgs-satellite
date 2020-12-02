@@ -38,7 +38,7 @@
     "smoketest": "CYPRESS_VGS_DASHBOARD_DOMAIN=$VGS_DASHBOARD_DOMAIN CYPRESS_VGS_DASHBOARD_EMAIL=$VGS_DASHBOARD_EMAIL CYPRESS_VGS_DASHBOARD_PASS=$VGS_DASHBOARD_PASS start-test serve:quiet 1234 cy:smoke",
     "test": "start-test serve:quiet 1234 cy:run",
     "test:ci": "start-test 'start-test ./ci.sh 8089 serve:quiet' 1234 cy:run",
-    "release": "git tag $(node -pe \"require('./package.json').version\") && git push origin --tags"
+    "release": "git tag $(./version.sh) && git push origin --tags"
   },
   "alias": {
     "src": "./src"

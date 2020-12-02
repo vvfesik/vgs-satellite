@@ -10,9 +10,13 @@ RUN apk update && apk add --no-cache \
     python3-dev \
     py3-pip
 
-COPY . /satellite
-
 WORKDIR /satellite
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY . .
+RUN npm ci --unsafe-perm
 
 EXPOSE 8089 9098 9099 1234
 
@@ -23,7 +27,5 @@ ENV SATELLITE_WEB_PORT=1234
 ENV SATELLITE_API_PORT=8089
 ENV SATELLITE_REVERSE_PROXY_PORT=9098
 ENV SATELLITE_FORWARD_PROXY_PORT=9099
-
-RUN pip install -r requirements.txt && npm ci --unsafe-perm
 
 ENTRYPOINT ["npm", "run", "start:docker"]
