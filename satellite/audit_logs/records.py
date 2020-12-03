@@ -44,22 +44,26 @@ class AuditLogRecord:
         default_factory=lambda: time.time(),
         init=False,
     )
+    name: str
 
 
 @dataclass
 class VaultRequestAuditLogRecord(AuditLogRecord):
+    name: str = field(default='Proxy request', init=False)
     method: str
     uri: str
 
 
 @dataclass
 class UpstreamResponseLogRecord(AuditLogRecord):
+    name: str = field(default='Upstream response', init=False)
     status_code: int
     upstream: str
 
 
 @dataclass
 class VaultRecordUsageLogRecord(AuditLogRecord):
+    name: str = field(default='Record usage', init=False)
     action_type: ActionType
     alias_generator: str
     phase: Phase
@@ -73,6 +77,7 @@ class VaultRecordUsageLogRecord(AuditLogRecord):
 
 @dataclass
 class RuleChainEvaluationLogRecord(AuditLogRecord):
+    name: str = field(default='Route evaluation', init=False)
     route_id: str
     matched: bool
     phase: Phase
@@ -80,12 +85,14 @@ class RuleChainEvaluationLogRecord(AuditLogRecord):
 
 @dataclass
 class VaultTrafficLogRecord(AuditLogRecord):
+    name: str = field(default='Proxy traffic', init=False)
     bytes: int
     label: TrafficLabel
 
 
 @dataclass
 class OperationPipelineEvaluationLogRecord(AuditLogRecord):
+    name: str = field(default='Operaion pipeline evaluation', init=False)
     route_id: str
     filter_id: str
     phase: Phase
@@ -96,6 +103,7 @@ class OperationPipelineEvaluationLogRecord(AuditLogRecord):
 
 @dataclass
 class OperationLogRecord(AuditLogRecord):
+    name: str = field(default='Operation evaluation', init=False)
     route_id: str
     filter_id: str
     phase: Phase

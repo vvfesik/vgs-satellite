@@ -9,8 +9,9 @@ from satellite.audit_logs.store import AuditLogStore, UnknownFlowIdError
 from satellite.proxy import ProxyMode
 
 
+@dataclasses.dataclass
 class AuditLogTestRecord(AuditLogRecord):
-    pass
+    name: str = 'Test record'
 
 
 def test_record(monkeypatch):
@@ -25,6 +26,7 @@ def test_record(monkeypatch):
     )
     assert dataclasses.asdict(record) == {
         'flow_id': 'flow-id',
+        'name': 'Test record',
         'proxy_mode': ProxyMode.REVERSE,
         'timestamp': 123,
     }

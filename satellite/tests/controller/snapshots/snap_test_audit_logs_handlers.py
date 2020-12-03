@@ -12,6 +12,7 @@ snapshots['TestAuditLogsHandlerGet::test_ok 1'] = {
         {
             'flow_id': 'c8973f85-bb66-450b-9dd1-5f6e2c57b8bd',
             'method': 'POST',
+            'name': 'Proxy request',
             'proxy_mode': 'reverse',
             'timestamp': 1604188800.0,
             'type': 'VaultRequestAuditLogRecord',
@@ -19,6 +20,7 @@ snapshots['TestAuditLogsHandlerGet::test_ok 1'] = {
         },
         {
             'flow_id': 'c8973f85-bb66-450b-9dd1-5f6e2c57b8bd',
+            'name': 'Upstream response',
             'proxy_mode': 'reverse',
             'status_code': 200,
             'timestamp': 1604188800.0,
@@ -29,6 +31,7 @@ snapshots['TestAuditLogsHandlerGet::test_ok 1'] = {
             'action_type': 'CREATED',
             'alias_generator': 'UUID',
             'flow_id': 'c8973f85-bb66-450b-9dd1-5f6e2c57b8bd',
+            'name': 'Record usage',
             'phase': 'REQUEST',
             'proxy_mode': 'reverse',
             'record_id': '75dc92d5-e9ec-45b9-a63a-5bdeb5a2fc91',
@@ -40,6 +43,7 @@ snapshots['TestAuditLogsHandlerGet::test_ok 1'] = {
         {
             'flow_id': 'c8973f85-bb66-450b-9dd1-5f6e2c57b8bd',
             'matched': True,
+            'name': 'Route evaluation',
             'phase': 'REQUEST',
             'proxy_mode': 'reverse',
             'route_id': '01058009-1693-4177-bcf6-fc87c57a4bfd',
@@ -50,9 +54,40 @@ snapshots['TestAuditLogsHandlerGet::test_ok 1'] = {
             'bytes': 123,
             'flow_id': 'c8973f85-bb66-450b-9dd1-5f6e2c57b8bd',
             'label': 'bytesReceivedFromServer',
+            'name': 'Proxy traffic',
             'proxy_mode': 'reverse',
             'timestamp': 1604188800.0,
             'type': 'VaultTrafficLogRecord'
+        },
+        {
+            'error_message': None,
+            'execution_time_ms': 1,
+            'execution_time_ns': 1000000,
+            'filter_id': 'd93d3034-6f78-4f00-842b-c4f9d351b4ef',
+            'flow_id': 'c8973f85-bb66-450b-9dd1-5f6e2c57b8bd',
+            'name': 'Operation evaluation',
+            'operation_name': 'github.com/verygoodsecurity/common/script',
+            'phase': 'REQUEST',
+            'proxy_mode': 'reverse',
+            'route_id': '01058009-1693-4177-bcf6-fc87c57a4bfd',
+            'status': 'OK',
+            'timestamp': 1604188800.0,
+            'type': 'OperationLogRecord'
+        },
+        {
+            'execution_time_ms': 1,
+            'execution_time_ns': 1000000,
+            'filter_id': 'd93d3034-6f78-4f00-842b-c4f9d351b4ef',
+            'flow_id': 'c8973f85-bb66-450b-9dd1-5f6e2c57b8bd',
+            'name': 'Operaion pipeline evaluation',
+            'operations': [
+                'github.com/verygoodsecurity/common/script'
+            ],
+            'phase': 'REQUEST',
+            'proxy_mode': 'reverse',
+            'route_id': '01058009-1693-4177-bcf6-fc87c57a4bfd',
+            'timestamp': 1604188800.0,
+            'type': 'OperationPipelineEvaluationLogRecord'
         }
     ]
 }

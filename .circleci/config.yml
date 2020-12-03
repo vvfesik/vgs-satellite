@@ -18,6 +18,8 @@ jobs:
           ## this enables colors in the output
           TERM: xterm
           NODE_OPTIONS: --max-old-space-size=2048
+    # Using large instance to avoid frequent failures of frontend build step
+    resource_class: large
     working_directory: ~/app
     steps:
       - checkout
@@ -157,6 +159,8 @@ jobs:
   build_app_linux:
     docker:
       - image: circleci/python:3.8-node-browsers
+    # Using large instance to avoid frequent failures of frontend build step
+    resource_class: large
     working_directory: ~/app
     steps:
       - checkout

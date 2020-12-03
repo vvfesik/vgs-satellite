@@ -48,6 +48,28 @@ class TestAuditLogsHandlerGet(BaseHandlerTestCase):
                 bytes=123,
                 label=records.TrafficLabel.FROM_SERVER,
             ),
+            records.OperationLogRecord(
+                flow_id='c8973f85-bb66-450b-9dd1-5f6e2c57b8bd',
+                proxy_mode=ProxyMode.REVERSE,
+                route_id='01058009-1693-4177-bcf6-fc87c57a4bfd',
+                filter_id='d93d3034-6f78-4f00-842b-c4f9d351b4ef',
+                phase=Phase.REQUEST,
+                operation_name='github.com/verygoodsecurity/common/script',
+                execution_time_ms=1,
+                execution_time_ns=1000000,
+                status=records.OperationStatus.OK,
+                error_message=None,
+            ),
+            records.OperationPipelineEvaluationLogRecord(
+                flow_id='c8973f85-bb66-450b-9dd1-5f6e2c57b8bd',
+                proxy_mode=ProxyMode.REVERSE,
+                route_id='01058009-1693-4177-bcf6-fc87c57a4bfd',
+                filter_id='d93d3034-6f78-4f00-842b-c4f9d351b4ef',
+                phase=Phase.REQUEST,
+                execution_time_ms=1,
+                execution_time_ns=1000000,
+                operations=['github.com/verygoodsecurity/common/script'],
+            ),
         ])
         response = self.fetch(
             self.get_url('/logs/f15ccebf-6b79-4386-a4ec-0e7e3b119c03')

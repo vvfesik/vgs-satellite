@@ -13,6 +13,7 @@ class AuditLogRecordBaseSchema(Schema):
     flow_id = fields.Str(required=True)
     timestamp = fields.Float(required=True)
     proxy_mode = EnumField(ProxyMode, by_value=True, required=True)
+    name = fields.Str(required=True)
 
 
 class VaultRequestAuditLogRecordSchema(AuditLogRecordBaseSchema):
@@ -63,7 +64,7 @@ class OperationLogRecordSchema(AuditLogRecordBaseSchema):
     execution_time_ms = fields.Int(required=True)
     execution_time_ns = fields.Int(required=True)
     status = EnumField(records.OperationStatus, by_value=True, required=True)
-    error_message = fields.Str(required=True)
+    error_message = fields.Str()
 
 
 class OperationPipelineEvaluationLogRecordSchema(AuditLogRecordBaseSchema):

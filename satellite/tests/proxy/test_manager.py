@@ -1,4 +1,5 @@
 import time
+from dataclasses import dataclass
 from unittest.mock import Mock
 
 from satellite.audit_logs.records import AuditLogRecord
@@ -6,8 +7,9 @@ from satellite.proxy import ProxyMode, commands, events
 from satellite.proxy.manager import ProxyManager
 
 
+@dataclass
 class AuditLogTestRecord(AuditLogRecord):
-    pass
+    name: str = 'Test record'
 
 
 def test_start_stop(monkeypatch):
