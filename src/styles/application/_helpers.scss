@@ -121,6 +121,9 @@ $f-weights: 100, 200, 300, 400, 500, 600, 700, 800;
   &.icon-rotate-180 > svg {
     transform: rotate(180deg);
   }
+  &.icon-rotate-90 > svg {
+    transform: rotate(90deg);
+  }
 }
 
 .opacity-0 {

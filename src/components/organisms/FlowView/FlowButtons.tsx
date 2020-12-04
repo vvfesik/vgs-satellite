@@ -15,40 +15,59 @@ interface IFlowButtonsProps {
   onDelete: () => void;
   onEdit: () => void;
   onEditCancel: () => void;
-  selectedTab: 'general' | 'headers' | 'body';
+  onReloadEvents: () => void;
+  selectedTab: 'general' | 'headers' | 'body' | 'events';
   isMitmLog: boolean;
   isEditMode: boolean;
 }
 
 const FlowButtons: React.FC<IFlowButtonsProps> = (props) => {
-  const { activePhase, hasPayload, hideSecureButton, onRuleCreate, onSelectPhase, selectedTab } = props;
-  const { onEdit, onEditCancel, isEditMode } = props;
+  const {
+    activePhase,
+    hasPayload,
+    hideSecureButton,
+    isEditMode,
+    isMitmLog,
+    selectedTab,
+    onEdit,
+    onEditCancel,
+    onReloadEvents,
+    onRuleCreate,
+    onSelectPhase,
+  } = props;
+
+  const showEditButtons = isMitmLog && selectedTab !== 'events';
+  const showSecureButton = hasPayload && onRuleCreate && !hideSecureButton;
+  const showReqResButtons = !isMitmLog || ['headers', 'body'].includes(selectedTab);
+  const showReplayButtons = isMitmLog && selectedTab === 'general';
+  const showEventsButtons = isMitmLog && selectedTab === 'events';
 
   return (
     <div className='text-center mt-3 mb-2 position-relative'>
-      {props.isMitmLog && (isEditMode ? (
-        <div className='ant-btn-group d-flex position-absolute left-0'>
-          <Button size='small' type='ghost' onClick={onEditCancel}>
-            <Icon type='close-square' />
-            Cancel
+      {showEditButtons &&
+        (isEditMode ? (
+          <div className='ant-btn-group d-flex position-absolute left-0'>
+            <Button size='small' type='ghost' onClick={onEditCancel}>
+              <Icon type='close-square' />
+              Cancel
+            </Button>
+            <Button size='small' type='primary' onClick={onEdit}>
+              <Icon type='save' />
+              Save
+            </Button>
+          </div>
+        ) : (
+          <Button
+            size='small'
+            type='ghost'
+            className='d-flex position-absolute left-0'
+            onClick={onEdit}
+          >
+            <Icon type='edit' />
+            Edit
           </Button>
-          <Button size='small' type='primary' onClick={onEdit}>
-            <Icon type='save' />
-            Save
-          </Button>
-        </div>
-      ) : (
-        <Button
-          size='small'
-          type='ghost'
-          className='d-flex position-absolute left-0'
-          onClick={onEdit}
-        >
-          <Icon type='edit' />
-          Edit
-        </Button>
-      ))}
-      {hasPayload && onRuleCreate && !hideSecureButton && (
+        ))}
+      {showSecureButton && (
         <Button
           type='primary'
           size='small'
@@ -59,7 +78,7 @@ const FlowButtons: React.FC<IFlowButtonsProps> = (props) => {
           <span>Secure this payload</span>
         </Button>
       )}
-      {!props.isMitmLog || selectedTab !== 'general' ? (
+      {showReqResButtons && (
         <ButtonGroup>
           {['request', 'response'].map((phase) => (
             <RSButton
@@ -77,7 +96,8 @@ const FlowButtons: React.FC<IFlowButtonsProps> = (props) => {
             </RSButton>
           ))}
         </ButtonGroup>
-      ) : (
+      )}
+      {showReplayButtons && (
         <span>
           <Button
             size='small'
@@ -110,6 +130,17 @@ const FlowButtons: React.FC<IFlowButtonsProps> = (props) => {
             Delete
           </Button>
         </span>
+      )}
+      {showEventsButtons && (
+        <Button
+          size='small'
+          type='ghost'
+          className='d-flex'
+          onClick={onReloadEvents}
+        >
+          <Icon type='reload' />
+          Refresh
+        </Button>
       )}
       <hr className='my-3 p-0' />
     </div>

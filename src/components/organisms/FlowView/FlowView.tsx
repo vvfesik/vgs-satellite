@@ -1,20 +1,35 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import FlowNav from './FlowNav';
 import FlowButtons from './FlowButtons';
 import RequestInfo from './RequestInfo';
 import GeneralInfo from './GeneralInfo';
 import MatchingDetails from './MatchingDetails';
+import EventLogs from './EventLogs';
 import Icon from 'src/components/atoms/Icon/Icon';
 import { Modal, ModalBody } from 'reactstrap';
 import { ILog, ILogFilters } from 'src/redux/interfaces/logs';
 import { IRoute } from 'src/redux/interfaces/routes';
+import { IEventLog } from 'src/redux/interfaces/eventLogs';
 import { constructUriFromLog } from 'src/redux/utils/utils';
+import { fetchEventLogs } from 'src/redux/modules/eventLogs';
+
+const mapStateToProps = ({ eventLogs }: any) => {
+  return {
+    currentEventLog: eventLogs.current,
+    isLoadingEventLogs: eventLogs.isLoading,
+  };
+}
+
+const mapDispatchToProps = { fetchEventLogs };
 
 export interface IFlowViewProps {
   log: ILog;
   routes: IRoute[];
   logFilters: ILogFilters;
   showSpinner: boolean;
+  currentEventLog: IEventLog[];
+  isLoadingEventLogs: boolean;
   onRuleCreate: (selectedPhase: string) => void;
   onClose: () => void;
   setPreRouteType: (type: 'inbound' | 'outbound') => void;
@@ -23,15 +38,18 @@ export interface IFlowViewProps {
   onDuplicate: () => void;
   onDelete: () => void;
   onEdit: (logId: string, payload: any) => void;
+  fetchEventLogs: (flowId: string) => void;
 }
 
-type TFlowViewTabs = 'general' | 'headers' | 'body';
+type TFlowViewTabs = 'general' | 'headers' | 'body' | 'events';
 type TFlowViewPhase = 'request' | 'response';
 
 
 const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
-  const { log, log: { flow }, routes, showSpinner, logFilters } = props;
-  const { onRuleCreate, onClose, onReplay, onDuplicate, onDelete, onEdit } = props;
+  const {
+    log, log: { flow }, routes, showSpinner, logFilters, currentEventLog, isLoadingEventLogs,
+    onRuleCreate, onClose, onReplay, onDuplicate, onDelete, onEdit, fetchEventLogs,
+  } = props;
 
   const [selectedTab, setSelectedTab] = useState<TFlowViewTabs>('general');
   const [selectedPhase, setSelectedPhase] = useState<TFlowViewPhase>('request');
@@ -42,9 +60,13 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
   const [body, setBody] = useState({});
   const [generalInfo, setGeneralInfo] = useState({});
 
+  const isMitmLog = log.hasOwnProperty('intercepted');
+
   useEffect(() => {
+    const basicTabs: TFlowViewTabs[] = ['general', 'headers', 'body'];
+    const mitmTabs: TFlowViewTabs[] = isMitmLog ? ['events'] : [];
     if (flow) {
-      setTabs(['general', 'headers', 'body']);
+      setTabs([...basicTabs, ...mitmTabs]);
       setHeaders({
         request: flow?.request?.headers,
         response: flow?.response?.headers,
@@ -71,6 +93,10 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
     }
   }, [flow])
 
+  useEffect(() => {
+    if (log.id) fetchEventLogs(log.id);
+  }, [log.id])
+
   const selectTab = (tab: TFlowViewTabs) => {
     setSelectedTab(tab);
     setSelectedPhase('request');
@@ -83,8 +109,6 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
   }
 
   const handleRuleCreate = () => onRuleCreate(selectedPhase.toUpperCase());
-
-  const isMitmLog = () => log.hasOwnProperty('intercepted');
 
   const handleOnEdit = () => {
     if (isEditMode) {
@@ -184,9 +208,10 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
           onEdit={handleOnEdit}
           onEditCancel={onEditCancel}
           isEditMode={isEditMode}
-          isMitmLog={isMitmLog()}
+          isMitmLog={isMitmLog}
+          onReloadEvents={() => fetchEventLogs(log.id)}
         />
-        {selectedTab === 'general' ? (
+        {selectedTab === 'general' && (
           <div className="mb-3 pt-0">
             <GeneralInfo
               log={log}
@@ -208,7 +233,8 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
               activePhase={selectedPhase}
             />
           </div>
-        ) : (
+        )}
+        {['headers', 'body'].includes(selectedTab) && (
           <RequestInfo
             headers={selectedTab === 'headers' && headers}
             body={selectedTab === 'body' && body}
@@ -218,9 +244,17 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
             onEditSave={handleOnEdit}
           />
         )}
+        {selectedTab === 'events' && (
+          <EventLogs
+            flowId={log.id}
+            isLoading={isLoadingEventLogs}
+            eventLogs={currentEventLog}
+            routes={routes}
+          />
+        )}
       </ModalBody>
     </Modal>
   );
 };
 
-export default FlowView;
+export default connect(mapStateToProps, mapDispatchToProps)(FlowView);

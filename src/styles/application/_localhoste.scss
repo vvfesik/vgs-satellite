@@ -20,3 +20,41 @@
     color: inherit;
   }
 }
+
+.eventlogs-table {
+  table {
+    table-layout: initial;
+    font-family: 'Averta', sans-serif;
+  }
+  .ant-table-tbody {
+    tr > td {
+      border-top: 1px solid #e8e8e8;
+      border-bottom: none;
+    }
+    tr.ant-table-expanded-row > td {
+      border-top: none;
+      border-bottom: none;
+      position: relative;
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        left: 23px;
+        bottom: 10px;
+        background: #e5e5e5;
+      }
+      &::before {
+        top: -23px;
+        width: 1px;
+      }
+      &::after {
+        width: 10px;
+        height: 1px;
+      }
+    }
+    tr.ant-table-expanded-row,
+    tr.ant-table-expanded-row:hover {
+      background: initial;
+    }
+  }
+}
