@@ -56,7 +56,14 @@ def _get_params_from_config_file(config_path: str = None) -> dict:
         if path.exists():
             try:
                 with open(path) as stream:
-                    return YAML().load(stream) or {}
+                    config = YAML().load(stream) or {}
+                if not isinstance(config, dict):
+                    raise TypeError(
+                        f'Expecting mapping, but got {type(config).__name__}.'
+                    )
             except Exception as exc:
                 raise InvalidConfigError(str(exc)) from exc
+
+            return config
+
     return {}

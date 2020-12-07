@@ -12,14 +12,22 @@ lint:
 test:
 	coverage run -m pytest satellite/tests -m "not dist"
 
-dist:
-	pyinstaller --clean --hidden-import sqlalchemy.ext.baked -n vgs-satellite-backend -y --onefile app.py
+dist: clean
+	pyinstaller \
+	-y \
+	--clean \
+	--onefile \
+	-n vgs-satellite-backend \
+	--hidden-import sqlalchemy.ext.baked \
+	--hidden-import logging.config \
+	--add-data satellite/db/migrations:satellite/db/migrations \
+	 app.py
 
 test_dist:
 	pytest satellite/tests -m "dist"
 
 clean:
-	find satellite -name "*.pyc" | xargs -I {} rm -rf {}
+	find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
 
 # Run this before push
 check: lint test dist test_dist

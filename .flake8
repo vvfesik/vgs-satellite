@@ -1,4 +1,4 @@
 [flake8]
 max-line-length = 120
-exclude = snap_*,satellite/tests/flow_fixtures
+exclude = snap_*,satellite/tests/flow_fixtures,satellite/db/migrations/versions
 application-import-names = satellite

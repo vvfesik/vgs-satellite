@@ -69,7 +69,10 @@ def main(**kwargs):
     logging.configure(log_path=config.log_path, silent=config.silent)
 
     db.configure(config.db_path)
-    db.init()
+    try:
+        db.init()
+    except db.DBVersionMismatch as exc:
+        raise click.ClickException(exc) from exc
 
     app = WebApplication(config)
     app.start()

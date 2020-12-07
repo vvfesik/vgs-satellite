@@ -4,6 +4,7 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
+alembic==1.4.3            # via -r requirements.in
 altgraph==0.17            # via macholib, pyinstaller
 asgiref==3.3.1            # via mitmproxy
 attrs==20.3.0             # via pytest
@@ -35,7 +36,8 @@ kaitaistruct==0.9         # via mitmproxy
 ldap3==2.8.1              # via mitmproxy
 lxml==4.6.2               # via -r requirements.in
 macholib==1.14            # via pyinstaller
-markupsafe==1.1.1         # via jinja2
+mako==1.1.3               # via alembic
+markupsafe==1.1.1         # via jinja2, mako
 marshmallow-dataclass==8.3.0  # via -r requirements.in
 marshmallow-enum==1.5.1   # via -r requirements.in
 marshmallow-oneofschema==2.1.0  # via -r requirements.in
@@ -62,13 +64,14 @@ pyopenssl==19.1.0         # via mitmproxy
 pyparsing==2.4.7          # via mitmproxy, packaging
 pyperclip==1.8.1          # via mitmproxy
 pytest==6.1.2             # via -r requirements.in
-python-dateutil==2.8.1    # via faker, freezegun
+python-dateutil==2.8.1    # via alembic, faker, freezegun
+python-editor==1.0.4      # via alembic
 ruamel.yaml.clib==0.2.2   # via ruamel.yaml
 ruamel.yaml==0.16.12      # via mitmproxy
 six==1.15.0               # via cryptography, jsonpath-ng, packaging, pip-tools, protobuf, pyopenssl, python-dateutil, snapshottest
 snapshottest==0.6.0       # via -r requirements.in
 sortedcontainers==2.2.2   # via mitmproxy
-sqlalchemy==1.3.20        # via -r requirements.in
+sqlalchemy==1.3.20        # via -r requirements.in, alembic
 tblib==1.7.0              # via -r requirements.in
 termcolor==1.1.0          # via snapshottest
 text-unidecode==1.3       # via faker

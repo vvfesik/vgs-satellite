@@ -1,17 +1,21 @@
 import threading
+from pathlib import Path
+
+from alembic import command
+from alembic.config import Config
+from alembic.util.exc import CommandError
 
 from sqlalchemy import create_engine
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
+from .models import Base
 
-Base = declarative_base()
 
-
-class EntityAlreadyExists(Exception):
+class DBVersionMismatch(Exception):
     pass
 
 
@@ -23,6 +27,10 @@ def configure(db_path: str):
     _Session = sessionmaker(bind=_engine)
 
 
+def get_engine():
+    return _engine
+
+
 def get_session() -> Session:
     if not hasattr(_session_store, 'session'):
         _session_store.session = _Session()
@@ -30,7 +38,28 @@ def get_session() -> Session:
 
 
 def init():
-    Base.metadata.create_all(_engine)
+    alembic_cfg = Config()
+    alembic_cfg.set_main_option(
+        'script_location',
+        str(Path(__file__).parent / 'migrations'),
+    )
+    try:
+        Base.metadata.create_all(_engine, checkfirst=False)
+    except OperationalError:
+        # DB was initialized before. Applying migrations.
+        try:
+            command.upgrade(alembic_cfg, 'head')
+        except CommandError as exc:
+            if str(exc).startswith("Can't locate revision identified by"):
+                raise DBVersionMismatch(
+                    'Looks like DB version is newer than version of the app. '
+                    'Please update the app or reset the DB (by removing the '
+                    'DB file or pointing the app to an another DB file path).'
+                ) from exc
+            raise
+    else:
+        # We have a fresh DB. Stamping with the latest version.
+        command.stamp(alembic_cfg, 'head')
 
 
 def update_model(model: Base, data: dict, exclude_fields=None):

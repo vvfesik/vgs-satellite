@@ -21,4 +21,6 @@ def configure(log_path: str = None, silent: bool = False):
     if not root.handlers:
         root.addHandler(logging.NullHandler())
 
+    logging.getLogger('alembic').setLevel(logging.WARNING)
+
     root.setLevel(logging.INFO)

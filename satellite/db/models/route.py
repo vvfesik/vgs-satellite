@@ -6,7 +6,7 @@ from typing import List
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, JSON, String
 from sqlalchemy.orm import relationship
 
-from .. import Base
+from .base import Base
 
 
 class RouteType(Enum):

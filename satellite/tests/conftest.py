@@ -4,7 +4,6 @@ from tempfile import NamedTemporaryFile
 import pytest
 
 from satellite import db
-from satellite.db.models import alias, route  # noqa
 
 
 @pytest.fixture(scope='class')
