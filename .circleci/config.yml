@@ -188,7 +188,10 @@ jobs:
           at: ./artifacts
       - run:
           name: Publish Release
-          command: ghr -draft -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -n ${CIRCLE_TAG} ${CIRCLE_TAG} ./artifacts
+          command: |
+            ghr -draft -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -n ${CIRCLE_TAG} ${CIRCLE_TAG} ./artifacts
+            ./scripts/slack_notify.sh
+
 
   build_and_publish_docker_image:
     docker:
