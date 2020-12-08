@@ -1,6 +1,6 @@
 .PHONY: lint test dist test_dist clean check pin_requirements upgrade_requirements docker_image docker_publish
 
-VERSION = $(shell ./version.sh)
+VERSION = $(shell ./scripts/version.sh)
 LATEST_VERSION = $(shell git tag | sort -Vr | head -n 1)
 DOCKER_ORG = verygood
 DOCKER_REPO = satellite

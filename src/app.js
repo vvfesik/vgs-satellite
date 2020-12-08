@@ -14,7 +14,7 @@ let mainWindow;
 
 const webPort = 8089;  // TODO: read port from the config
 const rootPath = path.join(path.dirname(app.getAppPath()), "..");
-const backendPath = path.join(rootPath, "./vgs-satellite-backend");
+const backendPath = path.join(process.resourcesPath, "./vgs-satellite-backend");
 const backendParams = ["--silent", "--web-server-port", webPort];
 
 let backend;

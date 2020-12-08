@@ -129,7 +129,7 @@ jobs:
       - checkout
       - run:
           name: Check app version
-          command: ./check-version.sh
+          command: ./scripts/check-version.sh
       - <<: *setup_python_macos
       - run:
           name: Install node
@@ -151,10 +151,15 @@ jobs:
             . $NVM_DIR/nvm.sh
             nvm use 14.15.0
             HEAP_ID=${HEAP_TRACKING_ID} npm run electron:build
+            mkdir ./artifacts
+            cp build/vgs-satellite-*.dmg ./artifacts
+          no_output_timeout: 30m
       - persist_to_workspace:
-          root: build
+          root: artifacts
           paths:
-            - vgs-satellite-*.dmg
+            - "*"
+      - store_artifacts:
+          path: artifacts
 
   build_app_linux:
     docker:
@@ -166,7 +171,7 @@ jobs:
       - checkout
       - run:
           name: Check app version
-          command: ./check-version.sh
+          command: ./scripts/check-version.sh
       - run:
           name: Install Dependencies
           command: |

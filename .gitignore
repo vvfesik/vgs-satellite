@@ -42,4 +42,4 @@ route.sqlite-journal
 # PyInstaller
 vgs-satellite-backend.spec
 
-.env
+.env*
