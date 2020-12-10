@@ -45,8 +45,15 @@ class VaultRecordUsageLogRecordSchema(AuditLogRecordBaseSchema):
     route_id = fields.Str(required=True)
 
 
-class RuleChainEvaluationLogRecordSchema(AuditLogRecordBaseSchema):
+class RouteEvaluationLogRecordSchema(AuditLogRecordBaseSchema):
     route_id = fields.Str(required=True)
+    matched = fields.Bool(required=True)
+    phase = EnumField(Phase, by_value=True, required=True)
+
+
+class FilterEvaluationLogRecordSchema(AuditLogRecordBaseSchema):
+    route_id = fields.Str(required=True)
+    filter_id = fields.Str(required=True)
     matched = fields.Bool(required=True)
     phase = EnumField(Phase, by_value=True, required=True)
 
@@ -79,9 +86,10 @@ class OperationPipelineEvaluationLogRecordSchema(AuditLogRecordBaseSchema):
 class AuditLogRecordSchema(OneOfSchema):
     type_field_remove = False
     type_schemas = {
+        'FilterEvaluationLogRecord': FilterEvaluationLogRecordSchema,
         'OperationLogRecord': OperationLogRecordSchema,
         'OperationPipelineEvaluationLogRecord': OperationPipelineEvaluationLogRecordSchema,
-        'RuleChainEvaluationLogRecord': RuleChainEvaluationLogRecordSchema,
+        'RouteEvaluationLogRecord': RouteEvaluationLogRecordSchema,
         'UpstreamResponseLogRecord': UpstreamResponseLogRecordSchema,
         'VaultRecordUsageLogRecord': VaultRecordUsageLogRecordSchema,
         'VaultRequestAuditLogRecord': VaultRequestAuditLogRecordSchema,

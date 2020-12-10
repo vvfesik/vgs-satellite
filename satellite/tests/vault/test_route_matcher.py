@@ -1,8 +1,11 @@
-from unittest.mock import Mock
+from unittest.mock import Mock, call
 
 from freezegun import freeze_time
 
-from satellite.audit_logs.records import RuleChainEvaluationLogRecord
+from satellite.audit_logs.records import (
+    FilterEvaluationLogRecord,
+    RouteEvaluationLogRecord,
+)
 from satellite.db.models.route import Phase
 from satellite.proxy import ProxyMode
 from satellite.vault.route_matcher import match_route
@@ -35,18 +38,21 @@ def test_match_route_no_match(monkeypatch):
 
 @freeze_time('2020-11-04')
 def test_match_route_inbound(monkeypatch):
-    filters = RuleEntryFactory.build_batch(2)
+    route = RouteFactory()
+    filters = RuleEntryFactory.build_batch(2, route_id=route.id)
     filters[1].expression_snapshot['rules'][0]['expression']['values'] = ['/put']
-    route = RouteFactory(rule_entries_list=filters)
+    route.rule_entries_list = filters
     monkeypatch.setattr(
         'satellite.vault.route_matcher.route_manager',
         Mock(get_all_by_type=Mock(return_value=[route]))
     )
+
     emit_audit_log = Mock()
     monkeypatch.setattr(
         'satellite.vault.route_matcher.audit_logs.emit',
         emit_audit_log,
     )
+
     flow = load_flow('http_raw')
 
     matched_route, matched_filters = match_route(
@@ -57,13 +63,31 @@ def test_match_route_inbound(monkeypatch):
 
     assert matched_route is route
     assert matched_filters == [filters[0]]
-    emit_audit_log.assert_called_once_with(RuleChainEvaluationLogRecord(
-        flow_id=flow.id,
-        matched=True,
-        phase=Phase.REQUEST,
-        proxy_mode=ProxyMode.REVERSE,
-        route_id=route.id,
-    ))
+    emit_audit_log.assert_has_calls([
+        call(FilterEvaluationLogRecord(
+            flow_id=flow.id,
+            matched=True,
+            phase=Phase.REQUEST,
+            proxy_mode=ProxyMode.REVERSE,
+            route_id=route.id,
+            filter_id=filters[0].id,
+        )),
+        call(FilterEvaluationLogRecord(
+            flow_id=flow.id,
+            matched=False,
+            phase=Phase.REQUEST,
+            proxy_mode=ProxyMode.REVERSE,
+            route_id=route.id,
+            filter_id=filters[1].id,
+        )),
+        call(RouteEvaluationLogRecord(
+            flow_id=flow.id,
+            matched=True,
+            phase=Phase.REQUEST,
+            proxy_mode=ProxyMode.REVERSE,
+            route_id=route.id,
+        )),
+    ])
 
 
 def test_match_route_outbound(monkeypatch):

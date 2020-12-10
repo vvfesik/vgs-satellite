@@ -21,6 +21,7 @@ const eventLogsMap = {
   upstream: 'Upstream',
   status_code: 'Status code',
   route_id: 'Route ID',
+  filter_id: 'Filter ID',
   matched: 'Matched',
   action_type: 'Action Type',
   alias_generator: 'Alias Generator',

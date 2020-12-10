@@ -76,9 +76,18 @@ class VaultRecordUsageLogRecord(AuditLogRecord):
 
 
 @dataclass
-class RuleChainEvaluationLogRecord(AuditLogRecord):
+class RouteEvaluationLogRecord(AuditLogRecord):
     name: str = field(default='Route evaluation', init=False)
     route_id: str
+    matched: bool
+    phase: Phase
+
+
+@dataclass
+class FilterEvaluationLogRecord(AuditLogRecord):
+    name: str = field(default='Filter evaluation', init=False)
+    route_id: str
+    filter_id: str
     matched: bool
     phase: Phase
 

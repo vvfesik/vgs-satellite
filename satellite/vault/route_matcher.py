@@ -1,6 +1,7 @@
+from functools import partial
 from typing import List, Optional, Tuple
 
-from mitmproxy.flow import Flow
+from mitmproxy.http import HTTPFlow
 
 from satellite import audit_logs
 from satellite.db.models.route import Phase, Route, RouteType, RuleEntry
@@ -11,7 +12,7 @@ from satellite.service import route_manager
 def match_route(
     proxy_mode: ProxyMode,
     phase: Phase,
-    flow: Flow,
+    flow: HTTPFlow,
 ) -> Tuple[Optional[Route], List[RuleEntry]]:
     request = flow.request
     route_type = RouteType.INBOUND if proxy_mode == ProxyMode.REVERSE else RouteType.OUTBOUND
@@ -21,9 +22,10 @@ def match_route(
         routes = [route for route in routes if route.host_endpoint == request_host]
 
     for route in routes:
-        rule_entries_list = match_filters(route.rule_entries_list, phase, request)
-        matched = bool(rule_entries_list)
-        audit_logs.emit(audit_logs.records.RuleChainEvaluationLogRecord(
+        match_filters = partial(match_filter, proxy_mode, phase, flow)
+        filters = list(filter(match_filters, route.rule_entries_list))
+        matched = bool(filters)
+        audit_logs.emit(audit_logs.records.RouteEvaluationLogRecord(
             flow_id=flow.id,
             matched=matched,
             phase=phase,
@@ -31,31 +33,52 @@ def match_route(
             route_id=route.id,
         ))
         if matched:
-            return route, rule_entries_list
+            return route, filters
 
     return None, []
 
 
-def match_filters(rule_entries, phase: Phase, request):
-    rule_entries = [rule_entry for rule_entry in rule_entries if rule_entry.phase == phase.value]
-    return [rule_entry for rule_entry in rule_entries if match_filter(rule_entry.expression_snapshot, request)]
+def match_filter(
+    proxy_mode: ProxyMode,
+    phase: Phase,
+    flow: HTTPFlow,
+    fltr: RuleEntry,
+) -> bool:
+    if fltr.phase != phase.value:
+        # TODO: Should we emit filter audit logs when phases do not match?
+        return False
 
-
-def match_filter(expression_snapshot, request):
     evaluated = []
-    rules = expression_snapshot['rules']
-    condition = expression_snapshot['condition']
-    for rule in rules:
+
+    for rule in fltr.expression_snapshot['rules']:
         expression = rule['expression']
-        evaluated += [(expression['values'][0].lower() == extract_value(request, expression['field']).lower())]
-    return all(evaluated) if condition == 'AND' else any(evaluated)
+        expected_value = expression['values'][0].lower()
+        extracted_value = extract_value(flow, expression['field']).lower()
+        evaluated.append(
+            extracted_value is not None and
+            expected_value == extracted_value
+        )
+
+    condition = fltr.expression_snapshot['condition']
+    matched = all(evaluated) if condition == 'AND' else any(evaluated)
+
+    audit_logs.emit(audit_logs.records.FilterEvaluationLogRecord(
+        flow_id=flow.id,
+        matched=matched,
+        phase=phase,
+        proxy_mode=proxy_mode,
+        route_id=fltr.route_id,
+        filter_id=fltr.id,
+    ))
+
+    return matched
 
 
-def extract_value(request, field):
+def extract_value(flow: HTTPFlow, field: str) -> Optional[str]:
+    request = flow.request
     if field == 'PathInfo':
         return request.path
     if field == 'ContentType':
-        return request.headers['Content-type'] if 'Content-type' in request.headers else ''
+        return request.headers.get('Content-type')
     if field == 'Method':
         return request.method
-    return ''

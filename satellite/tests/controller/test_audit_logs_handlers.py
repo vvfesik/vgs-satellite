@@ -35,12 +35,20 @@ class TestAuditLogsHandlerGet(BaseHandlerTestCase):
                 record_id='75dc92d5-e9ec-45b9-a63a-5bdeb5a2fc91',
                 route_id='01058009-1693-4177-bcf6-fc87c57a4bfd',
             ),
-            records.RuleChainEvaluationLogRecord(
+            records.RouteEvaluationLogRecord(
                 flow_id='c8973f85-bb66-450b-9dd1-5f6e2c57b8bd',
                 matched=True,
                 phase=Phase.REQUEST,
                 proxy_mode=ProxyMode.REVERSE,
                 route_id='01058009-1693-4177-bcf6-fc87c57a4bfd',
+            ),
+            records.FilterEvaluationLogRecord(
+                flow_id='c8973f85-bb66-450b-9dd1-5f6e2c57b8bd',
+                matched=True,
+                phase=Phase.REQUEST,
+                proxy_mode=ProxyMode.REVERSE,
+                route_id='01058009-1693-4177-bcf6-fc87c57a4bfd',
+                filter_id='d5e8d035-f70f-416b-8021-812d55d0c360',
             ),
             records.VaultTrafficLogRecord(
                 flow_id='c8973f85-bb66-450b-9dd1-5f6e2c57b8bd',

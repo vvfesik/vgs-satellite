@@ -48,7 +48,18 @@ snapshots['TestAuditLogsHandlerGet::test_ok 1'] = {
             'proxy_mode': 'reverse',
             'route_id': '01058009-1693-4177-bcf6-fc87c57a4bfd',
             'timestamp': 1604188800.0,
-            'type': 'RuleChainEvaluationLogRecord'
+            'type': 'RouteEvaluationLogRecord'
+        },
+        {
+            'filter_id': 'd5e8d035-f70f-416b-8021-812d55d0c360',
+            'flow_id': 'c8973f85-bb66-450b-9dd1-5f6e2c57b8bd',
+            'matched': True,
+            'name': 'Filter evaluation',
+            'phase': 'REQUEST',
+            'proxy_mode': 'reverse',
+            'route_id': '01058009-1693-4177-bcf6-fc87c57a4bfd',
+            'timestamp': 1604188800.0,
+            'type': 'FilterEvaluationLogRecord'
         },
         {
             'bytes': 123,
