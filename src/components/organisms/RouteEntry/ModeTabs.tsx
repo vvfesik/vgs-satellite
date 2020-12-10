@@ -20,6 +20,7 @@ export const ModeTabs = (props: any) => {
           active={props.activeTab === 'advanced'}
           onClick={() => props.onChange('advanced')}
           data-role="advanced-tab-link"
+          className="is-disabled"
         >
           Advanced
         </NavLink>
