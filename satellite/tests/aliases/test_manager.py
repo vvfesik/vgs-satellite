@@ -5,10 +5,12 @@ from freezegun import freeze_time
 import pytest
 
 from satellite import ctx
+from satellite.aliases import AliasStoreType
+from satellite.aliases import manager as alias_manager
+from satellite.aliases.generators import AliasGeneratorType
 from satellite.audit_logs import records
 from satellite.db.models.route import Phase
 from satellite.proxy import ProxyMode
-from satellite.service import alias_manager
 
 
 @pytest.fixture
@@ -39,34 +41,39 @@ def test_redact_new_token(
     route_context,
 ):
     monkeypatch.setattr(
-        'satellite.service.alias_manager.get_session',
+        'satellite.aliases.store.get_session',
         Mock(),
     )
     monkeypatch.setattr(
-        'satellite.service.alias_manager.get_by_value',
+        'satellite.aliases.store.AliasStore.get_by_value',
         Mock(return_value=None),
     )
     emit_audit_log = Mock()
     monkeypatch.setattr(
-        'satellite.service.alias_manager.audit_logs.emit',
+        'satellite.aliases.manager.audit_logs.emit',
         emit_audit_log,
     )
     monkeypatch.setattr(
-        'satellite.service.alias_manager.uuid.uuid4',
+        'satellite.aliases.manager.uuid.uuid4',
         Mock(return_value='ead9d833-eb9a-474c-9894-16de59682dce'),
     )
 
     with ctx.use_context(proxy_context), ctx.use_context(flow_context), ctx.use_context(route_context):
-        alias = alias_manager.redact('value', 'UUID')
+        alias = alias_manager.redact(
+            'value',
+            generator_type=AliasGeneratorType.UUID,
+            store_type=AliasStoreType.PERSISTENT,
+        )
 
     assert alias.public_alias == 'tok_sat_medNmHNXKxwuHq8AvfAhmo'
     emit_audit_log.assert_called_once_with(records.VaultRecordUsageLogRecord(
         action_type=records.ActionType.CREATED,
-        alias_generator='UUID',
+        alias_generator=AliasGeneratorType.UUID,
         flow_id='313980a8-ff6c-4b13-b5a3-03909389295b',
         phase=Phase.REQUEST,
         proxy_mode=ProxyMode.REVERSE,
         record_id='ead9d833-eb9a-474c-9894-16de59682dce',
+        record_type=AliasStoreType.PERSISTENT,
         route_id='41265f94-3ea5-46ad-b5f5-26221a41db34',
     ))
 
@@ -79,11 +86,11 @@ def test_redact_existing_token(
     route_context,
 ):
     monkeypatch.setattr(
-        'satellite.service.alias_manager.get_session',
+        'satellite.aliases.store.get_session',
         Mock(),
     )
     monkeypatch.setattr(
-        'satellite.service.alias_manager.get_by_value',
+        'satellite.aliases.store.AliasStore.get_by_value',
         Mock(return_value=Mock(
             id='ead9d833-eb9a-474c-9894-16de59682dce',
             public_alias='tok_sat_medNmHNXKxwuHq8AvfAhmo',
@@ -91,25 +98,30 @@ def test_redact_existing_token(
     )
     emit_audit_log = Mock()
     monkeypatch.setattr(
-        'satellite.service.alias_manager.audit_logs.emit',
+        'satellite.aliases.manager.audit_logs.emit',
         emit_audit_log,
     )
     monkeypatch.setattr(
-        'satellite.service.alias_manager.uuid.uuid4',
+        'satellite.aliases.manager.uuid.uuid4',
         Mock(return_value='ead9d833-eb9a-474c-9894-16de59682dce'),
     )
 
     with ctx.use_context(proxy_context), ctx.use_context(flow_context), ctx.use_context(route_context):
-        alias = alias_manager.redact('value', 'UUID')
+        alias = alias_manager.redact(
+            'value',
+            generator_type=AliasGeneratorType.UUID,
+            store_type=AliasStoreType.PERSISTENT,
+        )
 
     assert alias.public_alias == 'tok_sat_medNmHNXKxwuHq8AvfAhmo'
     emit_audit_log.assert_called_once_with(records.VaultRecordUsageLogRecord(
         action_type=records.ActionType.DE_DUPE,
-        alias_generator='UUID',
+        alias_generator=AliasGeneratorType.UUID,
         flow_id='313980a8-ff6c-4b13-b5a3-03909389295b',
         phase=Phase.REQUEST,
         proxy_mode=ProxyMode.REVERSE,
         record_id='ead9d833-eb9a-474c-9894-16de59682dce',
+        record_type=AliasStoreType.PERSISTENT,
         route_id='41265f94-3ea5-46ad-b5f5-26221a41db34',
     ))
 
@@ -122,37 +134,41 @@ def test_reveal(
     route_context,
 ):
     monkeypatch.setattr(
-        'satellite.service.alias_manager.get_session',
+        'satellite.aliases.store.get_session',
         Mock(),
     )
     monkeypatch.setattr(
-        'satellite.service.alias_manager.get_by_alias',
+        'satellite.aliases.store.AliasStore.get_by_alias',
         Mock(return_value=Mock(
-            alias_generator='UUID',
+            alias_generator=AliasGeneratorType.UUID,
             id='ead9d833-eb9a-474c-9894-16de59682dce',
             value='value',
         )),
     )
     emit_audit_log = Mock()
     monkeypatch.setattr(
-        'satellite.service.alias_manager.audit_logs.emit',
+        'satellite.aliases.manager.audit_logs.emit',
         emit_audit_log,
     )
     monkeypatch.setattr(
-        'satellite.service.alias_manager.uuid.uuid4',
+        'satellite.aliases.manager.uuid.uuid4',
         Mock(return_value='ead9d833-eb9a-474c-9894-16de59682dce'),
     )
 
     with ctx.use_context(proxy_context), ctx.use_context(flow_context), ctx.use_context(route_context):
-        alias = alias_manager.reveal('tok_sat_medNmHNXKxwuHq8AvfAhmo')
+        alias = alias_manager.reveal(
+            'tok_sat_medNmHNXKxwuHq8AvfAhmo',
+            store_type=AliasStoreType.PERSISTENT,
+        )
 
     assert alias.value == 'value'
     emit_audit_log.assert_called_once_with(records.VaultRecordUsageLogRecord(
         action_type=records.ActionType.RETRIEVED,
-        alias_generator='UUID',
+        alias_generator=AliasGeneratorType.UUID,
         flow_id='313980a8-ff6c-4b13-b5a3-03909389295b',
         phase=Phase.REQUEST,
         proxy_mode=ProxyMode.REVERSE,
         record_id='ead9d833-eb9a-474c-9894-16de59682dce',
+        record_type=AliasStoreType.PERSISTENT,
         route_id='41265f94-3ea5-46ad-b5f5-26221a41db34',
     ))

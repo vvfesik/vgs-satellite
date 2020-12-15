@@ -1,7 +1,9 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, String
+from sqlalchemy import Column, DateTime, Enum, String
+
+from satellite.aliases import AliasGeneratorType
 
 from .base import Base
 
@@ -12,13 +14,6 @@ class Alias(Base):
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     created_at = Column(DateTime, default=lambda: datetime.utcnow())
     value = Column(String)
-    alias_generator = Column(String)
+    alias_generator = Column(Enum(AliasGeneratorType))
     public_alias = Column(String)
-
-
-class RedactFailed(BaseException):
-    pass
-
-
-class RevealFailed(BaseException):
-    pass
+    expires_at = Column(DateTime)

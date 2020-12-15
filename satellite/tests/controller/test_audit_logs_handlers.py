@@ -3,6 +3,8 @@ from unittest.mock import Mock
 
 from freezegun import freeze_time
 
+from satellite.aliases import AliasStoreType
+from satellite.aliases.generators import AliasGeneratorType
 from satellite.audit_logs import records, store
 from satellite.db.models.route import Phase
 from satellite.proxy import ProxyMode
@@ -28,11 +30,12 @@ class TestAuditLogsHandlerGet(BaseHandlerTestCase):
             ),
             records.VaultRecordUsageLogRecord(
                 action_type=records.ActionType.CREATED,
-                alias_generator='UUID',
+                alias_generator=AliasGeneratorType.UUID,
                 flow_id='c8973f85-bb66-450b-9dd1-5f6e2c57b8bd',
                 phase=Phase.REQUEST,
                 proxy_mode=ProxyMode.REVERSE,
                 record_id='75dc92d5-e9ec-45b9-a63a-5bdeb5a2fc91',
+                record_type=AliasStoreType.PERSISTENT,
                 route_id='01058009-1693-4177-bcf6-fc87c57a4bfd',
             ),
             records.RouteEvaluationLogRecord(

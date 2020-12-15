@@ -1,14 +1,11 @@
 import json
 from abc import ABCMeta, abstractmethod
-from typing import List, Union
+from typing import Callable, List, Union
 from urllib.parse import parse_qsl, urlencode
 
 from jsonpath_ng import parse
 
 from lxml import etree
-
-from satellite.db.models.route import Operation
-from satellite.service import alias_manager
 
 
 class TransformerError(Exception):
@@ -21,19 +18,23 @@ class PayloadTransformer(metaclass=ABCMeta):
         self,
         payload: Union[str, bytes],
         transformer_array: List[str],
-        token_generator: str,
-        operation: Operation,
+        operation: Callable,
     ) -> Union[str, bytes]:
         pass
 
 
 class JsonTransformer(PayloadTransformer):
-    def transform(self, payload, transformer_array, token_generator, operation):
+    def transform(
+        self,
+        payload: Union[str, bytes],
+        transformer_array: List[str],
+        operation: Callable,
+    ):
         payload_json = json.loads(payload)
         for expression in transformer_array:
             json_expr = parse(expression)
             for match in json_expr.find(payload_json):
-                json_expr.update(payload_json, transform(match.value, operation, token_generator))
+                json_expr.update(payload_json, operation(match.value))
         return json.dumps(payload_json)
 
 
@@ -42,8 +43,7 @@ class FormDataTransformer(PayloadTransformer):
         self,
         payload: Union[str, bytes],
         transformer_array: List[str],
-        token_generator: str,
-        operation: Operation,
+        operation: Callable,
     ) -> str:
         result = []
         target_fields = set(transformer_array)
@@ -52,7 +52,7 @@ class FormDataTransformer(PayloadTransformer):
 
         for name, value in parse_qsl(payload, keep_blank_values=True):
             if value and name in target_fields:
-                value = transform(value, operation, token_generator)
+                value = operation(value)
             result.append((name, value))
 
         return urlencode(result)
@@ -63,8 +63,7 @@ class XMLTransformer(PayloadTransformer):
         self,
         payload: Union[str, bytes],
         transformer_array: List[str],
-        token_generator: str,
-        operation: Operation,
+        operation: Callable,
     ) -> str:
         try:
             root = etree.fromstring(payload)
@@ -76,7 +75,7 @@ class XMLTransformer(PayloadTransformer):
             try:
                 for element in root.xpath(expr):
                     has_matches = True
-                    self._transform(token_generator, operation, element)
+                    self._transform(operation, element)
 
             except etree.XPathEvalError as exc:
                 raise TransformerError(
@@ -88,24 +87,12 @@ class XMLTransformer(PayloadTransformer):
 
         return payload
 
-    def _transform(
-        self,
-        token_generator: str,
-        operation: Operation,
-        element: etree.ElementBase,
-    ):
+    def _transform(self, operation: Callable, element: etree.ElementBase):
         value = ''.join(element.itertext())
         if not value:
             return
         element.clear()
-        element.text = transform(value, operation, token_generator)
-
-
-def transform(value, operation, token_generator='UUID'):
-    if operation == Operation.REDACT.value:
-        return alias_manager.redact(value, token_generator).public_alias
-    else:
-        return alias_manager.reveal(value).value
+        element.text = operation(value)
 
 
 transformer_map = {

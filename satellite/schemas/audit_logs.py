@@ -4,6 +4,7 @@ from marshmallow_enum import EnumField
 
 from marshmallow_oneofschema import OneOfSchema
 
+from ..aliases import AliasGeneratorType, AliasStoreType
 from ..audit_logs import records
 from ..db.models.route import Phase
 from ..proxy import ProxyMode
@@ -38,10 +39,10 @@ class UpstreamResponseLogRecordSchema(AuditLogRecordBaseSchema):
 
 class VaultRecordUsageLogRecordSchema(AuditLogRecordBaseSchema):
     action_type = EnumField(records.ActionType, by_value=True, required=True)
-    alias_generator = fields.Str(required=True)
+    alias_generator = EnumField(AliasGeneratorType, by_value=True, required=True)
     phase = EnumField(Phase, by_value=True, required=True)
     record_id = fields.Str(required=True)
-    record_type = EnumField(records.RecordType, by_value=True, required=True)
+    record_type = EnumField(AliasStoreType, by_value=True, required=True)
     route_id = fields.Str(required=True)
 
 

@@ -3,13 +3,9 @@ from dataclasses import dataclass, field
 from enum import Enum, unique
 from typing import List
 
+from ..aliases import AliasGeneratorType, AliasStoreType
 from ..db.models.route import Phase
 from ..proxy import ProxyMode
-
-
-@unique
-class RecordType(Enum):
-    PERSISTENT_TOKEN = 'PERSISTENT_TOKEN'
 
 
 @unique
@@ -65,13 +61,10 @@ class UpstreamResponseLogRecord(AuditLogRecord):
 class VaultRecordUsageLogRecord(AuditLogRecord):
     name: str = field(default='Record usage', init=False)
     action_type: ActionType
-    alias_generator: str
+    alias_generator: AliasGeneratorType
     phase: Phase
     record_id: str
-    record_type: RecordType = field(
-        default=RecordType.PERSISTENT_TOKEN,
-        init=False,
-    )
+    record_type: AliasStoreType
     route_id: str
 
 

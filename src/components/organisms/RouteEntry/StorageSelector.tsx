@@ -19,7 +19,6 @@ export const StorageSelector = (props: any) => {
           value={props.storage}
           onChange={e => handleOnChange(e)}
           data-role="rule-entry-storage-select"
-          className="is-disabled"
         >
             <option value="PERSISTENT" key="Persistent">
               Persistent

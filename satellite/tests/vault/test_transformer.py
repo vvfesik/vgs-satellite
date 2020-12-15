@@ -1,8 +1,5 @@
-from unittest.mock import Mock
-
 import pytest
 
-from satellite.db.models.route import Operation
 from satellite.vault.transformer import (
     FormDataTransformer,
     TransformerError,
@@ -18,6 +15,10 @@ XML_PAYLOAD = b"""<CC>
 </CC>"""
 
 
+def transform(value: str) -> str:
+    return f'transformed_{value}'
+
+
 @pytest.mark.parametrize('payload,expected', [
     ('', ''),
     ('f1=v1', 'f1=transformed_v1'),
@@ -28,14 +29,10 @@ XML_PAYLOAD = b"""<CC>
     (b'f1', 'f1='),
 ])
 def test_from_data(monkeypatch, payload, expected):
-    transform = Mock(wraps=lambda v, *args: f'transformed_{v}')
-    monkeypatch.setattr('satellite.vault.transformer.transform', transform)
-
     result = FormDataTransformer().transform(
         payload=payload,
         transformer_array=['f1'],
-        token_generator='UUID',
-        operation=Operation.REDACT,
+        operation=transform,
     )
 
     assert result == expected
@@ -47,14 +44,10 @@ def test_from_data(monkeypatch, payload, expected):
     ['/CC/Foo'],
 ])
 def test_xml_ok(monkeypatch, snapshot, expressions):
-    transform = Mock(wraps=lambda v, *args: f'transformed_{v}')
-    monkeypatch.setattr('satellite.vault.transformer.transform', transform)
-
     result = XMLTransformer().transform(
         payload=XML_PAYLOAD,
         transformer_array=expressions,
-        token_generator='UUID',
-        operation=Operation.REDACT,
+        operation=transform,
     )
 
     snapshot.assert_match(result)
@@ -65,8 +58,7 @@ def test_xml_invalid_xml():
         XMLTransformer().transform(
             payload=XML_PAYLOAD + b'$',
             transformer_array=[],
-            token_generator='UUID',
-            operation=Operation.REDACT,
+            operation=transform,
         )
     assert str(exc_info.value).startswith('Invalid XML payload')
 
@@ -76,7 +68,6 @@ def test_xml_invalid_expr():
         XMLTransformer().transform(
             payload=XML_PAYLOAD,
             transformer_array=['$'],
-            token_generator='UUID',
-            operation=Operation.REDACT,
+            operation=transform,
         )
     assert str(exc_info.value).startswith('Invalid XPath expression $')

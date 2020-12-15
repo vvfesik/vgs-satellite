@@ -1,21 +1,14 @@
-from functools import partial
-
 from marshmallow import Schema, fields, pre_load, validate
 
-from ..vault.generator import get_generator_types
+from marshmallow_enum import EnumField
 
-
-FormatField = partial(
-    fields.Str,
-    required=True,
-    validate=validate.OneOf(get_generator_types()),
-)
+from ..aliases import AliasGeneratorType
 
 
 class RedactRequestSchema(Schema):
     class ValueToRedact(Schema):
         value = fields.Str(required=True)
-        format = FormatField()
+        format = EnumField(AliasGeneratorType, by_value=True, required=True)
 
         @pre_load
         def prepare_value(self, data: dict, **kwargs) -> dict:
@@ -38,7 +31,7 @@ class RedactRequestSchema(Schema):
 class RecordSchema(Schema):
     class Alias(Schema):
         alias = fields.Str(required=True)
-        format = FormatField()
+        format = EnumField(AliasGeneratorType, by_value=True, required=True)
     value = fields.Str(required=True)
     aliases = fields.List(fields.Nested(Alias), required=True)
     created_at = fields.DateTime(required=True)

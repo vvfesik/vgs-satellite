@@ -4,7 +4,7 @@ from mitmproxy.connections import ServerConnection
 from mitmproxy.http import HTTPFlow
 
 from satellite import audit_logs, ctx
-from satellite.db.models.alias import RedactFailed, RevealFailed
+from satellite.aliases import RedactFailed, RevealFailed
 from satellite.db.models.route import Phase
 from satellite.operations.pipeline import build_pipeline
 from satellite.vault.route_matcher import match_route

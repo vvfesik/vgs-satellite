@@ -1,4 +1,5 @@
 import locale
+import logging
 import os
 from multiprocessing import set_start_method
 
@@ -7,7 +8,8 @@ import click
 from tblib import pickling_support
 
 from satellite import db
-from satellite import logging
+from satellite import logging as satellite_logging
+from satellite.aliases.store import AliasStore
 from satellite.config import InvalidConfigError, configure, init_satellite_dir
 from satellite.web_application import WebApplication
 
@@ -50,6 +52,13 @@ from satellite.web_application import WebApplication
     help='Do not log into stdout.',
     envvar='SATELLITE_SILENT',
 )
+@click.option(
+    '--volatile-aliases-ttl',
+    type=int,
+    default=None,
+    help='TTL for volatile aliases in seconds. Default is 3600 (1 hour).',
+    envvar='VOLATILE_ALIASES_TTL',
+)
 def main(**kwargs):
     set_start_method('fork')  # PyInstaller supports only fork start method
 
@@ -66,13 +75,17 @@ def main(**kwargs):
     except InvalidConfigError as exc:
         raise click.ClickException(f'Invalid config: {exc}') from exc
 
-    logging.configure(log_path=config.log_path, silent=config.silent)
+    satellite_logging.configure(log_path=config.log_path, silent=config.silent)
 
     db.configure(config.db_path)
     try:
         db.init()
     except db.DBVersionMismatch as exc:
         raise click.ClickException(exc) from exc
+
+    deleted_aliases = AliasStore.cleanup()
+    logger = logging.getLogger()
+    logger.info(f'Deleted {deleted_aliases} expired aliases.')
 
     app = WebApplication(config)
     app.start()

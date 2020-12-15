@@ -1,24 +1,21 @@
 import uuid
 from functools import partial
-from typing import Optional
 
-from satellite import ctx
+from satellite.config import get_config
 
+from . import AliasGeneratorType, AliasStoreType, RevealFailed
+from .generators import get_alias_generator
+from .store import AliasStore
 from .. import audit_logs
-from ..db import get_session
-from ..db.models.alias import Alias, RevealFailed
-from ..vault.generator import get_generator
+from .. import ctx
+from ..db.models.alias import Alias
 
 
-def get_by_value(value: str) -> Optional[Alias]:
-    return get_session().query(Alias).filter(Alias.value == value).first()
-
-
-def get_by_alias(alias: str) -> Optional[Alias]:
-    return get_session().query(Alias).filter(Alias.public_alias == alias).first()
-
-
-def redact(value: str, generator_type: str) -> Alias:
+def redact(
+    value: str,
+    generator_type: AliasGeneratorType,
+    store_type: AliasStoreType,
+) -> Alias:
     make_log_record = None
     flow_context = ctx.get_flow_context()
     if flow_context:
@@ -29,9 +26,11 @@ def redact(value: str, generator_type: str) -> Alias:
             phase=flow_context.phase,
             proxy_mode=ctx.get_proxy_context().mode,
             route_id=ctx.get_route_context().route.id,
+            record_type=store_type,
         )
 
-    alias_entity = get_by_value(value)
+    alias_store = _get_store(store_type)
+    alias_entity = alias_store.get_by_value(value)
     if alias_entity:
         if make_log_record:
             audit_logs.emit(make_log_record(
@@ -40,7 +39,7 @@ def redact(value: str, generator_type: str) -> Alias:
             ))
         return alias_entity
 
-    generator = get_generator(generator_type)
+    generator = get_alias_generator(generator_type)
     alias_id = str(uuid.uuid4())
     alias = Alias(
         id=alias_id,
@@ -48,9 +47,7 @@ def redact(value: str, generator_type: str) -> Alias:
         alias_generator=generator_type,
         public_alias=generator.generate(alias_id),
     )
-    session = get_session()
-    session.add(alias)
-    session.commit()
+    alias_store.save(alias)
 
     if make_log_record:
         audit_logs.emit(make_log_record(
@@ -61,8 +58,9 @@ def redact(value: str, generator_type: str) -> Alias:
     return alias
 
 
-def reveal(alias: str) -> Alias:
-    alias_entity = get_by_alias(alias)
+def reveal(alias: str, store_type: AliasStoreType) -> Alias:
+    alias_store = _get_store(store_type)
+    alias_entity = alias_store.get_by_alias(alias)
     if not alias_entity:
         raise RevealFailed('Alias was not found!')
 
@@ -75,7 +73,16 @@ def reveal(alias: str) -> Alias:
             proxy_mode=ctx.get_proxy_context().mode,
             route_id=ctx.get_route_context().route.id,
             action_type=audit_logs.records.ActionType.RETRIEVED,
+            record_type=store_type,
             record_id=alias_entity.id,
         ))
 
     return alias_entity
+
+
+def _get_store(store_type: AliasStoreType) -> AliasStore:
+    if store_type == AliasStoreType.PERSISTENT:
+        return AliasStore()
+    elif store_type == AliasStoreType.VOLATILE:
+        return AliasStore(get_config().volatile_aliases_ttl)
+    raise Exception(f'Unknown alias store type: {store_type}')

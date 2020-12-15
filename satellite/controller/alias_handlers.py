@@ -1,13 +1,16 @@
 from typing import Optional, Tuple
 
 from . import BaseHandler, apply_request_schema, apply_response_schema
-from ..db.models.alias import RevealFailed
+from ..aliases import AliasStoreType, RevealFailed
+from ..aliases.manager import redact, reveal
 from ..schemas.aliases import (
     AliasResponseSchema,
     AliasesResponseSchema,
     RedactRequestSchema,
 )
-from ..service import alias_manager
+
+
+STORAGE_TYPE = AliasStoreType.PERSISTENT
 
 
 class AliasesHandler(BaseHandler):
@@ -17,7 +20,7 @@ class AliasesHandler(BaseHandler):
         results = []
         for item in validated_data['data']:
             value, format = item['value'], item['format']
-            alias = alias_manager.redact(value, format)
+            alias = redact(value, format, STORAGE_TYPE)
             results.append({
                 'aliases': [{'alias': alias.public_alias, 'format': format}],
                 'created_at': alias.created_at,
@@ -65,7 +68,7 @@ class AliasHandler(BaseHandler):
 
 def _reveal(public_alias: str) -> Tuple[Optional[str], Optional[dict]]:
     try:
-        alias = alias_manager.reveal(public_alias)
+        alias = reveal(public_alias, STORAGE_TYPE)
     except RevealFailed as exc:
         return None, {'detail': f'Unable to reveal {public_alias}: {exc}'}
 

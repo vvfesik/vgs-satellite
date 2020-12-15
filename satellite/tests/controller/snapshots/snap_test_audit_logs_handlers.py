@@ -35,7 +35,7 @@ snapshots['TestAuditLogsHandlerGet::test_ok 1'] = {
             'phase': 'REQUEST',
             'proxy_mode': 'reverse',
             'record_id': '75dc92d5-e9ec-45b9-a63a-5bdeb5a2fc91',
-            'record_type': 'PERSISTENT_TOKEN',
+            'record_type': 'PERSISTENT',
             'route_id': '01058009-1693-4177-bcf6-fc87c57a4bfd',
             'timestamp': 1604188800.0,
             'type': 'VaultRecordUsageLogRecord'

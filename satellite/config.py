@@ -25,6 +25,7 @@ class SatelliteConfig:
     db_path: str = str(DEFAULT_DB_PATH)
     log_path: Optional[str] = None
     silent: bool = False
+    volatile_aliases_ttl: int = 3600
 
 
 SatelliteConfigSchema = marshmallow_dataclass.class_schema(SatelliteConfig)
@@ -47,7 +48,13 @@ def configure(config_path: str = None, **kwargs):
     if errors:
         raise InvalidConfigError(errors)
 
-    return SatelliteConfig(**schema.dump(params))
+    global __config
+    __config = SatelliteConfig(**schema.dump(params))
+    return __config
+
+
+def get_config() -> SatelliteConfig:
+    return __config
 
 
 def _get_params_from_config_file(config_path: str = None) -> dict:
@@ -67,3 +74,6 @@ def _get_params_from_config_file(config_path: str = None) -> dict:
             return config
 
     return {}
+
+
+__config: SatelliteConfig = None

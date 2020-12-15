@@ -17,6 +17,7 @@ DEFAULT_CONFIG_VALUES = MappingProxyType({
     'reverse_proxy_port': 9098,
     'silent': False,
     'web_server_port': 8089,
+    'volatile_aliases_ttl': 3600,
 })
 
 

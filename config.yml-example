@@ -3,3 +3,4 @@ reverse_proxy_port: 9098
 forward_proxy_port: 9099
 # db_path: /custom/path/to/db.sqlite
 # log_path: /path/to/a/log/file
+# volatile_aliases_ttl: 3600
