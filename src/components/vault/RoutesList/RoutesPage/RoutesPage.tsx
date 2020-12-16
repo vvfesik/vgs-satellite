@@ -4,7 +4,8 @@ import RouteDeleteConfirmModal from 'src/components/organisms/RouteDeleteConfirm
 import RoutesPageHeader from './RoutesPageHeader';
 import { groupBy } from 'lodash';
 import { IRoute, TRouteType } from 'src/redux/interfaces/routes';
-import { getProxyType } from 'src/redux/utils/routes';
+import { isInbound, getProxyType } from 'src/redux/utils/routes';
+import { pushEvent } from 'src/redux/utils/analytics';
 import { TabContent, TabPane } from 'reactstrap';
 
 export interface IRoutesPageProps {
@@ -29,10 +30,24 @@ const RoutesPage: React.FC<IRoutesPageProps> = (props) => {
   }
 
   const handleDeleteRouteById = (routeId: string) => {
+    if (currentRoute) {
+      pushEvent('route_delete', {
+        route_type: isInbound(currentRoute) ? 'inbound' : 'outbound',
+      });
+    }
     props.deleteRoute(routeId);
     setIsDeleteModalOpen(false);
     setCurrentRoute(undefined);
   }
+
+  const handleSetActiveTab = (tabId: string) => {
+    setActiveTab(tabId);
+    if (tabId === 'all-routes') {
+      pushEvent('route_all_tab');
+    } else {
+      pushEvent(`route_${tabId}_tab`);
+    }
+  };
 
   function renderList(list: IRoute[], routeType: TRouteType) {
     return list ? (
@@ -48,7 +63,7 @@ const RoutesPage: React.FC<IRoutesPageProps> = (props) => {
       <RoutesPageHeader
         hasRoutes={!!props.routes?.length}
         activeTab={activeTab}
-        setActiveTab={(tabId: string) => setActiveTab(tabId)}
+        setActiveTab={(tabId: string) => handleSetActiveTab(tabId)}
       />
       {!!props.routes?.length && (
         <TabContent className='mt-4' activeTab={activeTab}>

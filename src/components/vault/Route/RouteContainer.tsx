@@ -7,6 +7,8 @@ import { Icon } from 'src/components/antd';
 import { notify } from 'src/redux/utils/notifications';
 import { removeCharset } from 'src/redux/utils/utils';
 import { fetchRoutes, deleteRoute, updateCurrentRoute, updateRoute, saveRoute } from 'src/redux/modules/routes';
+import { isInbound } from 'src/redux/utils/routes';
+import { pushEvent } from 'src/redux/utils/analytics';
 import { IRoute } from 'src/redux/interfaces/routes';
 
 const mapStateToProps = ({ routes }: any) => {
@@ -79,12 +81,20 @@ const RouteContainer: React.FunctionComponent<IRouteContainerProps> = (props) =>
           },
         );
       }
+      pushEvent('route_save', {
+        route_type: isInbound(r) ? 'inbound' : 'outbound',
+      });
     } catch (error) {
       notify.error(error.message);
     }
   }
 
   const routeDeleteHandler = (id: string) => {
+    if (currentRoute) {
+      pushEvent('route_delete', {
+        route_type: isInbound(currentRoute) ? 'inbound' : 'outbound',
+      });
+    }
     deleteRoute(id);
     history.push('/routes');
   }

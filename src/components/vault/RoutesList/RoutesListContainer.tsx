@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import RoutesPage from './RoutesPage/RoutesPage';
 import { fetchRoutes, deleteRoute } from 'src/redux/modules/routes';
+import { pushEvent } from 'src/redux/utils/analytics';
 import { IRoute } from 'src/redux/interfaces/routes';
 
 const mapStateToProps = ({ routes }: any) => {
@@ -28,6 +29,7 @@ const RoutesListContainer: React.FunctionComponent<IRoutesListContainerProps> = 
 
   useEffect(() => {
     fetchRoutes();
+    pushEvent('routes');
   }, [])
 
   return (

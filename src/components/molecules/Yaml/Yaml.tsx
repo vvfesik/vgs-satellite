@@ -10,6 +10,8 @@ import { Button, Icon, Modal, Popover } from 'src/components/antd';
 import { TabPane, TabContent, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
 import config from 'src/config/config';
+import { isInbound } from 'src/redux/utils/routes';
+import { pushEvent } from 'src/redux/utils/analytics';
 
 interface IYamlProps {
   route: IRoute[] | IRoute;
@@ -79,6 +81,18 @@ const Yaml: React.FC<IYamlProps> = (props) => {
     ));
   };
 
+  const onExport = (tabLabel?: string) => {
+    if (tabLabel) {
+      pushEvent('route_export', {
+        route_type: tabLabel.toLowerCase(),
+      });
+    } else if (!Array.isArray(props.route)) {
+      pushEvent('route_export', {
+        route_type: isInbound(props.route) ? 'inbound' : 'outbound',
+      });
+    }
+  };
+
   const tabContent = (tabs) => {
     return tabs.map(tab => (
       <TabPane tabId={tab.name} key={tab.name}>
@@ -99,6 +113,7 @@ const Yaml: React.FC<IYamlProps> = (props) => {
             category="ROUTES"
             eventLabel="User downloaded a route"
             buttonName={`Export ${tab.label} YAML`}
+            callback={() => onExport(tab.label)}
           />
           {!props.route && (
             <Button type='primary' onClick={saveRoute} className='ml-3'>

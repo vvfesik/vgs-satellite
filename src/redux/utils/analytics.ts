@@ -7,3 +7,7 @@ export const initAnalytics = () => {
     window.heap.load(config.heapTrackingId);
   }
 }
+
+export const pushEvent = (eventName: string, eventProps?: { [key: string]: string }) => {
+  window.heap?.track(eventName, eventProps || null);
+};

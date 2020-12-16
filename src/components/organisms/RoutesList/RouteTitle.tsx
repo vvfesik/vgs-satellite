@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { IRoute } from 'src/redux/interfaces/routes';
 import { Button, Icon, Popover } from 'src/components/antd';
 import { getRouteProtocol, isInbound } from 'src/redux/utils/routes';
+import { pushEvent } from 'src/redux/utils/analytics';
 import history from 'src/redux/utils/history';
 import Yaml from 'src/components/molecules/Yaml/Yaml';
 
@@ -18,7 +19,12 @@ export const RouteTitle = (props: IRouteTitleProps) => {
   const isRouteInbound = isInbound(route);
   const isSourceEndpoint = route.source_endpoint === '*' && !isRouteInbound && routeProtocol === 'routes';
 
-  const editRoute = () => history.push(`/routes/${route.id}/edit`);
+  const editRoute = () => {
+    history.push(`/routes/${route.id}/edit`);
+    pushEvent('route_manage', {
+      route_type: isInbound(route) ? 'inbound' : 'outbound',
+    });
+  };
 
   const content = (
     <>

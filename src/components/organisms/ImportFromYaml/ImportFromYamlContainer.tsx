@@ -12,6 +12,8 @@ const { confirm } = Modal;
 import deepReplace from 'deep-replace-in-object' ;
 import sortObject from 'deep-sort-object';
 import DiffSnippet from 'src/components/atoms/DiffSnippet/DiffSnippet';
+import { isInbound } from 'src/redux/utils/routes';
+import { pushEvent } from 'src/redux/utils/analytics';
 
 const mapStateToProps = ({ routes }: any) => {
   return {
@@ -58,6 +60,9 @@ const ImportFromYamlContainer: React.FunctionComponent<IImportFromYamlProps> = (
   };
 
   async function saveRouteHandler(route: IRoute, length: number) {
+    pushEvent('route_import_start', {
+      route_type: isInbound(route) ? 'inbound' : 'outbound',
+    });
     const isRouteList = length > 1;
     const isRouteWithId = Boolean(route.id || route.attributes.id);
     if (isRouteWithId) {
@@ -77,7 +82,10 @@ const ImportFromYamlContainer: React.FunctionComponent<IImportFromYamlProps> = (
               history.push('/routes');
             } else {
               gotoRoute(route, routeId);
-            }
+            };
+            pushEvent('route_import_save', {
+              route_type: isInbound(route) ? 'inbound' : 'outbound',
+            });
           },
           source: route.attributes.tags?.source || 'Yaml',
         },
@@ -86,6 +94,9 @@ const ImportFromYamlContainer: React.FunctionComponent<IImportFromYamlProps> = (
   }
   async function updateRouteHandler(route: IRoute, openRouteEditor: boolean = true) {
     await props.updateRoute(route);
+    pushEvent('route_import_update', {
+      route_type: isInbound(route) ? 'inbound' : 'outbound',
+    });
     if (openRouteEditor) {
       gotoRoute(route);
     }
@@ -141,7 +152,7 @@ const ImportFromYamlContainer: React.FunctionComponent<IImportFromYamlProps> = (
           <span>
             <small className="update-route__footer__small">Upstream Host</small>
             <span>
-              {route.attributes.destination_override_endpoint}
+              {route.attributes?.destination_override_endpoint}
             </span>
           </span>
           </div>

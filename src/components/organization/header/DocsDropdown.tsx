@@ -2,6 +2,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import { Button } from 'reactstrap';
 import config from 'src/config/config';
+import { pushEvent } from 'src/redux/utils/analytics';
 
 export default class DocsDropdown extends React.Component {
   constructor(props) {
@@ -70,6 +71,7 @@ export default class DocsDropdown extends React.Component {
             href={config.docsLink}
             target="_blank"
             rel="noopener"
+            onClick={() => pushEvent('documentation_overview')}
           >
             Overview
           </a>
@@ -78,6 +80,7 @@ export default class DocsDropdown extends React.Component {
             href={config.docsGuidesLink}
             target="_blank"
             rel="noopener"
+            onClick={() => pushEvent('documentation_guides')}
           >
             Guides
           </a>
@@ -86,6 +89,7 @@ export default class DocsDropdown extends React.Component {
             href={config.docsFaqLink}
             target="_blank"
             rel="noopener"
+            onClick={() => pushEvent('documentation_FAQ')}
           >
             FAQ
           </a>

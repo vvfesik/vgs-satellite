@@ -13,6 +13,7 @@ import { IRoute } from 'src/redux/interfaces/routes';
 import { IEventLog } from 'src/redux/interfaces/eventLogs';
 import { constructUriFromLog } from 'src/redux/utils/utils';
 import { fetchEventLogs } from 'src/redux/modules/eventLogs';
+import { pushEvent } from 'src/redux/utils/analytics';
 
 const mapStateToProps = ({ eventLogs }: any) => {
   return {
@@ -94,13 +95,28 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
   }, [flow])
 
   useEffect(() => {
+    pushEvent('request_open', {
+      url: constructUriFromLog(log),
+      method: log.http.method,
+      status: log.upstream_status || log.proxy_status,
+      protocol: log.request?.httpVersion || log.request_raw?.http_version,
+    });
+  }, []);
+
+  useEffect(() => {
     if (log.id) fetchEventLogs(log.id);
-  }, [log.id])
+  }, [log.id]);
 
   const selectTab = (tab: TFlowViewTabs) => {
     setSelectedTab(tab);
     setSelectedPhase('request');
-  }
+    pushEvent(`request_${tab}`);
+  };
+
+  const selectPhase = (phase: TFlowViewPhase) => {
+    setSelectedPhase(phase);
+    pushEvent(`request_${phase}`);
+  };
 
   const hideSecureButton = () => {
     const isMethodGet = log.http?.method === 'GET';
@@ -202,7 +218,7 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
           <FlowNav
             tabs={tabs}
             active={selectedTab}
-            onSelectTab={(tab: TFlowViewTabs) => selectTab(tab)}
+            onSelectTab={selectTab}
           />
           <FlowButtons
             activePhase={selectedPhase}
@@ -210,7 +226,7 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
             hasPayload={!!log.flow}
             hideSecureButton={hideSecureButton()}
             onRuleCreate={() => handleRuleCreate()}
-            onSelectPhase={(phase: TFlowViewPhase) => setSelectedPhase(phase)}
+            onSelectPhase={selectPhase}
             onReplay={onReplay}
             onDuplicate={onDuplicate}
             onDelete={onDelete}

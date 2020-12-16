@@ -17,7 +17,7 @@ export function fetchEventLogs(flowId: string) {
         data: response.data,
       });
     } catch (error) {
-      notify.error(error);
+      notify.error(error.message);
     } finally {
       dispatch({
         type: SET_LOADING,

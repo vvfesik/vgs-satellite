@@ -19,6 +19,7 @@ import {
 } from 'src/redux/modules/preCollect';
 import { saveRoute, fetchRoutes } from 'src/redux/modules/routes';
 import { constructUriFromLog, dateToFormat } from 'src/redux/utils/utils';
+import { pushEvent } from 'src/redux/utils/analytics';
 import { IRoute } from 'src/redux/interfaces/routes';
 
 function mapStateToProps({ preCollect, routes }: any) {
@@ -94,11 +95,9 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
   const [preRouteType, setPreRouteType] = useState<'inbound'|'outbound'|undefined>();
   const [proxyMode, setProxyMode] = useState<'regular'|'forward'|undefined>();
 
-  const onUpload = (har) => {
-    const harParsed = JSON.parse(har);
-
-    props.addPrecollectLogs(harParsed.log.entries);
-  };
+  useEffect(() => {
+    pushEvent('requests');
+  }, []);
 
   useEffect(() => {
     if (isYamlModalOpen || selectedLog || isSecurePayload || isUploaded) {
@@ -107,6 +106,12 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
     props.fetchFlows();
     props.fetchRoutes();
   }, [isYamlModalOpen, selectedLog, isSecurePayload, isUploaded]);
+
+  const onUpload = (har: string) => {
+    const harParsed = JSON.parse(har);
+    props.addPrecollectLogs(harParsed.log.entries);
+    pushEvent('request_har_upload');
+  };
 
   const handleOnRuleCreate = (selectedPhase: 'REQUEST' | 'RESPONSE') => {
     selectLog(null);
@@ -190,7 +195,13 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
         />
       ) : (
         <div data-role="demo-curl">
-          <Code language="bash" className="ant-card card px-5 bg-light">{demoCurl}</Code>
+        <Code
+          language='bash'
+          onCopy={() => pushEvent('request_copy')}
+          className='ant-card card px-5 bg-light'
+        >
+          {demoCurl}
+        </Code>
         </div>
       )}
       <Yaml

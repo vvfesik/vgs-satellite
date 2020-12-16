@@ -14,6 +14,7 @@ import classNames from 'classnames';
 import { Button, Icon, Popover } from 'src/components/antd';
 import RouteNavigationModal from 'src/components/organisms/RouteNavigationModal/RouteNavigationModal';
 import { cloneDeep, uniqueId } from 'lodash';
+import { pushEvent } from 'src/redux/utils/analytics';
 import { IRoute, IEntry } from 'src/redux/interfaces/routes';
 
 export interface IInboundRouteProps {
@@ -53,6 +54,9 @@ export const Route: React.FC<IInboundRouteProps> = (props) => {
   const addEntry = () => {
     props.onChange({ ...route,
       entries: [...route.entries, getEntryTemplate(isRouteInbound)],
+    });
+    pushEvent('route_filter_add', {
+      route_type: isInbound(route) ? 'inbound' : 'outbound',
     });
   };
 

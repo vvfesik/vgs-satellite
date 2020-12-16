@@ -72,7 +72,7 @@ export function saveRoute(
         params.cb();
       }
     } catch (error) {
-      notify.error(error);
+      notify.error(error.message);
     } finally {
       dispatch({
         type: SET_SAVE_PROGRESS,
@@ -119,7 +119,7 @@ export function updateRoute(
         params.cb();
       }
     } catch (error) {
-      notify.error(error);
+      notify.error(error.message);
     } finally {
       dispatch({
         type: SET_SAVE_PROGRESS,
