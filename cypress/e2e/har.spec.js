@@ -19,23 +19,23 @@ describe('Localhoste upload single har flow', function() {
 
     cy.get('[data-role="logs-row"]').click();
     cy.contains('http://httpbin.org/post');
-    cy.get('[data-role="log-details-modal"]').toMatchSnapshot();
+    cy.get('[data-role="log-details-modal-content"]').toMatchSnapshot();
 
     cy.get('[data-role="select-response-phase"]').click();
     cy.get('[data-role="select-request-phase"]').click();
 
     cy.get('[data-role="tab-headers"]').click();
-    cy.get('[data-role="log-details-modal"]').toMatchSnapshot();
+    cy.get('[data-role="log-details-modal-content"]').toMatchSnapshot();
 
     cy.get('[data-role="select-response-phase"]').click();
-    cy.get('[data-role="log-details-modal"]').toMatchSnapshot();
+    cy.get('[data-role="log-details-modal-content"]').toMatchSnapshot();
     cy.get('[data-role="select-request-phase"]').click();
 
     cy.get('[data-role="tab-body"]').click();
-    cy.get('[data-role="log-details-modal"]').toMatchSnapshot();
+    cy.get('[data-role="log-details-modal-content"]').toMatchSnapshot();
 
     cy.get('[data-role="select-response-phase"]').click();
-    cy.get('[data-role="log-details-modal"]').toMatchSnapshot();
+    cy.get('[data-role="log-details-modal-content"]').toMatchSnapshot();
     cy.get('[data-role="select-request-phase"]').click();
     cy.contains('{"foo": "bar"}');
 

@@ -42,7 +42,7 @@ describe('Localhoste redact-reveal flow', function() {
       .contains('/post')
       .click();
     cy.get('[data-role="log-details-modal"] .badge-success');
-    cy.get('[data-role="log-details-modal"]').toMatchSnapshot();
+    cy.get('[data-role="log-details-modal-content"]').toMatchSnapshot();
 
     // check diffsnippet
     cy.get('[data-role="tab-body"]').click();
@@ -93,7 +93,7 @@ describe('Localhoste redact-reveal flow', function() {
       .contains('/post')
       .click();
     cy.get('[data-role="log-details-modal"] .badge-success');
-    cy.get('[data-role="log-details-modal"]').toMatchSnapshot();
+    cy.get('[data-role="log-details-modal-content"]').toMatchSnapshot();
 
     // check diffsnippet
     cy.get('[data-role="tab-body"]').click();

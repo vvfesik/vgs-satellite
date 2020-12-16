@@ -29,6 +29,7 @@ describe('Localhoste request actions flow', function() {
     cy.get('[data-role="logs-row"]').should('have.length', 2);
 
     cy.get('[data-role="logs-row"]').contains('/post').click();
+    cy.get('[data-role="log-details-trace-id"]').should('have.length', 1);
     cy.get('button').contains('Delete').click({ force: true });
     cy.wait(['@deleteFlow', '@getFlows']);
     cy.get('[data-role="logs-row"]').should('have.length', 1);

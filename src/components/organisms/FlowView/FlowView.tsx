@@ -190,68 +190,78 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
         <Icon name="times" className="cursor-pointer" onClick={() => onClose()} />
       </div>
       <ModalBody>
-        <FlowNav
-          tabs={tabs}
-          active={selectedTab}
-          onSelectTab={(tab: TFlowViewTabs) => selectTab(tab)}
-        />
-        <FlowButtons
-          activePhase={selectedPhase}
-          selectedTab={selectedTab}
-          hasPayload={!!log.flow}
-          hideSecureButton={hideSecureButton()}
-          onRuleCreate={() => handleRuleCreate()}
-          onSelectPhase={(phase: TFlowViewPhase) => setSelectedPhase(phase)}
-          onReplay={onReplay}
-          onDuplicate={onDuplicate}
-          onDelete={onDelete}
-          onEdit={handleOnEdit}
-          onEditCancel={onEditCancel}
-          isEditMode={isEditMode}
-          isMitmLog={isMitmLog}
-          onReloadEvents={() => fetchEventLogs(log.id)}
-        />
-        {selectedTab === 'general' && (
-          <div className="mb-3 pt-0">
-            <GeneralInfo
-              log={log}
-              validUri={constructUriFromLog(log)}
-              showRouteType={true}
-              showRequestMethod={true}
-              showStatusCode={true}
+        {!!log.id && (
+          <p
+            className='text-right text-text-light small-capsy'
+            data-role='log-details-trace-id'
+          >
+            Request ID: {log.id}
+          </p>
+        )}
+        <div data-role="log-details-modal-content">
+          <FlowNav
+            tabs={tabs}
+            active={selectedTab}
+            onSelectTab={(tab: TFlowViewTabs) => selectTab(tab)}
+          />
+          <FlowButtons
+            activePhase={selectedPhase}
+            selectedTab={selectedTab}
+            hasPayload={!!log.flow}
+            hideSecureButton={hideSecureButton()}
+            onRuleCreate={() => handleRuleCreate()}
+            onSelectPhase={(phase: TFlowViewPhase) => setSelectedPhase(phase)}
+            onReplay={onReplay}
+            onDuplicate={onDuplicate}
+            onDelete={onDelete}
+            onEdit={handleOnEdit}
+            onEditCancel={onEditCancel}
+            isEditMode={isEditMode}
+            isMitmLog={isMitmLog}
+            onReloadEvents={() => fetchEventLogs(log.id)}
+          />
+          {selectedTab === 'general' && (
+            <div className="mb-3 pt-0">
+              <GeneralInfo
+                log={log}
+                validUri={constructUriFromLog(log)}
+                showRouteType={true}
+                showRequestMethod={true}
+                showStatusCode={true}
+                isEditMode={isEditMode}
+                onEditChange={onEditChange}
+                onEditSave={handleOnEdit}
+                generalInfo={generalInfo}
+              />
+              <hr className="my-3" />
+              <MatchingDetails
+                log={log}
+                matchingRoutes={matchingRoutes}
+                logFilters={logFilters}
+                showSpinner={showSpinner}
+                activePhase={selectedPhase}
+              />
+            </div>
+          )}
+          {['headers', 'body'].includes(selectedTab) && (
+            <RequestInfo
+              headers={selectedTab === 'headers' && headers}
+              body={selectedTab === 'body' && body}
+              activePhase={selectedPhase}
               isEditMode={isEditMode}
               onEditChange={onEditChange}
               onEditSave={handleOnEdit}
-              generalInfo={generalInfo}
             />
-            <hr className="my-3" />
-            <MatchingDetails
-              log={log}
-              matchingRoutes={matchingRoutes}
-              logFilters={logFilters}
-              showSpinner={showSpinner}
-              activePhase={selectedPhase}
+          )}
+          {selectedTab === 'events' && (
+            <EventLogs
+              traceId={log.id}
+              isLoading={isLoadingEventLogs}
+              eventLogs={currentEventLog}
+              routes={routes}
             />
-          </div>
-        )}
-        {['headers', 'body'].includes(selectedTab) && (
-          <RequestInfo
-            headers={selectedTab === 'headers' && headers}
-            body={selectedTab === 'body' && body}
-            activePhase={selectedPhase}
-            isEditMode={isEditMode}
-            onEditChange={onEditChange}
-            onEditSave={handleOnEdit}
-          />
-        )}
-        {selectedTab === 'events' && (
-          <EventLogs
-            flowId={log.id}
-            isLoading={isLoadingEventLogs}
-            eventLogs={currentEventLog}
-            routes={routes}
-          />
-        )}
+          )}
+        </div>
       </ModalBody>
     </Modal>
   );

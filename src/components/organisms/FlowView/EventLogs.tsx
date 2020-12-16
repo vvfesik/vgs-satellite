@@ -7,7 +7,7 @@ import { IEventLog } from 'src/redux/interfaces/eventLogs';
 import { IRoute } from 'src/redux/interfaces/routes';
 
 interface IEventLogsProps {
-  flowId: string;
+  traceId: string;
   isLoading: boolean;
   eventLogs: IEventLog[];
   routes: IRoute[];
@@ -37,7 +37,7 @@ const ignoreList = [
 ];
 
 const EventLogs: React.FC<IEventLogsProps> = (props) => {
-  const { flowId, isLoading, eventLogs, routes } = props;
+  const { traceId, isLoading, eventLogs, routes } = props;
 
   const customExpandIcon = (tableProps: any) => (tableProps.expandable ? (
     <Icon
@@ -49,9 +49,8 @@ const EventLogs: React.FC<IEventLogsProps> = (props) => {
 
   return (
     <div className="mt-3 pt-0 eventlogs-table">
-      <p className="small-capsy text-right text-text-light">TRACE ID: {flowId}</p>
       <Table
-        key={`eventLogs-${flowId}`}
+        key={`eventLogs-${traceId}`}
         loading={isLoading}
         columns={[
           {
