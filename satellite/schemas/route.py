@@ -43,7 +43,7 @@ class RouteSchema(Schema):
     source_endpoint = fields.Str()
     destination_override_endpoint = fields.Str()
     host_endpoint = fields.Str()
-    port = fields.Int()
+    port = fields.Int(allow_none=True)
     tags = fields.Raw()
     entries = fields.List(
         fields.Nested(RuleEntrySchema),

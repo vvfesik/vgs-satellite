@@ -42,5 +42,6 @@ data:
         name: dim-grey-brick
         source: vgs-satellite
       transport: HTTP
+    id: null
     type: rule_chain
 version: 1

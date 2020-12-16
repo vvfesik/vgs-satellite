@@ -31,9 +31,9 @@ const Yaml: React.FC<IYamlProps> = (props) => {
 
   useEffect(() => {
     if (props.isExternalOpen) {
-      getRouteYamlStr(props.routes.inbound);
+      getRouteYamlStr(props.routes[props.proxyMode ? routeType : activeTab]);
     }
-  },        [props.isExternalOpen]);
+  },        [props.isExternalOpen, props.proxyMode]);
 
   const routeType = props.proxyMode === 'regular' ? 'outbound' : 'inbound';
 
@@ -42,7 +42,8 @@ const Yaml: React.FC<IYamlProps> = (props) => {
     const orderedArray = routesList.map((route: IRoute) => sortObject(route));
     const routeJsonWrapper = {
       data: orderedArray.map((route: IRoute) => ({
-        ...deepReplace(undefined, null, route),
+        attributes: deepReplace(undefined, null, route.attributes || route),
+        id: route.id || null,
         type: 'rule_chain',
       })),
       version: 1,

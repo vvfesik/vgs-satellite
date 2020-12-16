@@ -41,5 +41,6 @@ data:
         name: snow-bay
         source: vgs-satellite
       transport: HTTP
+    id: null
     type: rule_chain
 version: 1

@@ -66,7 +66,9 @@ export class QuickIntegrationModal extends React.Component<IQuickIntegrationModa
     const route = this.props.isReverse
       ? getReverseRoute(this.props.routes, parsedUrl)
       : getForwardRoute(this.props.routes, parsedUrl);
-    const isRouteExists = Boolean(route.id);
+    const isRouteExists = Boolean(
+      route.id && this.props.routes.find(r => r.id === route.id),
+    );
 
     [reverseRoute, forwardRoute, route].forEach(r => (
       r.attributes = {

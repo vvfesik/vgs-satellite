@@ -65,7 +65,7 @@ const RouteContainer: React.FunctionComponent<IRouteContainerProps> = (props) =>
     remove(entries, entry => entry.removing === true);
     entries = entries.map(entry => removeCharset('Default', entry));
     try {
-      if (routeId) {
+      if (routeId && routes.find(route => route.id === routeId)) {
         updateRoute({ ...r, entries });
         updateCurrentRoute({ ...r, entries });
       } else {
