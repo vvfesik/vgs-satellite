@@ -1,6 +1,9 @@
 from marshmallow import EXCLUDE, Schema, fields, validate
 
+from marshmallow_enum import EnumField
+
 from ..operations.operations import get_supported_operations
+from ..transformers import TransformerType
 
 
 class RuleEntrySchema(Schema):
@@ -21,8 +24,9 @@ class RuleEntrySchema(Schema):
     operation = fields.Str()
     token_manager = fields.Str()
     public_token_generator = fields.Str()
-    transformer = fields.Str()
+    transformer = EnumField(TransformerType, by_value=True)
     transformer_config = fields.Raw()
+    transformer_config_map = fields.Raw(allow_none=True)
     targets = fields.Raw()
     classifiers = fields.Raw()
     config = fields.Raw(attribute='expression_snapshot')

@@ -1,12 +1,17 @@
 import logging
+from typing import Dict
 
 from mitmproxy.http import HTTPFlow
 
+from . import Transformer, TransformerConfig, TransformerType
+from .form_data import FormDataTransformer
+from .json import JsonTransformer
+from .regex import RegexTransformer
+from .xml import XMLTransformer
 from .. import ctx
-from ..aliases import AliasGeneratorType, AliasStoreType
+from ..aliases import AliasGeneratorType, AliasStoreType, RevealFailed
 from ..aliases.manager import redact,  reveal
 from ..db.models.route import Operation, Phase, RuleEntry
-from ..vault.transformer import transformer_map
 
 
 logger = logging.getLogger()
@@ -21,19 +26,20 @@ def transform(flow: HTTPFlow, phase: Phase, rule_entry: RuleEntry) -> bool:
         ).public_alias
 
     def _reveal(value: str) -> str:
-        return reveal(
-            value,
-            store_type=AliasStoreType(rule_entry.token_manager),
-        ).value
+        try:
+            return reveal(
+                value,
+                store_type=AliasStoreType(rule_entry.token_manager),
+            ).value
+        except RevealFailed as exc:
+            logger.warning(f'Unable to reveal alias {value}: {exc}')
+            return value
 
-    transformer = transformer_map.get(rule_entry.transformer)
-    if not transformer:
-        allowed_transformers = ', '.join(map(str, transformer_map.keys()))
-        logger.warning(
-            f'{rule_entry.transformer} can not be used as a transformer. '
-            f'Possible values: {allowed_transformers}'
-        )
-        return False
+    config = TransformerConfig(
+        rule_entry.transformer_config,
+        rule_entry.transformer_config_map,
+    )
+    transformer = _transformers[rule_entry.transformer](config)
 
     phase_obj = getattr(flow, phase.value.lower())
     content = phase_obj.content.decode()
@@ -44,15 +50,10 @@ def transform(flow: HTTPFlow, phase: Phase, rule_entry: RuleEntry) -> bool:
         else _reveal
     )
 
-    transformer_config = rule_entry.transformer_config
     flow_ctx = ctx.use_context(ctx.FlowContext(flow=flow, phase=phase))
     route_ctx = ctx.use_context(ctx.RouteContext(route=rule_entry.rule_chain))
     with flow_ctx, route_ctx:
-        transformed = transformer.transform(
-            payload=content,
-            transformer_array=transformer_config,
-            operation=operation,
-        )
+        transformed = transformer.transform(content, operation)
 
     # TODO: transformer.transform() should return a transformation status flag
     if transformed != content:
@@ -60,3 +61,11 @@ def transform(flow: HTTPFlow, phase: Phase, rule_entry: RuleEntry) -> bool:
         return True
 
     return False
+
+
+_transformers: Dict[TransformerType, Transformer] = {
+    TransformerType.JSON_PATH: JsonTransformer,
+    TransformerType.FORM_FIELD: FormDataTransformer,
+    TransformerType.XPATH: XMLTransformer,
+    TransformerType.REGEX: RegexTransformer,
+}

@@ -19,7 +19,10 @@ class InvalidRouteConfiguration(Exception):
 
 
 def get_all() -> List[Route]:
-    return get_session().query(Route).all()
+    session = get_session()
+    # Hack to handle transaction isolation. Proper fix is needed (SAT-148).
+    session.commit()
+    return session.query(Route).all()
 
 
 def get_all_by_type(route_type: RouteType) -> List[Route]:

@@ -7,8 +7,8 @@ from satellite import audit_logs, ctx
 from satellite.aliases import RedactFailed, RevealFailed
 from satellite.db.models.route import Phase
 from satellite.operations.pipeline import build_pipeline
+from satellite.transformers.manager import transform
 from satellite.vault.route_matcher import match_route
-from satellite.vault.transformation_manager import transform
 
 
 logger = logging.getLogger()

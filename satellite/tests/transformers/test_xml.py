@@ -1,10 +1,7 @@
 import pytest
 
-from satellite.vault.transformer import (
-    FormDataTransformer,
-    TransformerError,
-    XMLTransformer,
-)
+from satellite.transformers import TransformerConfig, TransformerError
+from satellite.transformers.xml import XMLTransformer
 
 
 XML_PAYLOAD = b"""<CC>
@@ -19,34 +16,14 @@ def transform(value: str) -> str:
     return f'transformed_{value}'
 
 
-@pytest.mark.parametrize('payload,expected', [
-    ('', ''),
-    ('f1=v1', 'f1=transformed_v1'),
-    (b'f1=v1', 'f1=transformed_v1'),
-    (b'f1=v1&f1=v2', 'f1=transformed_v1&f1=transformed_v2'),
-    (b'f1=v1&f2=v2', 'f1=transformed_v1&f2=v2'),
-    (b'f1=', 'f1='),
-    (b'f1', 'f1='),
-])
-def test_from_data(monkeypatch, payload, expected):
-    result = FormDataTransformer().transform(
-        payload=payload,
-        transformer_array=['f1'],
-        operation=transform,
-    )
-
-    assert result == expected
-
-
 @pytest.mark.parametrize('expressions', [
     [],
     ['/CC/CVC', '//Number'],
     ['/CC/Foo'],
 ])
-def test_xml_ok(monkeypatch, snapshot, expressions):
-    result = XMLTransformer().transform(
+def test_xml_ok(snapshot, expressions):
+    result = XMLTransformer(TransformerConfig(expressions)).transform(
         payload=XML_PAYLOAD,
-        transformer_array=expressions,
         operation=transform,
     )
 
@@ -55,9 +32,8 @@ def test_xml_ok(monkeypatch, snapshot, expressions):
 
 def test_xml_invalid_xml():
     with pytest.raises(TransformerError) as exc_info:
-        XMLTransformer().transform(
+        XMLTransformer(TransformerConfig([])).transform(
             payload=XML_PAYLOAD + b'$',
-            transformer_array=[],
             operation=transform,
         )
     assert str(exc_info.value).startswith('Invalid XML payload')
@@ -65,9 +41,8 @@ def test_xml_invalid_xml():
 
 def test_xml_invalid_expr():
     with pytest.raises(TransformerError) as exc_info:
-        XMLTransformer().transform(
+        XMLTransformer(TransformerConfig(['$'])).transform(
             payload=XML_PAYLOAD,
-            transformer_array=['$'],
             operation=transform,
         )
     assert str(exc_info.value).startswith('Invalid XPath expression $')

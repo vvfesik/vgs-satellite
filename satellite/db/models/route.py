@@ -1,25 +1,27 @@
+import enum
 import uuid
 from datetime import datetime
-from enum import Enum
 from typing import List
 
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, JSON, String
+from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, JSON, String
 from sqlalchemy.orm import relationship
+
+from satellite.transformers import TransformerType
 
 from .base import Base
 
 
-class RouteType(Enum):
+class RouteType(enum.Enum):
     INBOUND = 'INBOUND'
     OUTBOUND = 'OUTBOUND'
 
 
-class Phase(Enum):
+class Phase(enum.Enum):
     REQUEST = 'REQUEST'
     RESPONSE = 'RESPONSE'
 
 
-class Operation(Enum):
+class Operation(enum.Enum):
     REDACT = 'REDACT'
     ENRICH = 'ENRICH'
 
@@ -61,8 +63,9 @@ class RuleEntry(Base):
     operation = Column(String)
     token_manager = Column(String)
     public_token_generator = Column(String)
-    transformer = Column(String)
+    transformer = Column(Enum(TransformerType))
     transformer_config = Column(JSON)
+    transformer_config_map = Column(JSON)
     targets = Column(JSON)
     classifiers = Column(JSON)
     expression_snapshot = Column(JSON)

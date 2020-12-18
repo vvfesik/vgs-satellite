@@ -10,6 +10,7 @@ from mitmproxy.http import HTTPFlow
 
 from satellite.db import get_session
 from satellite.db.models.route import Route, RuleEntry
+from satellite.transformers import TransformerType
 
 
 def load_flow(flow_name: str) -> HTTPFlow:
@@ -47,7 +48,7 @@ class RuleEntryFactory(SQLAlchemyModelFactory):
     operation = 'REDACT'
     token_manager = 'PERSISTENT'
     public_token_generator = 'UUID'
-    transformer = 'JSON_PATH'
+    transformer = TransformerType.JSON_PATH
     transformer_config = ['$.foo']
     targets = 'body'
     classifiers = {}
