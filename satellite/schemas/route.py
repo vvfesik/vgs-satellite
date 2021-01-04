@@ -2,7 +2,9 @@ from marshmallow import EXCLUDE, Schema, fields, validate
 
 from marshmallow_enum import EnumField
 
+from ..aliases import AliasGeneratorType, AliasStoreType
 from ..operations.operations import get_supported_operations
+from ..routes import Operation, Phase
 from ..transformers import TransformerType
 
 
@@ -10,7 +12,7 @@ class RuleEntrySchema(Schema):
     class Meta:
         unknown = EXCLUDE
 
-    class Operation(Schema):
+    class OperationSchema(Schema):
         name = fields.Str(
             required=True,
             validate=validate.OneOf(get_supported_operations()),
@@ -20,10 +22,10 @@ class RuleEntrySchema(Schema):
     # TODO: (SAT-108) Determine which fields are required.
     id = fields.Str()
     created_at = fields.DateTime()
-    phase = fields.Str()
-    operation = fields.Str()
-    token_manager = fields.Str()
-    public_token_generator = fields.Str()
+    phase = EnumField(Phase, by_value=True)
+    operation = EnumField(Operation, by_value=True)
+    token_manager = EnumField(AliasStoreType, by_value=True)
+    public_token_generator = EnumField(AliasGeneratorType, by_value=True)
     transformer = EnumField(TransformerType, by_value=True)
     transformer_config = fields.Raw()
     transformer_config_map = fields.Raw(allow_none=True)
@@ -31,7 +33,7 @@ class RuleEntrySchema(Schema):
     classifiers = fields.Raw()
     config = fields.Raw(attribute='expression_snapshot')
     operations_v2 = fields.List(
-        fields.Nested(Operation),
+        fields.Nested(OperationSchema),
         allow_none=True,
     )
 

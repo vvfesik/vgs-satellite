@@ -4,9 +4,11 @@ from typing import List, Optional, Tuple
 from mitmproxy.http import HTTPFlow
 
 from satellite import audit_logs
-from satellite.db.models.route import Phase, Route, RouteType, RuleEntry
+from satellite.db.models.route import Route, RuleEntry
 from satellite.proxy import ProxyMode
-from satellite.service import route_manager
+
+from . import Phase, RouteType, manager as route_manager
+from .expressions import CompositeExpression
 
 
 def match_route(
@@ -44,23 +46,12 @@ def match_filter(
     flow: HTTPFlow,
     fltr: RuleEntry,
 ) -> bool:
-    if fltr.phase != phase.value:
+    if fltr.phase != phase:
         # TODO: Should we emit filter audit logs when phases do not match?
         return False
 
-    evaluated = []
-
-    for rule in fltr.expression_snapshot['rules']:
-        expression = rule['expression']
-        expected_value = expression['values'][0].lower()
-        extracted_value = extract_value(flow, expression['field']).lower()
-        evaluated.append(
-            extracted_value is not None and
-            expected_value == extracted_value
-        )
-
-    condition = fltr.expression_snapshot['condition']
-    matched = all(evaluated) if condition == 'AND' else any(evaluated)
+    expr = CompositeExpression.build(fltr.expression_snapshot)
+    matched = expr.evaluate(flow)
 
     audit_logs.emit(audit_logs.records.FilterEvaluationLogRecord(
         flow_id=flow.id,
@@ -72,13 +63,3 @@ def match_filter(
     ))
 
     return matched
-
-
-def extract_value(flow: HTTPFlow, field: str) -> Optional[str]:
-    request = flow.request
-    if field == 'PathInfo':
-        return request.path
-    if field == 'ContentType':
-        return request.headers.get('Content-type')
-    if field == 'Method':
-        return request.method

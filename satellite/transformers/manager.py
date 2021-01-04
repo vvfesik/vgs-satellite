@@ -11,7 +11,8 @@ from .xml import XMLTransformer
 from .. import ctx
 from ..aliases import AliasGeneratorType, AliasStoreType, RevealFailed
 from ..aliases.manager import redact,  reveal
-from ..db.models.route import Operation, Phase, RuleEntry
+from ..db.models.route import RuleEntry
+from ..routes import Operation, Phase
 
 
 logger = logging.getLogger()
@@ -46,7 +47,7 @@ def transform(flow: HTTPFlow, phase: Phase, rule_entry: RuleEntry) -> bool:
 
     operation = (
         _redact
-        if rule_entry.operation == Operation.REDACT.value
+        if rule_entry.operation == Operation.REDACT
         else _reveal
     )
 

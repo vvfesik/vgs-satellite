@@ -10,7 +10,7 @@ from mitmproxy.proxy.server import (
 from ..ctx import get_proxy_context
 from ..db.models.route import RouteType
 from ..proxy import ProxyMode
-from ..service import route_manager
+from ..routes import manager as route_manager
 
 
 logger = logging.getLogger()

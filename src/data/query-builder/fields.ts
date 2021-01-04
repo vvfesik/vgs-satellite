@@ -44,11 +44,11 @@ export default [
     type: 'string',
     label: 'PathInfo',
   },
-  {
-    name: 'Status',
-    label: 'Status',
-    type: 'number',
-  },
+  // {
+  //   name: 'Status',
+  //   label: 'Status',
+  //   type: 'number',
+  // },
 ];
 
 export const sftpFields = [

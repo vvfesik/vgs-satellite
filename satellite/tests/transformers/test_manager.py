@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from satellite.db.models.route import Phase
+from satellite.routes import Phase
 from satellite.transformers.manager import transform
 
 from ..factories import RuleEntryFactory, load_flow

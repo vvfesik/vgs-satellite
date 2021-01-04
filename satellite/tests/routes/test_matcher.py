@@ -6,21 +6,21 @@ from satellite.audit_logs.records import (
     FilterEvaluationLogRecord,
     RouteEvaluationLogRecord,
 )
-from satellite.db.models.route import Phase
 from satellite.proxy import ProxyMode
-from satellite.vault.route_matcher import match_route
+from satellite.routes import Phase
+from satellite.routes.matcher import match_route
 
 from ..factories import RouteFactory, RuleEntryFactory, load_flow
 
 
 def test_match_route_no_match(monkeypatch):
     monkeypatch.setattr(
-        'satellite.vault.route_matcher.route_manager',
+        'satellite.routes.matcher.route_manager',
         Mock(get_all_by_type=Mock(return_value=[]))
     )
     emit_audit_log = Mock()
     monkeypatch.setattr(
-        'satellite.vault.route_matcher.audit_logs.emit',
+        'satellite.routes.matcher.audit_logs.emit',
         emit_audit_log,
     )
     flow = load_flow('http_raw')
@@ -43,13 +43,13 @@ def test_match_route_inbound(monkeypatch):
     filters[1].expression_snapshot['rules'][0]['expression']['values'] = ['/put']
     route.rule_entries_list = filters
     monkeypatch.setattr(
-        'satellite.vault.route_matcher.route_manager',
+        'satellite.routes.matcher.route_manager',
         Mock(get_all_by_type=Mock(return_value=[route]))
     )
 
     emit_audit_log = Mock()
     monkeypatch.setattr(
-        'satellite.vault.route_matcher.audit_logs.emit',
+        'satellite.routes.matcher.audit_logs.emit',
         emit_audit_log,
     )
 
@@ -97,7 +97,7 @@ def test_match_route_outbound(monkeypatch):
     route2 = RouteFactory(rule_entries_list=[RuleEntryFactory()])
     route2.host_endpoint = 'https://unknown-upstream.io'
     monkeypatch.setattr(
-        'satellite.vault.route_matcher.route_manager',
+        'satellite.routes.matcher.route_manager',
         Mock(get_all_by_type=Mock(return_value=[route1, route2]))
     )
     flow = load_flow('http_raw')

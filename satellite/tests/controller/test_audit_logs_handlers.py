@@ -6,8 +6,8 @@ from freezegun import freeze_time
 from satellite.aliases import AliasStoreType
 from satellite.aliases.generators import AliasGeneratorType
 from satellite.audit_logs import records, store
-from satellite.db.models.route import Phase
 from satellite.proxy import ProxyMode
+from satellite.routes import Phase
 
 from .base import BaseHandlerTestCase
 

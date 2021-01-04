@@ -11,7 +11,7 @@ from .utils import measure_execution_time
 from .. import audit_logs
 from ..audit_logs.records import OperationLogRecord
 from ..ctx import get_proxy_context
-from ..db.models.route import Phase
+from ..routes import Phase
 
 
 logger = logging.getLogger()

@@ -4,8 +4,8 @@ from enum import Enum, unique
 from typing import List
 
 from ..aliases import AliasGeneratorType, AliasStoreType
-from ..db.models.route import Phase
 from ..proxy import ProxyMode
+from ..routes import Phase
 
 
 @unique

@@ -1,4 +1,3 @@
-import enum
 import uuid
 from datetime import datetime
 from typing import List
@@ -6,24 +5,11 @@ from typing import List
 from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, JSON, String
 from sqlalchemy.orm import relationship
 
+from satellite.aliases import AliasGeneratorType, AliasStoreType
+from satellite.routes import Operation, Phase, RouteType
 from satellite.transformers import TransformerType
 
 from .base import Base
-
-
-class RouteType(enum.Enum):
-    INBOUND = 'INBOUND'
-    OUTBOUND = 'OUTBOUND'
-
-
-class Phase(enum.Enum):
-    REQUEST = 'REQUEST'
-    RESPONSE = 'RESPONSE'
-
-
-class Operation(enum.Enum):
-    REDACT = 'REDACT'
-    ENRICH = 'ENRICH'
 
 
 class Route(Base):
@@ -59,10 +45,10 @@ class RuleEntry(Base):
     created_at = Column(DateTime, default=lambda: datetime.utcnow())
     route_id = Column(String, ForeignKey('rule_chains.id', ondelete='CASCADE'))
     rule_chain = relationship('Route', back_populates='rule_entries_list')
-    phase = Column(String)
-    operation = Column(String)
-    token_manager = Column(String)
-    public_token_generator = Column(String)
+    phase = Column(Enum(Phase))
+    operation = Column(Enum(Operation))
+    token_manager = Column(Enum(AliasStoreType))
+    public_token_generator = Column(Enum(AliasGeneratorType))
     transformer = Column(Enum(TransformerType))
     transformer_config = Column(JSON)
     transformer_config_map = Column(JSON)

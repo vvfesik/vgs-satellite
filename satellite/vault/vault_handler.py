@@ -5,11 +5,10 @@ from mitmproxy.http import HTTPFlow
 
 from satellite import audit_logs, ctx
 from satellite.aliases import RedactFailed, RevealFailed
-from satellite.db.models.route import Phase
 from satellite.operations.pipeline import build_pipeline
+from satellite.routes import Phase
+from satellite.routes.matcher import match_route
 from satellite.transformers.manager import transform
-from satellite.vault.route_matcher import match_route
-
 
 logger = logging.getLogger()
 

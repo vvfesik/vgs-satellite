@@ -3,8 +3,8 @@ from satellite.controller import (
     apply_request_schema,
     apply_response_schema,
 )
+from satellite.routes import manager as route_manager
 from satellite.schemas.route import CreateUpdateRouteSchema, RouteSchema
-from satellite.service import route_manager
 
 
 class RoutesHandler(BaseHandler):
@@ -16,7 +16,11 @@ class RoutesHandler(BaseHandler):
     @apply_request_schema(CreateUpdateRouteSchema)
     @apply_response_schema(RouteSchema)
     def post(self, validated_data: dict):
-        return route_manager.create(validated_data['data']['attributes'])
+        try:
+            return route_manager.create(validated_data['data']['attributes'])
+        except route_manager.InvalidRouteConfiguration as exc:
+            self.set_status(400)
+            self.finish(str(exc))
 
 
 class RouteHandler(BaseHandler):
@@ -35,6 +39,9 @@ class RouteHandler(BaseHandler):
             )
         except route_manager.EntityNotFound as exc:
             self.set_status(404)
+            self.finish(str(exc))
+        except route_manager.InvalidRouteConfiguration as exc:
+            self.set_status(400)
             self.finish(str(exc))
 
     def delete(self, route_id):

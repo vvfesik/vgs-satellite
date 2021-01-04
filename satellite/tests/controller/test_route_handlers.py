@@ -6,6 +6,7 @@ from freezegun import freeze_time
 
 from satellite.db import get_session
 from satellite.db.models.route import Route
+from satellite.routes import Phase
 from satellite.schemas.route import RuleEntrySchema
 
 from .base import BaseHandlerTestCase
@@ -148,7 +149,7 @@ class TestRouteHandler(BaseHandlerTestCase):
             rule_entries_list=[
                 RuleEntryFactory(
                     id='8e6d779a-1f57-4b89-8c0b-579d933f783c',
-                    phase='REQUEST',
+                    phase=Phase.REQUEST,
                 ),
                 RuleEntryFactory(id='4066ca33-e740-4b48-bbe9-80cb77e971e7'),
             ],
@@ -205,7 +206,7 @@ class TestRouteHandler(BaseHandlerTestCase):
             rule_entries_list=[
                 RuleEntryFactory(
                     id='8e6d779a-1f57-4b89-8c0b-579d933f783c',
-                    phase='REQUEST',
+                    phase=Phase.REQUEST,
                 ),
             ],
         )

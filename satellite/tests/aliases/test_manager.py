@@ -9,8 +9,8 @@ from satellite.aliases import AliasStoreType
 from satellite.aliases import manager as alias_manager
 from satellite.aliases.generators import AliasGeneratorType
 from satellite.audit_logs import records
-from satellite.db.models.route import Phase
 from satellite.proxy import ProxyMode
+from satellite.routes import Phase
 
 
 @pytest.fixture

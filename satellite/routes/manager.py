@@ -2,6 +2,7 @@
 import logging
 from typing import List
 
+from .expressions import CompositeExpression, ExpressionError
 from ..db import get_session, update_model
 from ..db.models.route import Route, RouteType, RuleEntry
 from ..operations.pipeline import build_pipeline
@@ -68,8 +69,6 @@ def update(route_id: str, route_data: dict) -> Route:
 
     update_model(route, route_data)
 
-    check_route(route)
-
     session = get_session()
 
     # Do filters CRUD only if they are mentioned in the request
@@ -96,6 +95,8 @@ def update(route_id: str, route_data: dict) -> Route:
 
         route.rule_entries_list = target_filters
 
+    check_route(route)
+
     try:
         session.commit()
     except Exception:
@@ -112,17 +113,21 @@ def delete(route_id):
     session.commit()
 
 
-def check_rule(rule: RuleEntry):
-    if not rule.has_operations:
-        return
+def check_filter(fltr: RuleEntry):
+    if fltr.expression_snapshot:
+        try:
+            CompositeExpression.build(fltr.expression_snapshot)
+        except ExpressionError as exc:
+            raise InvalidRouteConfiguration(f'Invalid expression: {exc}')
 
-    try:
-        build_pipeline(rule)
-    except Exception as exc:
-        logger.exception(exc)
-        raise InvalidRouteConfiguration(f'Invalid operations: {exc}') from exc
+    if fltr.has_operations:
+        try:
+            build_pipeline(fltr)
+        except Exception as exc:
+            logger.exception(exc)
+            raise InvalidRouteConfiguration(f'Invalid operations: {exc}') from exc
 
 
 def check_route(route: Route):
     for rule in route.rule_entries_list:
-        check_rule(rule)
+        check_filter(rule)

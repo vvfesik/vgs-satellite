@@ -7,7 +7,8 @@ from .utils import measure_execution_time
 from .. import audit_logs
 from ..audit_logs.records import OperationPipelineEvaluationLogRecord
 from ..ctx import get_proxy_context
-from ..db.models.route import Phase, RuleEntry
+from ..db.models.route import RuleEntry
+from ..routes import Phase
 
 
 class OperationPipeline:

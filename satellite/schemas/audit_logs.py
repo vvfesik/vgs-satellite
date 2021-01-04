@@ -6,8 +6,8 @@ from marshmallow_oneofschema import OneOfSchema
 
 from ..aliases import AliasGeneratorType, AliasStoreType
 from ..audit_logs import records
-from ..db.models.route import Phase
 from ..proxy import ProxyMode
+from ..routes import Phase
 
 
 class AuditLogRecordBaseSchema(Schema):

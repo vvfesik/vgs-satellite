@@ -27,7 +27,7 @@ const fieldMappings = {
   PathInfo: 'matches',
   ContentType: 'equals',
   Method: 'equals',
-  Status: 'equals',
+  // Status: 'equals',
   filePath: 'matches',
 };
 
@@ -41,9 +41,9 @@ const QueryBuilder: React.SFC<IQueryBuilderProps> = (props) => {
   };
   const controlClassnames = {
     addRule: 'ant-btn btn-outline-accent-dark role-add-rule ml-auto',
-    addGroup: 'ant-btn btn-outline-accent-dark role-add-group mx-2 is-disabled',
+    addGroup: 'ant-btn btn-outline-accent-dark role-add-group mx-2',
     fields: 'form-control',
-    operators: 'form-control is-disabled',
+    operators: 'form-control',
     ruleGroup: 'rules-list rules-group-container',
     rule: 'rule-container form-inline',
   };

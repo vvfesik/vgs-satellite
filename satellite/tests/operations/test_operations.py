@@ -6,13 +6,13 @@ import pytest
 
 from satellite.audit_logs.records import OperationLogRecord
 from satellite.ctx import ProxyContext
-from satellite.db.models.route import Phase
 from satellite.operations.operations import (
     Operation,
     OperationStatus,
     StarlarkMessage
 )
 from satellite.proxy import ProxyMode
+from satellite.routes import Phase
 
 from ..factories import load_flow
 

@@ -8,8 +8,10 @@ from factory.alchemy import SQLAlchemyModelFactory
 
 from mitmproxy.http import HTTPFlow
 
+from satellite.aliases import AliasGeneratorType, AliasStoreType
 from satellite.db import get_session
 from satellite.db.models.route import Route, RuleEntry
+from satellite.routes import Operation, Phase
 from satellite.transformers import TransformerType
 
 
@@ -44,10 +46,10 @@ class RuleEntryFactory(SQLAlchemyModelFactory):
 
     id = LazyFunction(lambda: str(uuid4()))
     created_at = LazyFunction(lambda: datetime.now())
-    phase = 'REQUEST'
-    operation = 'REDACT'
-    token_manager = 'PERSISTENT'
-    public_token_generator = 'UUID'
+    phase = Phase.REQUEST
+    operation = Operation.REDACT
+    token_manager = AliasStoreType.PERSISTENT
+    public_token_generator = AliasGeneratorType.UUID
     transformer = TransformerType.JSON_PATH
     transformer_config = ['$.foo']
     targets = 'body'
