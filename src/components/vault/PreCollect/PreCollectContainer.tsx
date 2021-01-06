@@ -96,7 +96,7 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
   const [proxyMode, setProxyMode] = useState<'regular'|'forward'|undefined>();
 
   useEffect(() => {
-    pushEvent('requests');
+    pushEvent('logs');
   }, []);
 
   useEffect(() => {

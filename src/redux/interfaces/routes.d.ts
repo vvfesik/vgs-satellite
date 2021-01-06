@@ -63,6 +63,7 @@ export interface IRoute {
   port?: number;
   transport?: string;
   type?: string;
+  attributes?: IRoute;
 }
 
 export interface IRouteTags {

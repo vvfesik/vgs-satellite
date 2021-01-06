@@ -84,22 +84,24 @@ const EventLogs: React.FC<IEventLogsProps> = (props) => {
             {Object.keys(eventLogsMap).map((key) => {
               if (record.hasOwnProperty(key)) {
                 return (
-                  <p className="mb-0 ml-4 pl-1 py-2 small-capsy" key={key}>
-                    <span className="text-text-light pr-2">
+                  <p className="mb-0 ml-4 pl-1 py-2 small-capsy" key={key} data-role={key}>
+                    <span className="text-text-light pr-2" data-role="name">
                       {eventLogsMap[key]}
                     </span>
-                    {key === 'route_id' && routes.find(route => route.id === record[key]) ? (
-                      <Button
-                        type="link"
-                        size="small"
-                        className="p-0 small-capsy"
-                        onClick={() => history.push(`/routes/${record[key]}/edit`)}
-                      >
-                        {record[key]}
-                      </Button>
-                    ) : (
-                      record[key].toString()
-                    )}
+                    <span data-role="value">
+                      {key === 'route_id' && routes.find(route => route.id === record[key]) ? (
+                        <Button
+                          type="link"
+                          size="small"
+                          className="p-0 small-capsy"
+                          onClick={() => history.push(`/routes/${record[key]}/edit`)}
+                        >
+                          {record[key]}
+                        </Button>
+                      ) : (
+                        record[key].toString()
+                      )}
+                    </span>
                   </p>
                 )
               } else return;

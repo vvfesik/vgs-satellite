@@ -16,11 +16,13 @@ exports[`Localhoste eventlogs > Check eventlogs tab #1`] = `
 exports[`Localhoste eventlogs > Check eventlogs tab #2`] = `
 <td class="" colspan="2">
   <div data-role="event-details">
-    <p class="mb-0 ml-4 pl-1 py-2 small-capsy">
-      <span class="text-text-light pr-2">Method</span>POST
+    <p class="mb-0 ml-4 pl-1 py-2 small-capsy" data-role="method">
+      <span class="text-text-light pr-2" data-role="name">Method</span
+      ><span data-role="value">POST</span>
     </p>
-    <p class="mb-0 ml-4 pl-1 py-2 small-capsy">
-      <span class="text-text-light pr-2">Uri</span>http://httpbin.org/post
+    <p class="mb-0 ml-4 pl-1 py-2 small-capsy" data-role="uri">
+      <span class="text-text-light pr-2" data-role="name">Uri</span
+      ><span data-role="value">http://httpbin.org/post</span>
     </p>
   </div>
 </td>
@@ -31,130 +33,25 @@ exports[`Localhoste eventlogs > Check eventlogs tab #3`] = `
 `;
 
 exports[`Localhoste eventlogs > Check eventlogs tab #4`] = `
-<td class="" colspan="2">
-  <div data-role="event-details">
-    <p class="mb-0 ml-4 pl-1 py-2 small-capsy">
-      <span class="text-text-light pr-2">Bytes</span>195
-    </p>
-    <p class="mb-0 ml-4 pl-1 py-2 small-capsy">
-      <span class="text-text-light pr-2">Label</span>bytesSentToServer
-    </p>
-  </div>
-</td>
+<span class="_600 text-text-dark" data-role="event-name">Proxy traffic</span>
 `;
 
 exports[`Localhoste eventlogs > Check eventlogs tab #5`] = `
-<span class="_600 text-text-dark" data-role="event-name">Proxy traffic</span>
+<span class="_600 text-text-dark" data-role="event-name"
+  >Upstream response</span
+>
 `;
 
 exports[`Localhoste eventlogs > Check eventlogs tab #6`] = `
 <td class="" colspan="2">
   <div data-role="event-details">
-    <p class="mb-0 ml-4 pl-1 py-2 small-capsy">
-      <span class="text-text-light pr-2">Bytes</span>680
+    <p class="mb-0 ml-4 pl-1 py-2 small-capsy" data-role="upstream">
+      <span class="text-text-light pr-2" data-role="name">Upstream</span
+      ><span data-role="value">httpbin.org</span>
     </p>
-    <p class="mb-0 ml-4 pl-1 py-2 small-capsy">
-      <span class="text-text-light pr-2">Label</span>bytesReceivedFromServer
-    </p>
-  </div>
-</td>
-`;
-
-exports[`Localhoste eventlogs > Check eventlogs tab #7`] = `
-<span class="_600 text-text-dark" data-role="event-name"
-  >Upstream response</span
->
-`;
-
-exports[`Localhoste eventlogs > Check eventlogs tab #8`] = `
-<td class="" colspan="2">
-  <div data-role="event-details">
-    <p class="mb-0 ml-4 pl-1 py-2 small-capsy">
-      <span class="text-text-light pr-2">Upstream</span>httpbin.org
-    </p>
-    <p class="mb-0 ml-4 pl-1 py-2 small-capsy">
-      <span class="text-text-light pr-2">Status code</span>200
-    </p>
-  </div>
-</td>
-`;
-
-exports[`Localhoste eventlogs > Check eventlogs tab #9`] = `
-<div data-role="demo-curl">
-  <pre
-    class="line-numbers ant-card card px-5 bg-light  language-bash"
-  ><code class="  language-bash"><span class="token function">curl</span> https://httpbin.org/post -k <span class="token punctuation">\\</span>
-  -x localhost:9099 <span class="token punctuation">\\</span>
-  -H <span class="token string">"Content-type: application/json"</span> <span class="token punctuation">\\</span>
-  -d <span class="token string">'{"foo": "bar"}'</span></code><button type="button" class="position-absolute top right mt-2 text-muted btn btn-link btn-sm"><span id=""><i class="fa-copy fas mr-2 text-text"></i></span>Copy</button></pre>
-</div>
-`;
-
-exports[`Localhoste eventlogs > Check eventlogs tab #10`] = `
-<span class="_600 text-text-dark" data-role="event-name">Proxy request</span>
-`;
-
-exports[`Localhoste eventlogs > Check eventlogs tab #11`] = `
-<td class="" colspan="2">
-  <div data-role="event-details">
-    <p class="mb-0 ml-4 pl-1 py-2 small-capsy">
-      <span class="text-text-light pr-2">Method</span>POST
-    </p>
-    <p class="mb-0 ml-4 pl-1 py-2 small-capsy">
-      <span class="text-text-light pr-2">Uri</span>http://httpbin.org/post
-    </p>
-  </div>
-</td>
-`;
-
-exports[`Localhoste eventlogs > Check eventlogs tab #12`] = `
-<span class="_600 text-text-dark" data-role="event-name">Proxy traffic</span>
-`;
-
-exports[`Localhoste eventlogs > Check eventlogs tab #13`] = `
-<td class="" colspan="2">
-  <div data-role="event-details">
-    <p class="mb-0 ml-4 pl-1 py-2 small-capsy">
-      <span class="text-text-light pr-2">Bytes</span>195
-    </p>
-    <p class="mb-0 ml-4 pl-1 py-2 small-capsy">
-      <span class="text-text-light pr-2">Label</span>bytesSentToServer
-    </p>
-  </div>
-</td>
-`;
-
-exports[`Localhoste eventlogs > Check eventlogs tab #14`] = `
-<span class="_600 text-text-dark" data-role="event-name">Proxy traffic</span>
-`;
-
-exports[`Localhoste eventlogs > Check eventlogs tab #15`] = `
-<td class="" colspan="2">
-  <div data-role="event-details">
-    <p class="mb-0 ml-4 pl-1 py-2 small-capsy">
-      <span class="text-text-light pr-2">Bytes</span>677
-    </p>
-    <p class="mb-0 ml-4 pl-1 py-2 small-capsy">
-      <span class="text-text-light pr-2">Label</span>bytesReceivedFromServer
-    </p>
-  </div>
-</td>
-`;
-
-exports[`Localhoste eventlogs > Check eventlogs tab #16`] = `
-<span class="_600 text-text-dark" data-role="event-name"
-  >Upstream response</span
->
-`;
-
-exports[`Localhoste eventlogs > Check eventlogs tab #17`] = `
-<td class="" colspan="2">
-  <div data-role="event-details">
-    <p class="mb-0 ml-4 pl-1 py-2 small-capsy">
-      <span class="text-text-light pr-2">Upstream</span>httpbin.org
-    </p>
-    <p class="mb-0 ml-4 pl-1 py-2 small-capsy">
-      <span class="text-text-light pr-2">Status code</span>200
+    <p class="mb-0 ml-4 pl-1 py-2 small-capsy" data-role="status_code">
+      <span class="text-text-light pr-2" data-role="name">Status code</span
+      ><span data-role="value">200</span>
     </p>
   </div>
 </td>

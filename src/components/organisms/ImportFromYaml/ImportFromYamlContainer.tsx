@@ -64,7 +64,7 @@ const ImportFromYamlContainer: React.FunctionComponent<IImportFromYamlProps> = (
       route_type: isInbound(route) ? 'inbound' : 'outbound',
     });
     const isRouteList = length > 1;
-    const isRouteWithId = Boolean(route.id || route.attributes.id);
+    const isRouteWithId = Boolean(route.id || route.attributes?.id);
     if (isRouteWithId) {
       await props.updateRoute(route, { hideNotify: true });
       notify.success('Route created successfully');
@@ -87,7 +87,7 @@ const ImportFromYamlContainer: React.FunctionComponent<IImportFromYamlProps> = (
               route_type: isInbound(route) ? 'inbound' : 'outbound',
             });
           },
-          source: route.attributes.tags?.source || 'Yaml',
+          source: route.attributes?.tags?.source || 'Yaml',
         },
       );
     }
@@ -103,7 +103,7 @@ const ImportFromYamlContainer: React.FunctionComponent<IImportFromYamlProps> = (
   }
 
   function gotoRoute(route: IRoute, routeId?: string) {
-    const routeIdentifier = routeId || route.id || route.attributes.id;
+    const routeIdentifier = routeId || route.id || route.attributes?.id;
     history.push(`/routes/${routeIdentifier}/edit`);
   }
 

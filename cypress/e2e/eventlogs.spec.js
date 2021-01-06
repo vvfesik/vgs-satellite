@@ -27,7 +27,12 @@ describe('Localhoste eventlogs', function() {
       .each(($el) => {
         cy.wrap($el).toMatchSnapshot();
         cy.wrap($el).click();
-        cy.wrap($el).parents('.ant-table-row-level-0').next().children().toMatchSnapshot();
+        if (!$el.text().includes('traffic')) {
+          cy.wrap($el).parents('.ant-table-row-level-0').next().children().toMatchSnapshot();
+        } else {
+          cy.wrap($el).get('[data-role="bytes"] [data-role="value"]').should('exist');
+          cy.wrap($el).get('[data-role="label"] [data-role="value"]').contains(/bytes(SentTo|ReceivedBy)Server/);
+        }
         cy.wrap($el).click();
       });
   });
