@@ -16,7 +16,11 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY . .
-RUN npm ci --unsafe-perm
+
+RUN npm ci --unsafe-perm && \
+    rm -rf ./node_modules && \
+    npm install --no-package-lock --no-save serve@"^11.3.2"  start-server-and-test@"^1.11.7" && \
+    rm -rf ./.cache /root/.cache /root/.npm/_cacache
 
 EXPOSE 8089 9098 9099 1234
 
