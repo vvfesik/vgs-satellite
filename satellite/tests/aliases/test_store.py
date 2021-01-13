@@ -6,25 +6,36 @@ from satellite.db import get_session
 from satellite.db.models.alias import Alias
 
 
-def make_alias(store: bool) -> Alias:
-    value = str(uuid.uuid4())
-    alias = Alias(
-        value=value,
-        alias_generator=AliasGeneratorType.UUID,
-        public_alias=f'public_{value}',
-    )
-    session = get_session()
-    session.add(alias)
-    session.commit()
-
+def make_alias(store: bool, **params) -> Alias:
+    params.setdefault('value', str(uuid.uuid4()))
+    params.setdefault('alias_generator', AliasGeneratorType.UUID)
+    params.setdefault('public_alias', f'public_{params["value"]}')
+    alias = Alias(**params)
+    if store:
+        session = get_session()
+        session.add(alias)
+        session.commit()
     return alias
 
 
 def test_get_by_value():
-    alias = make_alias(True)
+    value = 'secret'
+    alias1 = make_alias(
+        True,
+        value=value,
+        alias_generator=AliasGeneratorType.UUID,
+    )
+    alias2 = make_alias(
+        True,
+        value=value,
+        alias_generator=AliasGeneratorType.RAW_UUID,
+    )
+
     store = AliasStore()
-    assert store.get_by_value(alias.public_alias) is None
-    assert store.get_by_value(alias.value) == alias
+    assert store.get_by_value(value) == [alias1, alias2]
+    assert store.get_by_value(value, AliasGeneratorType.UUID) == [alias1]
+    assert store.get_by_value(value, AliasGeneratorType.RAW_UUID) == [alias2]
+    assert store.get_by_value(value[::-1]) == []
 
 
 def test_get_by_alias():
@@ -48,15 +59,15 @@ def test_get_by_value_with_ttl():
     alias = make_alias(False)
     store = AliasStore(60)
     store.save(alias)
-    assert store.get_by_value(alias.value) == alias
-    assert AliasStore().get_by_value(alias.value) is None
+    assert store.get_by_value(alias.value) == [alias]
+    assert AliasStore().get_by_value(alias.value) == []
 
 
 def test_get_by_value_with_ttl_expired():
     alias = make_alias(False)
     store = AliasStore(-1)
     store.save(alias)
-    assert store.get_by_value(alias.value) is None
+    assert store.get_by_value(alias.value) == []
 
 
 def test_get_by_alias_with_ttl():

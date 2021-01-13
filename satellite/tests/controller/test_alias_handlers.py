@@ -39,8 +39,8 @@ class TestAliasesHandler(BaseHandlerTestCase):
         self.assertMatchSnapshot(json.loads(response.body))
 
         store = AliasStore()
-        self.assertIsNotNone(store.get_by_value('123321'))
-        self.assertIsNotNone(store.get_by_value('abccba'))
+        self.assertEqual(len(store.get_by_value('123321')), 1)
+        self.assertEqual(len(store.get_by_value('abccba')), 1)
 
     def test_get_ok(self):
         uuid_patch = patch(

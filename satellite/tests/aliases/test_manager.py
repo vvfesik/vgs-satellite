@@ -46,7 +46,7 @@ def test_redact_new_token(
     )
     monkeypatch.setattr(
         'satellite.aliases.store.AliasStore.get_by_value',
-        Mock(return_value=None),
+        Mock(return_value=[]),
     )
     emit_audit_log = Mock()
     monkeypatch.setattr(
@@ -91,10 +91,10 @@ def test_redact_existing_token(
     )
     monkeypatch.setattr(
         'satellite.aliases.store.AliasStore.get_by_value',
-        Mock(return_value=Mock(
+        Mock(return_value=[Mock(
             id='ead9d833-eb9a-474c-9894-16de59682dce',
             public_alias='tok_sat_medNmHNXKxwuHq8AvfAhmo',
-        )),
+        )]),
     )
     emit_audit_log = Mock()
     monkeypatch.setattr(

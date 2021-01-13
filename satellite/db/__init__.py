@@ -61,6 +61,9 @@ def init():
         # We have a fresh DB. Stamping with the latest version.
         command.stamp(alembic_cfg, 'head')
 
+    # If some migrations dropped tables which must be recreated
+    Base.metadata.create_all(_engine)
+
 
 def update_model(model: Base, data: dict, exclude_fields=None):
     for name, value in data.items():

@@ -1,10 +1,12 @@
 from datetime import datetime, timedelta
-from typing import Optional
+from typing import List, Optional
 
 from sqlalchemy.orm.query import Query
 
 from satellite.db import get_session
 from satellite.db.models import Alias
+
+from . import AliasGeneratorType
 
 
 class AliasStore:
@@ -15,8 +17,15 @@ class AliasStore:
     def is_persistent(self):
         return self._ttl is None
 
-    def get_by_value(self, value: str) -> Optional[Alias]:
-        return self._query().filter(Alias.value == value).first()
+    def get_by_value(
+        self,
+        value: str,
+        generator_type: AliasGeneratorType = None
+    ) -> List[Alias]:
+        query = self._query().filter(Alias.value == value)
+        if generator_type is not None:
+            query = query.filter(Alias.alias_generator == generator_type)
+        return query.order_by('created_at').all()
 
     def get_by_alias(self, alias: str) -> Optional[Alias]:
         return self._query().filter(Alias.public_alias == alias).first()

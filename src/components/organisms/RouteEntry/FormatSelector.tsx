@@ -20,7 +20,6 @@ export const FormatSelector = (props: any) => {
           value={props.format}
           onChange={e => handleOnChange(e)}
           data-role="rule-entry-format-select"
-          className="is-disabled"
         >
           {
             ruleTokenGenerators.map(item =>

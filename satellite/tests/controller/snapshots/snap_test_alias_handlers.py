@@ -79,7 +79,7 @@ snapshots['TestAliasesHandler::test_post_ok 1'] = {
         {
             'aliases': [
                 {
-                    'alias': 'tok_sat_kgq94RpcPrAMSHJWh7o7P6',
+                    'alias': 'tok_sat_Rm454UAJbVTYfqXbXBjNYc',
                     'format': 'UUID'
                 }
             ],

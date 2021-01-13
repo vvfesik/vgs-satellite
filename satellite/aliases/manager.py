@@ -30,14 +30,15 @@ def redact(
         )
 
     alias_store = _get_store(store_type)
-    alias_entity = alias_store.get_by_value(value)
-    if alias_entity:
+    aliases = alias_store.get_by_value(value, generator_type)
+    if aliases:
+        alias = aliases[0]
         if make_log_record:
             audit_logs.emit(make_log_record(
                 action_type=audit_logs.records.ActionType.DE_DUPE,
-                record_id=alias_entity.id,
+                record_id=alias.id,
             ))
-        return alias_entity
+        return alias
 
     generator = get_alias_generator(generator_type)
     alias_id = str(uuid.uuid4())
@@ -45,7 +46,7 @@ def redact(
         id=alias_id,
         value=value,
         alias_generator=generator_type,
-        public_alias=generator.generate(alias_id),
+        public_alias=generator.generate(value),
     )
     alias_store.save(alias)
 
