@@ -38,7 +38,7 @@ def get(route_id: str) -> Route:
     return get_session().query(Route).filter(Route.id == route_id).first()
 
 
-def create(route_data: dict) -> Route:
+def create(route_data: dict, store: bool = True) -> Route:
     route = Route(**{
         **route_data,
         'rule_entries_list': [
@@ -49,13 +49,14 @@ def create(route_data: dict) -> Route:
 
     check_route(route)
 
-    session = get_session()
-    try:
-        session.add(route)
-        session.commit()
-    except Exception:
-        session.rollback()
-        raise
+    if store:
+        session = get_session()
+        try:
+            session.add(route)
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
 
     return route
 
@@ -111,6 +112,17 @@ def delete(route_id):
     session = get_session()
     session.delete(route)
     session.commit()
+
+
+def replace(routes_data: List[dict]) -> List[Route]:
+    routes = [create(route_data, False) for route_data in routes_data]
+
+    session = get_session()
+    with session.begin_nested():
+        session.query(Route).delete()
+        session.add_all(routes)
+
+    return routes
 
 
 def check_filter(fltr: RuleEntry):

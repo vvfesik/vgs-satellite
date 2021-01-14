@@ -11,6 +11,7 @@ from satellite import db
 from satellite import logging as satellite_logging
 from satellite.aliases.store import AliasStore
 from satellite.config import InvalidConfigError, configure, init_satellite_dir
+from satellite.routes.loaders import LoadError, load_from_yaml
 from satellite.web_application import WebApplication
 
 
@@ -59,6 +60,15 @@ from satellite.web_application import WebApplication
     help='TTL for volatile aliases in seconds. Default is 3600 (1 hour).',
     envvar='VOLATILE_ALIASES_TTL',
 )
+@click.option(
+    '--routes-path',
+    type=click.Path(exists=True, dir_okay=False),
+    help=(
+        'Path to a routes config YAML file. If provided all the current '
+        'routes present in Satellite DB will be deleted.'
+    ),
+    envvar='SATELLITE_ROUTES_PATH',
+)
 def main(**kwargs):
     set_start_method('fork')  # PyInstaller supports only fork start method
 
@@ -76,6 +86,7 @@ def main(**kwargs):
         raise click.ClickException(f'Invalid config: {exc}') from exc
 
     satellite_logging.configure(log_path=config.log_path, silent=config.silent)
+    logger = logging.getLogger()
 
     db.configure(config.db_path)
     try:
@@ -83,8 +94,17 @@ def main(**kwargs):
     except db.DBVersionMismatch as exc:
         raise click.ClickException(exc) from exc
 
+    if config.routes_path:
+        with open(config.routes_path, 'r') as stream:
+            try:
+                loaded_routes_count = load_from_yaml(stream)
+            except LoadError as exc:
+                raise click.ClickException(
+                    f'Unable to load routes from file: {exc}'
+                ) from exc
+        logger.info(f'Loaded {loaded_routes_count} routes from routes config file.')
+
     deleted_aliases = AliasStore.cleanup()
-    logger = logging.getLogger()
     logger.info(f'Deleted {deleted_aliases} expired aliases.')
 
     app = WebApplication(config)

@@ -58,7 +58,7 @@ def test_build_pipeline(monkeypatch):
         Mock(return_value=mock_operation_cls),
     )
 
-    rule_entry = RuleEntryFactory(
+    rule_entry = RuleEntryFactory.build(
         id='1b8f25c2-bd32-4de2-9300-a544fe8b91df',
         route_id='f6a62dec-514f-4a54-b2d8-792c568dbd8b',
         operations_v2=[{

@@ -18,14 +18,15 @@ DEFAULT_DB_PATH = SATELLITE_DIR / 'db.sqlite'
 
 @dataclasses.dataclass(frozen=True)
 class SatelliteConfig:
-    debug: bool = False
-    web_server_port: int = 8089
-    reverse_proxy_port: int = 9098
-    forward_proxy_port: int = 9099
     db_path: str = str(DEFAULT_DB_PATH)
+    debug: bool = False
+    forward_proxy_port: int = 9099
     log_path: Optional[str] = None
+    reverse_proxy_port: int = 9098
+    routes_path: Optional[str] = None
     silent: bool = False
     volatile_aliases_ttl: int = 3600
+    web_server_port: int = 8089
 
 
 SatelliteConfigSchema = marshmallow_dataclass.class_schema(SatelliteConfig)

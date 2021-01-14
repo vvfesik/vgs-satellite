@@ -26,7 +26,7 @@ def test_copy_flow():
     assert new_flow.response.match_details == flow.response.match_details
 
 
-def test_flow_state(snapshot):
+def test_flow_state():
     flow = load_flow('http_raw')
     flow.request_raw = flow.request.copy()
     flow.request_raw.text = 'raw request'
