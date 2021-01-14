@@ -9,6 +9,7 @@ setup_python_macos: &setup_python_macos
       echo 'export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"' >> $BASH_ENV
       PYTHON_CONFIGURE_OPTS="--enable-framework" ~/.pyenv/bin/pyenv install 3.8.6
       ~/.pyenv/bin/pyenv local 3.8.6
+      pip install --upgrade pip
 
 jobs:
   build:
