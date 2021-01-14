@@ -2,6 +2,8 @@
 
 VERSION = $(shell ./scripts/version.sh)
 LATEST_VERSION = $(shell git tag | sort -Vr | head -n 1)
+
+LARKY_PATH = $(shell python -c "import pkg_resources; print(pkg_resources.resource_filename('pylarky', 'larky-runner'))")
 DOCKER_ORG = verygood
 DOCKER_REPO = satellite
 DOCKER_IMAGE_NAME = ${DOCKER_ORG}/${DOCKER_REPO}
@@ -21,6 +23,7 @@ dist: clean
 	--hidden-import sqlalchemy.ext.baked \
 	--hidden-import logging.config \
 	--add-data satellite/db/migrations:satellite/db/migrations \
+	--add-binary ${LARKY_PATH}:pylarky \
 	 app.py
 
 test_dist:

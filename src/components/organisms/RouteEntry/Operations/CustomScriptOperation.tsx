@@ -19,7 +19,7 @@ const CustomScriptOperation: React.FC<ICustomScriptOperationProps> = (props) => 
     isFieldTouched(fieldName) && getFieldError(fieldName);
 
   const placeholderText =` # You can use request that is being passed to operation
- # input.data - for raw payload body
+ # request.data - for raw payload body
  # input.headers - for headers list
  # Last method call have to return input`;
 

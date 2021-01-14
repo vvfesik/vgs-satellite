@@ -18,3 +18,4 @@ factory_boy
 pyinstaller==4.0  # https://github.com/pyinstaller/pyinstaller/issues/5338
 freezegun
 coverage
+pylarky==0.0.4

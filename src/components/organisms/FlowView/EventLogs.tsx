@@ -29,12 +29,8 @@ const eventLogsMap = {
   operation_name: 'Operation Name',
   phase: 'Phase',
   error_message: 'Error Message',
+  execution_time_ms: 'Ecxecution time (ms)',
 };
-
-const ignoreList = [
-  'OperationLogRecord',
-  'OperationPipelineEvaluationLogRecord',
-];
 
 const EventLogs: React.FC<IEventLogsProps> = (props) => {
   const { traceId, isLoading, eventLogs, routes } = props;
@@ -68,7 +64,7 @@ const EventLogs: React.FC<IEventLogsProps> = (props) => {
             render: (record) => unixToFormat(record, 'YYYY-MM-DDTHH:mm:ss.SSS'),
           },
         ]}
-        dataSource={eventLogs.filter(log => !ignoreList.includes(log.type))}
+        dataSource={eventLogs}
         striped={false}
         type="dark"
         pagination={false}
@@ -99,7 +95,7 @@ const EventLogs: React.FC<IEventLogsProps> = (props) => {
                           {record[key]}
                         </Button>
                       ) : (
-                        record[key].toString()
+                        record[key] ? record[key].toString() : '[Empty]'
                       )}
                     </span>
                   </p>

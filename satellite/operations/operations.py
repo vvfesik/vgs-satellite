@@ -1,11 +1,13 @@
 import logging
 from abc import ABCMeta, abstractproperty
-from dataclasses import dataclass
 from enum import Enum, unique
-from typing import List, Tuple, Type
+from typing import Type
 
 from mitmproxy.http import HTTPFlow
 from mitmproxy.net.http.headers import Headers
+
+from pylarky.eval.http_evaluator import HttpEvaluator
+from pylarky.model.http_message import HttpMessage
 
 from .utils import measure_execution_time
 from .. import audit_logs
@@ -13,21 +15,12 @@ from ..audit_logs.records import OperationLogRecord
 from ..ctx import get_proxy_context
 from ..routes import Phase
 
-
 logger = logging.getLogger()
 
 
-# Just a stub which will be removed after Starlark lib is ready.
-@dataclass
-class StarlarkMessage:
-    headers: List[Tuple[str, str]]
-    body: str
-
-
-# Just a stub which will be removed after Starlark lib is ready.
-def evaluate(code: str, message: StarlarkMessage) -> StarlarkMessage:
-    logger.info(f'Evaluating {code} for {message}')
-    return message
+def evaluate(code: str, message: HttpMessage) -> HttpMessage:
+    evaluator = HttpEvaluator(code)
+    return evaluator.evaluate(message)
 
 
 @unique
@@ -65,12 +58,13 @@ class Operation(metaclass=OperationMeta):
 
     def evaluate(self, flow: HTTPFlow, phase: Phase):
         flow_phase_obj = getattr(flow, phase.value.lower())
-        input_message = StarlarkMessage(
-            headers=[
+        input_message = HttpMessage(
+            url=flow.request.url,
+            headers=dict([
                 (name, value)
                 for name, value in flow_phase_obj.headers.items()
-            ],
-            body=flow_phase_obj.content.decode(),
+            ]),
+            data=flow_phase_obj.content.decode()
         )
 
         error = None
@@ -97,10 +91,13 @@ class Operation(metaclass=OperationMeta):
         ))
 
         if output_message:
-            if input_message.body != output_message.body:
-                flow_phase_obj.text = output_message.body
             if input_message.headers != output_message.headers:
-                flow_phase_obj.headers = Headers(output_message.headers)
+                flow_phase_obj.headers = Headers([
+                    (name.encode('UTF-8'), value.encode('UTF-8'))
+                    for name, value in output_message.headers.items()
+                ])
+            if input_message.data != output_message.data:
+                flow_phase_obj.text = output_message.data
 
 
 class CustomScriptOperation(Operation):

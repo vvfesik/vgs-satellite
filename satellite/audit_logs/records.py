@@ -94,7 +94,7 @@ class VaultTrafficLogRecord(AuditLogRecord):
 
 @dataclass
 class OperationPipelineEvaluationLogRecord(AuditLogRecord):
-    name: str = field(default='Operaion pipeline evaluation', init=False)
+    name: str = field(default='Operation pipeline evaluation', init=False)
     route_id: str
     filter_id: str
     phase: Phase

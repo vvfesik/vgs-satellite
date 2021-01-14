@@ -90,7 +90,7 @@ snapshots['TestAuditLogsHandlerGet::test_ok 1'] = {
             'execution_time_ns': 1000000,
             'filter_id': 'd93d3034-6f78-4f00-842b-c4f9d351b4ef',
             'flow_id': 'c8973f85-bb66-450b-9dd1-5f6e2c57b8bd',
-            'name': 'Operaion pipeline evaluation',
+            'name': 'Operation pipeline evaluation',
             'operations': [
                 'github.com/verygoodsecurity/common/script'
             ],
