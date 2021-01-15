@@ -15,7 +15,7 @@
     "Andrew Slepakurov @aslepakurov",
     "Petro Melnykov @rozenbom"
   ],
-  "license": "ISC",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/verygoodsecurity/vgs-satellite.git"
@@ -69,7 +69,7 @@
     "mac": {
       "target": "dmg",
       "icon": "images/electron/appicon_512x512.png",
-      "minimumSystemVersion": "10.13.6",
+      "minimumSystemVersion": "10.14.4",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
       "entitlements": "entitlements.mac.plist",

@@ -13,6 +13,7 @@ RUN apk update && apk add --no-cache \
 WORKDIR /satellite
 
 COPY requirements.txt .
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 COPY . .
