@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import classnames from 'classnames';
-import DiffSnippet from 'src/components/atoms/DiffSnippet/DiffSnippet';
+import { DiffSnippet, setLocalMonaco } from '@vgs/elemente';
 import { Table } from 'reactstrap';
 import { Input } from 'src/components/antd';
 import { isString } from 'lodash';
@@ -11,12 +11,19 @@ interface IRequestProps {
   headers?: ILogHeaders;
   body?: ILogBody;
   isEditMode: boolean;
+  isBigPayload?: boolean;
+  contentType?: string;
   onEditChange: (payload: any) => void;
   onEditSave: () => void;
 }
 
 const Request: React.FC<IRequestProps> = (props) => {
-  const { headers, body, activePhase, isEditMode, onEditChange, onEditSave } = props;
+  const { headers, body, activePhase, isEditMode, isBigPayload, contentType, onEditChange, onEditSave } = props;
+
+  useEffect(() => {
+    setLocalMonaco('./vs');
+  }, []);
+
   const findRewrittenHeader = ([key, value]) => {
     const index = headers[activePhase]
       .filter(h => h[0] === key)
@@ -120,6 +127,8 @@ const Request: React.FC<IRequestProps> = (props) => {
                 newTitle={bodyRewritten ? 'Rewritten' : ''}
                 splitView={!!bodyRewritten}
                 showDiffOnly={false}
+                isAdvancedMode={isBigPayload}
+                language={contentType}
               />
             )
           ) : (

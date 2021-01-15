@@ -11,7 +11,7 @@ import { Modal, Button } from 'src/components/antd';
 const { confirm } = Modal;
 import deepReplace from 'deep-replace-in-object' ;
 import sortObject from 'deep-sort-object';
-import DiffSnippet from 'src/components/atoms/DiffSnippet/DiffSnippet';
+import { DiffSnippet } from '@vgs/elemente';
 import { isInbound } from 'src/redux/utils/routes';
 import { pushEvent } from 'src/redux/utils/analytics';
 

@@ -4,7 +4,7 @@ import FlowMethod from 'src/components/organisms/FlowsTable/FlowMethod';
 import { ILog } from 'src/redux/interfaces/logs';
 import { Badge, Table } from 'reactstrap';
 import { badgeColor, getQueryParameters } from 'src/redux/utils/utils';
-import DiffSnippet from 'src/components/atoms/DiffSnippet/DiffSnippet';
+import { DiffSnippet } from '@vgs/elemente';
 import _ from 'lodash';
 import { Alert, Icon, Input, Popover } from 'src/components/antd';
 

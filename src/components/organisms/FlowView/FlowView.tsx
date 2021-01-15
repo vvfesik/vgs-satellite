@@ -55,6 +55,8 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
   const [selectedTab, setSelectedTab] = useState<TFlowViewTabs>('general');
   const [selectedPhase, setSelectedPhase] = useState<TFlowViewPhase>('request');
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isBigPayload, setIsBigPayload] = useState(false);
+  const [contentType, setContentType] = useState();
 
   const [tabs, setTabs] = useState<TFlowViewTabs[]>(['general']);
   const [headers, setHeaders] = useState({});
@@ -81,14 +83,9 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
         responseRewritten: flow?.response_rewritten?.body,
       });
 
-      Object.keys(body).forEach((key: string) => {
-        if (body[key] && body[key].length > 3000) {
-          setBody({
-            ...body,
-            [key]: 'Payload is too big to render',
-          });
-        }
-      });
+      setContentType(headers.request?.find(h => h[0]?.toLowerCase() === 'content-type')?.[1]);
+      setIsBigPayload(Object.keys(body || {}).some((key: string) => body[key]?.length > 3000));
+
       props.setPreRouteType(log.mode === 'regular' ? 'outbound' : 'inbound');
       props.setProxyMode(log.mode);
     }
@@ -224,7 +221,7 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
             activePhase={selectedPhase}
             selectedTab={selectedTab}
             hasPayload={!!log.flow}
-            hideSecureButton={hideSecureButton()}
+            hideSecureButton={hideSecureButton() || isBigPayload}
             onRuleCreate={() => handleRuleCreate()}
             onSelectPhase={selectPhase}
             onReplay={onReplay}
@@ -265,6 +262,8 @@ const FlowView: React.FunctionComponent<IFlowViewProps> = (props) => {
               body={selectedTab === 'body' && body}
               activePhase={selectedPhase}
               isEditMode={isEditMode}
+              isBigPayload={isBigPayload}
+              contentType={contentType}
               onEditChange={onEditChange}
               onEditSave={handleOnEdit}
             />

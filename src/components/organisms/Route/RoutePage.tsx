@@ -5,7 +5,7 @@ import { Button, Modal, Row, Col, Icon } from 'src/components/antd';
 import { IRoute } from 'src/redux/interfaces/routes';
 import config from 'src/config/config';
 import RouteDeleteConfirmModal from 'src/components/organisms/RouteDeleteConfirmModal/RouteDeleteConfirmModal';
-import DiffSnippet from 'src/components/atoms/DiffSnippet/DiffSnippet';
+import { DiffSnippet } from '@vgs/elemente';
 import Route from './Route';
 import { hostnameFromUri, isValidHostname } from 'src/redux/utils/utils';
 import {

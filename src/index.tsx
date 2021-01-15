@@ -5,6 +5,7 @@ import ErrorBoundary from 'src/ErrorBoundary';
 import { initAnalytics } from 'src/redux/utils/analytics';
 
 import './styles/antd-theme.less';
+import '@vgs/elemente/dist/elemente.esm.css';
 import './styles/app.scss';
 
 const Root = (
