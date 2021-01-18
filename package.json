@@ -30,7 +30,7 @@
     "start": "start-test ./runapp.sh 8089 serve",
     "start:app": "start-test start:quiet 1234 'electron .'",
     "start:quiet": "start-test ./runapp.sh 8089 serve:quiet",
-    "start:docker": "start-test 'python3 app.py' ${SATELLITE_API_PORT:-8089} serve:quiet",
+    "start:docker": "start-test 'python app.py' ${SATELLITE_API_PORT:-8089} serve:quiet",
     "electron:build": "npm run build -- --public-url ./ && make dist && electron-builder -p never",
     "cy:dev": "cypress open",
     "cy:run": "cypress run -b chrome -c -s './cypress/e2e/*.*' --headless",

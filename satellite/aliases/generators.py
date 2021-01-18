@@ -118,7 +118,7 @@ class LuhnInvalidCardNumber(ValidatingAliasGenerator):
     def _generate(self, value: str) -> str:
         digits = [random.randint(0, 9) for _ in range(len(value))]
         if _mod10(digits) == 0:
-            digits[-1] += 1
+            digits[-1] = (digits[-1] + 1) % 10
         return ''.join(map(str, digits))
 
 
