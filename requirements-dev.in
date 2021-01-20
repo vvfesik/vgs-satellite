@@ -1,0 +1,10 @@
+-r requirements.in
+flake8
+flake8-import-order
+pip-tools
+pytest
+snapshottest
+factory_boy
+pyinstaller==4.0  # https://github.com/pyinstaller/pyinstaller/issues/5338
+freezegun
+coverage

@@ -1,5 +1,5 @@
 mitmproxy~=5.3.0
-SQLAlchemy
+SQLAlchemy==1.3.20  # TODO: fix failing tests
 base58
 jsonpath-ng
 marshmallow
@@ -9,13 +9,4 @@ marshmallow-oneofschema
 lxml
 tblib
 alembic
-flake8
-flake8-import-order
-pip-tools
-pytest
-snapshottest
-factory_boy
-pyinstaller==4.0  # https://github.com/pyinstaller/pyinstaller/issues/5338
-freezegun
-coverage
 pylarky==0.0.5

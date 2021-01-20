@@ -12,51 +12,54 @@ setup_python_macos: &setup_python_macos
 
 jobs:
   build:
-    docker:
-      - image: circleci/python:3.8-node-browsers
-        environment:
-          ## this enables colors in the output
-          TERM: xterm
-          NODE_OPTIONS: --max-old-space-size=2048
-    # Using large instance to avoid frequent failures of frontend build step
+    machine:
+      image: ubuntu-1604:202010-01
+      docker_layer_caching: true
     resource_class: large
     working_directory: ~/app
+    environment:
+      NODE_VERSION: 14.15.0
     steps:
       - checkout
+      - run:
+          name: Setup environment
+          command: |
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+            export NVM_DIR="/opt/circleci/.nvm"
+            echo 'export NVM_DIR="$NVM_DIR"' >> $BASH_ENV
+            sudo apt-get update && sudo apt-get install -y libxss1
       - restore_cache:
           key: npm-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run:
           name: Install Dependencies
-          command: npm ci --unsafe-perm
+          command: |
+            . $NVM_DIR/nvm.sh
+            npm ci --unsafe-perm
           no_output_timeout: 30m
       - save_cache:
           key: npm-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - ~/app/node_modules/
             - /home/circleci/.cache/Cypress
-      - run: npm run test:ci
+      - run:
+          name: Run tests
+          command: |
+            . $NVM_DIR/nvm.sh
+            npm run test:ci
       - store_artifacts:
           path: /home/circleci/app/cypress/screenshots/
+
   python_test:
-    docker:
-      - image: circleci/python:3.8
+    machine:
+      image: ubuntu-1604:202010-01
+      docker_layer_caching: true
     working_directory: ~/app
     steps:
       - checkout
       - run:
-          name: Install Dependencies
-          command: pip install -r requirements.txt
-      - run:
-          name: Run linter for Python sources
-          command: make lint
-      - run:
-          name: Run Python unit tests
-          command: make test
-      - run:
-          name: Generate test coverage report
-          command: coverage html --include "satellite/*"
-      - store_artifacts:
-          path: htmlcov
+          name: Run tests
+          command: docker-compose run test
+
   python_test_dist_linux:
     docker:
       - image: circleci/python:3.8
@@ -65,7 +68,7 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
-          command: pip install -r requirements.txt
+          command: pip install -r requirements-dev.txt
       - run:
           name: Build distribution
           command: make dist
@@ -74,6 +77,7 @@ jobs:
           command: make test_dist
       - store_artifacts:
           path: dist/vgs-satellite-backend
+
   python_test_dist_macos:
     macos:
       xcode: 10.2.1
@@ -85,7 +89,7 @@ jobs:
           name: Install Dependencies
           command: |
             pip install --upgrade pip
-            pip install -r requirements.txt
+            pip install -r requirements-dev.txt
       - run:
           name: Build distribution
           command: make dist
@@ -94,6 +98,7 @@ jobs:
           command: make test_dist
       - store_artifacts:
           path: dist/vgs-satellite-backend
+
   smoketest:
     docker:
       - image: circleci/python:3.8-node-browsers
@@ -144,7 +149,7 @@ jobs:
           name: Install Dependencies
           command: |
             pip install --upgrade pip
-            pip install -r requirements.txt
+            pip install -r requirements-dev.txt
             . $NVM_DIR/nvm.sh
             nvm use 14.15.0
             npm ci
@@ -178,7 +183,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            pip3 install -r requirements.txt
+            pip3 install -r requirements-dev.txt
             npm ci --unsafe-perm
       - run:
           name: Build the app

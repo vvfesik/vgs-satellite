@@ -38,9 +38,11 @@ check: lint test dist test_dist
 
 pin_requirements:
 	pip-compile --output-file=requirements.txt requirements.in
+	pip-compile --output-file=requirements-dev.txt requirements-dev.in
 
 upgrade_requirements:
 	pip-compile -U --output-file=requirements.txt requirements.in
+	pip-compile -U --output-file=requirements-dev.txt requirements-dev.in
 
 docker_image:
 	docker build -t ${DOCKER_IMAGE_NAME}:${VERSION} .

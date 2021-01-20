@@ -46,7 +46,7 @@ VGS Satellite is provided as a Open Source product under Apache License v2.0
 
 ### Using the source code
 
-_Note: If you are not interested in contributing to VGS Satellite and don't need the latest (not released) changes please consider using the [Docker image](#using-the-docker-image) or the [Electron app](#using-the-electron-app)._
+_Note: If you are not interested in contributing to VGS Satellite and don't need the latest (not released) changes please consider using the [Electron app](#using-the-electron-app) or [Docker image](#using-the-docker-image) (when you don't need the UI)._
 
 Assuming you have the right versions of Python (`3.8.*`), npm (`6.14.*`) and node (`14.15.*`):
 ```bash
@@ -138,19 +138,14 @@ vgs-satellite> npm run serve
 _Caveat: Although you can change the API port, UI will still try to use the default value (8089). We will fix this eventually but currently it is what it is._
 
 ### Using the Docker image
-Pull the image
+The core app (without the UI) is available as a Docker image:
 ```bash
 docker pull verygood/satellite
 ```
 
 Start a container
 ```bash
-docker run --rm -v $HOME/.vgs-satellite/:/data -p 8089:8089 -p 9098:9098 -p 9099:9099 -p 1234:1234 verygood/satellite
-```
-
-Using `docker-compose`:
-```bash
-vgs-satellite> docker-compose up
+docker run --rm -v $HOME/.vgs-satellite/:/data -p 8089:8089 -p 9098:9098 -p 9099:9099 verygood/satellite
 ```
 
 _Note: You can use any directory you like to mount `/data` volume - just make sure the directory exists before you start a container._
@@ -161,7 +156,7 @@ VGS Satellite is available as an Electron app (for Linux and Mac). You can find 
 ## Developer notes
 
 ### Python dependencies
-Do not add Python dependencies directly to `requirements.txt`. Instead add them to `requirements.in` and run:
+Do not add Python dependencies directly to `requirements.txt`/`requirements-dev.txt`. Instead add them to `requirements.in`/`requirements-dev.in` and run:
 ```bash
 vgs-satellite> make pin_requirements
 ```
@@ -170,6 +165,8 @@ If you want to upgrade Python dependencies run:
 ```bash
 vgs-satellite> make upgrade_requirements
 ```
+
+Use `requirements-dev.in` to add a dev-only dependency.
 
 ### Running tests
 Unit tests for the core app can be run as:
