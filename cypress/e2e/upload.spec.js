@@ -1,3 +1,5 @@
+const fixtures = require('../fixtures/diffs/upload.js');
+
 describe('Localhoste upload har and clickthru', function() {
   beforeEach(() => {
     cy.server();
@@ -17,7 +19,7 @@ describe('Localhoste upload har and clickthru', function() {
 
     cy.get('[data-role="logs-row"]')
       .should('have.length', 5)
-      .each(($el) => {
+      .each(($el, index) => {
         cy.wrap($el).click();
         cy.get('[data-role="log-details-modal-content"]').toMatchSnapshot();
 
@@ -28,10 +30,14 @@ describe('Localhoste upload har and clickthru', function() {
         cy.get('[data-role="log-details-modal-content"]').toMatchSnapshot();
 
         cy.get('[data-role="tab-body"]').click();
-        cy.get('[data-role="log-details-modal-content"]').toMatchSnapshot();
+        cy.get('[data-role="log-payload-body-diff"]').should(($div) => {
+          expect($div.get(0).innerText).to.eq(fixtures.bodyRequests[index]);
+        })
 
         cy.get('[data-role="select-response-phase"]').click();
-        cy.get('[data-role="log-details-modal-content"]').toMatchSnapshot();
+        cy.get('[data-role="log-payload-body-diff"]').should(($div) => {
+          expect($div.get(0).innerText).to.eq(fixtures.bodyResponses[index]);
+        })
 
         cy.get('[data-role="log-details-modal"] .modal-header i.fa-times').click();
       });

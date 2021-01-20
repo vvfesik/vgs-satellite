@@ -53,6 +53,7 @@ snapshots['test_load_from_yaml_ok 1'] = [
                         },
                         'id': 'e38880f1-9a9c-4268-a801-abb233706c47',
                         'operation': GenericRepr("<Operation.ENRICH: 'ENRICH'>"),
+                        'operations': None,
                         'phase': GenericRepr("<Phase.REQUEST: 'REQUEST'>"),
                         'public_token_generator': GenericRepr("<AliasGeneratorType.UUID: 'UUID'>"),
                         'targets': [
@@ -115,6 +116,7 @@ snapshots['test_load_from_yaml_ok 1'] = [
                         },
                         'id': 'a88cd74f-90c3-41c9-b353-5edbfb1cd03d',
                         'operation': GenericRepr("<Operation.REDACT: 'REDACT'>"),
+                        'operations': None,
                         'phase': GenericRepr("<Phase.REQUEST: 'REQUEST'>"),
                         'public_token_generator': GenericRepr("<AliasGeneratorType.UUID: 'UUID'>"),
                         'targets': [

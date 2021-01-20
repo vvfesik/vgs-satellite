@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Form, Input } from 'src/components/antd';
 import { FormComponentProps } from 'antd/es/form';
-import { IOperationV2 } from 'src/redux/interfaces/routes';
+import { IOperation } from 'src/redux/interfaces/routes';
 
 interface ICustomScriptOperationProps extends IOperationsFormProps {
-  operations?: IOperationV2[];
-  onChange: (operations: IOperationV2[]) => void;
+  operations?: IOperation[];
+  onChange: (operations: IOperation[]) => void;
 }
 
 interface IOperationsFormProps extends FormComponentProps {
@@ -44,8 +44,8 @@ const CustomScriptOperation: React.FC<ICustomScriptOperationProps> = (props) => 
 
 const mapPropsToFields = ({ operations }: ICustomScriptOperationProps) => {
   const operationsValue = operations?.find(
-    (operation: IOperationV2) => operation.name === 'github.com/verygoodsecurity/common/script',
-  )?.parameters.code;
+    (operation: IOperation) => operation.name === 'github.com/verygoodsecurity/common/compute/LarkyHttp',
+  )?.parameters.script;
   return {
     operations: Form.createFormField({
       ...operations,
@@ -58,9 +58,9 @@ const onFieldsChange = (props: any, changed: any) => {
   let operations = [];
   if (changed.operations.value) {
     operations.push({
-      name: "github.com/verygoodsecurity/common/script",
+      name: "github.com/verygoodsecurity/common/compute/LarkyHttp",
       parameters: {
-        code: changed.operations.value
+        script: changed.operations.value
       }
     },);
   } else {

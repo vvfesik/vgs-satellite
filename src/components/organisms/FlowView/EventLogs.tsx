@@ -28,6 +28,7 @@ const eventLogsMap = {
   record_type: 'Record Type',
   operation_name: 'Operation Name',
   phase: 'Phase',
+  status: 'Status',
   error_message: 'Error Message',
   execution_time_ms: 'Ecxecution time (ms)',
 };
@@ -95,7 +96,7 @@ const EventLogs: React.FC<IEventLogsProps> = (props) => {
                           {record[key]}
                         </Button>
                       ) : (
-                        record[key] ? record[key].toString() : '[Empty]'
+                        record[key]?.toString() || '[Empty]'
                       )}
                     </span>
                   </p>

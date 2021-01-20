@@ -126,7 +126,7 @@ def test_response_redact(monkeypatch):
 @freeze_time()
 def test_operations(monkeypatch):
     route = RouteFactory()
-    rule_entry = RuleEntryFactory(operations_v2='"some json"')
+    rule_entry = RuleEntryFactory(operations='"some json"')
 
     monkeypatch.setattr(
         'satellite.vault.vault_handler.ctx.get_proxy_context',

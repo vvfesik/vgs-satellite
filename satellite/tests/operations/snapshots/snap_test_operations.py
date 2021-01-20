@@ -178,35 +178,3 @@ snapshots['test_evaluate_ok_nomock[Phase.REQUEST] request'] = {
     'timestamp_start': 1600522833.932597,
     'trailers': None
 }
-
-snapshots['test_evaluate_ok_nomock[Phase.RESPONSE] request'] = {
-    'authority': b'httpbin.org',
-    'content': b'{"foo": "bar"}',
-    'headers': (
-        (
-            b'user-agent',
-            b'curl/7.64.1'
-        ),
-        (
-            b'accept',
-            b'*/*'
-        ),
-        (
-            b'content-type',
-            b'application/json'
-        ),
-        (
-            b'content-length',
-            b'14'
-        )
-    ),
-    'host': 'httpbin.org',
-    'http_version': b'HTTP/2.0',
-    'method': b'POST',
-    'path': b'/post',
-    'port': 443,
-    'scheme': b'https',
-    'timestamp_end': 1600522833.936801,
-    'timestamp_start': 1600522833.932597,
-    'trailers': None
-}

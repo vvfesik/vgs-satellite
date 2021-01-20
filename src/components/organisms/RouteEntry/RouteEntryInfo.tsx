@@ -22,7 +22,7 @@ const RouteEntryInfo: React.SFC<IRouteEntryInfoProps> = (props) => {
               <MatchingConditionsDetails entry={entry} />
             </div>
             <p className="filter-title mt-3 mb-2">Operations</p>
-            {entry.operations_v2?.length ? (
+            {entry.operations?.length ? (
               <OperationsSummary entry={entry} className="ml-4 bold-font" />
             ) : (
               <RouteEntrySummary entry={entry} className="ml-4" />

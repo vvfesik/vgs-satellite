@@ -55,12 +55,12 @@ class RuleEntry(Base):
     targets = Column(JSON)
     classifiers = Column(JSON)
     expression_snapshot = Column(JSON)
-    operations_v2 = Column(JSON)
+    operations = Column(JSON)
 
     @property
     def has_operations(self) -> bool:
-        return bool(self.operations_v2)
+        return bool(self.operations)
 
     @property
     def operations_config(self) -> List[dict]:
-        return self.operations_v2
+        return self.operations

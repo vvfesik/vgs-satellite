@@ -9,8 +9,9 @@ import pytest
 from satellite.audit_logs.records import OperationLogRecord
 from satellite.ctx import ProxyContext
 from satellite.operations.operations import (
+    CustomScriptOperation,
     Operation,
-    OperationStatus
+    OperationStatus,
 )
 from satellite.proxy import ProxyMode
 from satellite.routes import Phase
@@ -132,10 +133,9 @@ def test_evaluate_error(monkeypatch):
             port=9099,
         )),
     )
-    mock_evaluate = Mock(side_effect=Exception('test error'))
     monkeypatch.setattr(
         'satellite.operations.operations.evaluate',
-        mock_evaluate,
+        Mock(side_effect=Exception('test error')),
     )
     mock_emit = Mock()
     monkeypatch.setattr(
@@ -159,3 +159,12 @@ def test_evaluate_error(monkeypatch):
         status=OperationStatus.ERROR,
         error_message='test error',
     ))
+
+
+def test_custom_script_operation():
+    operation = CustomScriptOperation(
+        route_id='route-id',
+        filter_id='filter-id',
+        script='custom script'
+    )
+    assert operation.code == 'custom script'

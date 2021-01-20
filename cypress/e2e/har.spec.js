@@ -1,4 +1,5 @@
 import { cutLine } from '../support/utils';
+const fixtures = require('../fixtures/diffs/har.js');
 
 describe('Localhoste upload single har flow', function() {
   beforeEach(() => {
@@ -32,10 +33,14 @@ describe('Localhoste upload single har flow', function() {
     cy.get('[data-role="select-request-phase"]').click();
 
     cy.get('[data-role="tab-body"]').click();
-    cy.get('[data-role="log-details-modal-content"]').toMatchSnapshot();
+    cy.get('[data-role="log-payload-body-diff"]').should(($div) => {
+      expect($div.get(0).innerText).to.eq(fixtures.bodyRequest);
+    })
 
     cy.get('[data-role="select-response-phase"]').click();
-    cy.get('[data-role="log-details-modal-content"]').toMatchSnapshot();
+    cy.get('[data-role="log-payload-body-diff"]').should(($div) => {
+      expect($div.get(0).innerText).to.eq(fixtures.bodyResponse);
+    })
     cy.get('[data-role="select-request-phase"]').click();
     cy.contains('{"foo": "bar"}');
 

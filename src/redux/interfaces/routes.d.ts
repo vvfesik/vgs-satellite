@@ -23,10 +23,10 @@ export interface IClassifiers {
   EXCLUDE?: string[];
 }
 
-export interface IOperationV2 {
+export interface IOperation {
   name: string;
   parameters: {
-    code: string;
+    script: string;
   };
 }
 
@@ -42,7 +42,7 @@ export interface IEntry {
   targets: string[];
   config: IEntryConfig;
   classifiers: IClassifiers;
-  operations_v2?: IOperationV2[];
+  operations?: IOperation[];
 }
 
 export interface ITransformerConfigMap {

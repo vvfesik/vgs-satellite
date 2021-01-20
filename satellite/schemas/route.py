@@ -32,10 +32,7 @@ class RuleEntrySchema(Schema):
     targets = fields.Raw()
     classifiers = fields.Raw()
     config = fields.Raw(attribute='expression_snapshot')
-    operations_v2 = fields.List(
-        fields.Nested(OperationSchema),
-        allow_none=True,
-    )
+    operations = fields.List(fields.Nested(OperationSchema), allow_none=True)
 
 
 class RouteSchema(Schema):

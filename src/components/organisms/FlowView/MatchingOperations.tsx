@@ -21,7 +21,7 @@ const MatchingOperations: React.FC<IMatchingOperationsProps> = (props) => {
         <span className="pr-3">
           {matched ? <IconTrue /> : <IconFalse />}
         </span>
-        {entry.operations_v2?.length ? (
+        {entry.operations?.length ? (
           <OperationsSummary entry={entry} className='bold-font' />
         ) : (
           <RouteEntrySummary entry={entry} />

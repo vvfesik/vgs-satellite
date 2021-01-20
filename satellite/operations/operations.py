@@ -101,11 +101,11 @@ class Operation(metaclass=OperationMeta):
 
 
 class CustomScriptOperation(Operation):
-    operation_name = 'github.com/verygoodsecurity/common/script'
+    operation_name = 'github.com/verygoodsecurity/common/compute/LarkyHttp'
 
-    def __init__(self, route_id: str, filter_id: str, code: str):
+    def __init__(self, route_id: str, filter_id: str, script: str):
         super().__init__(route_id=route_id, filter_id=filter_id)
-        self._code = code
+        self._code = script
 
     @property
     def code(self):

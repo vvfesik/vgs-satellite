@@ -50,12 +50,27 @@ const ImportFromYamlContainer: React.FunctionComponent<IImportFromYamlProps> = (
     reader.readAsText(file);
   }
 
+  const isUnsupportedOperationInRoute = (r: IRoute) => {
+    const supportedOperations = [
+      'github.com/verygoodsecurity/common/compute/LarkyHttp',
+    ];
+    return r.attributes?.entries?.some((entry) =>
+      entry.operations?.some((op) => !supportedOperations.includes(op.name)),
+    );
+  };
+
   const updateRouteList = (yaml: string, input) => {
     const routeJson = YAML.safeLoad(yaml);
     const routeData = routeJson.data;
     const existingRoutes = props.routes.map(r => _.remove(routeData, { id: r.id })).flat(1);
     existingRoutes.map((r: IRoute, i: number) => showConfirm(r, i, existingRoutes));
-    routeData.map((r: IRoute) => saveRouteHandler(r, routeData.length));
+    routeData.map((r: IRoute) => {
+      if (isUnsupportedOperationInRoute(r)) {
+        notify.error('Route contains unsupported operation and cannot be imported');
+      } else {
+        saveRouteHandler(r, routeData.length);
+      };
+    });
     input.value = '';
   };
 

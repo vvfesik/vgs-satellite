@@ -5,7 +5,7 @@ import randomId from './random-id';
 import { volatileRulesRegex } from 'src/data/regex';
 import { includes, flattenDeep, uniq } from 'lodash';
 import { ILog, ILogFilters } from 'src/redux/interfaces/logs';
-import { IRoute, IEntry, IOperationV2 } from 'src/redux/interfaces/routes';
+import { IRoute, IEntry, IOperation } from 'src/redux/interfaces/routes';
 
 export const dateToFormat = (date: moment.MomentInput, format: string) => moment(date).format(format);
 
@@ -104,13 +104,13 @@ export function getOperationsName(operations: string) {
   }
 }
 
-export function getOperationsV2Name(operations: IOperationV2[]) {
-  if (operations.length) {
+export function getCustomOperationsNames(operations?: IOperation[]) {
+  if (operations?.length) {
     const operationsArray = operations.map(op => op['name']);
     return operationsArray
       .join(', ')
       .replace(/github\.com\/verygoodsecurity\//g, '')
-      .replace(/common\/script/g, 'CustomOperation');
+      .replace(/common\/compute\/LarkyHttp/g, 'CustomOperation');
   } else {
     return '';
   }

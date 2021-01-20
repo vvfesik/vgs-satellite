@@ -29,7 +29,7 @@ export interface IRuleEntryState {
 }
 
 export const getActiveTab = (entry: any) => {
-  if (entry.operations_v2?.length) {
+  if (entry.operations?.length) {
     return 'advanced';
   } else {
     return 'basic';
@@ -184,8 +184,8 @@ export class RouteEntry extends React.Component<IRuleEntryProps, IRuleEntryState
                       return this.renderOperations();
                     case 'advanced':
                       return <CustomScriptOperation
-                        operations={entry.operations_v2}
-                        onChange={operations_v2 => this.onChange({ operations_v2 })}
+                        operations={entry.operations}
+                        onChange={operations => this.onChange({ operations })}
                       />;
                     default:
                       return null;
@@ -226,7 +226,7 @@ export class RouteEntry extends React.Component<IRuleEntryProps, IRuleEntryState
 
   renderOperations() {
     return (
-      this.props.entry.operations_v2?.length
+      this.props.entry.operations?.length
         ? (
           <div className="alert d-flex align-items-center">
             <Icon
