@@ -93,7 +93,7 @@
   "dependencies": {
     "@vgs/elemente": "^0.4.43",
     "antd": "^3.26.18",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.5.2",
     "classnames": "^2.2.6",
     "concurrently": "^5.3.0",
