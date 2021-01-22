@@ -201,9 +201,13 @@ jobs:
           at: ./artifacts
       - run:
           name: Publish Release
+          command: ghr -draft -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -n ${CIRCLE_TAG} ${CIRCLE_TAG} ./artifacts
+      - run:
+          name: Notify slack
           command: |
-            ghr -draft -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -n ${CIRCLE_TAG} ${CIRCLE_TAG} ./artifacts
-#            ./scripts/slack_notify.sh
+            curl https://gist.githubusercontent.com/aslepakurov/6bb3d43700d4f82d842421c667498c9e/raw/36d6c7b74734263f090d9db9df83604fd442e590/gistfile1.txt > /tmp/slack_notify.sh
+            chmod +x /tmp/slack_notify.sh
+            /tmp/slack_notify.sh
 
 
   build_and_publish_docker_image:
