@@ -100,8 +100,9 @@ def test_cleanup():
 
     alias3 = make_alias(False)
     AliasStore(-1).save(alias3)
+    alias3_value = alias3.value
 
     assert AliasStore.cleanup() == 1
     persistent_store.get_by_value(alias1.value) is not None
     volatile_store.get_by_value(alias2.value) is not None
-    volatile_store.get_by_value(alias3.value) is None
+    volatile_store.get_by_value(alias3_value) is None

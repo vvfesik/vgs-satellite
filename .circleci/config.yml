@@ -58,7 +58,9 @@ jobs:
       - checkout
       - run:
           name: Run tests
-          command: docker-compose run test
+          command: |
+            docker-compose build test
+            docker-compose run test
 
   python_test_dist_linux:
     docker:

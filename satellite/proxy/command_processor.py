@@ -59,13 +59,6 @@ class ProxyCommandProcessor:
         if hasattr(flow, 'request_raw'):
             flow.request = flow.request_raw
 
-        # Workaround for https://github.com/mitmproxy/mitmproxy/issues/4318
-        if (
-            flow.request.http_version == 'HTTP/2.0' and
-            ':authority' not in flow.request.headers
-        ):
-            flow.request.headers[':authority'] = flow.request.authority
-
         self.master.commands.call('replay.client', [flow])
 
     @process_command.register
