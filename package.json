@@ -131,7 +131,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "sass": "^1.26.11",
+    "sass": "^1.29.0",
     "source-map-support": "^0.5.19",
     "url-parse": "^1.4.7",
     "wait-on": "^5.2.0"
