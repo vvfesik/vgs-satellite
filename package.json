@@ -134,7 +134,7 @@
     "sass": "^1.29.0",
     "source-map-support": "^0.5.19",
     "url-parse": "^1.4.7",
-    "wait-on": "^5.2.0"
+    "wait-on": "^5.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
