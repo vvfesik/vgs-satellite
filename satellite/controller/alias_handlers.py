@@ -1,7 +1,6 @@
-from typing import Optional, Tuple
-
 from . import BaseHandler, apply_request_schema, apply_response_schema
-from ..aliases import AliasStoreType, RevealFailed
+from .exceptions import NotFoundError, ValidationError
+from ..aliases import AliasNotFound, AliasStoreType
 from ..aliases.manager import redact, reveal
 from ..schemas.aliases import (
     AliasResponseSchema,
@@ -33,18 +32,17 @@ class AliasesHandler(BaseHandler):
     def get(self):
         aliases = self.get_query_argument('q', default=None)
         if not aliases:
-            self.set_status(400, 'Invalid request data')
-            self.finish('Missing required parameter: "q"')
-            return
+            raise ValidationError('Missing required parameter: "q"')
 
         reveal_data = {}
         errors = []
         for public_alias in set(aliases.split(',')):
-            reveal_result, error = _reveal(public_alias)
-            if reveal_result:
+            try:
+                reveal_result = _reveal(public_alias)
+            except AliasNotFound:
+                errors.append({'message': f'Unknown alias: {public_alias}'})
+            else:
                 reveal_data[public_alias] = reveal_result
-            if error:
-                errors.append(error)
 
         result = {}
         if reveal_data:
@@ -58,20 +56,16 @@ class AliasesHandler(BaseHandler):
 class AliasHandler(BaseHandler):
     @apply_response_schema(AliasResponseSchema)
     def get(self, public_alias: str):
-        reveal_result, error = _reveal(public_alias)
-        if error:
-            self.set_status(400, 'Invalid request data')
-            return {'errors': error}
+        try:
+            reveal_result = _reveal(public_alias)
+        except AliasNotFound:
+            raise NotFoundError(f'Unknown alias: {public_alias}')
 
         return {'data': [reveal_result]}
 
 
-def _reveal(public_alias: str) -> Tuple[Optional[str], Optional[dict]]:
-    try:
-        alias = reveal(public_alias, STORAGE_TYPE)
-    except RevealFailed as exc:
-        return None, {'detail': f'Unable to reveal {public_alias}: {exc}'}
-
+def _reveal(public_alias: str) -> str:
+    alias = reveal(public_alias, STORAGE_TYPE)
     return {
         'aliases': [{
             'alias': alias.public_alias,
@@ -79,4 +73,4 @@ def _reveal(public_alias: str) -> Tuple[Optional[str], Optional[dict]]:
         }],
         'created_at': alias.created_at,
         'value': alias.value,
-    }, None
+    }

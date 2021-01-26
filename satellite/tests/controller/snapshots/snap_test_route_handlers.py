@@ -7,6 +7,13 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
+snapshots['TestRouteHandler::test_delete_not_found 1'] = {
+    'error': {
+        'message': 'Unknown route ID: 612e638a-d039-498f-82ff-146da71a3f75',
+        'reason': 'Not found'
+    }
+}
+
 snapshots['TestRouteHandler::test_get 1'] = {
     'created_at': '2020-11-11T00:00:00',
     'destination_override_endpoint': '*',
@@ -66,6 +73,13 @@ snapshots['TestRouteHandler::test_get 1'] = {
     'source_endpoint': '*',
     'tags': {
         'source': 'vgs-satellite'
+    }
+}
+
+snapshots['TestRouteHandler::test_get_not_found 1'] = {
+    'error': {
+        'message': 'Unknown route ID: 3593ad02-2c07-467a-828a-339f417c1efa',
+        'reason': 'Not found'
     }
 }
 
@@ -552,5 +566,20 @@ snapshots['TestRoutesHandler::test_post 1'] = {
     'tags': {
         'name': 'light-slate-grey-population',
         'source': 'vgs-satellite'
+    }
+}
+
+snapshots['TestRoutesHandler::test_post_validation_error 1'] = {
+    'error': {
+        'details': {
+            'data': [
+                'Missing data for required field.'
+            ],
+            'invalid': [
+                'Unknown field.'
+            ]
+        },
+        'message': 'Invalid request data',
+        'reason': 'Invalid request'
     }
 }

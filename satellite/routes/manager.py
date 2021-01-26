@@ -107,8 +107,10 @@ def update(route_id: str, route_data: dict) -> Route:
     return route
 
 
-def delete(route_id):
+def delete(route_id: str):
     route = get(route_id)
+    if not route:
+        raise EntityNotFound(route_id)
     session = get_session()
     session.delete(route)
     session.commit()

@@ -95,4 +95,4 @@ class TestAuditLogsHandlerGet(BaseHandlerTestCase):
         )
         response = self.fetch(self.get_url(f'/logs/{flow_id}'))
         self.assertEqual(response.code, 404)
-        self.assertMatchSnapshot(response.body)
+        self.assertMatchSnapshot(json.loads(response.body))

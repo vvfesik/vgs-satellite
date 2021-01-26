@@ -3,7 +3,7 @@ from functools import partial
 
 from satellite.config import get_config
 
-from . import AliasGeneratorType, AliasStoreType, RevealFailed
+from . import AliasGeneratorType, AliasNotFound, AliasStoreType
 from .generators import get_alias_generator
 from .store import AliasStore
 from .. import audit_logs
@@ -63,7 +63,7 @@ def reveal(alias: str, store_type: AliasStoreType) -> Alias:
     alias_store = _get_store(store_type)
     alias_entity = alias_store.get_by_alias(alias)
     if not alias_entity:
-        raise RevealFailed('Alias was not found!')
+        raise AliasNotFound('Alias was not found!')
 
     flow_context = ctx.get_flow_context()
     if flow_context:

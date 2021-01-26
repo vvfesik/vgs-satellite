@@ -9,6 +9,7 @@ from tornado.web import Application
 
 from satellite.config import SatelliteConfig
 from satellite.controller import (
+    NotFoundHandler,
     alias_handlers,
     audit_logs_handler,
     flow_handlers,
@@ -25,7 +26,10 @@ class WebApplication(Application):
 
     def __init__(self, config: SatelliteConfig = None):
         self.config = config or SatelliteConfig()
-        super().__init__(debug=self.config.debug)
+        super().__init__(
+            debug=self.config.debug,
+            default_handler_class=NotFoundHandler,
+        )
         self._should_exit = False
         self.add_handlers(r'^(localhost|[0-9.]+|\[[0-9a-fA-F:]+\])$', [
             (r'/', flow_handlers.Index),

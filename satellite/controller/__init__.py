@@ -1,52 +1,75 @@
 import json
 from functools import wraps
-from typing import Type
+from typing import Any, Type
 
 from marshmallow import Schema
 
-from mitmproxy.tools.web.app import RequestHandler
+from tornado.escape import json_encode
+from tornado.web import HTTPError, RequestHandler
 
-import tornado.websocket
-
-from ..proxy import exceptions
-
-
-PROXY_ERRORS_MAPPING = [
-    (exceptions.UnexistentFlowError, 404, 'Unknown flow'),
-    (exceptions.ProxyError, 500, 'Unknown proxy error'),
-]
+from . import exceptions
+from ..schemas.error import ErrorSchema
 
 
 class BaseHandler(RequestHandler):
-
     def set_default_headers(self):
-        # super().set_default_headers()
-        self.set_header("Access-Control-Allow-Origin", "*")
-        self.set_header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS')
+        self.set_header('Access-Control-Allow-Origin', '*')
         self.set_header('Access-Control-Allow-Headers', 'Accept, Content-Type')
+        methods = [
+            method.upper()
+            for method in ['delete', 'get', 'head', 'options', 'patch',  'post', 'put']
+            if getattr(self, method).__name__ != '_unimplemented_method'
+        ]
+        if methods:
+            self.set_header('Access-Control-Allow-Methods', ', '.join(methods))
 
-    def set_json_headers(self):
-        self.set_header("Accept", "application/vnd.api+json")
-        self.set_header("Content-Type", "application/vnd.api+json")
+    def json(self):
+        content_type = self.request.headers.get('Content-Type', '')
+        if not content_type.startswith('application/json'):
+            raise exceptions.ValidationError(
+                'Invalid Content-Type, expected application/json.'
+            )
+        try:
+            return json.loads(self.request.body.decode())
+        except json.JSONDecodeError:
+            raise exceptions.ValidationError('Malformed JSON')
 
-    def options(self, flow_id='', route_id=''):
+    def write(self, chunk: Any):
+        if isinstance(chunk, list):
+            chunk = json_encode(chunk)
+            self.set_header('Content-Type', 'application/json')
+        super().write(chunk)
+
+    def options(self, *args, **kwargs):
         self.set_status(200)
         self.finish()
 
     def write_error(self, status_code: int, **kwargs):
         exc_info = kwargs.get('exc_info')
-        if exc_info and isinstance(exc_info[1], exceptions.ProxyError):
-            if self._handle_proxy_error(exc_info[1]):
-                return
-        super().write_error(status_code, **kwargs)
+        if not exc_info:
+            return super().write_error(status_code, **kwargs)
 
-    def _handle_proxy_error(self, exc: exceptions.ProxyError):
-        for exc_cls, status, reason in PROXY_ERRORS_MAPPING:
-            if isinstance(exc, exc_cls):
-                self.set_status(status, reason)
-                self.write(reason)
-                return True
-        return False
+        exc = exc_info[1]
+        if not isinstance(exc, exceptions.APIError):
+            if isinstance(exc, HTTPError) and exc.status_code == 405:
+                exc = exceptions.InvalidMethod()
+            else:
+                exc = exceptions.InternalError()
+
+        self.set_status(exc.status_code, exc.reason)
+        self.set_header('Content-type', 'application/json')
+        self.finish(ErrorSchema().dumps(exc))
+
+
+class NotFoundHandler(BaseHandler):
+    def prepare(self) -> None:
+        raise exceptions.NotFoundError(f'Unknown URI: {self.request.uri}')
+
+    def check_xsrf_cookie(self) -> None:
+        # POSTs to an ErrorHandler don't actually have side effects,
+        # so we don't need to check the xsrf token.  This allows POSTs
+        # to the wrong url to return a 404 instead of 403.
+        pass
 
 
 def apply_response_schema(schema_cls: Type[Schema], many: bool = False):
@@ -67,19 +90,11 @@ def apply_request_schema(schema_cls: Type[Schema]):
     def decorator(handler_method):
         @wraps(handler_method)
         def wrapper(handler: BaseHandler, *args, **kwargs):
-            try:
-                data = json.loads(handler.request.body)
-            except json.JSONDecodeError as exc:
-                handler.set_status(400, 'Invalid content type')
-                handler.finish(str(exc))
-                return
-
+            data = handler.json()
             schema = schema_cls()
             errors = schema.validate(data)
             if errors:
-                handler.set_status(400, 'Invalid request data')
-                handler.finish(json.dumps(errors))
-                return
+                raise exceptions.ValidationError('Invalid request data',  errors)
 
             validated_data = schema.load(data)
 
@@ -93,7 +108,3 @@ def apply_request_schema(schema_cls: Type[Schema]):
         return wrapper
 
     return decorator
-
-
-class APIError(tornado.web.HTTPError):
-    pass

@@ -7,6 +7,20 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
+snapshots['TestFlowHandler::test_delete_absent_flow 1'] = {
+    'error': {
+        'message': 'Unexistent flow: 23f11ab7-e071-4997-97f3-ace07bb9e56d',
+        'reason': 'Not found'
+    }
+}
+
+snapshots['TestFlowHandler::test_get_absent_flow 1'] = {
+    'error': {
+        'message': 'Unexistent flow: 23f11ab7-e071-4997-97f3-ace07bb9e56d',
+        'reason': 'Not found'
+    }
+}
+
 snapshots['TestFlowHandler::test_get_ok 1'] = {
     'client_conn': {
         'address': [
@@ -141,6 +155,13 @@ snapshots['TestFlowHandler::test_get_ok 1'] = {
         'tls_version': 'TLSv1.2'
     },
     'type': 'http'
+}
+
+snapshots['TestFlowHandler::test_update_absent_flow 1'] = {
+    'error': {
+        'message': 'Unexistent flow: 23f11ab7-e071-4997-97f3-ace07bb9e56d',
+        'reason': 'Not found'
+    }
 }
 
 snapshots['TestFlowsHandler::test_ok 1'] = [

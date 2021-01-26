@@ -6,7 +6,7 @@ from freezegun import freeze_time
 
 from satellite.db import get_session
 from satellite.db.models.route import Route
-from satellite.routes import Phase
+from satellite.routes import Phase, manager as route_manager
 from satellite.schemas.route import RuleEntrySchema
 
 from .base import BaseHandlerTestCase
@@ -114,9 +114,21 @@ class TestRoutesHandler(BaseHandlerTestCase):
             self.get_url('/route'),
             method='POST',
             body=json.dumps(CREATE_ROUTE_REQUEST),
+            headers={'Content-Type': 'application/json'},
         )
 
         self.assertEqual(response.code, 200, response.body)
+        self.assertMatchSnapshot(json.loads(response.body))
+
+    def test_post_validation_error(self):
+        response = self.fetch(
+            self.get_url('/route'),
+            method='POST',
+            body=json.dumps({'invalid': 'route'}),
+            headers={'Content-Type': 'application/json'},
+        )
+
+        self.assertEqual(response.code, 400, response.body)
         self.assertMatchSnapshot(json.loads(response.body))
 
 
@@ -141,6 +153,12 @@ class TestRouteHandler(BaseHandlerTestCase):
         response = self.fetch(self.get_url(f'/route/{route.id}'))
 
         self.assertEqual(response.code, 200)
+        self.assertMatchSnapshot(json.loads(response.body))
+
+    def test_get_not_found(self):
+        route_id = '3593ad02-2c07-467a-828a-339f417c1efa'
+        response = self.fetch(self.get_url(f'/route/{route_id}'))
+        self.assertEqual(response.code, 404)
         self.assertMatchSnapshot(json.loads(response.body))
 
     def test_put(self):
@@ -173,6 +191,7 @@ class TestRouteHandler(BaseHandlerTestCase):
             self.get_url(f'/route/{route.id}'),
             method='PUT',
             body=json.dumps(update_data),
+            headers={'Content-Type': 'application/json'},
         )
 
         self.assertEqual(response.code, 200, response.body)
@@ -188,6 +207,7 @@ class TestRouteHandler(BaseHandlerTestCase):
             self.get_url('/route/725abda7-e67a-45ee-9d81-47deba32b667'),
             method='PUT',
             body=json.dumps(request),
+            headers={'Content-Type': 'application/json'},
         )
 
         self.assertEqual(response.code, 200, response.body)
@@ -261,6 +281,7 @@ class TestRouteHandler(BaseHandlerTestCase):
                     'type': 'rule-chains',
                 }
             }),
+            headers={'Content-Type': 'application/json'},
         )
 
         self.assertEqual(response.code, 200, response.body)
@@ -290,6 +311,7 @@ class TestRouteHandler(BaseHandlerTestCase):
             self.get_url(f'/route/{route.id}'),
             method='PUT',
             body=json.dumps(update_data),
+            headers={'Content-Type': 'application/json'},
         )
         response_data = json.loads(response.body)
 
@@ -323,9 +345,33 @@ class TestRouteHandler(BaseHandlerTestCase):
             self.get_url(f'/route/{route.id}'),
             method='PUT',
             body=json.dumps(update_data),
+            headers={'Content-Type': 'application/json'},
         )
         response_data = json.loads(response.body)
 
         self.assertEqual(response.code, 200, response.body)
         self.assertEqual(len(response_data['entries']), 0)
         self.assertMatchSnapshot(response_data)
+
+    def test_delete(self):
+        route_id = '291d5558-5277-4c7c-8f14-f5cefc55d50e'
+        RouteFactory(id=route_id)
+
+        response = self.fetch(
+            self.get_url(f'/route/{route_id}'),
+            method='DELETE',
+        )
+
+        self.assertEqual(response.code, 200)
+        self.assertIsNone(route_manager.get(route_id))
+
+    def test_delete_not_found(self):
+        route_id = '612e638a-d039-498f-82ff-146da71a3f75'
+
+        response = self.fetch(
+            self.get_url(f'/route/{route_id}'),
+            method='DELETE',
+        )
+
+        self.assertEqual(response.code, 404)
+        self.assertMatchSnapshot(json.loads(response.body))

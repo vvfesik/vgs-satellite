@@ -23,10 +23,17 @@ snapshots['TestAliasHandler::test_get_ok 1'] = {
 }
 
 snapshots['TestAliasHandler::test_get_unknown_alias 1'] = {
-    'errors': [
-        {
-        }
-    ]
+    'error': {
+        'message': 'Unknown alias: tok_tas_kgq94RpcPrAMSHJWh7o7P6',
+        'reason': 'Not found'
+    }
+}
+
+snapshots['TestAliasesHandler::test_get_not_found 1'] = {
+    'error': {
+        'message': 'Missing required parameter: "q"',
+        'reason': 'Invalid request'
+    }
 }
 
 snapshots['TestAliasesHandler::test_get_ok 1'] = {
@@ -59,7 +66,6 @@ snapshots['TestAliasesHandler::test_get_unknown_alias 1'] = {
     },
     'errors': [
         {
-            'detail': 'Unable to reveal tok_tas_kgq94RpcPrAMSHJWh7o7P6: Alias was not found!'
         }
     ]
 }

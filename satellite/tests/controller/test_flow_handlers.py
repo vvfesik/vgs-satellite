@@ -49,6 +49,7 @@ class TestFlowHandler(BaseHandlerTestCase):
         response = self.fetch(self.get_url(f'/flows/{flow_id}'))
         self.assertEqual(response.code, 404)
         self.proxy_manager.get_flow.assert_called_once_with(flow_id)
+        self.assertMatchSnapshot(json.loads(response.body))
 
     def test_delete_ok(self):
         flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
@@ -68,6 +69,7 @@ class TestFlowHandler(BaseHandlerTestCase):
         )
         self.assertEqual(response.code, 404)
         self.proxy_manager.remove_flow.assert_called_once_with(flow_id)
+        self.assertMatchSnapshot(json.loads(response.body))
 
     def test_update_ok(self):
         flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
@@ -93,6 +95,7 @@ class TestFlowHandler(BaseHandlerTestCase):
         )
         self.assertEqual(response.code, 404)
         self.proxy_manager.update_flow.assert_called_once_with(flow_id, flow_data)
+        self.assertMatchSnapshot(json.loads(response.body))
 
     def test_update_error(self):
         flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'

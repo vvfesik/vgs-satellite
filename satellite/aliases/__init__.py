@@ -9,6 +9,10 @@ class RevealFailed(BaseException):
     pass
 
 
+class AliasNotFound(RevealFailed):
+    pass
+
+
 @unique
 class AliasGeneratorType(Enum):
     FPE_SIX_T_FOUR = 'FPE_SIX_T_FOUR'

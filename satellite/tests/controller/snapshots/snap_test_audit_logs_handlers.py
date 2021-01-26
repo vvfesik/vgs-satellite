@@ -103,4 +103,9 @@ snapshots['TestAuditLogsHandlerGet::test_ok 1'] = {
     ]
 }
 
-snapshots['TestAuditLogsHandlerGet::test_unknown_flow_id 1'] = b'<html><title>404: Requested audit logs for unknown flow ID: f15ccebf-6b79-4386-a4ec-0e7e3b119c03</title><body>404: Requested audit logs for unknown flow ID: f15ccebf-6b79-4386-a4ec-0e7e3b119c03</body></html>'
+snapshots['TestAuditLogsHandlerGet::test_unknown_flow_id 1'] = {
+    'error': {
+        'message': 'Unknown flow ID: f15ccebf-6b79-4386-a4ec-0e7e3b119c03',
+        'reason': 'Not found'
+    }
+}

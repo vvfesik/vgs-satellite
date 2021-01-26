@@ -1,4 +1,3 @@
-
 import json
 from unittest.mock import Mock, patch
 
@@ -33,6 +32,7 @@ class TestAliasesHandler(BaseHandlerTestCase):
                     {'value': 'abccba', 'format': 'UUID'},
                 ]
             }),
+            headers={'Content-Type': 'application/json'},
         )
 
         self.assertEqual(response.code, 200, response.body)
@@ -59,6 +59,12 @@ class TestAliasesHandler(BaseHandlerTestCase):
         response = self.fetch(self.get_url(f'/aliases?q={alias.public_alias}'))
 
         self.assertEqual(response.code, 200, response.body)
+        self.assertMatchSnapshot(json.loads(response.body))
+
+    def test_get_not_found(self):
+        response = self.fetch(self.get_url('/aliases'))
+
+        self.assertEqual(response.code, 400, response.body)
         self.assertMatchSnapshot(json.loads(response.body))
 
     def test_get_unknown_alias(self):
@@ -113,5 +119,5 @@ class TestAliasHandler(BaseHandlerTestCase):
             '/aliases/tok_tas_kgq94RpcPrAMSHJWh7o7P6',
         ))
 
-        self.assertEqual(response.code, 400, response.body)
+        self.assertEqual(response.code, 404, response.body)
         self.assertMatchSnapshot(json.loads(response.body))
