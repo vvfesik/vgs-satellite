@@ -32,7 +32,7 @@ class FlowSchema(Schema):
         source_address = Address()
         timestamp_tcp_setup = fields.Float()
 
-    class Error(Schema):
+    class FlowError(Schema):
         msg = fields.Str()
         timestamp = fields.Float()
 
@@ -44,7 +44,7 @@ class FlowSchema(Schema):
     modified = fields.Method(serialize='get_modified')
     marked = fields.Bool()
     mode = fields.Str()
-    error = fields.Nested(Error)
+    error = fields.Nested(FlowError)
 
     def get_modified(self, flow: Flow) -> bool:
         return flow.modified()

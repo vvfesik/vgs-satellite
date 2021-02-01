@@ -3,7 +3,7 @@ from marshmallow import Schema, fields, post_dump, pre_dump
 from ..controller.exceptions import APIError
 
 
-class ErrorSchema(Schema):
+class ErrorResponseSchema(Schema):
     class Error(Schema):
         reason = fields.Str(required=True)
         message = fields.Str()

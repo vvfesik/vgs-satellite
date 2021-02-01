@@ -2,24 +2,49 @@ import asyncio
 import logging
 import signal
 from functools import partial
+from pathlib import Path
 
 from tornado import autoreload
 from tornado.ioloop import IOLoop
-from tornado.web import Application
+from tornado.web import Application, StaticFileHandler
 
-from satellite.config import SatelliteConfig
-from satellite.controller import (
-    NotFoundHandler,
+from .config import SatelliteConfig
+from .controller import (
+    BaseHandler,
     alias_handlers,
     audit_logs_handler,
     flow_handlers,
 )
-from satellite.controller.route_handlers import RouteHandler, RoutesHandler
-from satellite.controller.websocket_connection import ClientConnection
-from satellite.proxy.manager import ProxyManager
+from .controller.exceptions import NotFoundError
+from .controller.route_handlers import RouteHandler, RoutesHandler
+from .controller.websocket_connection import ClientConnection
+from .proxy.manager import ProxyManager
+from .spec import build_openapi_spec
 
 
 logger = logging.getLogger()
+
+
+class SpecJSONHandler(BaseHandler):
+    def get(self):
+        self.finish(self.application.spec.to_dict())
+
+
+class SpecYAMLHandler(BaseHandler):
+    def get(self):
+        self.set_header('Content-Type', 'text/yaml')
+        self.finish(self.application.spec.to_yaml())
+
+
+class NotFoundHandler(BaseHandler):
+    def prepare(self) -> None:
+        raise NotFoundError(f'Unknown URI: {self.request.uri}')
+
+    def check_xsrf_cookie(self) -> None:
+        # POSTs to an ErrorHandler don't actually have side effects,
+        # so we don't need to check the xsrf token.  This allows POSTs
+        # to the wrong url to return a 404 instead of 403.
+        pass
 
 
 class WebApplication(Application):
@@ -30,20 +55,36 @@ class WebApplication(Application):
             debug=self.config.debug,
             default_handler_class=NotFoundHandler,
         )
-        self._should_exit = False
-        self.add_handlers(r'^(localhost|[0-9.]+|\[[0-9a-fA-F:]+\])$', [
-            (r'/', flow_handlers.Index),
-            (r'/updates', ClientConnection),
-            (r'/route', RoutesHandler),
-            (r'/route/(?P<route_id>[0-9a-f\-]+)', RouteHandler),
-            (r'/flows(?:\.json)?', flow_handlers.Flows),
-            (r'/flows/(?P<flow_id>[0-9a-f\-]+)', flow_handlers.FlowHandler),
-            (r'/flows/(?P<flow_id>[0-9a-f\-]+)/replay', flow_handlers.ReplayFlow),
-            (r'/flows/(?P<flow_id>[0-9a-f\-]+)/duplicate', flow_handlers.DuplicateFlow),
-            (r'/logs/(?P<flow_id>[0-9a-f\-]+)', audit_logs_handler.AuditLogsHandler),
+
+        api_handlers = [
             (r'/aliases', alias_handlers.AliasesHandler),
-            (r'/aliases/(?P<public_alias>[\w]+)', alias_handlers.AliasHandler),
+            (r'/aliases/(?P<public_alias>.+)', alias_handlers.AliasHandler),
+            (r'/flows', flow_handlers.Flows),
+            (r'/flows/(?P<flow_id>[^/]+)', flow_handlers.FlowHandler),
+            (r'/flows/(?P<flow_id>[^/]+)/duplicate', flow_handlers.DuplicateFlow),
+            (r'/flows/(?P<flow_id>[^/]+)/replay', flow_handlers.ReplayFlow),
+            (r'/logs/(?P<flow_id>[^/]+)', audit_logs_handler.AuditLogsHandler),
+            (r'/route', RoutesHandler),
+            (r'/route/(?P<route_id>[^/]+)', RouteHandler),
+        ]
+
+        self.spec = build_openapi_spec(api_handlers)
+
+        self.add_handlers(r'^(localhost|[0-9.]+|\[[0-9a-fA-F:]+\])$', [
+            *api_handlers,
+            (r'/', flow_handlers.Index),
+            (r'/flows.json', flow_handlers.Flows),
+            (r'/spec.json', SpecJSONHandler),
+            (r'/spec.yaml', SpecYAMLHandler),
+            (r'/updates', ClientConnection),
+            (r'/apidocs/?(.*)', StaticFileHandler, {
+                'default_filename': 'index.html',
+                'path': Path(__file__).parent / 'static' / 'swagger',
+            }),
         ])
+
+        self._should_exit = False
+
         self.proxy_manager = ProxyManager(
             forward_proxy_port=self.config.forward_proxy_port,
             reverse_proxy_port=self.config.reverse_proxy_port,

@@ -8,7 +8,7 @@ from tornado.escape import json_encode
 from tornado.web import HTTPError, RequestHandler
 
 from . import exceptions
-from ..schemas.error import ErrorSchema
+from ..schemas.error import ErrorResponseSchema
 
 
 class BaseHandler(RequestHandler):
@@ -58,18 +58,7 @@ class BaseHandler(RequestHandler):
 
         self.set_status(exc.status_code, exc.reason)
         self.set_header('Content-type', 'application/json')
-        self.finish(ErrorSchema().dumps(exc))
-
-
-class NotFoundHandler(BaseHandler):
-    def prepare(self) -> None:
-        raise exceptions.NotFoundError(f'Unknown URI: {self.request.uri}')
-
-    def check_xsrf_cookie(self) -> None:
-        # POSTs to an ErrorHandler don't actually have side effects,
-        # so we don't need to check the xsrf token.  This allows POSTs
-        # to the wrong url to return a 404 instead of 403.
-        pass
+        self.finish(ErrorResponseSchema().dumps(exc))
 
 
 def apply_response_schema(schema_cls: Type[Schema], many: bool = False):

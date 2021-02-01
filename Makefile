@@ -20,9 +20,11 @@ dist: clean
 	--clean \
 	--onefile \
 	-n vgs-satellite-backend \
+	--additional-hooks-dir pyinstaller_hooks \
 	--hidden-import sqlalchemy.ext.baked \
 	--hidden-import logging.config \
 	--add-data satellite/db/migrations:satellite/db/migrations \
+	--add-data satellite/static:satellite/static \
 	--add-binary ${LARKY_PATH}:pylarky \
 	 app.py
 

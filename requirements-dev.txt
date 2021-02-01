@@ -10,6 +10,12 @@ altgraph==0.17
     # via
     #   macholib
     #   pyinstaller
+apispec-webframeworks==0.5.2
+    # via -r requirements.in
+apispec[yaml]==4.0.0
+    # via
+    #   -r requirements.in
+    #   apispec-webframeworks
 asgiref==3.3.1
     # via mitmproxy
 attrs==20.3.0
@@ -154,6 +160,8 @@ python-dateutil==2.8.1
     #   freezegun
 python-editor==1.0.4
     # via alembic
+pyyaml==5.4.1
+    # via apispec
 ruamel.yaml.clib==0.2.2
     # via ruamel.yaml
 ruamel.yaml==0.16.12

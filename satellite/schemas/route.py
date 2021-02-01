@@ -55,17 +55,23 @@ class RouteSchema(Schema):
 
 
 class CreateUpdateRouteSchema(Schema):
-    class Data(Schema):
-        class Route(RouteSchema):
+    class CreateUpdateRouteData(Schema):
+        class CreateUpdateRouteAttributes(RouteSchema):
+            class Meta:
+                exclude = ['created_at']
+                unknown = EXCLUDE
+
+            class CreateUpdateRuleEntryAttributes(RuleEntrySchema):
+                class Meta:
+                    exclude = ['created_at']
+                    unknown = EXCLUDE
+
             entries = fields.List(
-                fields.Nested(RuleEntrySchema(exclude=['created_at'])),
+                fields.Nested(CreateUpdateRuleEntryAttributes),
                 attribute='rule_entries_list',
             )
 
-        attributes = fields.Nested(
-            Route(exclude=['created_at']),
-            required=True,
-        )
+        attributes = fields.Nested(CreateUpdateRouteAttributes, required=True)
         type = fields.Str()
 
-    data = fields.Nested(Data, required=True)
+    data = fields.Nested(CreateUpdateRouteData, required=True)
