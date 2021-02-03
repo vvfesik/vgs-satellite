@@ -9,9 +9,6 @@ from ..transformers import TransformerType
 
 
 class RuleEntrySchema(Schema):
-    class Meta:
-        unknown = EXCLUDE
-
     class OperationSchema(Schema):
         name = fields.Str(
             required=True,
@@ -19,33 +16,28 @@ class RuleEntrySchema(Schema):
         )
         parameters = fields.Dict(required=True)
 
-    # TODO: (SAT-108) Determine which fields are required.
-    id = fields.Str()
-    created_at = fields.DateTime()
-    phase = EnumField(Phase, by_value=True)
-    operation = EnumField(Operation, by_value=True)
-    token_manager = EnumField(AliasStoreType, by_value=True)
-    public_token_generator = EnumField(AliasGeneratorType, by_value=True)
-    transformer = EnumField(TransformerType, by_value=True)
-    transformer_config = fields.Raw()
-    transformer_config_map = fields.Raw(allow_none=True)
-    targets = fields.Raw()
-    classifiers = fields.Raw()
+    id = fields.Str(required=True)
+    created_at = fields.DateTime(required=True)
+    phase = EnumField(Phase, by_value=True, required=True)
+    operation = EnumField(Operation, by_value=True, required=True)
+    token_manager = EnumField(AliasStoreType, by_value=True, required=True)
+    public_token_generator = EnumField(AliasGeneratorType, by_value=True, required=True)
+    transformer = EnumField(TransformerType, by_value=True, required=True)
+    transformer_config = fields.List(fields.Str())
+    transformer_config_map = fields.Dict(allow_none=True)
+    targets = fields.List(fields.Str())
+    classifiers = fields.Dict()
     config = fields.Raw(attribute='expression_snapshot')
     operations = fields.List(fields.Nested(OperationSchema), allow_none=True)
 
 
 class RouteSchema(Schema):
-    class Meta:
-        unknown = EXCLUDE
-
-    # TODO: (SAT-108) Determine which fields are required.
-    id = fields.Str()
-    created_at = fields.DateTime()
-    protocol = fields.Str()
-    source_endpoint = fields.Str()
-    destination_override_endpoint = fields.Str()
-    host_endpoint = fields.Str()
+    id = fields.Str(required=True)
+    created_at = fields.DateTime(required=True)
+    protocol = fields.Str(required=True)
+    source_endpoint = fields.Str(required=True)
+    destination_override_endpoint = fields.Str(required=True)
+    host_endpoint = fields.Str(required=True)
     port = fields.Int(allow_none=True)
     tags = fields.Raw()
     entries = fields.List(
@@ -54,24 +46,33 @@ class RouteSchema(Schema):
     )
 
 
-class CreateUpdateRouteSchema(Schema):
-    class CreateUpdateRouteData(Schema):
-        class CreateUpdateRouteAttributes(RouteSchema):
-            class Meta:
-                exclude = ['created_at']
-                unknown = EXCLUDE
+class CreateRouteSchema(RouteSchema):
+    class Meta:
+        unknown = EXCLUDE
+        exclude = ['created_at']
 
-            class CreateUpdateRuleEntryAttributes(RuleEntrySchema):
-                class Meta:
-                    exclude = ['created_at']
-                    unknown = EXCLUDE
+    class CreateRuleEntry(RuleEntrySchema):
+        class Meta:
+            unknown = EXCLUDE
+            exclude = ['created_at']
 
-            entries = fields.List(
-                fields.Nested(CreateUpdateRuleEntryAttributes),
-                attribute='rule_entries_list',
-            )
+        id = fields.Str()
 
-        attributes = fields.Nested(CreateUpdateRouteAttributes, required=True)
+    id = fields.Str()
+    entries = fields.List(
+        fields.Nested(CreateRuleEntry),
+        attribute='rule_entries_list',
+    )
+
+
+class CreateRouteRequestSchema(Schema):
+    class CreateRouteData(Schema):
+        attributes = fields.Nested(CreateRouteSchema, required=True)
         type = fields.Str()
 
-    data = fields.Nested(CreateUpdateRouteData, required=True)
+    data = fields.Nested(CreateRouteData, required=True)
+
+
+class UpdateRouteSchema(CreateRouteRequestSchema):
+    def __init__(self, **kwargs):
+        super().__init__(partial=True, **kwargs)

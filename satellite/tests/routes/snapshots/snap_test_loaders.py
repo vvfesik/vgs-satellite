@@ -11,7 +11,6 @@ snapshots['test_load_from_yaml_ok 1'] = [
     (
         [
             {
-                'created_at': GenericRepr('datetime.datetime(2020, 9, 23, 12, 2, 8)'),
                 'destination_override_endpoint': '*',
                 'host_endpoint': 'httpbin\\.org',
                 'id': '61020004-b587-4844-9e1d-a0ab980a8d52',
@@ -74,7 +73,6 @@ snapshots['test_load_from_yaml_ok 1'] = [
                 }
             },
             {
-                'created_at': GenericRepr('datetime.datetime(2020, 10, 5, 14, 14, 16)'),
                 'destination_override_endpoint': 'https://httpbin.org',
                 'host_endpoint': '(.*)\\.verygoodproxy\\.com',
                 'id': '6905f9d6-9fc2-4c7e-a67d-a5a730adcdbf',

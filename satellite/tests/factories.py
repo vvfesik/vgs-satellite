@@ -52,7 +52,7 @@ class RuleEntryFactory(SQLAlchemyModelFactory):
     public_token_generator = AliasGeneratorType.UUID
     transformer = TransformerType.JSON_PATH
     transformer_config = ['$.foo']
-    targets = 'body'
+    targets = ['body']
     classifiers = {}
     expression_snapshot = LazyFunction(lambda: {
         'expression': None,

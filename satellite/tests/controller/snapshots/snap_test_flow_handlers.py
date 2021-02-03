@@ -7,6 +7,10 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
+snapshots['TestDuplicateFlowHandler::test_ok 1'] = {
+    'id': '599c2bed-c79a-4ddb-a9df-92cdf999a3a7'
+}
+
 snapshots['TestFlowHandler::test_delete_absent_flow 1'] = {
     'error': {
         'message': 'Unexistent flow: 23f11ab7-e071-4997-97f3-ace07bb9e56d',

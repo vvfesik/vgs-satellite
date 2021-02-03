@@ -285,6 +285,7 @@ class TestRouteHandler(BaseHandlerTestCase):
         )
 
         self.assertEqual(response.code, 200, response.body)
+        self.maxDiff = None
         self.assertMatchSnapshot(json.loads(response.body))
 
     def test_put_delete_single_filter(self):
@@ -362,7 +363,7 @@ class TestRouteHandler(BaseHandlerTestCase):
             method='DELETE',
         )
 
-        self.assertEqual(response.code, 200)
+        self.assertEqual(response.code, 204)
         self.assertIsNone(route_manager.get(route_id))
 
     def test_delete_not_found(self):

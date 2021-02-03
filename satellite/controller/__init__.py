@@ -60,6 +60,10 @@ class BaseHandler(RequestHandler):
         self.set_header('Content-type', 'application/json')
         self.finish(ErrorResponseSchema().dumps(exc))
 
+    def finish_empty_ok(self):
+        self.set_status(204, 'Success')
+        self.finish()
+
 
 def apply_response_schema(schema_cls: Type[Schema], many: bool = False):
     def decorator(handler_method):

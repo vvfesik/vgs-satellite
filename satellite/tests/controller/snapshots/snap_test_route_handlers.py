@@ -57,7 +57,9 @@ snapshots['TestRouteHandler::test_get 1'] = {
             'operations': None,
             'phase': 'REQUEST',
             'public_token_generator': 'UUID',
-            'targets': 'body',
+            'targets': [
+                'body'
+            ],
             'token_manager': 'PERSISTENT',
             'transformer': 'JSON_PATH',
             'transformer_config': [
@@ -126,7 +128,9 @@ snapshots['TestRouteHandler::test_put 1'] = {
             'operations': None,
             'phase': 'RESPONSE',
             'public_token_generator': 'UUID',
-            'targets': 'body',
+            'targets': [
+                'body'
+            ],
             'token_manager': 'PERSISTENT',
             'transformer': 'JSON_PATH',
             'transformer_config': [
@@ -173,7 +177,9 @@ snapshots['TestRouteHandler::test_put 1'] = {
             'operations': None,
             'phase': 'REQUEST',
             'public_token_generator': 'UUID',
-            'targets': 'body',
+            'targets': [
+                'body'
+            ],
             'token_manager': 'PERSISTENT',
             'transformer': 'JSON_PATH',
             'transformer_config': [
@@ -235,7 +241,9 @@ snapshots['TestRouteHandler::test_put_add_filter_to_existing_route 1'] = {
             'operations': None,
             'phase': 'REQUEST',
             'public_token_generator': 'UUID',
-            'targets': 'body',
+            'targets': [
+                'body'
+            ],
             'token_manager': 'PERSISTENT',
             'transformer': 'JSON_PATH',
             'transformer_config': [
@@ -421,7 +429,9 @@ snapshots['TestRouteHandler::test_put_delete_single_filter 1'] = {
             'operations': None,
             'phase': 'REQUEST',
             'public_token_generator': 'UUID',
-            'targets': 'body',
+            'targets': [
+                'body'
+            ],
             'token_manager': 'PERSISTENT',
             'transformer': 'JSON_PATH',
             'transformer_config': [
@@ -484,7 +494,9 @@ snapshots['TestRoutesHandler::test_get 1'] = [
                 'operations': None,
                 'phase': 'REQUEST',
                 'public_token_generator': 'UUID',
-                'targets': 'body',
+                'targets': [
+                    'body'
+                ],
                 'token_manager': 'PERSISTENT',
                 'transformer': 'JSON_PATH',
                 'transformer_config': [

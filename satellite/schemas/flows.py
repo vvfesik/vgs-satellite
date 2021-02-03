@@ -1,6 +1,6 @@
 from typing import List, Optional, Tuple
 
-from marshmallow import Schema, fields, pre_dump
+from marshmallow import Schema, fields, pre_dump, validate
 
 from mitmproxy import ctx
 from mitmproxy.flow import Flow
@@ -107,3 +107,32 @@ class HTTPFlowSchema(FlowSchema):
     request_raw = fields.Nested(Request)
     response = fields.Nested(Response)
     response_raw = fields.Nested(Response)
+
+
+class FlowUpdateRequestSchema(Schema):
+    class RequestResponse(Schema):
+        content = fields.Str()
+        headers = fields.List(
+            fields.List(
+                fields.Str(),
+                validate=validate.Length(min=2, max=2)
+            ),
+        )
+        http_version = fields.Str()
+
+    class RequestUpdate(RequestResponse):
+        host = fields.Str()
+        method = fields.Str()
+        path = fields.Str()
+        port = fields.Int()
+        scheme = fields.Str()
+
+    class ResponseUpdate(RequestResponse):
+        code = fields.Int()
+
+    request = fields.Nested(RequestUpdate)
+    response = fields.Nested(ResponseUpdate)
+
+
+class DuplicateFlowResponseSchema(Schema):
+    id = fields.UUID(required=True, metadata={'description': 'ID of a new flow'})

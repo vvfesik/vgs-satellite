@@ -6,18 +6,15 @@ from ruamel.yaml import YAML
 
 from sqlalchemy.exc import DatabaseError
 
-from satellite.schemas.route import RouteSchema
+from satellite.schemas.route import CreateRouteSchema
 
 from . import manager as route_manager
 
 
 class YAMLSchema(Schema):
     class Route(Schema):
-        class Attributes(RouteSchema):
-            pass
-
         id = fields.Str(required=True)
-        attributes = fields.Nested(Attributes, required=True)
+        attributes = fields.Nested(CreateRouteSchema, required=True)
         type = fields.Constant('rule_chain')
 
     data = fields.List(

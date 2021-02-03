@@ -5,7 +5,7 @@ from . import (
 )
 from .exceptions import NotFoundError, ValidationError
 from ..routes import manager as route_manager
-from ..schemas.route import CreateUpdateRouteSchema, RouteSchema
+from ..schemas.route import CreateRouteRequestSchema, RouteSchema, UpdateRouteSchema
 
 
 class RoutesHandler(BaseHandler):
@@ -25,7 +25,7 @@ class RoutesHandler(BaseHandler):
         """
         return route_manager.get_all()
 
-    @apply_request_schema(CreateUpdateRouteSchema)
+    @apply_request_schema(CreateRouteRequestSchema)
     @apply_response_schema(RouteSchema)
     def post(self, validated_data: dict):
         """
@@ -34,7 +34,7 @@ class RoutesHandler(BaseHandler):
         requestBody:
             content:
                 application/json:
-                    schema: CreateUpdateRouteSchema
+                    schema: CreateRouteRequestSchema
         responses:
             200:
                 content:
@@ -80,7 +80,7 @@ class RouteHandler(BaseHandler):
             raise NotFoundError(f'Unknown route ID: {route_id}')
         return route
 
-    @apply_request_schema(CreateUpdateRouteSchema)
+    @apply_request_schema(UpdateRouteSchema)
     @apply_response_schema(RouteSchema)
     def put(self, route_id: str, validated_data: dict):
         """
@@ -96,7 +96,7 @@ class RouteHandler(BaseHandler):
         requestBody:
             content:
                 application/json:
-                    schema: CreateUpdateRouteSchema
+                    schema: UpdateRouteSchema
         responses:
             200:
                 content:
@@ -127,10 +127,8 @@ class RouteHandler(BaseHandler):
               schema:
                   type: string
         responses:
-            200:
-                content:
-                    application/json:
-                        schema: RouteSchema
+            204:
+                description: Route was successfully deleted
             404:
                 content:
                     application/json:
@@ -140,3 +138,5 @@ class RouteHandler(BaseHandler):
             route_manager.delete(route_id)
         except route_manager.EntityNotFound:
             raise NotFoundError(f'Unknown route ID: {route_id}')
+
+        self.finish_empty_ok()

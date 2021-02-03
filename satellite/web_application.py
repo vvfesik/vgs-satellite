@@ -25,6 +25,11 @@ from .spec import build_openapi_spec
 logger = logging.getLogger()
 
 
+class IndexHandler(BaseHandler):
+    def head(self):
+        self.finish_empty_ok()
+
+
 class SpecJSONHandler(BaseHandler):
     def get(self):
         self.finish(self.application.spec.to_dict())
@@ -72,7 +77,7 @@ class WebApplication(Application):
 
         self.add_handlers(r'^(localhost|[0-9.]+|\[[0-9a-fA-F:]+\])$', [
             *api_handlers,
-            (r'/', flow_handlers.Index),
+            (r'/', IndexHandler),
             (r'/flows.json', flow_handlers.Flows),
             (r'/spec.json', SpecJSONHandler),
             (r'/spec.yaml', SpecYAMLHandler),
