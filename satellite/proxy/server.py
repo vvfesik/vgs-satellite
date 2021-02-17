@@ -8,7 +8,6 @@ from mitmproxy.proxy.server import (
 )
 
 from ..ctx import get_proxy_context
-from ..db.models.route import RouteType
 from ..proxy import ProxyMode
 from ..routes import manager as route_manager
 
@@ -36,5 +35,5 @@ class ProxyServer(BaseProxyServer):
         handler.handle()
 
     def _get_upstream(self):
-        routes = route_manager.get_all_by_type(RouteType.INBOUND)
+        routes = route_manager.get_all_by_type(is_outbound=False)
         return routes and routes[0].destination_override_endpoint

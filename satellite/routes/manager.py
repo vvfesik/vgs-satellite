@@ -1,10 +1,10 @@
-
 import logging
+import re
 from typing import List
 
 from .expressions import CompositeExpression, ExpressionError
 from ..db import get_session, update_model
-from ..db.models.route import Route, RouteType, RuleEntry
+from ..db.models.route import Route, RuleEntry
 from ..operations.pipeline import build_pipeline
 
 
@@ -26,12 +26,11 @@ def get_all() -> List[Route]:
     return session.query(Route).all()
 
 
-def get_all_by_type(route_type: RouteType) -> List[Route]:
-    route_all = get_all()
-    if route_type == RouteType.OUTBOUND:
-        return [route for route in route_all if route.is_outbound()]
-    else:
-        return [route for route in route_all if not route.is_outbound()]
+def get_all_by_type(is_outbound: bool) -> List[Route]:
+    return [
+        route for route in get_all()
+        if route.is_outbound() is is_outbound
+    ]
 
 
 def get(route_id: str) -> Route:
@@ -143,5 +142,13 @@ def check_filter(fltr: RuleEntry):
 
 
 def check_route(route: Route):
+    if route.is_outbound:
+        try:
+            re.compile(route.host_endpoint)
+        except re.error as exc:
+            raise InvalidRouteConfiguration(
+                f'Invalid host pattern {route.host_endpoint}: {exc}'
+            ) from exc
+
     for rule in route.rule_entries_list:
         check_filter(rule)

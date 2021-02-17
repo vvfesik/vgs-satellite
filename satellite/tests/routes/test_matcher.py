@@ -94,8 +94,9 @@ def test_match_route_outbound(monkeypatch):
     filters = RuleEntryFactory.build_batch(2)
     filters[1].expression_snapshot['rules'][0]['expression']['values'] = ['/put']
     route1 = RouteFactory(rule_entries_list=filters)
+    route1.host_endpoint = r'((echo\.apps\.verygood\.systems)|(httpbin\.org))'
     route2 = RouteFactory(rule_entries_list=[RuleEntryFactory()])
-    route2.host_endpoint = 'https://unknown-upstream.io'
+    route2.host_endpoint = r'echo\.apps\.verygood\.systems'
     monkeypatch.setattr(
         'satellite.routes.matcher.route_manager',
         Mock(get_all_by_type=Mock(return_value=[route1, route2]))

@@ -1,3 +1,4 @@
+import re
 from functools import partial
 from typing import List, Optional, Tuple
 
@@ -7,7 +8,7 @@ from satellite import audit_logs
 from satellite.db.models.route import Route, RuleEntry
 from satellite.proxy import ProxyMode
 
-from . import Phase, RouteType, manager as route_manager
+from . import Phase, manager as route_manager
 from .expressions import CompositeExpression
 
 
@@ -17,13 +18,13 @@ def match_route(
     flow: HTTPFlow,
 ) -> Tuple[Optional[Route], List[RuleEntry]]:
     request = flow.request
-    route_type = RouteType.INBOUND if proxy_mode == ProxyMode.REVERSE else RouteType.OUTBOUND
-    routes = route_manager.get_all_by_type(route_type)
-    request_host = request.host.replace('/', '').replace('.', '\\.')
-    if proxy_mode == ProxyMode.FORWARD:
-        routes = [route for route in routes if route.host_endpoint == request_host]
+    is_outbound = proxy_mode == ProxyMode.FORWARD
+    routes = route_manager.get_all_by_type(is_outbound)
 
     for route in routes:
+        if is_outbound and not match_host(request.host, route.host_endpoint):
+            continue
+
         match_filters = partial(match_filter, proxy_mode, phase, flow)
         filters = list(filter(match_filters, route.rule_entries_list))
         matched = bool(filters)
@@ -38,6 +39,11 @@ def match_route(
             return route, filters
 
     return None, []
+
+
+def match_host(request_host: str, host_pattern: str) -> bool:
+    rx = re.compile(host_pattern)
+    return rx.fullmatch(request_host)
 
 
 def match_filter(
