@@ -2,7 +2,6 @@ import uuid
 from functools import partial
 
 from satellite.config import get_config
-
 from . import AliasGeneratorType, AliasNotFound, AliasStoreType
 from .generators import get_alias_generator
 from .store import AliasStore
@@ -34,10 +33,12 @@ def redact(
     if aliases:
         alias = aliases[0]
         if make_log_record:
-            audit_logs.emit(make_log_record(
-                action_type=audit_logs.records.ActionType.DE_DUPE,
-                record_id=alias.id,
-            ))
+            audit_logs.emit(
+                make_log_record(
+                    action_type=audit_logs.records.ActionType.DE_DUPE,
+                    record_id=alias.id,
+                )
+            )
         return alias
 
     generator = get_alias_generator(generator_type)
@@ -51,10 +52,12 @@ def redact(
     alias_store.save(alias)
 
     if make_log_record:
-        audit_logs.emit(make_log_record(
-            action_type=audit_logs.records.ActionType.CREATED,
-            record_id=alias.id,
-        ))
+        audit_logs.emit(
+            make_log_record(
+                action_type=audit_logs.records.ActionType.CREATED,
+                record_id=alias.id,
+            )
+        )
 
     return alias
 
@@ -67,16 +70,18 @@ def reveal(alias: str, store_type: AliasStoreType) -> Alias:
 
     flow_context = ctx.get_flow_context()
     if flow_context:
-        audit_logs.emit(audit_logs.records.VaultRecordUsageLogRecord(
-            alias_generator=alias_entity.alias_generator,
-            flow_id=flow_context.flow.id,
-            phase=flow_context.phase,
-            proxy_mode=ctx.get_proxy_context().mode,
-            route_id=ctx.get_route_context().route.id,
-            action_type=audit_logs.records.ActionType.RETRIEVED,
-            record_type=store_type,
-            record_id=alias_entity.id,
-        ))
+        audit_logs.emit(
+            audit_logs.records.VaultRecordUsageLogRecord(
+                alias_generator=alias_entity.alias_generator,
+                flow_id=flow_context.flow.id,
+                phase=flow_context.phase,
+                proxy_mode=ctx.get_proxy_context().mode,
+                route_id=ctx.get_route_context().route.id,
+                action_type=audit_logs.records.ActionType.RETRIEVED,
+                record_type=store_type,
+                record_id=alias_entity.id,
+            )
+        )
 
     return alias_entity
 

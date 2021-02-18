@@ -1,5 +1,4 @@
 from marshmallow import EXCLUDE, Schema, fields, validate
-
 from marshmallow_enum import EnumField
 
 from ..aliases import AliasGeneratorType, AliasStoreType

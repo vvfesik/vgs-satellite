@@ -9,7 +9,6 @@ from threading import Event as ThreadingEvent, Thread
 from typing import Any, Callable
 
 import blinker
-
 from mitmproxy.addons.view import View
 from mitmproxy.flow import Flow
 
@@ -105,9 +104,7 @@ class ProxyProcess(Process):
         start_ts = time.monotonic()
         while not self._started_event.wait(0.5):
             if not self.is_alive():
-                raise exceptions.ProxyError(
-                    f'Unable to start {self.mode.value} proxy.'
-                )
+                raise exceptions.ProxyError(f'Unable to start {self.mode.value} proxy.')
             if time.monotonic() - start_ts > timeout:
                 self.kill()
                 self.join()
@@ -118,31 +115,39 @@ class ProxyProcess(Process):
 
     def _sig_flow_add(self, view: View, flow: Flow):
         flow.mode = self.mode.value
-        self._event_queue.put_nowait(events.FlowAddEvent(
-            proxy_mode=self.mode,
-            flow_state=get_flow_state(flow),
-        ))
+        self._event_queue.put_nowait(
+            events.FlowAddEvent(
+                proxy_mode=self.mode,
+                flow_state=get_flow_state(flow),
+            )
+        )
 
     def _sig_flow_update(self, view: View, flow: Flow):
-        self._event_queue.put_nowait(events.FlowUpdateEvent(
-            proxy_mode=self.mode,
-            flow_state=get_flow_state(flow),
-        ))
+        self._event_queue.put_nowait(
+            events.FlowUpdateEvent(
+                proxy_mode=self.mode,
+                flow_state=get_flow_state(flow),
+            )
+        )
 
     def _sig_flow_remove(self, view: View, flow: Flow, index: int):
-        self._event_queue.put_nowait(events.FlowRemoveEvent(
-            proxy_mode=self.mode,
-            flow_id=flow.id,
-        ))
+        self._event_queue.put_nowait(
+            events.FlowRemoveEvent(
+                proxy_mode=self.mode,
+                flow_id=flow.id,
+            )
+        )
 
     def _sig_proxy_started(self, _):
         self._started_event.set()
 
     def _sig_audit_log(self, record: audit_logs.records.AuditLogRecord):
-        self._event_queue.put_nowait(events.AuditLogEvent(
-            proxy_mode=record.proxy_mode,
-            record=record,
-        ))
+        self._event_queue.put_nowait(
+            events.AuditLogEvent(
+                proxy_mode=record.proxy_mode,
+                record=record,
+            )
+        )
 
     def _handle_command(
         self,

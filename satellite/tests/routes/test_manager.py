@@ -1,5 +1,4 @@
 from satellite.routes import manager as route_manager
-
 from ..factories import RouteFactory
 
 

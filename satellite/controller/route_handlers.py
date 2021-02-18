@@ -9,7 +9,6 @@ from ..schemas.route import CreateRouteRequestSchema, RouteSchema, UpdateRouteSc
 
 
 class RoutesHandler(BaseHandler):
-
     @apply_response_schema(RouteSchema, many=True)
     def get(self):
         """
@@ -52,7 +51,6 @@ class RoutesHandler(BaseHandler):
 
 
 class RouteHandler(BaseHandler):
-
     @apply_response_schema(RouteSchema)
     def get(self, route_id: str):
         """

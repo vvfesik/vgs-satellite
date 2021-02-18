@@ -6,9 +6,7 @@ from .records import AuditLogRecord
 
 class UnknownFlowIdError(Exception):
     def __init__(self, flow_id: str):
-        super().__init__(
-            f'Requested audit logs for unknown flow ID: {flow_id}'
-        )
+        super().__init__(f'Requested audit logs for unknown flow ID: {flow_id}')
 
 
 class AuditLogStore:

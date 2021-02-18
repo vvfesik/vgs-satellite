@@ -1,5 +1,4 @@
 from marshmallow import Schema, fields, pre_load, validate
-
 from marshmallow_enum import EnumField
 
 from ..aliases import AliasGeneratorType
@@ -27,9 +26,9 @@ class RedactRequestSchema(Schema):
         @pre_load
         def prepare_value(self, data: dict, **kwargs) -> dict:
             if (
-                isinstance(data, dict) and
-                'value' in data and
-                isinstance(data['value'], int)
+                isinstance(data, dict)
+                and 'value' in data
+                and isinstance(data['value'], int)
             ):
                 data = {**data, 'value': str(data['value'])}
 
@@ -60,6 +59,7 @@ class RecordSchema(Schema):
                 'example': 'FPE_SIX_T_FOUR',
             },
         )
+
     value = fields.Str(
         required=True,
         metadata={

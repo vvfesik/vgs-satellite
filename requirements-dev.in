@@ -1,6 +1,5 @@
 -r requirements.in
-flake8
-flake8-import-order
+vgs-style
 pip-tools
 pytest
 snapshottest

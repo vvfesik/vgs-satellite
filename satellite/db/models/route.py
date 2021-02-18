@@ -8,7 +8,6 @@ from sqlalchemy.orm import relationship
 from satellite.aliases import AliasGeneratorType, AliasStoreType
 from satellite.routes import Operation, Phase, RouteType
 from satellite.transformers import TransformerType
-
 from .base import Base
 
 

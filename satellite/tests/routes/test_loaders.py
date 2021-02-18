@@ -2,11 +2,11 @@ from io import StringIO
 from unittest.mock import Mock
 
 import pytest
-
 from sqlalchemy.exc import DatabaseError
 
 from satellite.routes.loaders import LoadError, load_from_yaml
 from satellite.routes.manager import InvalidRouteConfiguration
+
 
 ROUTES_YAML = r"""data:
 - attributes:
@@ -133,10 +133,14 @@ def test_load_from_yaml_invalid_yaml():
 
 def test_load_from_yaml_failed_validation():
     with pytest.raises(LoadError) as ctx:
-        load_from_yaml(StringIO(ROUTES_YAML.replace(
-            'public_token_generator: UUID',
-            'public_token_generator: UNKNOWN',
-        )))
+        load_from_yaml(
+            StringIO(
+                ROUTES_YAML.replace(
+                    'public_token_generator: UUID',
+                    'public_token_generator: UNKNOWN',
+                )
+            )
+        )
     assert str(ctx.value).startswith('Invalid routes data')
 
 

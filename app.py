@@ -4,7 +4,6 @@ import os
 from multiprocessing import set_start_method
 
 import click
-
 from tblib import pickling_support
 
 from satellite import db
@@ -31,13 +30,16 @@ DEFAULT_CONFIG = SatelliteConfig()
     is_flag=True,
     default=None,
     envvar='SATELLITE_DEBUG',
-    help=f'[env:SATELLITE_DEBUG] (default:{DEFAULT_CONFIG.debug}) Debug mode.'
+    help=f'[env:SATELLITE_DEBUG] (default:{DEFAULT_CONFIG.debug}) Debug mode.',
 )
 @click.option(
     '--web-server-port',  # TODO: Rename to --api-port
     type=int,
     envvar='SATELLITE_API_PORT',
-    help=f'[env:SATELLITE_API_PORT] (default:{DEFAULT_CONFIG.web_server_port}) API port. ',
+    help=(
+        '[env:SATELLITE_API_PORT] '
+        f'(default:{DEFAULT_CONFIG.web_server_port}) API port.'
+    ),
 )
 @click.option(
     '--reverse-proxy-port',
@@ -110,7 +112,6 @@ DEFAULT_CONFIG = SatelliteConfig()
         'YAML file. If provided all the current  routes present in Satellite '
         'DB will be deleted.'
     ),
-
 )
 def main(**kwargs):
     set_start_method('fork')  # PyInstaller supports only fork start method
@@ -120,11 +121,9 @@ def main(**kwargs):
     init_satellite_dir()
 
     try:
-        config = configure(**{
-            name: value
-            for name, value in kwargs.items()
-            if value is not None
-        })
+        config = configure(
+            **{name: value for name, value in kwargs.items() if value is not None}
+        )
     except InvalidConfigError as exc:
         raise click.ClickException(f'Invalid config: {exc}') from exc
 

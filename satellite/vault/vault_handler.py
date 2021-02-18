@@ -20,12 +20,14 @@ class VaultFlows:
 
     def request(self, flow: HTTPFlow):
         try:
-            audit_logs.emit(audit_logs.records.VaultRequestAuditLogRecord(
-                flow_id=flow.id,
-                proxy_mode=ctx.get_proxy_context().mode,
-                method=flow.request.method,
-                uri=flow.request.url,
-            ))
+            audit_logs.emit(
+                audit_logs.records.VaultRequestAuditLogRecord(
+                    flow_id=flow.id,
+                    proxy_mode=ctx.get_proxy_context().mode,
+                    method=flow.request.method,
+                    uri=flow.request.url,
+                )
+            )
             flow.request_raw = flow.request.copy()
             self._process(flow, Phase.REQUEST)
 
@@ -45,20 +47,24 @@ class VaultFlows:
             ]:
                 if sock and sock.is_logging():
                     # TODO: (SAT-98) trigger TO_SERVER-event at the right time.
-                    audit_logs.emit(audit_logs.records.VaultTrafficLogRecord(
-                        flow_id=flow.id,
-                        proxy_mode=proxy_context.mode,
-                        bytes=len(sock.get_log()),
-                        label=label,
-                    ))
+                    audit_logs.emit(
+                        audit_logs.records.VaultTrafficLogRecord(
+                            flow_id=flow.id,
+                            proxy_mode=proxy_context.mode,
+                            bytes=len(sock.get_log()),
+                            label=label,
+                        )
+                    )
                     sock.stop_log()
 
-            audit_logs.emit(audit_logs.records.UpstreamResponseLogRecord(
-                flow_id=flow.id,
-                proxy_mode=proxy_context.mode,
-                upstream=flow.request.host,
-                status_code=flow.response.status_code,
-            ))
+            audit_logs.emit(
+                audit_logs.records.UpstreamResponseLogRecord(
+                    flow_id=flow.id,
+                    proxy_mode=proxy_context.mode,
+                    upstream=flow.request.host,
+                    status_code=flow.response.status_code,
+                )
+            )
 
             flow.response_raw = flow.response.copy()
             self._process(flow, Phase.RESPONSE)
@@ -87,10 +93,12 @@ class VaultFlows:
                 operation_applied = True
             else:
                 operation_applied = transform(flow, phase, fltr)
-            matched_filters.append({
-                'id': fltr.id,
-                'operation_applied': operation_applied,
-            })
+            matched_filters.append(
+                {
+                    'id': fltr.id,
+                    'operation_applied': operation_applied,
+                }
+            )
 
         phase_obj = getattr(flow, phase.value.lower())
         phase_obj.match_details = match_details

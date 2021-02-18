@@ -16,11 +16,14 @@ def transform(value: str) -> str:
     return f'transformed_{value}'
 
 
-@pytest.mark.parametrize('expressions', [
-    [],
-    ['/CC/CVC', '//Number'],
-    ['/CC/Foo'],
-])
+@pytest.mark.parametrize(
+    'expressions',
+    [
+        [],
+        ['/CC/CVC', '//Number'],
+        ['/CC/Foo'],
+    ],
+)
 def test_xml_ok(snapshot, expressions):
     result = XMLTransformer(TransformerConfig(expressions)).transform(
         payload=XML_PAYLOAD,

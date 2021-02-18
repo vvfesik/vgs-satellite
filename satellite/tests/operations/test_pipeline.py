@@ -7,7 +7,6 @@ from satellite.ctx import ProxyContext
 from satellite.operations.pipeline import OperationPipeline, build_pipeline
 from satellite.proxy import ProxyMode
 from satellite.routes import Phase
-
 from ..factories import RuleEntryFactory, load_flow
 
 
@@ -20,10 +19,12 @@ def test_evaluate(monkeypatch):
     )
     monkeypatch.setattr(
         'satellite.operations.pipeline.get_proxy_context',
-        Mock(return_value=ProxyContext(
-            mode=ProxyMode.FORWARD,
-            port=9099,
-        )),
+        Mock(
+            return_value=ProxyContext(
+                mode=ProxyMode.FORWARD,
+                port=9099,
+            )
+        ),
     )
 
     flow = load_flow('http_raw')
@@ -38,16 +39,18 @@ def test_evaluate(monkeypatch):
 
     operation.evaluate.assert_called_once_with(flow, Phase.REQUEST)
 
-    mock_emit.assert_called_once_with(OperationPipelineEvaluationLogRecord(
-        flow_id=flow.id,
-        proxy_mode=ProxyMode.FORWARD,
-        route_id='route-id',
-        filter_id='filter-id',
-        phase=Phase.REQUEST,
-        execution_time_ms=ANY,
-        execution_time_ns=ANY,
-        operations=['mock-operation'],
-    ))
+    mock_emit.assert_called_once_with(
+        OperationPipelineEvaluationLogRecord(
+            flow_id=flow.id,
+            proxy_mode=ProxyMode.FORWARD,
+            route_id='route-id',
+            filter_id='filter-id',
+            phase=Phase.REQUEST,
+            execution_time_ms=ANY,
+            execution_time_ns=ANY,
+            operations=['mock-operation'],
+        )
+    )
 
 
 def test_build_pipeline(monkeypatch):
@@ -61,10 +64,12 @@ def test_build_pipeline(monkeypatch):
     rule_entry = RuleEntryFactory.build(
         id='1b8f25c2-bd32-4de2-9300-a544fe8b91df',
         route_id='f6a62dec-514f-4a54-b2d8-792c568dbd8b',
-        operations=[{
-            'name': 'operation-name',
-            'parameters': {'op_param_name': 'op_param_value'},
-        }],
+        operations=[
+            {
+                'name': 'operation-name',
+                'parameters': {'op_param_name': 'op_param_value'},
+            }
+        ],
     )
 
     pipeline = build_pipeline(rule_entry)

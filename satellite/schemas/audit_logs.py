@@ -1,7 +1,5 @@
 from marshmallow import Schema, fields, validate
-
 from marshmallow_enum import EnumField
-
 from marshmallow_oneofschema import OneOfSchema
 
 from ..aliases import AliasGeneratorType, AliasStoreType
@@ -18,17 +16,22 @@ class AuditLogRecordBaseSchema(Schema):
 
 
 class VaultRequestAuditLogRecordSchema(AuditLogRecordBaseSchema):
-    method = fields.Str(required=True, validate=validate.OneOf([
-        'CONNECT',
-        'DELETE',
-        'GET',
-        'HEAD',
-        'OPTIONS',
-        'PATCH',
-        'POST',
-        'PUT',
-        'TRACE',
-    ]))
+    method = fields.Str(
+        required=True,
+        validate=validate.OneOf(
+            [
+                'CONNECT',
+                'DELETE',
+                'GET',
+                'HEAD',
+                'OPTIONS',
+                'PATCH',
+                'POST',
+                'PUT',
+                'TRACE',
+            ]
+        ),
+    )
     uri = fields.URL(required=True)
 
 
@@ -89,7 +92,9 @@ class AuditLogRecordSchema(OneOfSchema):
     type_schemas = {
         'FilterEvaluationLogRecord': FilterEvaluationLogRecordSchema,
         'OperationLogRecord': OperationLogRecordSchema,
-        'OperationPipelineEvaluationLogRecord': OperationPipelineEvaluationLogRecordSchema,
+        'OperationPipelineEvaluationLogRecord': (
+            OperationPipelineEvaluationLogRecordSchema
+        ),
         'RouteEvaluationLogRecord': RouteEvaluationLogRecordSchema,
         'UpstreamResponseLogRecord': UpstreamResponseLogRecordSchema,
         'VaultRecordUsageLogRecord': VaultRecordUsageLogRecordSchema,

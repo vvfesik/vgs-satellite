@@ -33,11 +33,13 @@ class AliasesHandler(BaseHandler):
         for item in validated_data['data']:
             value, format = item['value'], item['format']
             alias = redact(value, format, STORAGE_TYPE)
-            results.append({
-                'aliases': [{'alias': alias.public_alias, 'format': format}],
-                'created_at': alias.created_at,
-                'value': item['value'],
-            })
+            results.append(
+                {
+                    'aliases': [{'alias': alias.public_alias, 'format': format}],
+                    'created_at': alias.created_at,
+                    'value': item['value'],
+                }
+            )
 
         return {'data': results}
 
@@ -116,10 +118,12 @@ class AliasHandler(BaseHandler):
 def _reveal(public_alias: str) -> str:
     alias = reveal(public_alias, STORAGE_TYPE)
     return {
-        'aliases': [{
-            'alias': alias.public_alias,
-            'format': alias.alias_generator,
-        }],
+        'aliases': [
+            {
+                'alias': alias.public_alias,
+                'format': alias.alias_generator,
+            }
+        ],
         'created_at': alias.created_at,
         'value': alias.value,
     }

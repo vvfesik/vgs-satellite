@@ -8,7 +8,6 @@ from satellite.db import get_session
 from satellite.db.models.route import Route
 from satellite.routes import Phase, manager as route_manager
 from satellite.schemas.route import RuleEntrySchema
-
 from .base import BaseHandlerTestCase
 from ..factories import RouteFactory, RuleEntryFactory
 
@@ -23,9 +22,7 @@ CREATE_ROUTE_REQUEST = {
             'source_endpoint': '*',
             'entries': [
                 {
-                    'targets': [
-                        'body'
-                    ],
+                    'targets': ['body'],
                     'phase': 'REQUEST',
                     'operation': 'REDACT',
                     'id_selector': None,
@@ -42,10 +39,8 @@ CREATE_ROUTE_REQUEST = {
                                     'field': 'PathInfo',
                                     'type': 'string',
                                     'operator': 'equals',
-                                    'values': [
-                                        '/post'
-                                    ]
-                                }
+                                    'values': ['/post'],
+                                },
                             },
                             {
                                 'condition': None,
@@ -54,27 +49,20 @@ CREATE_ROUTE_REQUEST = {
                                     'field': 'ContentType',
                                     'type': 'string',
                                     'operator': 'equals',
-                                    'values': [
-                                        'application/json'
-                                    ]
-                                }
-                            }
-                        ]
+                                    'values': ['application/json'],
+                                },
+                            },
+                        ],
                     },
                     'transformer': 'JSON_PATH',
-                    'transformer_config': [
-                        '$.field1'
-                    ],
+                    'transformer_config': ['$.field1'],
                     'public_token_generator': 'UUID',
-                    'token_manager': 'PERSISTENT'
+                    'token_manager': 'PERSISTENT',
                 }
             ],
-            'tags': {
-                'name': 'light-slate-grey-population',
-                'source': 'vgs-satellite'
-            }
+            'tags': {'name': 'light-slate-grey-population', 'source': 'vgs-satellite'},
         },
-        'type': 'rule-chains'
+        'type': 'rule-chains',
     }
 }
 
@@ -94,7 +82,7 @@ class TestRoutesHandler(BaseHandlerTestCase):
                 RuleEntryFactory(
                     id='8e6d779a-1f57-4b89-8c0b-579d933f783c',
                 ),
-            ]
+            ],
         )
 
         response = self.fetch(self.get_url('/route'))
@@ -147,7 +135,7 @@ class TestRouteHandler(BaseHandlerTestCase):
                 RuleEntryFactory(
                     id='8e6d779a-1f57-4b89-8c0b-579d933f783c',
                 ),
-            ]
+            ],
         )
 
         response = self.fetch(self.get_url(f'/route/{route.id}'))
@@ -199,9 +187,9 @@ class TestRouteHandler(BaseHandlerTestCase):
 
     def test_put_create_route(self):
         request = deepcopy(CREATE_ROUTE_REQUEST)
-        request['data']['attributes']['entries'][0]['id'] = (
-            '33c12208-9e4c-439c-a593-d85711fcdec6'
-        )
+        request['data']['attributes']['entries'][0][
+            'id'
+        ] = '33c12208-9e4c-439c-a593-d85711fcdec6'
 
         response = self.fetch(
             self.get_url('/route/725abda7-e67a-45ee-9d81-47deba32b667'),
@@ -234,53 +222,49 @@ class TestRouteHandler(BaseHandlerTestCase):
         response = self.fetch(
             self.get_url(f'/route/{route.id}'),
             method='PUT',
-            body=json.dumps({
-                'data': {
-                    'attributes': {
-                        'entries': [
-                            RuleEntrySchema().dump(route.rule_entries_list[0]),
-                            {
-                                'targets': ['body'],
-                                'phase': 'REQUEST',
-                                'operation': 'REDACT',
-                                'classifiers': {},
-                                'config': {
-                                    'condition': 'AND',
-                                    'rules': [
-                                        {
-                                            'expression': {
-                                                'field': 'PathInfo',
-                                                'type': 'string',
-                                                'operator': 'equals',
-                                                'values': [
-                                                    '/put'
-                                                ],
+            body=json.dumps(
+                {
+                    'data': {
+                        'attributes': {
+                            'entries': [
+                                RuleEntrySchema().dump(route.rule_entries_list[0]),
+                                {
+                                    'targets': ['body'],
+                                    'phase': 'REQUEST',
+                                    'operation': 'REDACT',
+                                    'classifiers': {},
+                                    'config': {
+                                        'condition': 'AND',
+                                        'rules': [
+                                            {
+                                                'expression': {
+                                                    'field': 'PathInfo',
+                                                    'type': 'string',
+                                                    'operator': 'equals',
+                                                    'values': ['/put'],
+                                                },
                                             },
-                                        },
-                                        {
-                                            'expression': {
-                                                'field': 'ContentType',
-                                                'type': 'string',
-                                                'operator': 'equals',
-                                                'values': [
-                                                    'application/json'
-                                                ],
+                                            {
+                                                'expression': {
+                                                    'field': 'ContentType',
+                                                    'type': 'string',
+                                                    'operator': 'equals',
+                                                    'values': ['application/json'],
+                                                },
                                             },
-                                        },
-                                    ],
+                                        ],
+                                    },
+                                    'transformer': 'JSON_PATH',
+                                    'transformer_config': ['$.field2'],
+                                    'public_token_generator': 'UUID',
+                                    'token_manager': 'PERSISTENT',
                                 },
-                                'transformer': 'JSON_PATH',
-                                'transformer_config': [
-                                    '$.field2'
-                                ],
-                                'public_token_generator': 'UUID',
-                                'token_manager': 'PERSISTENT'
-                            },
-                        ],
-                    },
-                    'type': 'rule-chains',
+                            ],
+                        },
+                        'type': 'rule-chains',
+                    }
                 }
-            }),
+            ),
             headers={'Content-Type': 'application/json'},
         )
 

@@ -1,6 +1,8 @@
 # TODO: This module is a hack. Proper ways are:
-#  1. Inherit state-objects (HTTPFlow, HTTPRequest, HTTPResponse) and somehow replace original classes (hard),
-#  2. Add all extra state into a one key (like 'extra_state') - much easier but probably will require changes on FE.
+#  1. Inherit state-objects (HTTPFlow, HTTPRequest, HTTPResponse) and somehow replace
+#     original classes (hard),
+#  2. Add all extra state into a one key (like 'extra_state') - much easier but
+#     probably will require changes on FE.
 
 from copy import deepcopy
 from uuid import uuid4
@@ -35,9 +37,8 @@ def load_flow_from_state(state: dict) -> HTTPFlow:
         raw_attr = f'{phase}_raw'
         extra_state[raw_attr] = state.pop(raw_attr, None)
         phase_state = state.get(phase)
-        extra_state[f'{phase}_match_details'] = (
-            phase_state and
-            phase_state.pop('match_details', None)
+        extra_state[f'{phase}_match_details'] = phase_state and phase_state.pop(
+            'match_details', None
         )
 
     flow = HTTPFlow.from_state(state)

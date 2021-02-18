@@ -4,7 +4,6 @@ from pathlib import Path
 from alembic import command
 from alembic.config import Config
 from alembic.util.exc import CommandError
-
 from sqlalchemy import create_engine
 from sqlalchemy import event
 from sqlalchemy.engine import Engine

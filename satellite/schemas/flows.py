@@ -1,7 +1,6 @@
 from typing import List, Optional, Tuple
 
 from marshmallow import Schema, fields, pre_dump, validate
-
 from mitmproxy import ctx
 from mitmproxy.flow import Flow
 from mitmproxy.net.http import Message
@@ -113,10 +112,7 @@ class FlowUpdateRequestSchema(Schema):
     class RequestResponse(Schema):
         content = fields.Str()
         headers = fields.List(
-            fields.List(
-                fields.Str(),
-                validate=validate.Length(min=2, max=2)
-            ),
+            fields.List(fields.Str(), validate=validate.Length(min=2, max=2)),
         )
         http_version = fields.Str()
 

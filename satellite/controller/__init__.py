@@ -3,7 +3,6 @@ from functools import wraps
 from typing import Any, Type
 
 from marshmallow import Schema
-
 from tornado.escape import json_encode
 from tornado.web import HTTPError, RequestHandler
 
@@ -17,7 +16,7 @@ class BaseHandler(RequestHandler):
         self.set_header('Access-Control-Allow-Headers', 'Accept, Content-Type')
         methods = [
             method.upper()
-            for method in ['delete', 'get', 'head', 'options', 'patch',  'post', 'put']
+            for method in ['delete', 'get', 'head', 'options', 'patch', 'post', 'put']
             if getattr(self, method).__name__ != '_unimplemented_method'
         ]
         if methods:
@@ -87,7 +86,7 @@ def apply_request_schema(schema_cls: Type[Schema]):
             schema = schema_cls()
             errors = schema.validate(data)
             if errors:
-                raise exceptions.ValidationError('Invalid request data',  errors)
+                raise exceptions.ValidationError('Invalid request data', errors)
 
             validated_data = schema.load(data)
 

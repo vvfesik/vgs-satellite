@@ -250,10 +250,12 @@ def test_audit_logs(monkeypatch):
             flow_id='flow-id',
             proxy_mode=ProxyMode.FORWARD,
         )
-        event_queue.put(events.AuditLogEvent(
-            proxy_mode=ProxyMode.FORWARD,
-            record=record,
-        ))
+        event_queue.put(
+            events.AuditLogEvent(
+                proxy_mode=ProxyMode.FORWARD,
+                record=record,
+            )
+        )
         time.sleep(0.1)
         assert manager.get_audit_logs('flow-id') == [record]
     finally:

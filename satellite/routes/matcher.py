@@ -7,7 +7,6 @@ from mitmproxy.http import HTTPFlow
 from satellite import audit_logs
 from satellite.db.models.route import Route, RuleEntry
 from satellite.proxy import ProxyMode
-
 from . import Phase, manager as route_manager
 from .expressions import CompositeExpression
 
@@ -28,13 +27,15 @@ def match_route(
         match_filters = partial(match_filter, proxy_mode, phase, flow)
         filters = list(filter(match_filters, route.rule_entries_list))
         matched = bool(filters)
-        audit_logs.emit(audit_logs.records.RouteEvaluationLogRecord(
-            flow_id=flow.id,
-            matched=matched,
-            phase=phase,
-            proxy_mode=proxy_mode,
-            route_id=route.id,
-        ))
+        audit_logs.emit(
+            audit_logs.records.RouteEvaluationLogRecord(
+                flow_id=flow.id,
+                matched=matched,
+                phase=phase,
+                proxy_mode=proxy_mode,
+                route_id=route.id,
+            )
+        )
         if matched:
             return route, filters
 
@@ -59,13 +60,15 @@ def match_filter(
     expr = CompositeExpression.build(fltr.expression_snapshot)
     matched = expr.evaluate(flow)
 
-    audit_logs.emit(audit_logs.records.FilterEvaluationLogRecord(
-        flow_id=flow.id,
-        matched=matched,
-        phase=phase,
-        proxy_mode=proxy_mode,
-        route_id=fltr.route_id,
-        filter_id=fltr.id,
-    ))
+    audit_logs.emit(
+        audit_logs.records.FilterEvaluationLogRecord(
+            flow_id=flow.id,
+            matched=matched,
+            phase=phase,
+            proxy_mode=proxy_mode,
+            route_id=fltr.route_id,
+            filter_id=fltr.id,
+        )
+    )
 
     return matched

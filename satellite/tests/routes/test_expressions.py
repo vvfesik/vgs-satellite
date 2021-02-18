@@ -1,5 +1,4 @@
 from satellite.routes.expressions import CompositeExpression
-
 from ..factories import load_flow
 
 

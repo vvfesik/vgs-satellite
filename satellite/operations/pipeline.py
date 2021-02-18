@@ -25,16 +25,18 @@ class OperationPipeline:
                 operation.evaluate(flow, phase)
                 operation_names.append(operation.operation_name)
 
-        audit_logs.emit(OperationPipelineEvaluationLogRecord(
-            flow_id=flow.id,
-            proxy_mode=get_proxy_context().mode,
-            route_id=self._route_id,
-            filter_id=self._filter_id,
-            phase=phase,
-            execution_time_ms=exc_time_ctx.elapsed_ms,
-            execution_time_ns=exc_time_ctx.elapsed_ns,
-            operations=operation_names,
-        ))
+        audit_logs.emit(
+            OperationPipelineEvaluationLogRecord(
+                flow_id=flow.id,
+                proxy_mode=get_proxy_context().mode,
+                route_id=self._route_id,
+                filter_id=self._filter_id,
+                phase=phase,
+                execution_time_ms=exc_time_ctx.elapsed_ms,
+                execution_time_ns=exc_time_ctx.elapsed_ns,
+                operations=operation_names,
+            )
+        )
 
     @property
     def operations(self):
@@ -45,11 +47,13 @@ def build_pipeline(fltr: RuleEntry) -> OperationPipeline:
     operations = []
     for op_config in fltr.operations_config:
         op_cls = get_operation_class(op_config['name'])
-        operations.append(op_cls(
-            route_id=fltr.route_id,
-            filter_id=fltr.id,
-            **op_config['parameters'],
-        ))
+        operations.append(
+            op_cls(
+                route_id=fltr.route_id,
+                filter_id=fltr.id,
+                **op_config['parameters'],
+            )
+        )
 
     return OperationPipeline(
         route_id=fltr.route_id,

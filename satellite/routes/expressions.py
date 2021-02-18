@@ -14,10 +14,12 @@ class ValueType(Enum):
     NUMBER = 'number'
 
 
-VALUE_TYPES = MappingProxyType({
-    ValueType.STRING: str,
-    ValueType.NUMBER: int,
-})
+VALUE_TYPES = MappingProxyType(
+    {
+        ValueType.STRING: str,
+        ValueType.NUMBER: int,
+    }
+)
 
 
 @unique
@@ -26,10 +28,12 @@ class MatchCondition(Enum):
     OR = 'OR'
 
 
-CONDITIONS = MappingProxyType({
-    MatchCondition.AND: all,
-    MatchCondition.OR: any,
-})
+CONDITIONS = MappingProxyType(
+    {
+        MatchCondition.AND: all,
+        MatchCondition.OR: any,
+    }
+)
 
 
 @unique
@@ -40,20 +44,26 @@ class MatchField(Enum):
     STATUS = 'Status'
 
 
-FIELD_EXTRACTORS = MappingProxyType({
-    MatchField.CONTENT_TYPE: lambda flow: flow.request.headers.get('Content-type'),
-    MatchField.HTTP_METHOD: lambda flow: flow.request.method,
-    MatchField.PATH_INFO: lambda flow: flow.request.path,
-    MatchField.STATUS: lambda flow: flow.response.status if hasattr(flow, 'response') else None,
-})
+FIELD_EXTRACTORS = MappingProxyType(
+    {
+        MatchField.CONTENT_TYPE: lambda flow: flow.request.headers.get('Content-type'),
+        MatchField.HTTP_METHOD: lambda flow: flow.request.method,
+        MatchField.PATH_INFO: lambda flow: flow.request.path,
+        MatchField.STATUS: lambda flow: flow.response.status
+        if hasattr(flow, 'response')
+        else None,
+    }
+)
 
 
-FIELD_TYPES = MappingProxyType({
-    MatchField.CONTENT_TYPE: ValueType.STRING,
-    MatchField.HTTP_METHOD: ValueType.STRING,
-    MatchField.PATH_INFO: ValueType.STRING,
-    MatchField.STATUS: ValueType.NUMBER,
-})
+FIELD_TYPES = MappingProxyType(
+    {
+        MatchField.CONTENT_TYPE: ValueType.STRING,
+        MatchField.HTTP_METHOD: ValueType.STRING,
+        MatchField.PATH_INFO: ValueType.STRING,
+        MatchField.STATUS: ValueType.NUMBER,
+    }
+)
 
 
 class ExpressionError(Exception):

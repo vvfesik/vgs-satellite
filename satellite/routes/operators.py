@@ -59,7 +59,10 @@ class MatchOperator(metaclass=MatchOperatorMeta):
         if not issubclass(value_type, self.supported_value_types):
             raise MatchOperatorError(
                 self.operator_type(),
-                f'Can not build matching operator, unsupported value type: {value_type}'
+                (
+                    'Can not build matching operator, '
+                    f'unsupported value type: {value_type}'
+                ),
             )
         self.value_type = value_type
 
@@ -74,7 +77,10 @@ class MatchOperator(metaclass=MatchOperatorMeta):
         if not isinstance(value, self.value_type):
             raise MatchOperatorError(
                 self.operator_type(),
-                f'Can not evaluate matching operator, unsupported value type: {type(value)}'
+                (
+                    'Can not evaluate matching operator, '
+                    f'unsupported value type: {type(value)}'
+                ),
             )
         return self._call(value)
 

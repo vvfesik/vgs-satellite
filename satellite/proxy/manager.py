@@ -86,11 +86,7 @@ class ProxyManager:
         for mode, proxy in self._proxies.items():
             if proxy.process.is_alive():
                 try:
-                    self._send_proxy_command(
-                        proxy,
-                        commands.StopCommand(),
-                        timeout=5
-                    )
+                    self._send_proxy_command(proxy, commands.StopCommand(), timeout=5)
                 except exceptions.ProxyCommandTimeoutError:
                     logger.error(
                         f'Unable to gracefully stop {mode.value} proxy. '
@@ -144,10 +140,13 @@ class ProxyManager:
 
     def update_flow(self, flow_id: str, flow_data: dict):
         proxy = self._get_proxy_by_flow_id(flow_id)
-        self._send_proxy_command(proxy, commands.UpdateFlowCommand(
-            flow_id=flow_id,
-            flow_data=flow_data,
-        ))
+        self._send_proxy_command(
+            proxy,
+            commands.UpdateFlowCommand(
+                flow_id=flow_id,
+                flow_data=flow_data,
+            ),
+        )
 
     def get_audit_logs(self, flow_id: str) -> List[AuditLogRecord]:
         return self._audit_logs.get(flow_id)

@@ -2,7 +2,6 @@ import logging
 from types import MappingProxyType
 
 from blinker import signal
-
 from mitmproxy.addons import default_addons
 from mitmproxy.addons.view import View
 from mitmproxy.flow import Error
@@ -21,11 +20,13 @@ logger = logging.getLogger()
 
 
 class ProxyEventsAddon:
-    PROXY_LOG_LEVELS = MappingProxyType({
-        'error': logging.ERROR,
-        'info': logging.INFO,
-        'warning': logging.WARNING,
-    })
+    PROXY_LOG_LEVELS = MappingProxyType(
+        {
+            'error': logging.ERROR,
+            'info': logging.INFO,
+            'warning': logging.WARNING,
+        }
+    )
 
     def running(self):
         signal('sat_proxy_started').send(self)

@@ -1,0 +1,3 @@
+[tool.vgs-style]
+exclude = "snap_*,flow_fixtures,versions"
+application_import_names = "satellite"

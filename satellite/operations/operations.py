@@ -5,7 +5,6 @@ from typing import Type
 
 from mitmproxy.http import HTTPFlow
 from mitmproxy.net.http.headers import Headers
-
 from pylarky.eval.http_evaluator import HttpEvaluator
 from pylarky.model.http_message import HttpMessage
 
@@ -60,11 +59,10 @@ class Operation(metaclass=OperationMeta):
         flow_phase_obj = getattr(flow, phase.value.lower())
         input_message = HttpMessage(
             url=flow.request.url,
-            headers=dict([
-                (name, value)
-                for name, value in flow_phase_obj.headers.items()
-            ]),
-            data=flow_phase_obj.content.decode()
+            headers=dict(
+                [(name, value) for name, value in flow_phase_obj.headers.items()]
+            ),
+            data=flow_phase_obj.content.decode(),
         )
 
         error = None
@@ -77,25 +75,29 @@ class Operation(metaclass=OperationMeta):
                 logger.exception(exc)
                 error = str(exc)
 
-        audit_logs.emit(OperationLogRecord(
-            flow_id=flow.id,
-            proxy_mode=get_proxy_context().mode,
-            route_id=self._route_id,
-            filter_id=self._filter_id,
-            phase=phase,
-            operation_name=self.operation_name,
-            execution_time_ms=exc_time_ctx.elapsed_ms,
-            execution_time_ns=exc_time_ctx.elapsed_ns,
-            status=(OperationStatus.ERROR if error else OperationStatus.OK),
-            error_message=error,
-        ))
+        audit_logs.emit(
+            OperationLogRecord(
+                flow_id=flow.id,
+                proxy_mode=get_proxy_context().mode,
+                route_id=self._route_id,
+                filter_id=self._filter_id,
+                phase=phase,
+                operation_name=self.operation_name,
+                execution_time_ms=exc_time_ctx.elapsed_ms,
+                execution_time_ns=exc_time_ctx.elapsed_ns,
+                status=(OperationStatus.ERROR if error else OperationStatus.OK),
+                error_message=error,
+            )
+        )
 
         if output_message:
             if input_message.headers != output_message.headers:
-                flow_phase_obj.headers = Headers([
-                    (name.encode('UTF-8'), value.encode('UTF-8'))
-                    for name, value in output_message.headers.items()
-                ])
+                flow_phase_obj.headers = Headers(
+                    [
+                        (name.encode('UTF-8'), value.encode('UTF-8'))
+                        for name, value in output_message.headers.items()
+                    ]
+                )
             if input_message.data != output_message.data:
                 flow_phase_obj.text = output_message.data
 

@@ -3,23 +3,24 @@ from pathlib import Path
 from types import MappingProxyType
 
 import pytest
-
 from ruamel.yaml import YAML
 
 from satellite.config import InvalidConfigError, configure
 
 
-DEFAULT_CONFIG_VALUES = MappingProxyType({
-    'db_path': str(Path.home() / '.vgs-satellite' / 'db.sqlite'),
-    'debug': False,
-    'forward_proxy_port': 9099,
-    'log_path': None,
-    'reverse_proxy_port': 9098,
-    'routes_path': None,
-    'silent': False,
-    'volatile_aliases_ttl': 3600,
-    'web_server_port': 8089,
-})
+DEFAULT_CONFIG_VALUES = MappingProxyType(
+    {
+        'db_path': str(Path.home() / '.vgs-satellite' / 'db.sqlite'),
+        'debug': False,
+        'forward_proxy_port': 9099,
+        'log_path': None,
+        'reverse_proxy_port': 9098,
+        'routes_path': None,
+        'silent': False,
+        'volatile_aliases_ttl': 3600,
+        'web_server_port': 8089,
+    }
+)
 
 
 def _write_config(config_path: Path, raw_data: str = None, **kwargs):

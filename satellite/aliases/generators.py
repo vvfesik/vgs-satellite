@@ -141,10 +141,7 @@ LUHN_DIGITS = [0, 2, 4, 6, 8, 1, 3, 5, 7, 9]
 
 
 def _mod10(digits: List[int]) -> int:
-    return sum(
-        LUHN_DIGITS[d] if i % 2 else d
-        for i, d in enumerate(digits[::-1])
-    ) % 10
+    return sum(LUHN_DIGITS[d] if i % 2 else d for i, d in enumerate(digits[::-1])) % 10
 
 
 def _random_digits(

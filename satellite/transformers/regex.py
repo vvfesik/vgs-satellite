@@ -30,7 +30,7 @@ class RegexTransformer(Transformer):
         pos = 0
 
         for match in regex.finditer(payload):
-            result.append(payload[pos:match.start()])
+            result.append(payload[pos : match.start()])
             result.append(self._replace(match, replacement, operation))
             pos = match.end()
 

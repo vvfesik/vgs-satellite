@@ -4,7 +4,6 @@ from datetime import datetime
 from sqlalchemy import Column, DateTime, Enum, String
 
 from satellite.aliases import AliasGeneratorType
-
 from .base import Base
 
 

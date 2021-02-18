@@ -12,6 +12,6 @@ COPY requirements-dev.txt .
 RUN pip install -r requirements-dev.txt
 
 COPY satellite satellite
-COPY app.py Makefile .flake8 ./
+COPY app.py Makefile pyproject.toml ./
 
 ENTRYPOINT ["make", "lint", "test"]

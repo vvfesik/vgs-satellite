@@ -53,7 +53,6 @@ class NotFoundHandler(BaseHandler):
 
 
 class WebApplication(Application):
-
     def __init__(self, config: SatelliteConfig = None):
         self.config = config or SatelliteConfig()
         super().__init__(
@@ -75,18 +74,25 @@ class WebApplication(Application):
 
         self.spec = build_openapi_spec(api_handlers)
 
-        self.add_handlers(r'^(localhost|[0-9.]+|\[[0-9a-fA-F:]+\])$', [
-            *api_handlers,
-            (r'/', IndexHandler),
-            (r'/flows.json', flow_handlers.Flows),
-            (r'/spec.json', SpecJSONHandler),
-            (r'/spec.yaml', SpecYAMLHandler),
-            (r'/updates', ClientConnection),
-            (r'/apidocs/?(.*)', StaticFileHandler, {
-                'default_filename': 'index.html',
-                'path': Path(__file__).parent / 'static' / 'swagger',
-            }),
-        ])
+        self.add_handlers(
+            r'^(localhost|[0-9.]+|\[[0-9a-fA-F:]+\])$',
+            [
+                *api_handlers,
+                (r'/', IndexHandler),
+                (r'/flows.json', flow_handlers.Flows),
+                (r'/spec.json', SpecJSONHandler),
+                (r'/spec.yaml', SpecYAMLHandler),
+                (r'/updates', ClientConnection),
+                (
+                    r'/apidocs/?(.*)',
+                    StaticFileHandler,
+                    {
+                        'default_filename': 'index.html',
+                        'path': Path(__file__).parent / 'static' / 'swagger',
+                    },
+                ),
+            ],
+        )
 
         self._should_exit = False
 
@@ -96,7 +102,7 @@ class WebApplication(Application):
             event_handler=partial(
                 self._proxy_event_handler,
                 loop=asyncio.get_event_loop(),
-            )
+            ),
         )
 
     def _proxy_event_handler(self, event, loop):

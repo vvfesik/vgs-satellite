@@ -4,14 +4,15 @@ from pathlib import Path
 from typing import Optional
 
 import marshmallow_dataclass
-
 from ruamel.yaml import YAML
 
 
-SATELLITE_DIR = Path(os.getenv(
-    'SATELLITE_DIR',
-    Path.home() / '.vgs-satellite',
-))
+SATELLITE_DIR = Path(
+    os.getenv(
+        'SATELLITE_DIR',
+        Path.home() / '.vgs-satellite',
+    )
+)
 DEFAULT_CONFIG_PATH = SATELLITE_DIR / 'config.yml'
 DEFAULT_DB_PATH = SATELLITE_DIR / 'db.sqlite'
 

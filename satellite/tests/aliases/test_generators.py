@@ -9,7 +9,7 @@ from satellite.aliases.generators import check_luhn, get_alias_generator
 def test_uuid(monkeypatch):
     monkeypatch.setattr(
         'satellite.aliases.generators.uuid.uuid4',
-        Mock(return_value='b5e183e7-b879-4613-bf04-6edfb427a020')
+        Mock(return_value='b5e183e7-b879-4613-bf04-6edfb427a020'),
     )
     generator = get_alias_generator(AliasGeneratorType.UUID)
     assert generator.generate('4444333322221111') == 'tok_sat_kFcAR1mbg67HwR8PSRytM4'
@@ -18,7 +18,7 @@ def test_uuid(monkeypatch):
 def test_raw_uuid(monkeypatch):
     monkeypatch.setattr(
         'satellite.aliases.generators.uuid.uuid4',
-        Mock(return_value='b5e183e7-b879-4613-bf04-6edfb427a020')
+        Mock(return_value='b5e183e7-b879-4613-bf04-6edfb427a020'),
     )
     generator = get_alias_generator(AliasGeneratorType.RAW_UUID)
     result = generator.generate('4444333322221111')
@@ -38,8 +38,7 @@ def test_fpe_six_t_four_ok():
 @pytest.mark.parametrize('value', ['abc', '4111', '4111111111111112'])
 def test_fpe_six_t_four_invalid(monkeypatch, value: str):
     monkeypatch.setattr(
-        'satellite.aliases.generators.UUID.generate',
-        Mock(return_value='default-alias')
+        'satellite.aliases.generators.UUID.generate', Mock(return_value='default-alias')
     )
     generator = get_alias_generator(AliasGeneratorType.FPE_SIX_T_FOUR)
     result = generator.generate(value)
@@ -59,7 +58,7 @@ def test_fpe_t_four():
 def test_fpe_t_four_invalid(monkeypatch, value: str):
     monkeypatch.setattr(
         'satellite.aliases.generators.RawUUID.generate',
-        Mock(return_value='default-alias')
+        Mock(return_value='default-alias'),
     )
     generator = get_alias_generator(AliasGeneratorType.FPE_T_FOUR)
     result = generator.generate(value)
@@ -81,7 +80,7 @@ def test_pfpt():
 def test_pfpt_invalid(monkeypatch, value: str):
     monkeypatch.setattr(
         'satellite.aliases.generators.RawUUID.generate',
-        Mock(return_value='default-alias')
+        Mock(return_value='default-alias'),
     )
     generator = get_alias_generator(AliasGeneratorType.PFPT)
     result = generator.generate(value)
@@ -102,7 +101,7 @@ def test_non_luhn_fpe_alphanumeric():
 def test_non_luhn_fpe_alphanumeric_invalid(monkeypatch, value: str):
     monkeypatch.setattr(
         'satellite.aliases.generators.RawUUID.generate',
-        Mock(return_value='default-alias')
+        Mock(return_value='default-alias'),
     )
     generator = get_alias_generator(AliasGeneratorType.NON_LUHN_FPE_ALPHANUMERIC)
     result = generator.generate(value)
@@ -122,7 +121,7 @@ def test_num_length_preserving_ok():
 def test_num_length_preserving_invalid(monkeypatch, value: str):
     monkeypatch.setattr(
         'satellite.aliases.generators.RawUUID.generate',
-        Mock(return_value='default-alias')
+        Mock(return_value='default-alias'),
     )
     generator = get_alias_generator(AliasGeneratorType.NUM_LENGTH_PRESERVING)
     result = generator.generate(value)

@@ -6,7 +6,6 @@ from satellite.audit_logs import records
 from satellite.ctx import ProxyContext
 from satellite.proxy import ProxyMode
 from satellite.vault.vault_handler import VaultFlows
-
 from ..factories import RouteFactory, RuleEntryFactory, load_flow
 
 
@@ -22,10 +21,12 @@ def test_request_redact(monkeypatch):
 
     monkeypatch.setattr(
         'satellite.vault.vault_handler.ctx.get_proxy_context',
-        Mock(return_value=ProxyContext(
-            mode=ProxyMode.FORWARD,
-            port=9099,
-        )),
+        Mock(
+            return_value=ProxyContext(
+                mode=ProxyMode.FORWARD,
+                port=9099,
+            )
+        ),
     )
     monkeypatch.setattr(
         'satellite.vault.vault_handler.match_route',
@@ -58,7 +59,7 @@ def test_request_redact(monkeypatch):
     assert flow.transformed
     assert flow.request.match_details == {
         'route_id': route.id,
-        'filters': [{'id': rule_entry.id, 'operation_applied': True}]
+        'filters': [{'id': rule_entry.id, 'operation_applied': True}],
     }
 
 
@@ -69,10 +70,12 @@ def test_response_redact(monkeypatch):
 
     monkeypatch.setattr(
         'satellite.vault.vault_handler.ctx.get_proxy_context',
-        Mock(return_value=ProxyContext(
-            mode=ProxyMode.FORWARD,
-            port=9099,
-        )),
+        Mock(
+            return_value=ProxyContext(
+                mode=ProxyMode.FORWARD,
+                port=9099,
+            )
+        ),
     )
     monkeypatch.setattr(
         'satellite.vault.vault_handler.match_route',
@@ -95,31 +98,39 @@ def test_response_redact(monkeypatch):
 
     VaultFlows().response(flow)
 
-    emit_audit_log_record.assert_has_calls([
-        call(records.VaultTrafficLogRecord(
-            flow_id=flow.id,
-            proxy_mode=ProxyMode.FORWARD,
-            bytes=3,
-            label=records.TrafficLabel.TO_SERVER,
-        )),
-        call(records.VaultTrafficLogRecord(
-            flow_id=flow.id,
-            proxy_mode=ProxyMode.FORWARD,
-            bytes=6,
-            label=records.TrafficLabel.FROM_SERVER,
-        )),
-        call(records.UpstreamResponseLogRecord(
-            flow_id=flow.id,
-            proxy_mode=ProxyMode.FORWARD,
-            upstream='httpbin.org',
-            status_code=200,
-        )),
-    ])
+    emit_audit_log_record.assert_has_calls(
+        [
+            call(
+                records.VaultTrafficLogRecord(
+                    flow_id=flow.id,
+                    proxy_mode=ProxyMode.FORWARD,
+                    bytes=3,
+                    label=records.TrafficLabel.TO_SERVER,
+                )
+            ),
+            call(
+                records.VaultTrafficLogRecord(
+                    flow_id=flow.id,
+                    proxy_mode=ProxyMode.FORWARD,
+                    bytes=6,
+                    label=records.TrafficLabel.FROM_SERVER,
+                )
+            ),
+            call(
+                records.UpstreamResponseLogRecord(
+                    flow_id=flow.id,
+                    proxy_mode=ProxyMode.FORWARD,
+                    upstream='httpbin.org',
+                    status_code=200,
+                )
+            ),
+        ]
+    )
     assert hasattr(flow, 'response_raw')
     assert flow.transformed
     assert flow.response.match_details == {
         'route_id': route.id,
-        'filters': [{'id': rule_entry.id, 'operation_applied': True}]
+        'filters': [{'id': rule_entry.id, 'operation_applied': True}],
     }
 
 
@@ -130,10 +141,12 @@ def test_operations(monkeypatch):
 
     monkeypatch.setattr(
         'satellite.vault.vault_handler.ctx.get_proxy_context',
-        Mock(return_value=ProxyContext(
-            mode=ProxyMode.FORWARD,
-            port=9099,
-        )),
+        Mock(
+            return_value=ProxyContext(
+                mode=ProxyMode.FORWARD,
+                port=9099,
+            )
+        ),
     )
     monkeypatch.setattr(
         'satellite.vault.vault_handler.match_route',
@@ -158,5 +171,5 @@ def test_operations(monkeypatch):
     assert flow.transformed
     assert flow.request.match_details == {
         'route_id': route.id,
-        'filters': [{'id': rule_entry.id, 'operation_applied': True}]
+        'filters': [{'id': rule_entry.id, 'operation_applied': True}],
     }

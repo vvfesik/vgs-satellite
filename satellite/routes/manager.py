@@ -27,10 +27,7 @@ def get_all() -> List[Route]:
 
 
 def get_all_by_type(is_outbound: bool) -> List[Route]:
-    return [
-        route for route in get_all()
-        if route.is_outbound() is is_outbound
-    ]
+    return [route for route in get_all() if route.is_outbound() is is_outbound]
 
 
 def get(route_id: str) -> Route:
@@ -38,13 +35,15 @@ def get(route_id: str) -> Route:
 
 
 def create(route_data: dict, store: bool = True) -> Route:
-    route = Route(**{
-        **route_data,
-        'rule_entries_list': [
-            RuleEntry(**rule_entry)
-            for rule_entry in route_data.get('rule_entries_list', [])
-        ]
-    })
+    route = Route(
+        **{
+            **route_data,
+            'rule_entries_list': [
+                RuleEntry(**rule_entry)
+                for rule_entry in route_data.get('rule_entries_list', [])
+            ],
+        }
+    )
 
     check_route(route)
 

@@ -6,7 +6,6 @@ from freezegun import freeze_time
 from satellite.aliases import AliasGeneratorType, AliasStoreType
 from satellite.aliases.manager import redact
 from satellite.aliases.store import AliasStore
-
 from .base import BaseHandlerTestCase
 
 
@@ -15,10 +14,12 @@ class TestAliasesHandler(BaseHandlerTestCase):
     def test_post_ok(self):
         uuid_patch = patch(
             'satellite.aliases.manager.uuid.uuid4',
-            Mock(side_effect=[
-                'c20b81b0-d90d-42d1-bf6d-eea5e6981196',
-                '884a0c8e-de04-46de-945a-c77c3acf783e',
-            ])
+            Mock(
+                side_effect=[
+                    'c20b81b0-d90d-42d1-bf6d-eea5e6981196',
+                    '884a0c8e-de04-46de-945a-c77c3acf783e',
+                ]
+            ),
         )
         uuid_patch.start()
         self.addCleanup(uuid_patch.stop)
@@ -26,12 +27,14 @@ class TestAliasesHandler(BaseHandlerTestCase):
         response = self.fetch(
             self.get_url('/aliases'),
             method='POST',
-            body=json.dumps({
-                'data': [
-                    {'value': 123321, 'format': 'UUID'},
-                    {'value': 'abccba', 'format': 'UUID'},
-                ]
-            }),
+            body=json.dumps(
+                {
+                    'data': [
+                        {'value': 123321, 'format': 'UUID'},
+                        {'value': 'abccba', 'format': 'UUID'},
+                    ]
+                }
+            ),
             headers={'Content-Type': 'application/json'},
         )
 
@@ -81,9 +84,11 @@ class TestAliasesHandler(BaseHandlerTestCase):
             store_type=AliasStoreType.PERSISTENT,
         )
 
-        response = self.fetch(self.get_url(
-            f'/aliases?q={alias.public_alias},tok_tas_kgq94RpcPrAMSHJWh7o7P6',
-        ))
+        response = self.fetch(
+            self.get_url(
+                f'/aliases?q={alias.public_alias},tok_tas_kgq94RpcPrAMSHJWh7o7P6',
+            )
+        )
 
         self.assertEqual(response.code, 200, response.body)
         self.assertMatchSnapshot(json.loads(response.body))
@@ -115,9 +120,11 @@ class TestAliasHandler(BaseHandlerTestCase):
         self.assertMatchSnapshot(json.loads(response.body))
 
     def test_get_unknown_alias(self):
-        response = self.fetch(self.get_url(
-            '/aliases/tok_tas_kgq94RpcPrAMSHJWh7o7P6',
-        ))
+        response = self.fetch(
+            self.get_url(
+                '/aliases/tok_tas_kgq94RpcPrAMSHJWh7o7P6',
+            )
+        )
 
         self.assertEqual(response.code, 404, response.body)
         self.assertMatchSnapshot(json.loads(response.body))

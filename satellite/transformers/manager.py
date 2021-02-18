@@ -10,7 +10,7 @@ from .regex import RegexTransformer
 from .xml import XMLTransformer
 from .. import ctx
 from ..aliases import AliasGeneratorType, AliasStoreType, RevealFailed
-from ..aliases.manager import redact,  reveal
+from ..aliases.manager import redact, reveal
 from ..db.models.route import RuleEntry
 from ..routes import Operation, Phase
 
@@ -45,11 +45,7 @@ def transform(flow: HTTPFlow, phase: Phase, rule_entry: RuleEntry) -> bool:
     phase_obj = getattr(flow, phase.value.lower())
     content = phase_obj.content.decode()
 
-    operation = (
-        _redact
-        if rule_entry.operation == Operation.REDACT
-        else _reveal
-    )
+    operation = _redact if rule_entry.operation == Operation.REDACT else _reveal
 
     flow_ctx = ctx.use_context(ctx.FlowContext(flow=flow, phase=phase))
     route_ctx = ctx.use_context(ctx.RouteContext(route=rule_entry.rule_chain))

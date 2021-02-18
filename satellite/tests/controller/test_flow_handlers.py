@@ -5,7 +5,6 @@ from unittest.mock import Mock
 from mitmproxy.flow import Error
 
 from satellite.proxy import exceptions
-
 from .base import BaseHandlerTestCase
 from ..factories import load_flow
 
@@ -38,14 +37,19 @@ class TestFlowHandler(BaseHandlerTestCase):
 
         self.assertEqual(response.code, 200)
         response_data = json.loads(response.body)
-        self.assertEqual(response_data['error'], {
-            'msg': flow.error.msg,
-            'timestamp': flow.error.timestamp,
-        })
+        self.assertEqual(
+            response_data['error'],
+            {
+                'msg': flow.error.msg,
+                'timestamp': flow.error.timestamp,
+            },
+        )
 
     def test_get_absent_flow(self):
         flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
-        self.proxy_manager.get_flow.side_effect = exceptions.UnexistentFlowError(flow_id)
+        self.proxy_manager.get_flow.side_effect = exceptions.UnexistentFlowError(
+            flow_id
+        )
         response = self.fetch(self.get_url(f'/flows/{flow_id}'))
         self.assertEqual(response.code, 404)
         self.proxy_manager.get_flow.assert_called_once_with(flow_id)
@@ -62,7 +66,9 @@ class TestFlowHandler(BaseHandlerTestCase):
 
     def test_delete_absent_flow(self):
         flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
-        self.proxy_manager.remove_flow.side_effect = exceptions.UnexistentFlowError(flow_id)
+        self.proxy_manager.remove_flow.side_effect = exceptions.UnexistentFlowError(
+            flow_id
+        )
         response = self.fetch(
             self.get_url(f'/flows/{flow_id}'),
             method='DELETE',
@@ -86,7 +92,9 @@ class TestFlowHandler(BaseHandlerTestCase):
     def test_update_absent_flow(self):
         flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
         flow_data = {'request': {'content': 'new content'}}
-        self.proxy_manager.update_flow.side_effect = exceptions.UnexistentFlowError(flow_id)
+        self.proxy_manager.update_flow.side_effect = exceptions.UnexistentFlowError(
+            flow_id
+        )
         response = self.fetch(
             self.get_url(f'/flows/{flow_id}'),
             method='PUT',
@@ -127,7 +135,9 @@ class TestDuplicateFlowHandler(BaseHandlerTestCase):
 
     def test_absent_error(self):
         flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
-        self.proxy_manager.duplicate_flow.side_effect = exceptions.UnexistentFlowError(flow_id)
+        self.proxy_manager.duplicate_flow.side_effect = exceptions.UnexistentFlowError(
+            flow_id
+        )
         response = self.fetch(
             self.get_url(f'/flows/{flow_id}/duplicate'),
             method='POST',
@@ -150,7 +160,9 @@ class TestReplayFlowHandler(BaseHandlerTestCase):
 
     def test_absent_error(self):
         flow_id = '23f11ab7-e071-4997-97f3-ace07bb9e56d'
-        self.proxy_manager.replay_flow.side_effect = exceptions.UnexistentFlowError(flow_id)
+        self.proxy_manager.replay_flow.side_effect = exceptions.UnexistentFlowError(
+            flow_id
+        )
         response = self.fetch(
             self.get_url(f'/flows/{flow_id}/replay'),
             method='POST',

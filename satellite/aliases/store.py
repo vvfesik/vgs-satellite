@@ -5,7 +5,6 @@ from sqlalchemy.orm.query import Query
 
 from satellite.db import get_session
 from satellite.db.models import Alias
-
 from . import AliasGeneratorType
 
 
@@ -18,9 +17,7 @@ class AliasStore:
         return self._ttl is None
 
     def get_by_value(
-        self,
-        value: str,
-        generator_type: AliasGeneratorType = None
+        self, value: str, generator_type: AliasGeneratorType = None
     ) -> List[Alias]:
         query = self._query().filter(Alias.value == value)
         if generator_type is not None:
@@ -46,8 +43,8 @@ class AliasStore:
     @staticmethod
     def cleanup() -> int:
         session = get_session()
-        result = session.query(Alias).filter(
-            Alias.expires_at < datetime.utcnow()
-        ).delete()
+        result = (
+            session.query(Alias).filter(Alias.expires_at < datetime.utcnow()).delete()
+        )
         session.commit()
         return result

@@ -9,7 +9,7 @@ DOCKER_REPO = satellite
 DOCKER_IMAGE_NAME = ${DOCKER_ORG}/${DOCKER_REPO}
 
 lint:
-	flake8 satellite app.py
+	vgs-style lint satellite app.py
 
 test:
 	coverage run -m pytest satellite/tests -m "not dist"

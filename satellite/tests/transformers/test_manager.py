@@ -4,7 +4,6 @@ import pytest
 
 from satellite.routes import Phase
 from satellite.transformers.manager import transform
-
 from ..factories import RuleEntryFactory, load_flow
 
 

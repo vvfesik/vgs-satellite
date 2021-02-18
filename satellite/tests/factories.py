@@ -5,7 +5,6 @@ from uuid import uuid4
 
 from factory import LazyFunction
 from factory.alchemy import SQLAlchemyModelFactory
-
 from mitmproxy.http import HTTPFlow
 
 from satellite.aliases import AliasGeneratorType, AliasStoreType
@@ -54,29 +53,31 @@ class RuleEntryFactory(SQLAlchemyModelFactory):
     transformer_config = ['$.foo']
     targets = ['body']
     classifiers = {}
-    expression_snapshot = LazyFunction(lambda: {
-        'expression': None,
-        'condition': 'AND',
-        'rules': [
-            {
-                'condition': None,
-                'rules': None,
-                'expression': {
-                    'field': 'PathInfo',
-                    'type': 'string',
-                    'operator': 'equals',
-                    'values': ['/post'],
+    expression_snapshot = LazyFunction(
+        lambda: {
+            'expression': None,
+            'condition': 'AND',
+            'rules': [
+                {
+                    'condition': None,
+                    'rules': None,
+                    'expression': {
+                        'field': 'PathInfo',
+                        'type': 'string',
+                        'operator': 'equals',
+                        'values': ['/post'],
+                    },
                 },
-            },
-            {
-                'condition': None,
-                'rules': None,
-                'expression': {
-                    'field': 'ContentType',
-                    'type': 'string',
-                    'operator': 'equals',
-                    'values': ['application/json'],
+                {
+                    'condition': None,
+                    'rules': None,
+                    'expression': {
+                        'field': 'ContentType',
+                        'type': 'string',
+                        'operator': 'equals',
+                        'values': ['application/json'],
+                    },
                 },
-            },
-        ],
-    })
+            ],
+        }
+    )

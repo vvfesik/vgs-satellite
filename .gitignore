@@ -43,3 +43,7 @@ route.sqlite-journal
 vgs-satellite-backend.spec
 
 .env*
+
+# Linters
+.flake8
+black.toml

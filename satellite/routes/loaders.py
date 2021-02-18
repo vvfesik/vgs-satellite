@@ -1,13 +1,10 @@
 from typing import TextIO
 
 from marshmallow import Schema, fields, validate
-
 from ruamel.yaml import YAML
-
 from sqlalchemy.exc import DatabaseError
 
 from satellite.schemas.route import CreateRouteSchema
-
 from . import manager as route_manager
 
 

@@ -6,13 +6,9 @@ from apispec.ext.marshmallow import (
     OpenAPIConverter,
 )
 from apispec.ext.marshmallow.common import resolve_schema_instance
-
 from apispec_webframeworks.tornado import TornadoPlugin
-
 from marshmallow.fields import Field
-
 from marshmallow_enum import EnumField
-
 from marshmallow_oneofschema import OneOfSchema
 
 

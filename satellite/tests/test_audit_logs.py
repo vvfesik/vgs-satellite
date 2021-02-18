@@ -16,8 +16,7 @@ class AuditLogTestRecord(AuditLogRecord):
 
 def test_record(monkeypatch):
     monkeypatch.setattr(
-        'satellite.audit_logs.records.time.time',
-        Mock(return_value=123)
+        'satellite.audit_logs.records.time.time', Mock(return_value=123)
     )
 
     record = AuditLogTestRecord(
