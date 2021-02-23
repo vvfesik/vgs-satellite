@@ -74,6 +74,7 @@ const FlowButtons: React.FC<IFlowButtonsProps> = (props) => {
           className='d-flex position-absolute right-0'
           onClick={() => onRuleCreate()}
           disabled={isEditMode}
+          data-role="secure-payload-btn"
         >
           <span>Secure this payload</span>
         </Button>

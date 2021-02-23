@@ -14,13 +14,20 @@ export const VaultNav: React.FC<IVaultNavProps> = (props) => {
           className="menu-item"
           to="/"
         >
-          Logs
+          Home
         </NavLink>
         <NavLink
           className="menu-item"
           to="/routes"
         >
           Routes
+        </NavLink>
+        <NavLink
+          exact
+          className="menu-item"
+          to="/logs"
+        >
+          Logs
         </NavLink>
       </ul>
     </div>

@@ -3,11 +3,14 @@ import {
   createRoute,
   deleteRouteById,
   updateRouteById,
+  createRemoteRouteByVault,
 } from 'src/redux/apis/routes';
 import { set } from 'lodash';
 import { notify } from 'src/redux/utils/notifications';
 import { getRouteTemplate } from 'src/data/routes';
 import { IRoutesState, IRoute } from 'src/redux/interfaces/routes';
+import { IVaultEssentials } from 'src/redux/interfaces/vault';
+import history from 'src/redux/utils/history';
 
 const SET_LOADING = 'SET_LOADING';
 const GET_ROUTES_LIST = 'GET_ROUTES_LIST';
@@ -169,6 +172,25 @@ export function updateCurrentRoute(route: IRoute | null) {
       type: UPDATE_CURRENT_ROUTE,
       data: route,
     });
+  };
+}
+
+export function createRemoteRoute(vault: IVaultEssentials, route: IRoute) {
+  return async (dispatch: any) => {
+    dispatch({
+      type: SET_LOADING,
+      data: true,
+    });
+    try {
+      await createRemoteRouteByVault(vault, route);
+      notify.success('Route promoted successfully');
+      history.push('/routes');
+    } finally {
+      dispatch({
+        type: SET_LOADING,
+        data: false,
+      });
+    }
   };
 }
 

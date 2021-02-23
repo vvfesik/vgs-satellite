@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import history from 'src/redux/utils/history';
 import ImportFromYamlContainer from 'src/components/organisms/ImportFromYaml/ImportFromYamlContainer';
 import { Dropdown, Button, Icon, Menu, Radio } from 'src/components/antd';
 
@@ -13,7 +14,7 @@ const RoutesPageHeader: React.FC<IRoutesPageHeaderProps> = (props) => {
   const { hasRoutes, activeTab, setActiveTab } = props;
 
   return (
-    <div className='row justify-content-center mx-3'>
+    <div className='row justify-content-center mx-0'>
       {hasRoutes ? (
         <div
           className='col d-flex justify-content-center align-self-center'
@@ -29,8 +30,29 @@ const RoutesPageHeader: React.FC<IRoutesPageHeaderProps> = (props) => {
           </Radio.Group>
         </div>
       ) : (
-        <div className='col d-flex justify-content-center align-self-center text-muted'>
-          There are currently no routes.
+        <div className='col text-muted text-center' data-role="no-routes">
+          <p className="text-lg mb-2">😳</p>
+          <p className="mb-2">
+            There are currently no routes
+            <br />
+            Create an
+            <Button
+              type='link'
+              className='my-0 mx-2 p-0'
+              onClick={() => history.push(`/routes/new/inbound`)}
+            >
+              Inbound
+            </Button>
+            or
+            <Button
+              type='link'
+              className='my-0 mx-2 p-0'
+              onClick={() => history.push(`/routes/new/outbound`)}
+            >
+              Outbound
+            </Button>
+            route
+          </p>
         </div>
       )}
       <div className='d-flex justify-content-end'>

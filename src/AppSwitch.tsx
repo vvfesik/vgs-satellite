@@ -1,10 +1,12 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { RouteComponentProps, withRouter } from 'react-router';
+import Home from 'src/components/vault/Home/Home';
 import PreCollectContainer from 'src/components/vault/PreCollect/PreCollectContainer';
 import RoutesListContainer from 'src/components/vault/RoutesList/RoutesListContainer';
 import RouteContainer from 'src/components/vault/Route/RouteContainer';
 import NewRouteContainer from 'src/components/vault/Route/NewRouteContainer';
+import PromoteRouteContainer from 'src/components/vault/PromoteRoute/PromoteRouteContainer';
 
 interface IAppSwitchProps {
 }
@@ -14,7 +16,8 @@ const AppSwitch: React.FC<IAppSwitchProps> = (props) => {
     <>
       <ScrollToTop />
       <Switch>
-        <Route exact path="/" component={PreCollectContainer}/>
+        <Route exact path="/" component={Home}/>
+        <Route exact path="/logs" component={PreCollectContainer}/>
         <Route exact path="/routes" component={RoutesListContainer}/>
         <Route
           exact
@@ -31,7 +34,12 @@ const AppSwitch: React.FC<IAppSwitchProps> = (props) => {
           path="/routes/new/outbound"
           render={() => <NewRouteContainer routeType="outbound" />}
         />
-        <Route component={PreCollectContainer}/>
+        <Route
+          exact
+          path="/routes/:routeId/promote"
+          render={(p) => <PromoteRouteContainer routeId={p.match.params.routeId} />}
+        />
+        <Route component={Home}/>
       </Switch>
     </>
   );

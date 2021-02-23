@@ -58,3 +58,19 @@
     }
   }
 }
+
+pre.copy-sm > button {
+  border-radius: 0 0 0 8px;
+  margin-top: 0 !important;
+  padding: 6px 9px;
+  left: calc(100% - 30px);
+  background: inherit;
+  opacity: 0.7;
+  transition: all .3s ease;
+  transform: translateX(0);
+  &:hover {
+    opacity: 1;
+    transform: translateX(-40px);
+    background: #f1f1f1;
+  }
+}

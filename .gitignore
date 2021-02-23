@@ -21,6 +21,7 @@ Thumbs.db
 **/cypress/**/examples/
 **/cypress/videos/
 **/cypress/screenshots/
+**/cypress/downloads/
 .coverage
 htmlcov/
 

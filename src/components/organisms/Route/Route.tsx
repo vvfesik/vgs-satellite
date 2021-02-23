@@ -16,6 +16,7 @@ import RouteNavigationModal from 'src/components/organisms/RouteNavigationModal/
 import { cloneDeep, uniqueId } from 'lodash';
 import { pushEvent } from 'src/redux/utils/analytics';
 import { IRoute, IEntry } from 'src/redux/interfaces/routes';
+import history from 'src/redux/utils/history';
 
 export interface IInboundRouteProps {
   route: IRoute;
@@ -166,16 +167,34 @@ export const Route: React.FC<IInboundRouteProps> = (props) => {
     );
   };
 
+  const promoteRoute = () => {
+    history.push(`/routes/${route.id}/promote`);
+    pushEvent('route_promote', {
+      route_type: isInbound(route) ? 'inbound' : 'outbound',
+    });
+  };
+
   return (
     <>
-      <div>
-        {isEdit &&
-          <Yaml route={route} />
-        }
+      <div className="d-flex justify-content-between">
         <h2>
           {isRouteInbound ? 'Inbound' : 'Outbound'} Route
           <p className="small text-muted">{route.id}</p>
         </h2>
+        {isEdit &&
+          <div className="d-flex mb-auto">
+            <Button
+              size="small"
+              type="primary"
+              onClick={promoteRoute}
+              className="mr-3"
+            >
+              <Icon type="notification" />
+              Promote to Dashboard
+            </Button>
+            <Yaml route={route} />
+          </div>
+        }
       </div>
 
       <RouteNavigationModal

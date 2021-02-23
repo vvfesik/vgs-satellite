@@ -5,7 +5,6 @@ import { Button, Icon, Popover } from 'src/components/antd';
 import { getRouteProtocol, isInbound } from 'src/redux/utils/routes';
 import { pushEvent } from 'src/redux/utils/analytics';
 import history from 'src/redux/utils/history';
-import Yaml from 'src/components/molecules/Yaml/Yaml';
 
 export interface IRouteTitleProps {
   route: IRoute;
@@ -22,6 +21,13 @@ export const RouteTitle = (props: IRouteTitleProps) => {
   const editRoute = () => {
     history.push(`/routes/${route.id}/edit`);
     pushEvent('route_manage', {
+      route_type: isInbound(route) ? 'inbound' : 'outbound',
+    });
+  };
+
+  const promoteRoute = () => {
+    history.push(`/routes/${route.id}/promote`);
+    pushEvent('route_promote', {
       route_type: isInbound(route) ? 'inbound' : 'outbound',
     });
   };
@@ -69,7 +75,14 @@ export const RouteTitle = (props: IRouteTitleProps) => {
           <Icon type="delete" />
           <span className="ml-2">Delete route</span>
         </Button>
-        <Yaml route={route} />
+        <Button
+          size="small"
+          color="secondary"
+          onClick={promoteRoute}
+        >
+          <Icon type="notification" />
+          Promote to Dashboard
+        </Button>
         <Button
           type="primary"
           size="small"

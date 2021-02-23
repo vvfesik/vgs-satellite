@@ -7,6 +7,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
   </nav>
   <div class="text-center mt-3 mb-2 position-relative">
     <button
+      data-role="secure-payload-btn"
       type="button"
       class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
     >
@@ -70,6 +71,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
   </nav>
   <div class="text-center mt-3 mb-2 position-relative">
     <button
+      data-role="secure-payload-btn"
       type="button"
       class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
     >
@@ -177,6 +179,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
   </nav>
   <div class="text-center mt-3 mb-2 position-relative">
     <button
+      data-role="secure-payload-btn"
       type="button"
       class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
     >
@@ -247,6 +250,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
   </nav>
   <div class="text-center mt-3 mb-2 position-relative">
     <button
+      data-role="secure-payload-btn"
       type="button"
       class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
     >
@@ -308,6 +312,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
   </nav>
   <div class="text-center mt-3 mb-2 position-relative">
     <button
+      data-role="secure-payload-btn"
       type="button"
       class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
     >
@@ -419,6 +424,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
   </nav>
   <div class="text-center mt-3 mb-2 position-relative">
     <button
+      data-role="secure-payload-btn"
       type="button"
       class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
     >
@@ -489,6 +495,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
   </nav>
   <div class="text-center mt-3 mb-2 position-relative">
     <button
+      data-role="secure-payload-btn"
       type="button"
       class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
     >
@@ -552,6 +559,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
   </nav>
   <div class="text-center mt-3 mb-2 position-relative">
     <button
+      data-role="secure-payload-btn"
       type="button"
       class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
     >
@@ -659,6 +667,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
   </nav>
   <div class="text-center mt-3 mb-2 position-relative">
     <button
+      data-role="secure-payload-btn"
       type="button"
       class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
     >
@@ -945,6 +954,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
   </nav>
   <div class="text-center mt-3 mb-2 position-relative">
     <button
+      data-role="secure-payload-btn"
       type="button"
       class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
     >
@@ -1006,6 +1016,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
   </nav>
   <div class="text-center mt-3 mb-2 position-relative">
     <button
+      data-role="secure-payload-btn"
       type="button"
       class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
     >
@@ -1072,6 +1083,7 @@ exports[`Localhoste upload har and clickthru > Visits Localhoste, uploads har an
   </nav>
   <div class="text-center mt-3 mb-2 position-relative">
     <button
+      data-role="secure-payload-btn"
       type="button"
       class="ant-btn d-flex position-absolute right-0 ant-btn-primary ant-btn-sm"
     >

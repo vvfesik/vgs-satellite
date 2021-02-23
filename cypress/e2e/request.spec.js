@@ -1,18 +1,18 @@
 describe('Localhoste request actions flow', function() {
   beforeEach(() => {
-    cy.server();
-    cy.route('GET', 'flows.json').as('getFlows');
-    cy.route('DELETE', 'flows/**').as('deleteFlow');
-    cy.route('POST', 'flows/**').as('postFlow');
-    cy.route('PUT', 'flows/**').as('putFlow');
+    cy.intercept('GET', 'flows.json').as('getFlows');
+    cy.intercept('DELETE', 'flows/**').as('deleteFlow');
+    cy.intercept('POST', 'flows/**').as('postFlow');
+    cy.intercept('PUT', 'flows/**').as('putFlow');
     cy.cleanupFlows();
     cy.fixCypressSpec(__filename);
   });
 
   it('Send, duplicate, replay, edit, delete request', function() {
     cy.visit('/');
+    cy.get('.menu-item').contains('Logs').click();
     cy.wait(['@getFlows']);
-    cy.get('[data-role="demo-curl"]').toMatchSnapshot();
+    cy.get('[data-role="no-logs"]').toMatchSnapshot();
 
     cy.task('viaProxy', {
       method: 'POST',
@@ -50,6 +50,6 @@ describe('Localhoste request actions flow', function() {
     cy.get('button').contains('Delete').click({ force: true });
 
     cy.wait(['@deleteFlow', '@getFlows']);
-    cy.get('[data-role="demo-curl"]');
+    cy.get('[data-role="no-logs"]');
   });
 });

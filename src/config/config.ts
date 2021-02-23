@@ -13,6 +13,7 @@ function getConfig(environment = 'dev') {
     echoServerURL: 'https://echo.apps.verygood.systems',
     echoServerHostname: 'echo.apps.verygood.systems',
     echoServerRegex: 'echo\.apps\.verygood\.systems', // eslint-disable-line
+    dashboardApiHost: 'https://accounts.apps.verygoodsecurity.com',
     dashboardLink: 'https://dashboard.verygoodsecurity.com',
     docsLink: 'https://www.verygoodsecurity.com/docs/overview',
     docsGuidesLink: 'https://www.verygoodsecurity.com/docs/guides/index',
@@ -21,6 +22,12 @@ function getConfig(environment = 'dev') {
     docsVGSCLILink: 'https://www.verygoodsecurity.com/docs/cli/index',
     docsTermRouteLink: 'https://www.verygoodsecurity.com/docs/terminology/nomenclature#route',
     docsMultipleInbounds: 'https://www.verygoodsecurity.com/docs/guides/managing-your-routes#how-to-configure-multiple-inbound-routes-using-cname',
+    keycloakConfig: {
+      redirectUri: window.location.origin,
+      realm: 'vgs',
+      clientId: 'satellite',
+      url: 'https://auth.verygoodsecurity.com/auth',
+    },
   };
   return ENV;
 };

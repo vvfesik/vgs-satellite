@@ -2,17 +2,17 @@ describe('Localhoste redact-reveal flow', function() {
   let alias;
 
   beforeEach(() => {
-    cy.server();
-    cy.route('GET', 'route').as('getRoutes');
-    cy.route('GET', 'flows.json').as('getFlows');
-    cy.route('PUT', 'route/**').as('putRoute');
+    cy.intercept('GET', 'route').as('getRoutes');
+    cy.intercept('GET', 'flows.json').as('getFlows');
+    cy.intercept('PUT', 'route/**').as('putRoute');
     cy.cleanupRoutes();
     cy.cleanupFlows();
     cy.fixCypressSpec(__filename);
   });
 
   it('Imports redact route yaml and redacts sent request', function() {
-    cy.visit('/routes');
+    cy.visit('/');
+    cy.get('.menu-item').contains('Routes').click();
     cy.wait(['@getRoutes']);
 
     // import route
@@ -29,7 +29,7 @@ describe('Localhoste redact-reveal flow', function() {
       .click();
 
     cy.wait(['@getRoutes', '@getFlows']);
-    cy.get('[data-role="demo-curl"]').toMatchSnapshot();
+    cy.get('[data-role="no-logs"]').toMatchSnapshot();
 
     cy.task('viaProxy', {
       method: 'POST',
@@ -63,7 +63,8 @@ describe('Localhoste redact-reveal flow', function() {
   });
 
   it('Imports reveal route yaml and reveals sent request', function() {
-    cy.visit('/routes');
+    cy.visit('/');
+    cy.get('.menu-item').contains('Routes').click();
     cy.wait(['@getRoutes']);
 
     // import route
@@ -80,7 +81,7 @@ describe('Localhoste redact-reveal flow', function() {
       .click();
 
     cy.wait(['@getRoutes', '@getFlows']);
-    cy.get('[data-role="demo-curl"]').toMatchSnapshot();
+    cy.get('[data-role="no-logs"]').toMatchSnapshot();
 
     cy.task('viaProxy', {
       method: 'POST',

@@ -1,16 +1,16 @@
 describe('Localhoste route flow', function() {
 
   beforeEach(() => {
-    cy.server();
-    cy.route('GET', 'route').as('getRoutes');
-    cy.route('PUT', 'route/**').as('putRoute');
-    cy.route('DELETE', 'route/**').as('deleteRoute');
+    cy.intercept('GET', 'route').as('getRoutes');
+    cy.intercept('PUT', 'route/**').as('putRoute');
+    cy.intercept('DELETE', 'route/**').as('deleteRoute');
     cy.cleanupRoutes();
     cy.fixCypressSpec(__filename);
   });
 
   it('Visits Localhoste, imports route, then updates and deletes it', function() {
-    cy.visit('/routes');
+    cy.visit('/');
+    cy.get('.menu-item').contains('Routes').click();
     cy.wait('@getRoutes');
     
     cy.get('[data-role="routes-container"]').contains('There are currently no routes');
@@ -61,7 +61,8 @@ describe('Localhoste route flow', function() {
   });
 
   it('Checks route diff', function() {
-    cy.visit('/routes');
+    cy.visit('/');
+    cy.get('.menu-item').contains('Routes').click();
     cy.wait('@getRoutes');
 
     cy.get('[data-role="add-on-all-routes"]').contains('Add Route').click({ force: true });

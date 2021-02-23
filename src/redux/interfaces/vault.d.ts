@@ -39,5 +39,14 @@ export interface IVault {
   relationships: IVaultRelationships;
 }
 
+export interface IVaultEssentials {
+  id: string;
+  identifier: string;
+  name: string;
+  environment: string;
+  orgId: string;
+  vault_management_api: string;
+}
+
 export type IPartialVault = Partial<IVault>;
 export type IPartialVaultData = Partial<IVaultData>;

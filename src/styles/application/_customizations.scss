@@ -709,23 +709,6 @@ a:not([href]) {
   font-size: 20px;
 }
 
-// TODO have to be removed after merging the following fix to production
-// https://app.clubhouse.io/vgs/story/5388/fix-intercom-button
-#intercom-container {
-  .intercom-launcher-frame {
-    bottom: 20px !important;
-  }
-
-  .intercom-messenger-frame {
-    height: calc(100% - 20px - 80px - 20px) !important;
-    bottom: calc(20px + 80px) !important;
-  }
-
-  .intercom-launcher-discovery-frame {
-    bottom: calc(20px - 5px) !important;
-  }
-}
-
 .update-route {
   &__footer {
     background:#FFF8EB;

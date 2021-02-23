@@ -7,6 +7,7 @@ import FlowView from 'src/components/organisms/FlowView/FlowView';
 import QuickIntegrationModal from 'src/components/organisms/QuickIntegration/QuickIntegrationModal';
 import Yaml from 'src/components/molecules/Yaml/Yaml';
 import Code from 'src/components/atoms/Code/Code';
+import { Button } from 'antd';
 import { entryToLog, entryToFlow } from 'src/redux/utils/preCollect';
 import {
   addPrecollectLogs,
@@ -94,6 +95,7 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
   const [isSecurePayload, securePayload] = useState(false);
   const [preRouteType, setPreRouteType] = useState<'inbound'|'outbound'|undefined>();
   const [proxyMode, setProxyMode] = useState<'regular'|'forward'|undefined>();
+  const [showCurl, setShowCurl] = useState(false);
 
   useEffect(() => {
     pushEvent('logs');
@@ -147,10 +149,10 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
     selectLog(null);
   };
 
-  const demoCurl = `curl https://httpbin.org/post -k \\
+  const demoCurl = `curl https://echo.apps.verygood.systems/post -k \\
   -x localhost:9099 \\
   -H "Content-type: application/json" \\
-  -d '{"foo": "bar"}'`
+  -d '{"credit card": "4111 1111 1111 1111"}'`;
 
   const mapAndSortLogs = (logs: any[]) =>
       logs.map((entry) => entryToLog(entry, routeType))
@@ -159,8 +161,39 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
           )
 
   return (
-    <div className="container-fluid">
-      <UploadButton onUpload={data => onUpload(data)} />
+    <div>
+      <div className="d-flex justify-content-between">
+        <div className="text-center text-muted w-100 pt-1">
+          {!logs.length && (
+            <div data-role="no-logs">
+              <p className="text-lg mb-2">😳</p>
+              <p className="mb-2">
+                There are currently no logs
+                <br />
+                <Button
+                  type="link"
+                  onClick={() => setShowCurl(!showCurl)}
+                  data-role="show-demo-curl"
+                >
+                  Send a request
+                </Button>
+              </p>
+            </div>
+          )}
+        </div>
+        <UploadButton onUpload={data => onUpload(data)} />
+      </div>
+      {!logs.length && showCurl && (
+        <div data-role="demo-curl">
+          <Code
+            language='bash'
+            onCopy={() => pushEvent('request_copy')}
+            className='ant-card card px-5 bg-light'
+          >
+            {demoCurl}
+          </Code>
+        </div>
+      )}
       {isSecurePayload && (
         <QuickIntegrationModal
           isReverse={preRouteType === 'inbound'}
@@ -188,21 +221,8 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
         />
       ) : null}
 
-      {!!logs.length ? (
-        <FlowsTable
-          onSelect={selectLog}
-          logs={mapAndSortLogs(logs)}
-        />
-      ) : (
-        <div data-role="demo-curl">
-        <Code
-          language='bash'
-          onCopy={() => pushEvent('request_copy')}
-          className='ant-card card px-5 bg-light'
-        >
-          {demoCurl}
-        </Code>
-        </div>
+      {!!logs.length && (
+        <FlowsTable onSelect={selectLog} logs={mapAndSortLogs(logs)} />
       )}
       <Yaml
         routes={preRoutes}

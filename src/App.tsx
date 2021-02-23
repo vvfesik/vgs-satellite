@@ -10,10 +10,10 @@ const App: React.FunctionComponent = () => {
       <div className="navbar-wrapper navbar-simple">
         <NavBar />
       </div>
-      <div className="main-menu-content mb-3 mt-5">
+      <div className="main-menu-content mb-3">
         <VaultSidebar />
         <div className="app-content d-flex">
-          <div id="vault-content" className="container-fluid mt-5">
+          <div id="vault-content" className="container-fluid mt-4">
             <AppSwitch />
           </div>
         </div>

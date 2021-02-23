@@ -3,9 +3,8 @@ const fixtures = require('../fixtures/diffs/har.js');
 
 describe('Localhoste upload single har flow', function() {
   beforeEach(() => {
-    cy.server();
-    cy.route('GET', 'flows.json').as('getFlows');
-    cy.route('GET', 'route').as('getRoutes');
+    cy.intercept('GET', 'flows.json').as('getFlows');
+    cy.intercept('GET', 'route').as('getRoutes');
     cy.cleanupFlows();
     cy.cleanupRoutes();
     cy.fixCypressSpec(__filename);
@@ -13,6 +12,7 @@ describe('Localhoste upload single har flow', function() {
 
   it('Visits Localhoste and gets 2 yamls from uploaded har file', function() {
     cy.visit('/');
+    cy.get('.menu-item').contains('Logs').click();
     cy.wait(['@getRoutes', '@getFlows']);
     cy.get('[data-role="import-from-har"]').attachFile('upload-post.har');
 
@@ -44,7 +44,7 @@ describe('Localhoste upload single har flow', function() {
     cy.get('[data-role="select-request-phase"]').click();
     cy.contains('{"foo": "bar"}');
 
-    cy.get('.ant-btn-primary').click();
+    cy.get('.ant-btn-primary[data-role="secure-payload-btn"]').click();
     cy.get('[data-role="quick-integration-modal"]').toMatchSnapshot();
     cy.contains('foo: bar').click({ force: true });
 

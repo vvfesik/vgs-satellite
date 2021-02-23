@@ -2,9 +2,8 @@ const fixtures = require('../fixtures/diffs/upload.js');
 
 describe('Localhoste upload har and clickthru', function() {
   beforeEach(() => {
-    cy.server();
-    cy.route('GET', 'flows.json').as('getFlows');
-    cy.route('GET', 'route').as('getRoutes');
+    cy.intercept('GET', 'flows.json').as('getFlows');
+    cy.intercept('GET', 'route').as('getRoutes');
     cy.cleanupFlows();
     cy.cleanupRoutes();
     cy.fixCypressSpec(__filename);
@@ -12,6 +11,7 @@ describe('Localhoste upload har and clickthru', function() {
 
   it('Visits Localhoste, uploads har and clicks every request', function() {
     cy.visit('/');
+    cy.get('.menu-item').contains('Logs').click();
     cy.wait(['@getRoutes', '@getFlows']);
     cy.get('[data-role="import-from-har"]').attachFile('upload.har');
 

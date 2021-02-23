@@ -1,21 +1,34 @@
 import * as React from 'react';
 import { Navbar, Nav, NavItem } from 'reactstrap';
-import DocsDropdown from './DocsDropdown';
+import { Button } from 'antd';
 
 const NavBar: React.FC = () => {
   return (
     <Navbar id="main-navbar" className="navbar-container" light expand="sm">
       <Nav className="mr-auto" navbar>
         <NavItem className="d-flex align-items-center navbar-logotitle">
-          <img src="./images/vgs-dashboard-logo.svg" />
-          <span className="pl-3 text-white _600 text-uppercase cursor-default">
-            Satellite
-          </span>
+          <img src="./images/vgs-satellite-logo.svg" />
         </NavItem>
       </Nav>
       <Nav navbar>
         <NavItem>
-          <DocsDropdown />
+          <Button
+            type="link"
+            className="text-white px-0 mr-3"
+            target="_blank"
+            href="https://www.verygoodsecurity.com/docs/vgs-satellite/overview"
+          >
+            Documentation
+          </Button>
+        </NavItem>
+        <NavItem>
+          <Button
+            type="primary"
+            target="_blank"
+            href="https://dashboard.verygoodsecurity.com/"
+          >
+            Go to Dashboard
+          </Button>
         </NavItem>
       </Nav>
     </Navbar>

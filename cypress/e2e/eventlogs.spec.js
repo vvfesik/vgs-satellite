@@ -1,15 +1,15 @@
 describe('Localhoste eventlogs', function() {
   beforeEach(() => {
-    cy.server();
-    cy.route('GET', 'flows.json').as('getFlows');
+    cy.intercept('GET', 'flows.json').as('getFlows');
     cy.cleanupFlows();
     cy.fixCypressSpec(__filename);
   });
 
   it('Check eventlogs tab', function() {
     cy.visit('/');
+    cy.get('.menu-item').contains('Logs').click();
     cy.wait(['@getFlows']);
-    cy.get('[data-role="demo-curl"]').toMatchSnapshot();
+    cy.get('[data-role="no-logs"]').toMatchSnapshot();
 
     cy.task('viaProxy', {
       method: 'POST',

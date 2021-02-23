@@ -1,9 +1,8 @@
 describe('Localhoste route from request flow', function() {
   beforeEach(() => {
-    cy.server();
-    cy.route('GET', 'flows.json').as('getFlows');
-    cy.route('GET', 'route').as('getRoutes');
-    cy.route('POST', 'route').as('postRoute');
+    cy.intercept('GET', 'flows.json').as('getFlows');
+    cy.intercept('GET', 'route').as('getRoutes');
+    cy.intercept('POST', 'route').as('postRoute');
     cy.cleanupFlows();
     cy.cleanupRoutes();
     cy.fixCypressSpec(__filename);
@@ -11,8 +10,9 @@ describe('Localhoste route from request flow', function() {
 
   it('Creates route from request', function() {
     cy.visit('/');
+    cy.get('.menu-item').contains('Logs').click();
     cy.wait(['@getFlows']);
-    cy.get('[data-role="demo-curl"]').toMatchSnapshot();
+    cy.get('[data-role="no-logs"]').toMatchSnapshot();
 
     cy.task('viaProxy', {
       method: 'POST',
