@@ -9,11 +9,11 @@ interface IHomeProps {}
 const Home: React.FC<IHomeProps> = (props) => {
   const reverseCurl = `curl localhost:9098/post -k \\
   -H "Content-type: application/json" \\
-  -d '{"credit card": "4111 1111 1111 1111"}'`;
+  -d '{"credit-card": "4111 1111 1111 1111"}'`;
   const forwardCurl = `curl https://echo.apps.verygood.systems/post -k \\
   -x localhost:9099 \\
   -H "Content-type: application/json" \\
-  -d '{"credit card": "4111 1111 1111 1111"}'`;
+  -d '{"credit-card": "4111 1111 1111 1111"}'`;
 
   return (
     <Card className='px-3 mb-5'>
@@ -72,8 +72,7 @@ const Home: React.FC<IHomeProps> = (props) => {
         <img src='./images/forward.svg' />
       </div>
       <p>
-        When you’re ready to go big, export your routes and import to the VGS
-        Dashboard.
+        When you’re ready to go big, promote your routes to the VGS Dashboard.
       </p>
       <Divider />
       <h2 className='text-text'>CI/CD Pipeline</h2>

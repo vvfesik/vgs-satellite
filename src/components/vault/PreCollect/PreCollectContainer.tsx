@@ -152,7 +152,7 @@ export const PreCollectContainer: React.FunctionComponent<IPreCollectContainerPr
   const demoCurl = `curl https://echo.apps.verygood.systems/post -k \\
   -x localhost:9099 \\
   -H "Content-type: application/json" \\
-  -d '{"credit card": "4111 1111 1111 1111"}'`;
+  -d '{"credit-card": "4111 1111 1111 1111"}'`;
 
   const mapAndSortLogs = (logs: any[]) =>
       logs.map((entry) => entryToLog(entry, routeType))
