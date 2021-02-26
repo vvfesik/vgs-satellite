@@ -55,10 +55,6 @@ class NotFoundHandler(BaseHandler):
 class WebApplication(Application):
     def __init__(self, config: SatelliteConfig = None):
         self.config = config or SatelliteConfig()
-        super().__init__(
-            debug=self.config.debug,
-            default_handler_class=NotFoundHandler,
-        )
 
         api_handlers = [
             (r'/aliases', alias_handlers.AliasesHandler),
@@ -74,9 +70,8 @@ class WebApplication(Application):
 
         self.spec = build_openapi_spec(api_handlers)
 
-        self.add_handlers(
-            r'^(localhost|[0-9.]+|\[[0-9a-fA-F:]+\])$',
-            [
+        super().__init__(
+            handlers=[
                 *api_handlers,
                 (r'/', IndexHandler),
                 (r'/flows.json', flow_handlers.Flows),
@@ -92,6 +87,8 @@ class WebApplication(Application):
                     },
                 ),
             ],
+            debug=self.config.debug,
+            default_handler_class=NotFoundHandler,
         )
 
         self._should_exit = False
