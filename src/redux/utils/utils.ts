@@ -55,13 +55,20 @@ export const generateRouteName = (hostname?: string) => {
   return routeName;
 };
 
+export const getUpstreamWithPortFromLog = (log: ILog) => {
+  const { upstream, request_raw: { port = null } = {} } = log;
+  if (port && !['443', '80'].includes(port.toString())) {
+    return `${upstream}:${port}`;
+  } else return upstream;
+};
+
 export function constructUriFromLog(log: ILog) {
   const isPathSufficient = !!log.path?.match(/^(https?:)\/\//);
   const isPathAppendable = !log.upstream?.match(/\/$/) && !!log.path?.match(/^\//);
   const isPathPrependable = !!log.scheme && !log.upstream.startsWith(`${log.scheme}:`) && !log.upstream?.match(/^\//);
   return isPathSufficient
     ? log.path
-    : `${isPathPrependable ? log.scheme + '://' : ''}${log.upstream ?? ''}${isPathAppendable ? log.path : ''}`;
+    : `${isPathPrependable ? log.scheme + '://' : ''}${log.upstream ? getUpstreamWithPortFromLog(log) : ''}${isPathAppendable ? log.path : ''}`;
 }
 
 export const getFiltersWithoutOperations = (route: IRoute) => route.entries.filter(entry => !entry.operations);

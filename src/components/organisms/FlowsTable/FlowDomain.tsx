@@ -1,6 +1,6 @@
 import * as React from 'react';
 import StringWrapper from 'src/components/atoms/StringWrapper/StringWrapper';
-import { constructUriFromLog } from 'src/redux/utils/utils';
+import { constructUriFromLog, getUpstreamWithPortFromLog } from 'src/redux/utils/utils';
 import { ILog } from 'src/redux/interfaces/logs';
 
 interface IFlowDomainProps {
@@ -38,7 +38,7 @@ const FlowDomain: React.FunctionComponent<IFlowDomainProps> = (props) => {
         id={`domain-${log.id}`}
         tooltipText={constructUriFromLog(log)}
       >
-        {log?.upstream?.split(/:\d+$/)[0] || log.request.host}
+        {getUpstreamWithPortFromLog(log) || log.request.host}
       </StringWrapper>
     </div>
   );

@@ -4,6 +4,7 @@ import { Input, Tooltip } from 'reactstrap';
 import IpWhitelisting from './IpWhitelisting';
 import classNames from 'classnames';
 import AlertWithPopover from 'src/components/molecules/AlertWithPopover/AlertWithPopover';
+import { Alert } from 'antd';
 import { hostnameFromUri } from 'src/redux/utils/utils';
 
 export interface IOutboundHostsProps {
@@ -56,6 +57,10 @@ export default class OutboundHosts extends React.Component<IOutboundHostsProps, 
     });
   }
 
+  isPortIncluded(endpoint: string) {
+    return /.+:\d+/.test(endpoint);
+  }
+
   render() {
     const isSourceEndpoint = this.state.route.source_endpoint === '*';
     const hostEndpoint = this.state.route.host_endpoint;
@@ -63,7 +68,19 @@ export default class OutboundHosts extends React.Component<IOutboundHostsProps, 
 
     return (
       <>
-        <div className="form-group">
+        {this.isPortIncluded(trimHostEndpoint) &&
+          <Alert
+            showIcon={false}
+            message="Port specification is not supported on Dashboard"
+            className="border border-warning rounded-top d-flex alert-with-popover"
+            banner
+          />
+        }
+        <div
+          className={classNames('form-group', {
+            'border border-top-0 rounded-bottom p-3 border-warning': this.isPortIncluded(trimHostEndpoint),
+          })}
+        >
           <label htmlFor="host_endpoint" className="text-muted">
             Upstream Host
           </label>
