@@ -29,6 +29,14 @@ export const updateRouteById = (route: IRoute, routeId: string) =>
 export const deleteRouteById = (routeId: string) =>
   axios.delete(`${config.satelliteApiEndpoint}/route/${routeId}`);
 
+export const getRemoteRoutesByVault = (vault: IVaultEssentials) => {
+  const url = `${vault.vault_management_api}/rule-chains`;
+  const options = {
+    headers: makeHeaders({ 'VGS-Tenant': vault.identifier }),
+  };
+  return fetchJSONApi(url, options);
+};
+
 export const createRemoteRouteByVault = (vault: IVaultEssentials, route: IRoute) => {
   const url = `${vault.vault_management_api}/rule-chains`;
   const options = {
@@ -44,3 +52,19 @@ export const createRemoteRouteByVault = (vault: IVaultEssentials, route: IRoute)
   };
   return fetchJSONApi(url, options);
 };
+
+export const updateRemoteRouteForVault = (vault: IVaultEssentials, route: IRoute) => {
+  let url = `${vault.vault_management_api}/rule-chains/${route.id || route.attributes?.id}`;
+  const options = {
+    noTrim: true,
+    method: 'PUT',
+    headers: makeHeaders({ 'VGS-Tenant': vault.identifier }),
+    data: {
+      data: {
+        attributes: route.attributes || route,
+        type: 'rule-chains',
+      },
+    },
+  };
+  return fetchJSONApi(url, options);
+}

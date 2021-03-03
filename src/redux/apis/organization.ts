@@ -10,3 +10,6 @@ export interface IOrgVaultCreationResponse {
 const orgEndpoint = `${config.dashboardApiHost}/organizations`;
 
 export const fetchOrganizationsList = () => getData(orgEndpoint);
+
+export const getOrgEnvironments = (orgId: string) =>
+  getData(`${orgEndpoint}/${orgId}/environments`);

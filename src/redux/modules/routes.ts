@@ -4,8 +4,9 @@ import {
   deleteRouteById,
   updateRouteById,
   createRemoteRouteByVault,
+  updateRemoteRouteForVault,
 } from 'src/redux/apis/routes';
-import { set } from 'lodash';
+import { set, omit } from 'lodash';
 import { notify } from 'src/redux/utils/notifications';
 import { getRouteTemplate } from 'src/data/routes';
 import { IRoutesState, IRoute } from 'src/redux/interfaces/routes';
@@ -13,6 +14,8 @@ import { IVaultEssentials } from 'src/redux/interfaces/vault';
 import history from 'src/redux/utils/history';
 
 const SET_LOADING = 'SET_LOADING';
+const SET_PROMOTING = 'SET_PROMOTING';
+const SET_MERGING = 'SET_MERGING';
 const GET_ROUTES_LIST = 'GET_ROUTES_LIST';
 const GET_ROUTE = 'GET_ROUTE';
 const DELETE_ROUTE = 'DELETE_ROUTE';
@@ -178,24 +181,60 @@ export function updateCurrentRoute(route: IRoute | null) {
 export function createRemoteRoute(vault: IVaultEssentials, route: IRoute) {
   return async (dispatch: any) => {
     dispatch({
-      type: SET_LOADING,
+      type: SET_PROMOTING,
       data: true,
     });
     try {
       await createRemoteRouteByVault(vault, route);
       notify.success('Route promoted successfully');
       history.push('/routes');
+    } catch (error) {
+      notify.error(error.message);
     } finally {
       dispatch({
-        type: SET_LOADING,
+        type: SET_PROMOTING,
         data: false,
       });
     }
   };
 }
 
+export function updateRemoteRoute(vault: IVaultEssentials, route: IRoute) {
+  return async (dispatch: any) => {
+    dispatch({
+      type: SET_MERGING,
+      data: true,
+    });
+    try {
+      await updateRemoteRouteForVault(vault, route);
+      notify.success('Route promoted and merged successfully');
+      history.push('/routes');
+    } finally {
+      dispatch({
+        type: SET_MERGING,
+        data: false,
+      });
+      dispatch({
+        type: SET_PROMOTING,
+        data: false,
+      });
+    }
+  };
+}
+
+export function setPromotingState(state: boolean) {
+  return async (dispatch: any) => {
+    dispatch({
+      type: SET_PROMOTING,
+      data: state,
+    });
+  };
+}
+
 const initialState: IRoutesState = {
   isLoading: false,
+  isPromoting: false,
+  isMerging: false,
   list: [],
   currentRoute: null,
   isSaveInProgress: false,
@@ -218,10 +257,22 @@ export default function reducer(state = initialState, action: any) {
         ...state,
         isLoading: action.data,
       };
+    case SET_PROMOTING:
+      return {
+        ...state,
+        isPromoting: action.data,
+      };
+    case SET_MERGING:
+      return {
+        ...state,
+        isMerging: action.data,
+      };
     case GET_ROUTES_LIST:
       return {
         ...state,
-        list: action.data,
+        list: action.data.map((r: IRoute) => {
+          return { ...r, entries: r.entries.map((e) => omit(e, 'created_at')) };
+        }),
       };
     case GET_ROUTE:
       return {

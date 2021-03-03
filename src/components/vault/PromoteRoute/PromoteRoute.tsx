@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Select, Row, Col } from 'src/components/antd';
+import { getVaultBadge } from 'src/redux/utils/utils';
 import { IVaultEssentials } from 'src/redux/interfaces/vault';
+import { IEnvironment } from 'src/redux/interfaces/organization';
 
 interface IPromoteRouteProps {
   handleCancel: () => void;
   handleOk: (vaultId: string) => void;
+  getOrganizationEnvironments: (orgId: string) => any;
   isLoading: boolean;
   organizations: any[];
+  environments: IEnvironment[];
   vaults: IVaultEssentials[];
 }
 
@@ -14,8 +18,10 @@ const PromoteRoute: React.FC<IPromoteRouteProps> = (props) => {
   const {
     handleCancel,
     handleOk,
+    getOrganizationEnvironments,
     isLoading,
     organizations,
+    environments,
     vaults,
   } = props;
 
@@ -25,6 +31,7 @@ const PromoteRoute: React.FC<IPromoteRouteProps> = (props) => {
   useEffect(() => {
     if (!!organizations.length && !selectedOrg) {
       setSelectedOrg(organizations[0]?.id);
+      getOrganizationEnvironments(organizations[0]?.id);
     }
   }, [organizations, selectedOrg]);
 
@@ -35,6 +42,7 @@ const PromoteRoute: React.FC<IPromoteRouteProps> = (props) => {
   }, [vaults, selectedOrg, selectedVault]);
 
   const handleSelectOrg = (orgId: string) => {
+    getOrganizationEnvironments(orgId);
     setSelectedOrg(orgId);
     setSelectedVault(undefined);
   };
@@ -76,7 +84,10 @@ const PromoteRoute: React.FC<IPromoteRouteProps> = (props) => {
           {!!selectedOrg &&
             vaultsByOrg(selectedOrg).map((vault: IVaultEssentials) => (
               <Select.Option value={vault.identifier} key={vault.id}>
-                {vault.name} ({vault.identifier})
+                <span className="d-inline-flex align-items-center mr-2">
+                  {getVaultBadge(environments, vault.environment)}
+                </span>
+                <span>{vault.name} ({vault.identifier})</span>
               </Select.Option>
             ))}
         </Select>

@@ -9,6 +9,19 @@
   p.heading {
     color: theme-color("text");
   }
+  td[class^="css-"] {
+    &[class$="-marker"] {
+      min-width: 1em;
+    }
+    &[class*="-gutter"][class*="-removed"],
+    &[class*="-removed"] span[class$="-word-removed"] {
+      background: rgba(239, 121, 138, 0.2);
+    }
+    &[class*="-gutter"][class*="-added"],
+    &[class*="-added"] span[class$="-word-added"] {
+      background: rgba(47, 194, 159, 0.2);
+    }
+  }
 }
 .uri-diff .diffsnippet {
   tr[class$="-line"] td:nth-child(2) {

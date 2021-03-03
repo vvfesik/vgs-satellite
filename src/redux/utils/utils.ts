@@ -4,6 +4,8 @@ import parseUrl from 'url-parse';
 import randomId from './random-id';
 import { volatileRulesRegex } from 'src/data/regex';
 import { includes, flattenDeep, uniq } from 'lodash';
+import { liveIco, sandboxIco } from 'src/components/atoms/Icons/Icons';
+import { IEnvironment } from 'src/redux/interfaces/organization';
 import { ILog, ILogFilters } from 'src/redux/interfaces/logs';
 import { IRoute, IEntry, IOperation } from 'src/redux/interfaces/routes';
 
@@ -54,6 +56,11 @@ export const generateRouteName = (hostname?: string) => {
   const routeName = randomId();
   return routeName;
 };
+
+export const getVaultBadge = (environments: IEnvironment[], vaultEnv: string) =>
+  environments.find((env) => env.identifier === vaultEnv)?.is_live
+    ? liveIco()
+    : sandboxIco();
 
 export const getUpstreamWithPortFromLog = (log: ILog) => {
   const { upstream, request_raw: { port = null } = {} } = log;
