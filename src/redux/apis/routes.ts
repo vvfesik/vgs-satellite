@@ -37,22 +37,6 @@ export const getRemoteRoutesByVault = (vault: IVaultEssentials) => {
   return fetchJSONApi(url, options);
 };
 
-export const createRemoteRouteByVault = (vault: IVaultEssentials, route: IRoute) => {
-  const url = `${vault.vault_management_api}/rule-chains`;
-  const options = {
-    noTrim: true,
-    method: 'POST',
-    headers: makeHeaders({ 'VGS-Tenant': vault.identifier }),
-    data: {
-      data: {
-        attributes: route.attributes || route,
-        type: 'rule-chains',
-      },
-    },
-  };
-  return fetchJSONApi(url, options);
-};
-
 export const updateRemoteRouteForVault = (vault: IVaultEssentials, route: IRoute) => {
   let url = `${vault.vault_management_api}/rule-chains/${route.id || route.attributes?.id}`;
   const options = {

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { initClient } from 'src/redux/modules/auth';
-import { fetchRoutes, createRemoteRoute, updateRemoteRoute, setPromotingState } from 'src/redux/modules/routes';
+import { fetchRoutes, promoteRouteToRemote, setPromotingState } from 'src/redux/modules/routes';
 import { getRemoteRoutesByVault } from 'src/redux/apis/routes';
 import { getOrganizationEnvironments } from 'src/redux/modules/organization';
 import config from 'src/config/config';
@@ -10,6 +10,7 @@ import PromoteRoute from './PromoteRoute';
 import PromoteRouteMergeModal from './PromoteRouteMergeModal';
 import useMergeModal from './useMergeModal';
 import { notify } from 'src/redux/utils/notifications';
+import { normalizeRoute } from 'src/redux/utils/routes';
 import { IRoute } from 'src/redux/interfaces/routes';
 import { IVaultEssentials } from 'src/redux/interfaces/vault';
 import { IEnvironment } from 'src/redux/interfaces/organization';
@@ -28,8 +29,7 @@ const mapStateToProps = ({ auth, organization, vault, routes }: any) => {
 const mapDispatchToProps = {
   initClient,
   fetchRoutes,
-  createRemoteRoute,
-  updateRemoteRoute,
+  promoteRouteToRemote,
   setPromotingState,
   getOrganizationEnvironments,
 };
@@ -45,8 +45,7 @@ interface IPromoteRouteContainerProps {
   isMerging: boolean;
   initClient: (kcConfig: any, loginOptions?: any) => any;
   fetchRoutes: () => any;
-  createRemoteRoute: (vault: IVaultEssentials, route: IRoute) => any;
-  updateRemoteRoute: (vault: IVaultEssentials, route: IRoute) => any;
+  promoteRouteToRemote: (vault: IVaultEssentials, route: IRoute, isMerge?: boolean) => any;
   setPromotingState: (state: boolean) => void;
   getOrganizationEnvironments: (orgId: string) => Promise<any>;
 }
@@ -81,10 +80,11 @@ const PromoteRouteContainer: React.FC<IPromoteRouteContainerProps> = (props) => 
     try {
       const remoteRoutes = await getRemoteRoutesByVault(vault);
       const existingRoute = remoteRoutes.data.find((r: IRoute) => r.id === routeId);
+      const normalizedRoute = normalizeRoute(route, existingRoute);
       if (existingRoute) {
-        showMergeModal(vault, route, existingRoute);
+        showMergeModal(vault, normalizedRoute, existingRoute);
       } else {
-        props.createRemoteRoute(vault, route);
+        props.promoteRouteToRemote(vault, normalizedRoute);
       }
     } catch (error) {
       notify.error(error.message);
@@ -113,7 +113,7 @@ const PromoteRouteContainer: React.FC<IPromoteRouteContainerProps> = (props) => 
         existingRoute={existingRoute}
         isVisible={isMergeModal}
         isLoading={isMerging}
-        handleOk={() => props.updateRemoteRoute(vault, route)}
+        handleOk={() => props.promoteRouteToRemote(vault, route, true)}
         handleCancel={hideMergeModal}
       />
     </>

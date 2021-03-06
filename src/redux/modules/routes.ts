@@ -3,7 +3,6 @@ import {
   createRoute,
   deleteRouteById,
   updateRouteById,
-  createRemoteRouteByVault,
   updateRemoteRouteForVault,
 } from 'src/redux/apis/routes';
 import { set, omit } from 'lodash';
@@ -178,28 +177,7 @@ export function updateCurrentRoute(route: IRoute | null) {
   };
 }
 
-export function createRemoteRoute(vault: IVaultEssentials, route: IRoute) {
-  return async (dispatch: any) => {
-    dispatch({
-      type: SET_PROMOTING,
-      data: true,
-    });
-    try {
-      await createRemoteRouteByVault(vault, route);
-      notify.success('Route promoted successfully');
-      history.push('/routes');
-    } catch (error) {
-      notify.error(error.message);
-    } finally {
-      dispatch({
-        type: SET_PROMOTING,
-        data: false,
-      });
-    }
-  };
-}
-
-export function updateRemoteRoute(vault: IVaultEssentials, route: IRoute) {
+export function promoteRouteToRemote(vault: IVaultEssentials, route: IRoute, isMerge?: boolean) {
   return async (dispatch: any) => {
     dispatch({
       type: SET_MERGING,
@@ -207,7 +185,7 @@ export function updateRemoteRoute(vault: IVaultEssentials, route: IRoute) {
     });
     try {
       await updateRemoteRouteForVault(vault, route);
-      notify.success('Route promoted and merged successfully');
+      notify.success(`Route promoted ${isMerge ? 'and merged' : ''} successfully`);
       history.push('/routes');
     } finally {
       dispatch({

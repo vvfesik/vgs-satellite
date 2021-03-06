@@ -1,5 +1,5 @@
 import config from 'src/config/config';
-import { IRoute, IEntry, IPartialEntry } from 'src/redux/interfaces/routes';
+import { IRoute, IEntry, IPartialEntry, IEntryConfig, IEntryConfigRule } from 'src/redux/interfaces/routes';
 import { isEmpty, pipe } from 'ramda';
 import { omit } from 'lodash';
 import { diff } from 'deep-object-diff';
@@ -90,3 +90,30 @@ export function getRouteDiffOnOpen(route: IRoute, newRoute: IRoute, oldRoute: IR
   const routeDiff = diff(originalRoute, updatedRoute);
   return isEmpty(routeDiff);
 }
+
+export const normalizeEntryConfigRules = (rules: IEntryConfigRule[]): IEntryConfigRule[] => rules.map((rule) => ({
+  ...rule,
+  condition: rule.condition || null,
+  expression: rule.expression || null,
+  rules: rule.rules ? normalizeEntryConfigRules(rule.rules) : null,
+}));
+
+export const normalizeEntryConfig = (config: IEntryConfig): IEntryConfig => ({
+  ...config,
+  condition: config?.condition || null,
+  expression: config?.expression || null,
+  rules: config?.rules ? normalizeEntryConfigRules(config.rules) : [],
+});
+
+export const normalizeEntries = (entries: IPartialEntry[], backupRoute?: IRoute): IPartialEntry[] => entries.map((entry) => ({
+  ...entry,
+  id_selector: entry.id_selector || backupRoute?.entries?.find((e) => e.id === entry.id)?.id_selector || null,
+  config: normalizeEntryConfig(entry.config),
+}));
+
+export const normalizeRoute = (route: IRoute, backupRoute?: IRoute): IRoute => ({
+  ...route,
+  ordinal: route?.ordinal || backupRoute?.ordinal || null,
+  updated_at: route?.updated_at || route?.created_at || null,
+  entries: normalizeEntries(route?.entries || [], backupRoute),
+});

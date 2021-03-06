@@ -43,6 +43,7 @@ export interface IEntry {
   config: IEntryConfig;
   classifiers: IClassifiers;
   operations?: IOperation[];
+  id_selector?: string | null;
 }
 
 export interface ITransformerConfigMap {
@@ -53,13 +54,15 @@ export interface ITransformerConfigMap {
 export interface IRoute {
   id?: string;
   entries: IPartialEntry[];
-  updated_at?: string;
+  created_at?: string;
+  updated_at?: string | null;
   destination_override_endpoint: string;
   host_endpoint: string;
   upstreamUrl?: string;
   protocol: string;
   tags: IRouteTags;
   source_endpoint: string;
+  ordinal?: string | number | null;
   port?: number;
   transport?: string;
   type?: string;
