@@ -1,6 +1,6 @@
 {
   "name": "vgs-satellite",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "VGS Offline integration tool",
   "main": "src/app.js",
   "keywords": [
@@ -91,6 +91,7 @@
     ]
   },
   "dependencies": {
+    "@exponent/electron-cookies": "^2.0.0",
     "@vgs/elemente": "^0.4.43",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
@@ -99,7 +100,6 @@
     "deep-object-diff": "^1.1.0",
     "deep-replace-in-object": "^1.1.7",
     "deep-sort-object": "^1.0.2",
-    "electron-cookies": "github:heap/electron-cookies",
     "electron-is-dev": "^1.2.0",
     "electron-util": "^0.14.2",
     "fast-xml-parser": "^3.17.6",

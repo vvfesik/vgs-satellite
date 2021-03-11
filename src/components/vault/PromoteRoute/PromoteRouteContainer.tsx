@@ -10,7 +10,8 @@ import PromoteRoute from './PromoteRoute';
 import PromoteRouteMergeModal from './PromoteRouteMergeModal';
 import useMergeModal from './useMergeModal';
 import { notify } from 'src/redux/utils/notifications';
-import { normalizeRoute } from 'src/redux/utils/routes';
+import { normalizeRoute, isInbound } from 'src/redux/utils/routes';
+import { pushEvent } from 'src/redux/utils/analytics';
 import { IRoute } from 'src/redux/interfaces/routes';
 import { IVaultEssentials } from 'src/redux/interfaces/vault';
 import { IEnvironment } from 'src/redux/interfaces/organization';
@@ -93,6 +94,13 @@ const PromoteRouteContainer: React.FC<IPromoteRouteContainerProps> = (props) => 
     }
   };
 
+  const handleRouteMerge = () => {
+    pushEvent('route_merge', {
+      route_type: isInbound(route) ? 'inbound' : 'outbound',
+    });
+    props.promoteRouteToRemote(vault, route, true);
+  };
+
   return !client ? (
     <h2 className='text-text-light _300 text-center mt-5 text-lg'>
       Setting up the remote connection...
@@ -113,7 +121,7 @@ const PromoteRouteContainer: React.FC<IPromoteRouteContainerProps> = (props) => 
         existingRoute={existingRoute}
         isVisible={isMergeModal}
         isLoading={isMerging}
-        handleOk={() => props.promoteRouteToRemote(vault, route, true)}
+        handleOk={handleRouteMerge}
         handleCancel={hideMergeModal}
       />
     </>

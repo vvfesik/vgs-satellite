@@ -56,6 +56,11 @@ function requestHandler(req, next) {
   });
 }
 
+const enableCookies = `
+  const ElectronCookies = require("@exponent/electron-cookies");
+  ElectronCookies.enable({ origin: 'localhoste://satellite' });
+`;
+
 let mainWindow;
 
 const webPort = 8089; // TODO: read port from the config
@@ -70,6 +75,7 @@ function createWindow() {
     width: 1200,
     height: 800,
     webPreferences: {
+      nodeIntegration: true,
       worldSafeExecuteJavaScript: true,
       enableRemoteModule: true,
     },
@@ -91,6 +97,9 @@ function createWindow() {
       resources: [`http://localhost:${webPort}`],
     }).then(() => {
       mainWindow.loadURL(`${scheme}://satellite/index.html`);
+      mainWindow.webContents.on('dom-ready', function() {
+        mainWindow.webContents.executeJavaScript(enableCookies);
+      });
     });
   }
 

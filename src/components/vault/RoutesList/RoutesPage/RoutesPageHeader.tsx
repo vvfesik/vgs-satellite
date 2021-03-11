@@ -88,7 +88,7 @@ const RoutesPageHeader: React.FC<IRoutesPageHeaderProps> = (props) => {
           </Dropdown>
         ) : (
           <Link
-            to={`/dashboard/v/current/routes/new/${activeTab}`}
+            to={`/routes/new/${activeTab}`}
             data-role={`new-${activeTab}-route`}
             className='ant-btn ant-btn-primary ml-3'
           >

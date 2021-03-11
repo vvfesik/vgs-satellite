@@ -8,6 +8,8 @@ import {
 import { set, omit } from 'lodash';
 import { notify } from 'src/redux/utils/notifications';
 import { getRouteTemplate } from 'src/data/routes';
+import { isInbound } from 'src/redux/utils/routes';
+import { pushEvent } from 'src/redux/utils/analytics';
 import { IRoutesState, IRoute } from 'src/redux/interfaces/routes';
 import { IVaultEssentials } from 'src/redux/interfaces/vault';
 import history from 'src/redux/utils/history';
@@ -187,6 +189,9 @@ export function promoteRouteToRemote(vault: IVaultEssentials, route: IRoute, isM
       await updateRemoteRouteForVault(vault, route);
       notify.success(`Route promoted ${isMerge ? 'and merged' : ''} successfully`);
       history.push('/routes');
+      pushEvent(isMerge ? 'route_merged' : 'route_promoted', {
+        route_type: isInbound(route) ? 'inbound' : 'outbound',
+      });
     } finally {
       dispatch({
         type: SET_MERGING,
