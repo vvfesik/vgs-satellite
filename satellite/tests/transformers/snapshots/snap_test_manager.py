@@ -86,6 +86,10 @@ snapshots['test_transform_body[Phase.REQUEST] 1'] = {
             (
                 b'content-length',
                 b'23'
+            ),
+            (
+                b'vgs-client',
+                b'vgs-collect'
             )
         ),
         'host': 'httpbin.org',
@@ -249,6 +253,10 @@ snapshots['test_transform_body[Phase.RESPONSE] 1'] = {
             (
                 b'content-length',
                 b'14'
+            ),
+            (
+                b'vgs-client',
+                b'vgs-collect'
             )
         ),
         'host': 'httpbin.org',

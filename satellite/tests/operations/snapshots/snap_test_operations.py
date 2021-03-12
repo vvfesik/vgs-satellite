@@ -26,7 +26,11 @@ snapshots['test_evaluate_ok[Phase.REQUEST] request'] = {
         (
             b'content-length',
             b'24'
-        )
+        ),
+        (
+            b'vgs-client',
+            b'vgs-collect'
+        ),
     ),
     'host': 'httpbin.org',
     'http_version': b'HTTP/2.0',
@@ -94,7 +98,11 @@ snapshots['test_evaluate_ok[Phase.RESPONSE] request'] = {
         (
             b'content-length',
             b'14'
-        )
+        ),
+        (
+            b'vgs-client',
+            b'vgs-collect'
+        ),
     ),
     'host': 'httpbin.org',
     'http_version': b'HTTP/2.0',
@@ -164,9 +172,13 @@ snapshots['test_evaluate_ok_nomock[Phase.REQUEST] request'] = {
             b'49'
         ),
         (
+            b'vgs-client',
+            b'vgs-collect'
+        ),
+        (
             b'Brand-new-header',
             b'brand-spanking-new-header-value'
-        )
+        ),
     ),
     'host': 'httpbin.org',
     'http_version': b'HTTP/2.0',

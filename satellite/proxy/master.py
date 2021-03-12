@@ -32,6 +32,9 @@ class ProxyEventsAddon:
         signal('sat_proxy_started').send(self)
 
     def request(self, flow: HTTPFlow):
+        # Remove "vgs-client" header, that is sent by VGS-Collect.
+        # This copies logic from proxy
+        flow.request.headers.pop('vgs-client', None)
         if flow.request.host == 'dummy-upstream':
             flow.error = Error('No upstream is configured.')
             flow.response = make_error_response(

@@ -69,6 +69,10 @@ snapshots['TestFlowHandler::test_get_ok 1'] = {
             [
                 'content-length',
                 '14'
+            ],
+            [
+                'vgs-client',
+                'vgs-collect'
             ]
         ],
         'host': 'httpbin.org',
@@ -213,6 +217,10 @@ snapshots['TestFlowsHandler::test_ok 1'] = [
                 [
                     'content-length',
                     '14'
+                ],
+                [
+                    'vgs-client',
+                    'vgs-collect'
                 ]
             ],
             'host': 'httpbin.org',

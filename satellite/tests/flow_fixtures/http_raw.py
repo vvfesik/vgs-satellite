@@ -44,6 +44,7 @@ state = {
             (b'accept', b'*/*'),
             (b'content-type', b'application/json'),
             (b'content-length', b'14'),
+            (b'vgs-client', b'vgs-collect'),
         ),
         'host': 'httpbin.org',
         'http_version': b'HTTP/2.0',
