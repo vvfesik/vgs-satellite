@@ -1,6 +1,10 @@
 import pytest
 
-from satellite.routes.operators import MatchOperatorType, get_operator
+from satellite.routes.operators import (
+    MatchOperatorError,
+    MatchOperatorType,
+    get_operator,
+)
 
 
 def _test_operator(op_type, params, value, result):
@@ -158,3 +162,27 @@ def test_is_not_empty(params, value, result):
 )
 def test_matches(params, value, result):
     _test_operator(MatchOperatorType.MATCHES, params, value, result)
+
+
+def test_build_invalid_type():
+    with pytest.raises(MatchOperatorError) as exc_info:
+        get_operator(MatchOperatorType.MATCHES, int, [r'/post'])
+    assert str(exc_info.value) == (
+        'Match operator[matches] error: Can not build matching operator, '
+        "unsupported value type: <class 'int'>."
+    )
+
+
+def test_call_invalid_type():
+    op = get_operator(MatchOperatorType.MATCHES, str, [r'/post'])
+    with pytest.raises(MatchOperatorError) as exc_info:
+        op(123)
+    assert str(exc_info.value) == (
+        'Match operator[matches] error: Can not evaluate matching operator, '
+        "unsupported value type: <class 'int'>."
+    )
+
+
+def test_none_is_false():
+    op = get_operator(MatchOperatorType.MATCHES, str, [r'/post'])
+    assert op(None) is False

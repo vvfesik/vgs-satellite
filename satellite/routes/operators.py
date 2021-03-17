@@ -58,7 +58,7 @@ class MatchOperator(metaclass=MatchOperatorMeta):
     def __init__(self, value_type: Type):
         if not issubclass(value_type, self.supported_value_types):
             raise MatchOperatorError(
-                self.operator_type(),
+                self.operator_type,
                 (
                     'Can not build matching operator, '
                     f'unsupported value type: {value_type}'
@@ -70,18 +70,24 @@ class MatchOperator(metaclass=MatchOperatorMeta):
     def build(cls, value_type: Type, params: List[Any]) -> 'MatchOperator':
         try:
             return cls(value_type, *params)
+        except MatchOperatorError:
+            raise
         except Exception as exc:
-            raise MatchOperatorError(cls.operator_type(), str(exc)) from exc
+            raise MatchOperatorError(cls.operator_type, str(exc)) from exc
 
     def __call__(self, value: Any) -> bool:
+        if value is None:
+            return False
+
         if not isinstance(value, self.value_type):
             raise MatchOperatorError(
-                self.operator_type(),
+                self.operator_type,
                 (
                     'Can not evaluate matching operator, '
                     f'unsupported value type: {type(value)}'
                 ),
             )
+
         return self._call(value)
 
     @abstractmethod
