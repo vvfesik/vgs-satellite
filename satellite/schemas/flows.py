@@ -1,7 +1,6 @@
 from typing import List, Optional, Tuple
 
-from marshmallow import Schema, fields, pre_dump, validate
-from mitmproxy import ctx
+from marshmallow import Schema, fields, validate
 from mitmproxy.flow import Flow
 from mitmproxy.net.http import Message
 
@@ -67,24 +66,11 @@ class HTTPFlowSchema(FlowSchema):
         timestamp_end = fields.Float()
         match_details = fields.Nested(MatchDetails)
 
-        @pre_dump
-        def prepare_content(self, message: Message, many: bool) -> Message:
-            self.context['content'] = None
-            self.context['content_length'] = None
-            if message.raw_content:
-                try:
-                    self.context['content'] = message.raw_content.decode('utf-8')
-                    self.context['content_length'] = len(message.raw_content)
-                except UnicodeDecodeError:
-                    ctx.error('Unsupported content type.')
-
-            return message
-
         def get_content(self, message: Message) -> Optional[str]:
-            return self.context['content']
+            return message.get_text(strict=False)
 
         def get_content_length(self, message: Message) -> Optional[int]:
-            return self.context['content_length']
+            return len(message.raw_content) if message.raw_content is not None else None
 
         def get_headers(self, message: Message) -> List[Tuple[str, str]]:
             return list(message.headers.items(True))

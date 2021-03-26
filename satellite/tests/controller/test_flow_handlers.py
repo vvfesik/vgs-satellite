@@ -28,6 +28,17 @@ class TestFlowHandler(BaseHandlerTestCase):
         self.proxy_manager.get_flow.assert_called_once_with(flow.id)
         self.assertMatchSnapshot(json.loads(response.body))
 
+    def test_bad_response_encoding(self):
+        flow = load_flow('http_raw')
+        flow.response.set_content(
+            b'\xd1\x84\xd1\x96\xd1\x88\xd0\xb3\xd0\xb2\xd1\x80\xd1\x96\xd1'
+        )
+        self.proxy_manager.get_flow = Mock(return_value=flow)
+        response = self.fetch(self.get_url(f'/flows/{flow.id}'))
+        self.assertEqual(response.code, 200)
+        self.proxy_manager.get_flow.assert_called_once_with(flow.id)
+        self.assertMatchSnapshot(json.loads(response.body))
+
     def test_flow_with_error(self):
         flow = load_flow('http_raw')
         flow.error = Error('Test error', datetime.utcnow().timestamp())
