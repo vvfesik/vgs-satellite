@@ -1,7 +1,7 @@
 from abc import ABC, abstractclassmethod, abstractmethod
 from enum import Enum, unique
 from types import MappingProxyType
-from typing import Any, List
+from typing import Any, List, Optional
 
 from mitmproxy.http import HTTPFlow
 
@@ -44,14 +44,26 @@ class MatchField(Enum):
     STATUS = 'Status'
 
 
+def _extract_content_type(flow: HTTPFlow) -> Optional[str]:
+    header = flow.request.headers.get('Content-type')
+    if not header:
+        return None
+
+    fields = [field.strip() for field in header.split(';')]
+    if fields and fields[0]:
+        return fields[0]
+
+
+def _extract_response_status(flow: HTTPFlow) -> Optional[int]:
+    return flow.response.status_code if hasattr(flow, 'response') else None
+
+
 FIELD_EXTRACTORS = MappingProxyType(
     {
-        MatchField.CONTENT_TYPE: lambda flow: flow.request.headers.get('Content-type'),
+        MatchField.CONTENT_TYPE: _extract_content_type,
         MatchField.HTTP_METHOD: lambda flow: flow.request.method,
         MatchField.PATH_INFO: lambda flow: flow.request.path,
-        MatchField.STATUS: lambda flow: flow.response.status
-        if hasattr(flow, 'response')
-        else None,
+        MatchField.STATUS: _extract_response_status,
     }
 )
 
