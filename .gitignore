@@ -39,6 +39,7 @@ route.sqlite-journal
 
 # IDE
 .vscode
+.dccache
 
 # PyInstaller
 vgs-satellite-backend.spec

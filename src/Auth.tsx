@@ -47,6 +47,11 @@ const Auth: React.FC<IAuthProps> = (props) => {
       props.getOrganizationsList();
       props.fetchAllVaults();
 
+      const currentUserEmail = client.currentUserEmail;
+      if (currentUserEmail && currentUserEmail !== window.heap?.identity) {
+        window.heap?.identify(currentUserEmail);
+      }
+
       const pathToRedirect = localStorage.getItem('pathToRedirect');
       if (pathToRedirect) {
         localStorage.removeItem('pathToRedirect');

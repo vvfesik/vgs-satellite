@@ -35,15 +35,34 @@ function mime(filename) {
   return type ? type : null;
 }
 
+function getAllowedDir(reqPath) {
+  const allowedDirList = [
+    '/images',
+    '/vs/editor',
+    '/vs/language/css',
+    '/vs/language/html',
+    '/vs/language/json',
+    '/vs/language/typescript',
+    '/vs/base/worker',
+    '/vs/base/browser/ui/codicons/codicon',
+    '/vs/basic-languages/html',
+    '/vs/basic-languages/javascript',
+    '/vs/basic-languages/xml',
+    '/vs/basic-languages/yaml',
+    '/vs',
+  ];
+  const dir = allowedDirList.find((i) => i === reqPath.split('/').slice(0, -1).join('/')) || '';
+  return path.join(DIST_PATH, dir);
+};
+
 function requestHandler(req, next) {
   const reqUrl = new URL(req.url);
-  let reqPath = path.normalize(reqUrl.pathname);
-  if (reqPath === '/') {
-    reqPath = '/index.html';
-  }
-  const reqFilename = path.basename(reqPath);
-  fs.readFile(path.join(DIST_PATH, reqPath), (err, data) => {
-    const mimeType = mime(reqFilename);
+  const reqPath = path.normalize(reqUrl.pathname);
+  const fileName = path.basename(reqPath) || 'index.html';
+  const filePath = path.join(getAllowedDir(reqPath), fileName);
+
+  fs.readFile(filePath, (err, data) => {
+    const mimeType = mime(fileName);
     if (!err) {
       next({
         mimeType: mimeType,
@@ -55,11 +74,6 @@ function requestHandler(req, next) {
     }
   });
 }
-
-const enableCookies = `
-  const ElectronCookies = require("@exponent/electron-cookies");
-  ElectronCookies.enable({ origin: 'localhoste://satellite' });
-`;
 
 let mainWindow;
 
@@ -75,7 +89,7 @@ function createWindow() {
     width: 1200,
     height: 800,
     webPreferences: {
-      nodeIntegration: true,
+      preload: path.join(DIST_PATH, 'preload.js'),
       worldSafeExecuteJavaScript: true,
       enableRemoteModule: true,
     },
@@ -98,7 +112,7 @@ function createWindow() {
     }).then(() => {
       mainWindow.loadURL(`${scheme}://satellite/index.html`);
       mainWindow.webContents.on('dom-ready', function() {
-        mainWindow.webContents.executeJavaScript(enableCookies);
+        mainWindow.webContents.executeJavaScript('window.enableCookies()');
       });
     });
   }
