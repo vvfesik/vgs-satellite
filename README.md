@@ -143,6 +143,11 @@ The core app (without the UI) is available as a Docker image:
 docker pull verygood/satellite
 ```
 
+Get help
+```bash
+docker run --rm verygood/satellite --help
+```
+
 Start a container
 ```bash
 docker run --rm -v $HOME/.vgs-satellite/:/data -p 8089:8089 -p 9098:9098 -p 9099:9099 verygood/satellite
